@@ -13,9 +13,13 @@ monkeyLong = params.monkeyLong;
 %files)
 
 % phyDataDir = ['C:\Kilosort\DATA\' session array '\'];
-phyDataDir = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\' monkeyLong '\20' session(1:2) '\' session(1:6) '\Kilosort outputs\' monkey session(1:6) array '\'];
+% phyDataDir = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\' monkeyLong '\20' session(1:2) '\' session(1:6) '\Kilosort outputs\' monkey session(1:6) array '\'];
+% 
+% dataDirServer = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\' monkeyLong '\20' session(1:2) '\' session(1:6) '\'];
+% 
+phyDataDir = 'C:\Users\calebsponheim\Documents\Data\190228\Kilosort outputs\Bx190228M1l_CSedit\';
 
-dataDirServer = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\' monkeyLong '\20' session(1:2) '\' session(1:6) '\'];
+dataDirServer = 'C:\Users\calebsponheim\Documents\Data\190228\';
 
 
 % saving file
