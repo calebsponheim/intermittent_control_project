@@ -7,8 +7,8 @@ arrays = {'M1m';'M1l'};
 session = '190228';
 % subject_filepath_base = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\2019\' session '\'];
 subject_filepath_base = 'C:\Users\calebsponheim\Documents\Data\190228\';
-% task = 'center_out';
-task = 'RTP';
+task = 'center_out';
+% task = 'RTP';
 
 crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode
 

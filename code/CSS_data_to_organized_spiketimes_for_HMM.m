@@ -10,11 +10,19 @@ if strcmp(task,'RTP')
         
         trial_length_for_threshold = max(vertcat(temp{:}))/1000;
         spike_num_threshold = trial_length_for_threshold*spike_hz_threshold*max(vertcat(temp{:}));
-
-        if iArray == 1
-            units = [u([u.nSpikes] >= spike_num_threshold).spikeTimes];
+        
+        if max(cell2mat(strfind(subject_filepath,'180313'))) > 0
+            if iArray == 1
+                units = [u.spikeTimes];
+            else
+                units = [units [u.spikeTimes]];
+            end
         else
-            units = [units [u([u.nSpikes] >= spike_num_threshold).spikeTimes]];
+            if iArray == 1
+                units = [u([u.nSpikes] >= spike_num_threshold).spikeTimes];
+            else
+                units = [units [u([u.nSpikes] >= spike_num_threshold).spikeTimes]];
+            end
         end
         clear u
     end
@@ -29,10 +37,18 @@ elseif strcmp(task,'center_out')
         trial_length_for_threshold = size(u(1).spikesLogical,2)/1000;
         spike_num_threshold = trial_length_for_threshold*spike_hz_threshold*size(u(1).spikesLogical,1);
         
-        if iArray == 1
-            units = [u([u.nSpikes] >= spike_num_threshold).spikeTimes];
+        if max(cell2mat(strfind(subject_filepath,'180313'))) > 0
+            if iArray == 1
+                units = [u.spikeTimes];
+            else
+                units = [units [u.spikeTimes]];
+            end
         else
-            units = [units [u([u.nSpikes] >= spike_num_threshold).spikeTimes]];
+            if iArray == 1
+                units = [u([u.nSpikes] >= spike_num_threshold).spikeTimes];
+            else
+                units = [units [u([u.nSpikes] >= spike_num_threshold).spikeTimes]];
+            end
         end
         clear u
     end
@@ -74,18 +90,20 @@ units(bad_trials,:) = [];
 num_trials = size(trials,2);
 
 for iTrial = 1:num_trials
-    % figure out how many 50ms bins can fit in the trial
-    trial_length(iTrial) = cpl_st_trial_rew(iTrial,2) - cpl_st_trial_rew(iTrial,1);
-    num_bins_per_trial(iTrial) = ceil(trial_length(iTrial)/bin_size);
-    
-    % assigning bin edges
-    for iBin = 1:num_bins_per_trial(iTrial)
-        if iBin == 1
-            bin_edges(iTrial,iBin,1:2) = [cpl_st_trial_rew_relative(iTrial,1),cpl_st_trial_rew_relative(iTrial,1)+bin_size];
-            bin_timestamps{iTrial}(iBin) = cpl_st_trial_rew(iTrial,1)+(bin_size/2);
-        else
-            bin_edges(iTrial,iBin,1:2) = [bin_edges(iTrial,iBin-1,2),bin_edges(iTrial,iBin-1,2)+bin_size];
-            bin_timestamps{iTrial}(iBin) = bin_timestamps{iTrial}(iBin-1)+(bin_size);
+    if ~isnan(cpl_st_trial_rew(iTrial,2))
+        % figure out how many 50ms bins can fit in the trial
+        trial_length(iTrial) = cpl_st_trial_rew(iTrial,2) - cpl_st_trial_rew(iTrial,1);
+        num_bins_per_trial(iTrial) = ceil(trial_length(iTrial)/bin_size);
+
+        % assigning bin edges
+        for iBin = 1:num_bins_per_trial(iTrial)
+            if iBin == 1
+                bin_edges(iTrial,iBin,1:2) = [cpl_st_trial_rew_relative(iTrial,1),cpl_st_trial_rew_relative(iTrial,1)+bin_size];
+                bin_timestamps{iTrial}(iBin) = cpl_st_trial_rew(iTrial,1)+(bin_size/2);
+            else
+                bin_edges(iTrial,iBin,1:2) = [bin_edges(iTrial,iBin-1,2),bin_edges(iTrial,iBin-1,2)+bin_size];
+                bin_timestamps{iTrial}(iBin) = bin_timestamps{iTrial}(iBin-1)+(bin_size);
+            end
         end
     end
 end

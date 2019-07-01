@@ -128,7 +128,7 @@ for iTrial = 1:size(cpl_st_trial_rew,1)
             data(iTrial).kinematic_timestamps = cpl_st_trial_rew(iTrial,1):(1/sampling_rate):(cpl_st_trial_rew(iTrial,2)+(1/sampling_rate));
         end
         
-    elseif strcmp(task,'center_out')
+    elseif strcmp(task,'center_out') && (iTrial <= size(filt_lowpass_x,2))
         data(iTrial).x_smoothed = filt_lowpass_x{iTrial}(t >= trial_start_relative_to_periOn(iTrial)' & t <= trial_end_relative_to_periOn(iTrial)');
         data(iTrial).y_smoothed = filt_lowpass_y{iTrial}(t >= trial_start_relative_to_periOn(iTrial)' & t <= trial_end_relative_to_periOn(iTrial)');
         data(iTrial).speed = velocity{iTrial}(t >= trial_start_relative_to_periOn(iTrial)' & t <= trial_end_relative_to_periOn(iTrial)');
