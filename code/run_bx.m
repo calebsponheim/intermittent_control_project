@@ -62,11 +62,11 @@ save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_sta
 %% Prepare Kinematic Data
 
 if crosstrain == 1 % RTP model, center-out decode
-[data] = processing_CSS_kinematics(arrays,subject_filepath_base,cpl_st_trial_rew_center_out,data_center_out,'center_out',session,subject_events);
+[data] = processing_CSS_kinematics(arrays,subject_filepath_base,cpl_st_trial_rew_center_out,data_center_out,'center_out',session,subject_events,good_trials);
 elseif crosstrain == 2 % 2: Center-out model, RTP decode
-[data] = processing_CSS_kinematics(arrays,subject_filepath_base,cpl_st_trial_rew_RTP,data_RTP,'RTP',session,subject_events);
+[data] = processing_CSS_kinematics(arrays,subject_filepath_base,cpl_st_trial_rew_RTP,data_RTP,'RTP',session,subject_events,good_trials);
 else
-[data] = processing_CSS_kinematics(arrays,subject_filepath_base,cpl_st_trial_rew,data,task,session,subject_events);
+[data] = processing_CSS_kinematics(arrays,subject_filepath_base,cpl_st_trial_rew,data,task,session,subject_events,good_trials);
 end
 %% Process HMM output
 [dc_thresholded] = censor_and_threshold_HMM_output(dc);
