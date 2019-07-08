@@ -28,7 +28,7 @@ if strcmp(task,'RTP')
     end
 elseif strcmp(task,'center_out')
     load(subject_events, ['periOn' arrays{1}(1:2) '_30k'], ['rewardOn' arrays{1}(1:2) '_30k'],'events');
-        
+    
     
     for iArray = 1:length(subject_filepath)
         load(subject_filepath{iArray},'u');
@@ -52,15 +52,23 @@ elseif strcmp(task,'center_out')
         end
         clear u
     end
-    trial_start_relative_to_periOn = events(:,1);
-    trial_end_relative_to_periOn = events(:,7);
-    trial_go_relative_to_periOn = events(:,4);
+    
+    if max(strfind(subject_filepath{1},'180323')) > 0
+        trial_start_relative_to_periOn = events(:,1);
+        trial_end_relative_to_periOn = events(:,6);
+        trial_go_relative_to_periOn = events(:,2);        
+    else
+        trial_start_relative_to_periOn = events(:,1);
+        trial_end_relative_to_periOn = events(:,7);
+        trial_go_relative_to_periOn = events(:,4);
+    end
+    
     if strcmp(trial_event_cutoff,'go')
-    trial_start_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_go_relative_to_periOn');
-    trial_end_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_end_relative_to_periOn');        
+        trial_start_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_go_relative_to_periOn');
+        trial_end_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_end_relative_to_periOn');
     elseif strcmp(trial_event_cutoff,'')
-    trial_start_30k = arrayfun(@(x) (x + trial_length(1)*30000),periOnM1_30k);%,trial_start_relative_to_periOn');
-    trial_end_30k = arrayfun(@(x) (x + trial_length(2)*30000),periOnM1_30k);%,trial_end_relative_to_periOn');
+        trial_start_30k = arrayfun(@(x) (x + trial_length(1)*30000),periOnM1_30k);%,trial_start_relative_to_periOn');
+        trial_end_30k = arrayfun(@(x) (x + trial_length(2)*30000),periOnM1_30k);%,trial_end_relative_to_periOn');
     end
 end
 units = cellfun(@(x) (x./1000),units,'UniformOutput',false);
@@ -94,7 +102,7 @@ for iTrial = 1:num_trials
         % figure out how many 50ms bins can fit in the trial
         trial_length(iTrial) = cpl_st_trial_rew(iTrial,2) - cpl_st_trial_rew(iTrial,1);
         num_bins_per_trial(iTrial) = ceil(trial_length(iTrial)/bin_size);
-
+        
         % assigning bin edges
         for iBin = 1:num_bins_per_trial(iTrial)
             if iBin == 1
@@ -113,9 +121,9 @@ for iTrial = 1:num_trials
     for iUnit = 1:num_units
         for iBin = 1:(sum(bin_edges(iTrial,:,1)>0))
             data(iTrial).spikecount(iUnit,iBin) = sum(units{iTrial,iUnit} >  bin_edges(iTrial,iBin,1) & units{iTrial,iUnit} <  bin_edges(iTrial,iBin,2));
-%             if data(iTrial).spikecount(iUnit,iBin) >= 1
-%                 disp('ok there''s one');
-%             end
+            %             if data(iTrial).spikecount(iUnit,iBin) >= 1
+            %                 disp('ok there''s one');
+            %             end
         end
     end
 end

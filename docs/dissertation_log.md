@@ -27,3 +27,7 @@ I'm having significant issues still replication results. I pulled in a previousl
 Last week, I tried to sort another day of data, 190226. Unfortunately, there's something wrong with my CUDA install or something, and it can't sort the entire file; I need to troubleshoot that.
 
 Right now, I'm trying to make sure that the code I run on Naama's paper data (which replicates, and works), is the same code that's running on my own data. They're different scripts, so it's _possible_ that something in the scripts are ruining results. That would actually be nice, but god who knows.
+
+### Update from 7/8/19
+
+Good news! Turns out that I was mismatching the kinematic timing for Breaux's old dataset. After correctly aligning everything, the results looked really good! I'm taking data from 180323, which Vassilis had sorted for Wei a while ago. With luck, I'll be able to show that this replicates Naama's findings, and I can present this as *something* promising at my qual. Whoo!

@@ -55,6 +55,12 @@ end
 
 
 %% Plot Normalized speed profile (normalized by speed and time) for each state
+current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
+current_date_and_time = erase(current_date_and_time,' ');
+current_date_and_time = erase(current_date_and_time,':');
+current_date_and_time = current_date_and_time(1:end-4);
+mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
+
 colors = hsv(num_states_subject);
 
 for iState = 1:size(segmentwise_analysis,2)
@@ -79,7 +85,7 @@ title(['State ' num2str(iState) 'normalized speed segments'])
 xlabel('time (normalized)')
 ylabel('speed (normalized)')
 hold off
-saveas(gcf,['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\' subject '_' task '_' num2str(num_states_subject) ...
+saveas(gcf,['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\' subject '_' task '_' num2str(num_states_subject) ...
     '_states_state_' num2str(iState) '_normalized_speed_segments.png']);
 close(gcf)
 end

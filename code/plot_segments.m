@@ -31,6 +31,11 @@ for iTrial = datasample(1:length(trInd_test),num_segments_to_plot)
 end
 
 %% Plotting random segments
+current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
+current_date_and_time = erase(current_date_and_time,' ');
+current_date_and_time = erase(current_date_and_time,':');
+current_date_and_time = current_date_and_time(1:end-4);
+mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
 for istate = 1:size(segmentwise_analysis,2)
     figure;hold on
     cellfun(@(x,y) (plot(x,y,'Color',colors(istate,:))),segmentwise_analysis(istate).x,segmentwise_analysis(istate).y);
@@ -51,7 +56,7 @@ for istate = 1:size(segmentwise_analysis,2)
         ylim([min(vertcat(trialwise_states.y_smoothed)) max(vertcat(trialwise_states.y_smoothed))])
     end
     set(gcf,'Color','White');
-    saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states','_state_',num2str(istate),'_snippets_random_subset.png'));
+    saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\',subject,task,num2str(num_states_subject),'states','_state_',num2str(istate),'_snippets_random_subset.png'));
     close(gcf);
 end
 
@@ -102,7 +107,7 @@ for iState = 1:size(segmentwise_analysis,2)
     ylim([0 max(max(vertcat(binned_segment_lengths{:})))]);
     box off
     set(gcf,'Color','White');
-    saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states','_state_',num2str(iState),'_snippet_length_histogram.png'));
+    saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\',subject,task,num2str(num_states_subject),'states','_state_',num2str(iState),'_snippet_length_histogram.png'));
     close(gcf);
 end
 close all
@@ -114,7 +119,7 @@ for iState = 1:size(segmentwise_analysis,2)
     box off
     rlim([0 max(max(vertcat(binned_segment_directions{:})))]);
     set(gcf,'Color','White');
-    saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states','_state_',num2str(iState),'_snippet_direction_histogram.png'));
+    saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\',subject,task,num2str(num_states_subject),'states','_state_',num2str(iState),'_snippet_direction_histogram.png'));
     close(gcf);
     
 end

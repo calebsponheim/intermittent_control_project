@@ -4,36 +4,14 @@ function [] = plot_all_trials(trialwise_states,num_states_subject,subject,trials
 colors = hsv(num_states_subject);
 
 %% Ok, so trying to plot a single trial?
+current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
+current_date_and_time = erase(current_date_and_time,' ');
+current_date_and_time = erase(current_date_and_time,':');
+current_date_and_time = current_date_and_time(1:end-4);
+mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
 
 for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
-    % Speed Plot
     state_present = zeros(2,num_states_subject);
-%     figure(1,'visible','off'); hold on
-%     plot(trialwise_states(iTrial).kinematic_timestamps,trialwise_states(iTrial).speed,'k')
-%     for iSegment = 1:size(trialwise_states(iTrial).segment_state_number,2)
-%         if ~isempty(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment})
-%             plot(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment}(1),trialwise_states(iTrial).segment_kinematic_speed{iSegment}(1),'ko')
-%             plots{iSegment} = plot(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment},...
-%                 trialwise_states(iTrial).segment_kinematic_speed{iSegment},'Color',colors(trialwise_states(iTrial).segment_state_number(iSegment),:),...
-%                 'DisplayName',['State ' num2str(trialwise_states(iTrial).segment_state_number(iSegment))]);
-%             if state_present(trialwise_states(iTrial).segment_state_number(iSegment)) == 0
-%                 state_present(1,trialwise_states(iTrial).segment_state_number(iSegment)) = 1;
-%                 state_present(2,trialwise_states(iTrial).segment_state_number(iSegment)) = iSegment;
-%             end
-%             
-%         end
-%     end
-%     title(strcat(subject,task,'Trial ',num2str(iTrial),' speed'));
-%     legend([plots{state_present(2,state_present(2,:)>0)}]);
-%     xlabel('time')
-%     box off
-%     set(gcf,'Color','White');
-%     saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\'...
-%         ,subject,task,num2str(num_states_subject),'states','_Test_Trial_',num2str(iTrial),'_speed.png'));
-%     close(gcf);
-%     clear plots
-    % Position Plot
-%     figure('name','position','visible','off'); hold on
     figure(1); hold on
     plot(trialwise_states(iTrial).x_smoothed,trialwise_states(iTrial).y_smoothed,'k')
     for iSegment = 1:size(trialwise_states(iTrial).segment_state_number,2)
@@ -55,38 +33,10 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
     box off
     
     
-    % Acceleration Plot
-%     if strcmp(subject,'RS') == 0
-%         
-%         state_present = zeros(2,num_states_subject);
-%         figure(3,'visible','off'); hold on
-%         plot(trialwise_states(iTrial).kinematic_timestamps,trialwise_states(iTrial).acceleration,'k')
-%         for iSegment = 1:size(trialwise_states(iTrial).segment_state_number,2)
-%             if ~isempty(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment})
-%                 plot(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment}(1),trialwise_states(iTrial).segment_kinematic_acceleration{iSegment}(1),'ko')
-%                 plots{iSegment} = plot(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment},...
-%                     trialwise_states(iTrial).segment_kinematic_acceleration{iSegment},'Color',colors(trialwise_states(iTrial).segment_state_number(iSegment),:),...
-%                     'DisplayName',['State ' num2str(trialwise_states(iTrial).segment_state_number(iSegment))]);
-%                 if state_present(trialwise_states(iTrial).segment_state_number(iSegment)) == 0
-%                     state_present(1,trialwise_states(iTrial).segment_state_number(iSegment)) = 1;
-%                     state_present(2,trialwise_states(iTrial).segment_state_number(iSegment)) = iSegment;
-%                 end
-%                 
-%             end
-%         end
-%         title(strcat(subject,task,'Trial ',num2str(iTrial),' acceleration'));
-%         legend([plots{state_present(2,state_present(2,:)>0)}]);
-%         xlabel('time')
-%         box off
-%         set(gcf,'Color','White');
-%         saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\'...
-%             ,subject,task,num2str(num_states_subject),'states','_Test_Trial_',num2str(iTrial),'_acceleration.png'));
-%         close(gcf);
-%         clear plots
 end
 title(strcat(subject,task,' all trials position'));
 % legend([plots{state_present(2,state_present(1,:)>0)}]);
-saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states','_all_trials_position.png'));
+saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\',subject,task,num2str(num_states_subject),'states','_all_trials_position.png'));
 
 end
 

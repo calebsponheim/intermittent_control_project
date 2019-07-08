@@ -4,9 +4,15 @@ function [] = plot_single_trials(trialwise_states,num_states_subject,subject,tri
 colors = hsv(num_states_subject);
 
 %% Ok, so trying to plot a single trial?
+current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
+current_date_and_time = erase(current_date_and_time,' ');
+current_date_and_time = erase(current_date_and_time,':');
+current_date_and_time = current_date_and_time(1:end-4);
+mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
 
 for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
     % Speed Plot
+    empty_segment_count = 0;
     state_present = zeros(2,num_states_subject);
     figure('visible','off'); hold on
     plot(trialwise_states(iTrial).kinematic_timestamps,trialwise_states(iTrial).speed,'k')
@@ -21,15 +27,20 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
                 state_present(2,trialwise_states(iTrial).segment_state_number(iSegment)) = iSegment;
             end
             
+        else
+            empty_segment_count = empty_segment_count + 1;
         end
     end
-    title(strcat(subject,task,'Trial ',num2str(iTrial),' speed'));
-    legend([plots{state_present(2,state_present(2,:)>0)}]);
-    xlabel('time')
-    box off
-    set(gcf,'Color','White');
-    saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\'...
-        ,subject,task,num2str(num_states_subject),'states','_Test_Trial_',num2str(iTrial),'_speed.png'));
+    if empty_segment_count == size(trialwise_states(iTrial).segment_state_number,2)
+    else
+        title(strcat(subject,task,'Trial ',num2str(iTrial),' speed'));
+        legend([plots{state_present(2,state_present(2,:)>0)}]);
+        xlabel('time')
+        box off
+        set(gcf,'Color','White');
+        saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\'...
+            ,subject,task,num2str(num_states_subject),'states','_Test_Trial_',num2str(iTrial),'_speed.png'));
+    end
     close(gcf);
     clear plots
     % Position Plot
@@ -56,7 +67,7 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
         ylim([min(vertcat(trialwise_states.y_smoothed)) max(vertcat(trialwise_states.y_smoothed))])
     end
     box off
-    saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states','_Test_Trial_',num2str(iTrial),'_position.png'));
+    saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\',subject,task,num2str(num_states_subject),'states','_Test_Trial_',num2str(iTrial),'_position.png'));
     close(gcf);
     
     
@@ -84,7 +95,7 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
         xlabel('time')
         box off
         set(gcf,'Color','White');
-        saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\'...
+        saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\'...
             ,subject,task,num2str(num_states_subject),'states','_Test_Trial_',num2str(iTrial),'_acceleration.png'));
         close(gcf);
         clear plots
