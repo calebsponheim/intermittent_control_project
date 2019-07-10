@@ -1,9 +1,9 @@
 # Current Status of Dissertation Project
 
 I am struggling to replicate Naama's results from her paper. However, my analysis pipeline does correctly replicate her results with her own data
-	- to do here: really run Naama's data through the _CS versions of my scripts, since they're technically different. Be honest with yourself.
+	- to do here: really run Naama's data through the _CS versions of my scripts, since they're technically different. Be honest with yourself._
 
-my qualifying exam is coming up on August 14th, and here is my current plan for the form of my dissertation proposal:
+**my qualifying exam is coming up on August 14th, and here is my current plan for the form of my dissertation proposal:**
 
 My two main goals are: 
 - to demphasize the idea that there are instantaneous shifts in population activity that link directly to intermittent control theory
@@ -31,3 +31,17 @@ Right now, I'm trying to make sure that the code I run on Naama's paper data (wh
 ### Update from 7/8/19
 
 Good news! Turns out that I was mismatching the kinematic timing for Breaux's old dataset. After correctly aligning everything, the results looked really good! I'm taking data from 180323, which Vassilis had sorted for Wei a while ago. With luck, I'll be able to show that this replicates Naama's findings, and I can present this as *something* promising at my qual. Whoo!
+
+### Update from 7/10/19
+
+I'm turning my focus to my specific aims, and writing my proposal in general. Dalton got me kind of freaked out, since he said that he has started writing his up already. I want to start writing, but here's what I think is missing so far:
+
+- I need a continuous model to run on my data.
+	- jPCA? GPFA?
+- I need a way to compare that continuous model to my data.
+	- It would be ideal to do something a little more sophisticated than R^2, but I don't have any ideas.
+- I need to think a little more about the methods that I'm going to use to investigate transitions
+	- I like Naama's idea of zooming in on PCA space and looking for deviations there.
+- How am I going to incorporate the human project into my dissertation? Is it cheap to just throw in a human data comparison for imagined reaches?
+
+What are my specific aims after reorganizing my project around addressing these issues? Do I need to reorganize them? Or, just recontextualize them? I think I probably just need to recontextualize them.
