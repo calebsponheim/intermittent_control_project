@@ -45,3 +45,15 @@ I'm turning my focus to my specific aims, and writing my proposal in general. Da
 - How am I going to incorporate the human project into my dissertation? Is it cheap to just throw in a human data comparison for imagined reaches?
 
 What are my specific aims after reorganizing my project around addressing these issues? Do I need to reorganize them? Or, just recontextualize them? I think I probably just need to recontextualize them.
+
+### Update from 7/15/19
+
+I am still struggling with a way to incorporate the controls that have been asked for into my narrative. I feel like the HMM is the center of my project, but I don't want it to be.
+
+What is the problem that I'm trying to solve? Could I frame everything in terms of the "toolset" argument? What would that look like?
+
+The human body creates infinite permutations of movements with a limited number of areas and neurons. Primate motor cortex plays an integral role in structuring motor commands, and many rules have been devised about how limited areas can produce complex movement. As early as population coding, all the way up to modern dynamical systems theory, researchers are working hard to identify the tools that motor cortex uses to create movement. There is growing evidence to suggest that primary motor cortex in particular is using a limited set of related activity patterns, strung together to generate behavior. In some instances, researchers discuss these activity patterns as related rotational dynamics, whereas other refer to similar neural states, between which the brain alternates. Regardless, there is significant evidence to suggest that motor cortex's activity must transition between these sets of activity patterns. On the most basic level, transitions can be identified between preparation and execution of movement.
+
+I plan to use an analysis method that assumes discrete transitions between neural states, with the acknowledgement that transitions are most likely not instantaneous, and proving such would prove fruitless. Instead, I will use this analysis method (which primarily utilises a markovian process) to determine points of population state transition during movement. I will then use different methods such as basic PCA analysis to examine population activity at proposed transition points to characterize the speed, nature, and magnitude of those changes compared to intra-state activity.
+
+I plan to verify the fit and performance of my "discrete" models by comparing it with the performance of modern continuous models, such as jPCA or LFADS.

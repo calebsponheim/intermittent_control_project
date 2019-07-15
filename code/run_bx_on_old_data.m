@@ -13,7 +13,7 @@ subject_events = [subject_filepath_base 'Bx' session '_events'];
 trial_length = [-1 4]; %seconds. defaults is [-1 4];
 trial_event_cutoff = 'go'; % supersedes trial_length if active
 
-num_states_subject = 7;
+num_states_subject = 5;
 spike_hz_threshold = 0;
 bad_trials = [];
 
@@ -76,7 +76,7 @@ bin_timestamps = timestamps_temp;
 
 
 %% Save Model
-save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),'_states_OLDDATA_subsettrials',date))
+save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),'_states_OLDDATA',date))
 
 %% Process HMM output
 [dc_thresholded] = censor_and_threshold_HMM_output(dc);
@@ -118,4 +118,4 @@ close(gcf);
 
 %% Save Result
 
-save(strcat(subject,'_',task,'_HMM_analysis_',num2str(num_states_subject),'_states_OLDDATA_subsettrials',date))
+save(strcat(subject,'_',task,'_HMM_analysis_',num2str(num_states_subject),'_states_OLDDATA',date))
