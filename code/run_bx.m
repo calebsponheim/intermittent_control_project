@@ -30,7 +30,7 @@ elseif crosstrain ~= 0
     trial_event_cutoff = 'go'; % supersedes trial_length if active
 end
 
-num_states_subject = 7;
+num_states_subject = 2;
 spike_hz_threshold = 0;
 bad_trials = [];
 

@@ -57,3 +57,16 @@ The human body creates infinite permutations of movements with a limited number 
 I plan to use an analysis method that assumes discrete transitions between neural states, with the acknowledgement that transitions are most likely not instantaneous, and proving such would prove fruitless. Instead, I will use this analysis method (which primarily utilises a markovian process) to determine points of population state transition during movement. I will then use different methods such as basic PCA analysis to examine population activity at proposed transition points to characterize the speed, nature, and magnitude of those changes compared to intra-state activity.
 
 I plan to verify the fit and performance of my "discrete" models by comparing it with the performance of modern continuous models, such as jPCA or LFADS.
+
+### Update from 7/19/19
+
+Currently working on my proposal; sent out a specific aims draft to Naama and Nicho earlier today. Motivation is flagging for some reason.
+
+Naama suggested looking at the spike sorting from the old Breaux data that works, to try and get a sense for what the *hell* is going on between our new dataset and our old dataset.
+
+Naama also suggested looking a the distributions of preferred directions across all the datasets, to see if the overall population representation of motion (rough motion, that is) tracks over time. It's possible that Breaux's implants are failing (or at the very least, deteriorating), causing signal degredation. It's also possible that cells around his implants are dying/receding, causing a change in overall tuning. Of course, the arrays could also be receding/moving, causing a difference in the units that are picked up by each indiviual electrode. Regardless, we need to see what's going on, and why the two datasets are showing such *different* results when it's from the same goddamn monkey, excuse my french.
+
+The worry in the back of my mind is that the data I collected is garbage.
+
+Headpost surgery is next thursday.
+

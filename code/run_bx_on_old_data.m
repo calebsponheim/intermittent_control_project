@@ -13,7 +13,7 @@ subject_events = [subject_filepath_base 'Bx' session '_events'];
 trial_length = [-1 4]; %seconds. defaults is [-1 4];
 trial_event_cutoff = 'go'; % supersedes trial_length if active
 
-num_states_subject = 5;
+num_states_subject = 8;
 spike_hz_threshold = 0;
 bad_trials = [];
 
@@ -109,7 +109,7 @@ box off
 set(gcf,'Color','White');
 saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\'...
     ,subject,task,num2str(num_states_subject),'states_transition_matrix.png'));
-close(gcf);
+% close(gcf);
 
 %% normalized segments
 
