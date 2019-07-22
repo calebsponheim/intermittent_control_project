@@ -1,5 +1,7 @@
 # Current Status of Dissertation Project
 
+### Update from 6/??/19:
+
 I am struggling to replicate Naama's results from her paper. However, my analysis pipeline does correctly replicate her results with her own data
 	- to do here: really run Naama's data through the _CS versions of my scripts, since they're technically different. Be honest with yourself._
 
@@ -69,4 +71,14 @@ Naama also suggested looking a the distributions of preferred directions across 
 The worry in the back of my mind is that the data I collected is garbage.
 
 Headpost surgery is next thursday.
+
+### Update from 7/22/19
+
+I have definitively transitioned into writing mode for my qualifying exam. I have a week and a half until my first practice talk in front of an audience, and I'm worried about meeting that deadline in time. I have to prepare slides in addition to preparing my thesis proposal in style of an NRSA, so that's terrifying.
+
+I still have questions about including human work or not in my proposal (future plans, if everything goes well, sort of thing)
+
+I should include some slides in my presentation talking about the task Dalton and I are developing together for the BMI study, in addition to flying out and learning about the system. It's possible that I could carve out my own thing there.
+
+At this point, I have a draft of my specific aims, and I'm probably a third of the way through my written proposal. much farther to go. 
 
