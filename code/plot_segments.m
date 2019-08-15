@@ -1,6 +1,6 @@
 function [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task)
 
-colors = hsv(num_states_subject);
+colors = jet(num_states_subject);
 
 %% Plotting segments by state, by coords
 global_segment_num = ones(1,num_states_subject);

@@ -12,6 +12,7 @@ subject_filepath = cellfun(@(x) [subject_filepath_base session x '_units'] ,arra
 subject_events = [subject_filepath_base 'Bx' session '_events'];
 trial_length = [-1 4]; %seconds. defaults is [-1 4];
 trial_event_cutoff = 'go'; % supersedes trial_length if active
+% trial_event_cutoff = 'speed'; % supersedes trial_length if active
 
 num_states_subject = 8;
 spike_hz_threshold = 0;
@@ -82,8 +83,8 @@ save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_sta
 [dc_thresholded] = censor_and_threshold_HMM_output(dc);
 
 %% Create Snippets and Plot **everything**
-trials_to_plot = 10:20;
-num_segments_to_plot = 100;
+trials_to_plot = 174;
+num_segments_to_plot = 500;
 
 [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject);
 %%
@@ -91,7 +92,9 @@ num_segments_to_plot = 100;
 %%
 plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task)
 %%
-trials_to_plot = 1:length(trialwise_states);
+trials_to_plot = datasample(1:length(trialwise_states),100);
+trials_to_plot = trials_to_plot(randperm(length(trials_to_plot)));
+% trials_to_plot = [20:25];
 plot_all_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task)
 %%
 current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
@@ -102,9 +105,15 @@ mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\fi
 
 figure; hold on;
 imagesc(hn_trained.a)
+colormap(gca,jet)
 axis square
 axis tight
+colorbar
+if strcmp(task,'center_out')
+title([subject,' center out transition matrix']);
+else
 title([subject,task,' transition matrix']);
+end
 box off
 set(gcf,'Color','White');
 saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\'...

@@ -61,7 +61,7 @@ current_date_and_time = erase(current_date_and_time,':');
 current_date_and_time = current_date_and_time(1:end-4);
 mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
 
-colors = hsv(num_states_subject);
+colors = jet(num_states_subject);
 
 for iState = 1:size(segmentwise_analysis,2)
 figure('visible','on'); hold on

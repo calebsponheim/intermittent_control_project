@@ -82,3 +82,25 @@ I should include some slides in my presentation talking about the task Dalton an
 
 At this point, I have a draft of my specific aims, and I'm probably a third of the way through my written proposal. much farther to go. 
 
+### Update from 7/23/19
+
+I had a thought.
+
+
+### Update from 8/15/19
+
+Well, that dropped off pretty quickly; shows how hard it is to keep up on updates when things get *really* busy. But here is the short and sweet on the project.
+
+I passed my quals, and they have major concerns about a number of things. Here are some bullets coming out of the meeting:
+
+Follow-ups:
+- Ask Matt Kaufman about generating HMM models from certain types of distributions to test the limitations of Baum-Welch algorithm on training HMMs
+- Add position and posture into instantaneous linear encoding models
+- Read Machine Learning textbook and take Andrew Yang’s coursera course
+- Draw up plan to convince Nicho that I know what I’m doing on the HMM
+- run model on lots of states and stuff, they liked that
+- Think about interpreting muscle data more comprehensively
+
+There are more thoughts, but we can work from there.
+
+

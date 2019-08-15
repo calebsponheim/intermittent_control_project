@@ -1,7 +1,7 @@
 function [] = plot_all_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task)
 
 %%
-colors = hsv(num_states_subject);
+colors = jet(num_states_subject);
 
 %% Ok, so trying to plot a single trial?
 current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
@@ -13,11 +13,12 @@ mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\fi
 for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
     state_present = zeros(2,num_states_subject);
     figure(1); hold on
-    plot(trialwise_states(iTrial).x_smoothed,trialwise_states(iTrial).y_smoothed,'k')
+%     plot(trialwise_states(iTrial).x_smoothed,trialwise_states(iTrial).y_smoothed,'k')
     for iSegment = 1:size(trialwise_states(iTrial).segment_state_number,2)
         if ~isempty(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment})
             plots{iSegment} = plot(trialwise_states(iTrial).segment_kinematic_x{iSegment},trialwise_states(iTrial).segment_kinematic_y{iSegment},'Color',colors(trialwise_states(iTrial).segment_state_number(iSegment),:)...
-                ,'DisplayName',['State ' num2str(trialwise_states(iTrial).segment_state_number(iSegment))]);
+                ,'LineWidth',2,'DisplayName',['State ' num2str(trialwise_states(iTrial).segment_state_number(iSegment))]);
+            plots{iSegment}.Color(4) = 0.35;
         end
     end
     xlabel('x position');
