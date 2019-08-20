@@ -103,4 +103,16 @@ Follow-ups:
 
 There are more thoughts, but we can work from there.
 
+### Update from 8/20/19
 
+I need to prepare something to present at the Neuroscience retreat in a month, and then SfN after that. 
+I am also prioritizing reading a machine learning textbook and writing up a paper on my method
+
+Okay, so here's my plan for the immediate future, as determined by Nicho's advice. Find more data, analyze the heck out of that data.
+
+Personally, there are probably a couple more things that I need to do to make my analysis pipeline a little better. Specifically, I need to fix the goddamn trial window to be cropped based on kinematic timings. This will require processing the kinematics BEFORE the HMM training, which I think I can do? We need to figure that out. Then, go from movement onset to when the hand finally slows down, because I'm inappropriately cutting off successful trials here. 
+
+then, the next step is to find other Breaux data that's sorted, or sort it myself. this is a little more daunting task,  and I'm worried about not having Vassilis around to help me sort through the different datatsets that he's worked with, but I think I can probably figure out which datatsets have already been processed and structured, that I can just take and PUSH through my pipeline. Again, we'll see.
+
+
+OH BOY
