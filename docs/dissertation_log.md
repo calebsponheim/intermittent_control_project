@@ -114,5 +114,14 @@ Personally, there are probably a couple more things that I need to do to make my
 
 then, the next step is to find other Breaux data that's sorted, or sort it myself. this is a little more daunting task,  and I'm worried about not having Vassilis around to help me sort through the different datatsets that he's worked with, but I think I can probably figure out which datatsets have already been processed and structured, that I can just take and PUSH through my pipeline. Again, we'll see.
 
+-----
 
-OH BOY
+Looks like 180313 through 180320 could be utilized for analysis. It's all center out, with only two targets. Might help us figure out the stability of models a little better.
+
+-----------
+
+**thoughts for the retreat:**
+
+What if I make my retreat poster an exploration of the model itself? like, just essentially picking apart center-out datasets, running a bunch of different numbers of states, trial windows, etc, and looking at how the model performs. It's essentially an exploration of the current HMM approach, how it fares, and when it breaks down.
+
+the 25-state result shows that it's possible for this model to potentially say something about the discrete structure of population activity.
