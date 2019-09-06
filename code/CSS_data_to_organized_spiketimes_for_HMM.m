@@ -29,7 +29,6 @@ if strcmp(task,'RTP')
 elseif strcmp(task,'center_out')
     load(subject_events, ['periOn' arrays{1}(1:2) '_30k'], ['rewardOn' arrays{1}(1:2) '_30k'],'events');
     
-    
     for iArray = 1:length(subject_filepath)
         load(subject_filepath{iArray},'u');
         
@@ -37,7 +36,7 @@ elseif strcmp(task,'center_out')
         trial_length_for_threshold = size(u(1).spikesLogical,2)/1000;
         spike_num_threshold = trial_length_for_threshold*spike_hz_threshold*size(u(1).spikesLogical,1);
         
-        if max(cell2mat(strfind(subject_filepath,'180313'))) > 0
+        if max(cell2mat(strfind(subject_filepath,'180323'))) > 0
             if iArray == 1
                 units = [u.spikeTimes];
             else
@@ -84,7 +83,7 @@ cpl_st_trial_rew = ([trial_start_30k;trial_end_30k]')/30000;
 cpl_st_trial_rew_relative = cpl_st_trial_rew - ((trial_start_30k/30000)');
 
 num_units = size(units,2);
-bin_size = .050; %seconds
+bin_size = .001; %seconds
 
 % Create Bins
 clear trial_length

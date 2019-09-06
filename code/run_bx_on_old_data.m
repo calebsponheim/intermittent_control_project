@@ -1,4 +1,4 @@
-%% Analyze Breaux Data
+ %% Analyze Breaux Data
 clear
 
 subject = 'Bx';
@@ -7,14 +7,13 @@ session = '180323';
 subject_filepath_base = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\2018\' session '\'];
 task = 'center_out';
 
-
 subject_filepath = cellfun(@(x) [subject_filepath_base session x '_units'] ,arrays,'UniformOutput',0);
 subject_events = [subject_filepath_base 'Bx' session '_events'];
 trial_length = [-1 4]; %seconds. defaults is [-1 4];
 trial_event_cutoff = 'go'; % supersedes trial_length if active
 % trial_event_cutoff = 'speed'; % supersedes trial_length if active
 
-num_states_subject = 8;
+num_states_subject = 15;
 spike_hz_threshold = 0;
 bad_trials = [];
 
@@ -83,7 +82,7 @@ save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_sta
 [dc_thresholded] = censor_and_threshold_HMM_output(dc);
 
 %% Create Snippets and Plot **everything**
-trials_to_plot = 174;
+trials_to_plot = 1:10;
 num_segments_to_plot = 500;
 
 [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject);

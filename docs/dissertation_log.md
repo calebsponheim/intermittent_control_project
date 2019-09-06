@@ -96,7 +96,7 @@ I passed my quals, and they have major concerns about a number of things. Here a
 Follow-ups:
 - Ask Matt Kaufman about generating HMM models from certain types of distributions to test the limitations of Baum-Welch algorithm on training HMMs
 - Add position and posture into instantaneous linear encoding models
-- Read Machine Learning textbook and take Andrew Yang’s coursera course
+- Read Machine Learning textbook and take Andrew NG’s coursera course
 - Draw up plan to convince Nicho that I know what I’m doing on the HMM
 - run model on lots of states and stuff, they liked that
 - Think about interpreting muscle data more comprehensively
@@ -125,3 +125,42 @@ Looks like 180313 through 180320 could be utilized for analysis. It's all center
 What if I make my retreat poster an exploration of the model itself? like, just essentially picking apart center-out datasets, running a bunch of different numbers of states, trial windows, etc, and looking at how the model performs. It's essentially an exploration of the current HMM approach, how it fares, and when it breaks down.
 
 the 25-state result shows that it's possible for this model to potentially say something about the discrete structure of population activity.
+
+----------------
+
+Okay, after talking to Nicho, here's the currenty plan for analysis: analyze more of the data that I've collected myself. What's going on there? What's happening? Is my data bad or corrupt? What's up with that? Let's figure it out.
+
+### Update from 8/27/19
+
+My world has kind of opened up now, for better or for worse:
+
+1. I've been tasked with writing up a short paper on my analysis method (to prove I know what I'm doing), that involves some reading and writing and learning
+2. I need to put in time towards my actual dissertation project, ahead of a poster presentation at our annual neuroscience retreat in three (!) weeks
+3. I'm working to create a task for our human BMI project in virtual reality
+4. I was just given a potential ~first author~ project by my PI, looking at signal quality in implants over time
+5. I'm in charge of organizing a monthly Motor Systems Journal Club, so I'm looking for people to present.
+
+I'm having difficulty with spike sorting at the moment. previously, Kilosort2 was working on my machine. Now, for whatever reason, it's not longer working. I have an issue with CUDA and some sort of timeout, or whatever. It's confusing and frustrating. 
+
+
+### Update from 9/6/2019
+
+Naama has an idea to help improve my understanding of the method itself: Write my own EM and Max likelihood code. Don't use the tabular form for the HMM; start with a parametric model.
+
+Take that Andrew Ng course
+
+This is the time to set aside time, take a couple months and LEARN about your stuff. I most likely won't have another opportunity like this. 
+
+What's the plan:
+- Going through Andrew Ng's courses is a good idea (Do the exercises)
+- Go through all the machine learning videos from Mathematical Monk (Youtube)
+- Work through the texbook as well, but after the first two points
+- Sit with the code from Naama's core, and rewrite it for a paramtric approach
+
+By the end of next week, have everything sorted. Then analyze that data. If it doesn't work, go to the EMGs. Analyzing the EMGs will definitely take time.
+    - Naama's core doesn't support gaussian distribution of firing, which is appropriate for the EMG data. As such, we may need to go to a different package to analyze the EMG data, which is very distressing.
+
+Try Kevin Murphy's toolbox:
+https://www.cs.ubc.ca/~murphyk/Software/HMM/hmm.html
+
+ For comparing across tasks, you need to be very careful about the number of trials, and the variability of trials. The safest option is probably cross-training. Can you train on the center-out and subsample from the RTP? Can you identify similar movement snippets from RTP that show up center-out?
