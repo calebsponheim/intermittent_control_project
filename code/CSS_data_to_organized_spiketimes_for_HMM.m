@@ -59,7 +59,7 @@ elseif strcmp(task,'center_out')
     else
         trial_start_relative_to_periOn = events(:,1);
         trial_end_relative_to_periOn = events(:,7);
-        trial_go_relative_to_periOn = events(:,4);
+        trial_go_relative_to_periOn = events(:,3);
     end
     
     if strcmp(trial_event_cutoff,'go')
@@ -83,7 +83,7 @@ cpl_st_trial_rew = ([trial_start_30k;trial_end_30k]')/30000;
 cpl_st_trial_rew_relative = cpl_st_trial_rew - ((trial_start_30k/30000)');
 
 num_units = size(units,2);
-bin_size = .001; %seconds
+bin_size = .050; %seconds
 
 % Create Bins
 clear trial_length

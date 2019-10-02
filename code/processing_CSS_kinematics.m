@@ -131,14 +131,14 @@ for iTrial = 1:size(cpl_st_trial_rew,1)
     elseif strcmp(task,'center_out') && (iTrial <= size(filt_lowpass_x,2))
         
         % put in exception for 180323 here
-        if max(strfind(subject_filepath_base,'180323')) > 0 && iTrial < size(good_trials,2)
+        if contains(subject_filepath_base,'180323') > 0 && iTrial < size(good_trials,2)
             good_trial_num = good_trials(iTrial);
             data(iTrial).x_smoothed = filt_lowpass_x{good_trial_num}(t >= trial_start_relative_to_periOn(good_trial_num)' & t <= trial_end_relative_to_periOn(good_trial_num)');
             data(iTrial).y_smoothed = filt_lowpass_y{good_trial_num}(t >= trial_start_relative_to_periOn(good_trial_num)' & t <= trial_end_relative_to_periOn(good_trial_num)');
             data(iTrial).speed = velocity{good_trial_num}(t >= trial_start_relative_to_periOn(good_trial_num)' & t <= trial_end_relative_to_periOn(good_trial_num)');
             data(iTrial).acceleration = [0 diff(data(iTrial).speed)];
             data(iTrial).kinematic_timestamps = t(t >= trial_start_relative_to_periOn(good_trial_num)' & t <= trial_end_relative_to_periOn(good_trial_num)') + periOn_seconds(good_trial_num);
-        elseif max(strfind(subject_filepath_base,'180323')) == 0
+        elseif contains(subject_filepath_base,'180323') == 0
         %
             data(iTrial).x_smoothed = filt_lowpass_x{iTrial}(t >= trial_start_relative_to_periOn(iTrial)' & t <= trial_end_relative_to_periOn(iTrial)');
             data(iTrial).y_smoothed = filt_lowpass_y{iTrial}(t >= trial_start_relative_to_periOn(iTrial)' & t <= trial_end_relative_to_periOn(iTrial)');

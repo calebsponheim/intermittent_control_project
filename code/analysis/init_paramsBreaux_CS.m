@@ -2,10 +2,10 @@ function params = init_paramsBreaux_CS()
 
 params.monkey = 'Bx';
 params.monkeyLong = 'Breaux';
-params.session = '190228';
-params.array = 'M1l';
+params.session = '190227';
+params.array = 'M1m';
 params.taskCondition = 'delay';
-params.task = 'RTP';
+params.task = 'center-out';
 params.codeDir = '\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\code\';
 params.dataDir = '';%'D:\vp hatlab\data\Breaux\';
 params.dataDirServer = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\2019\' params.session(1:6) '\'];

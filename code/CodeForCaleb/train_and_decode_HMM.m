@@ -16,12 +16,16 @@ elseif crosstrain == 2 % Center-out model, RTP decode
     NumTrials = length(data_center_out);
     data = data_center_out;
     data_test = data_RTP;
+elseif crosstrain == 3
+    disp('this is where you combine things')
+    data = [data_center_out data_RTP];
+    NumTrials = length(data);
 else
     NumTrials = length(data); % Number of trials
 end
 %% Prepare data
 % Static parameters:
-if crosstrain
+if crosstrain > 0 && crosstrain < 3
     TRAIN_PORTION = 1; % Portion of trials to use for training
 else
     TRAIN_PORTION = 0.75; % Portion of trials to use for training
@@ -29,7 +33,7 @@ end
 MAX_SPIKECOUNT = inf ; % Trim spikecounts at this value
 %
 
-if crosstrain
+if crosstrain > 0 && crosstrain < 3
     trInd_train = 1:NumTrials;
     trInd_test = 1:length(data_test);
     seed_to_train = rand(1)*1000;
@@ -67,7 +71,7 @@ for iTrial = 1 : NumTrials
     
 end
 
-if crosstrain
+if crosstrain > 0 && crosstrain < 3
     for iTrial = 1:length(data_test)
         % Get activations matrix, apply threshold:
         S = data_test(iTrial).spikecount ;
