@@ -164,3 +164,67 @@ Try Kevin Murphy's toolbox:
 https://www.cs.ubc.ca/~murphyk/Software/HMM/hmm.html
 
  For comparing across tasks, you need to be very careful about the number of trials, and the variability of trials. The safest option is probably cross-training. Can you train on the center-out and subsample from the RTP? Can you identify similar movement snippets from RTP that show up center-out?
+
+ list out the aims for the next couple weeks, share them with Nicho and Naama
+
+
+**plan for retreat, which is in TWO WEEKS** I'm not longer planning to do an exploration of the model, since I don't have enough time and I need to focus. So, the plan is to make a poster which will essentially be my dissertation proposal.
+
+**plan for sfn** this is a little more challenging. I worry that I promised too much with the abstract. So, there's something I need to do at the very least, which is to resort all the data I have. It's not enough to just do 190228 because it obviously DIDN'T WORK. So, this weekend, I need to do 2 ours of consulting work in addition to figuring out how to concatenate .ns6 files and pulling them into kilosort.
+
+### 9/7/19
+
+Note to self: you can merge nsx and mev files but only if they exist. i'm missing 190228am1.nev
+
+I may be able to create nev files from boss, but i need a USB key
+
+I could go on without the a part
+
+I will combine nsx and nev files to the best of my ability tomorrow
+
+offline sorter can read nsx but not nev
+
+### 10/4/19
+
+Well, it's been a while since I've updated this log. A lot has changed.
+
+A number of methods have been attempted to try and analyze the February 2019 data, all of which have essentially failed. I manually sorted units in Plexon Offline Sorter, but didn't end up porting those in to matlab. I filtered and classified units sorted by Kilosort2 for 190227, and pushed those into matlab so we could analyze things, in the hope that there were just problems with 190228. However, 190227, despite having fewer units (due to more stringent classifying on my part), failed to replicate the main result from Naama's 2018 paper. 
+
+Throughout the analysis of my own data, I was being irresponsible in my selection of states and parameters; I was essentially picking numbers of states at random. As a result, Naama and Nicho recommended stepping back and doing some log-likelihood analysis. This involved running models for numbers of states between 2 and like 24-30, including running *multiple* models for each state number as to get a better estimate. These models took **forever** to run, being multiple days on my machine.
+
+using these log-likelihood estimations, we discovered that the LL for training data and test data display an inapropriate relationship, in that the test data shows a higher LL than the training data, which should be highly improbable. This turns out to be the case for all of our models, so we still don't know what's going on there. 
+
+But!
+
+this is where take a turn for the better. Ish. 
+
+Rockstar has a single day of data in which he performed RTP and center-out reaching, in the same format as Breaux. I analyzed that data, and the results have (so far) turned out to be similar to older RS results. I also crosstrained the models, and it looks like there are some significant differences.
+
+
+Talking to Naama now:
+
+- Don't use test data LL to determine the number of states. That's improper somehow. 
+- For testing optimal state number, always use the same training trialset.
+- Ignore the LL of the testset. 
+- The proper way to do this to 
+- It's very important to think about running multiple runs.
+
+Byron yu course would be something to look into. 
+
+Redo plots of snippets with color-coded to task
+
+overlap direction histograms of both tasks on top of one another
+
+find snippets of similar trajectory, and project them on neural axes. Is there a task dimension?
+
+take movement that is within some direction, and try to see if you see a task dimension.
+
+Find kinematically similar movements, plot them in neural space, look for a task dimension.
+
+Test each of your crosstrained model within its task as well. 
+
+pick three numbers for numbers of states (have some reasoning for that number), and run with those choices. See how states are combined. 
+
+is M1 a low-level area? is that the questions?
+
+- is the brain different, embedding a center-out reach in a sequence of movements versus stand-alone movements? NEW TASK

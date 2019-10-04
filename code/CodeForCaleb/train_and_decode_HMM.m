@@ -26,7 +26,7 @@ end
 %% Prepare data
 % Static parameters:
 if crosstrain > 0 && crosstrain < 3
-    TRAIN_PORTION = 1; % Portion of trials to use for training
+    TRAIN_PORTION = .75; % Portion of trials to use for training
 else
     TRAIN_PORTION = 0.75; % Portion of trials to use for training
 end
