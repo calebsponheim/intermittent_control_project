@@ -228,3 +228,11 @@ pick three numbers for numbers of states (have some reasoning for that number), 
 is M1 a low-level area? is that the questions?
 
 - is the brain different, embedding a center-out reach in a sequence of movements versus stand-alone movements? NEW TASK
+
+### 10/14/19
+
+Files I'm using for crosstrain kinematic comparison:
+
+RS_HMM_analysis_16_states_11-Oct-2019crosstrain1_iter_1
+RS_HMM_analysis_16_states_11-Oct-2019crosstrain2_iter_1
+

@@ -23,7 +23,7 @@ for iTrial = 1:length(trInd_test)%datasample(1:length(trInd_test),num_segments_t
             
             segmentwise_analysis(state_num).speed{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_speed{iSegment};
             segmentwise_analysis(state_num).length(global_segment_num(state_num)) = trialwise_states(iTrial).segment_length(iSegment);
-            
+            segmentwise_analysis(state_num).trial_index(global_segment_num(state_num)) = trInd_test(iTrial);
             
         end
         global_segment_num(state_num) = global_segment_num(state_num) + 1;
@@ -40,12 +40,11 @@ for istate = 1:size(segmentwise_analysis,2)
     if ~isempty(segmentwise_analysis(istate).x)
         figure;hold on
         cellfun(@(x,y) (plot(x,y,'Color',colors(istate,:))),segmentwise_analysis(istate).x,segmentwise_analysis(istate).y);
-        
         x_start = cellfun(@(v)v(1),segmentwise_analysis(istate).x(~cellfun('isempty',segmentwise_analysis(istate).x)));
         y_start = cellfun(@(v)v(1),segmentwise_analysis(istate).y(~cellfun('isempty',segmentwise_analysis(istate).y)));
         plot(x_start,y_start,'ro');
         
-        title(strcat(subject,task,' state ',num2str(istate),'snippets (random subset)'));
+        title(strcat(subject,strrep(task,'_',' '),' state ',num2str(istate),'snippets (random subset)'));
         xlabel('x position');
         ylabel('y position');
         box off
@@ -107,7 +106,7 @@ for iState = 1:size(segmentwise_analysis,2)
     figure('visible', 'off');hold on
     bar(edges(1:end-1),binned_segment_lengths{iState},'FaceColor',colors(iState,:),'EdgeColor',colors(iState,:))
     %     histogram((segmentwise_analysis(iState).length*50),edges,'FaceColor',colors(iState,:))
-    title(strcat(subject,task,'state ',num2str(iState),'segment lengths'));
+    title(strcat(subject,strrep(task,'_',' '),'state ',num2str(iState),'segment lengths'));
     xlabel('Segment Length (milliseconds)');
     ylabel('Number of Segments');
     ylim([0 max(max(vertcat(binned_segment_lengths{:})))]);
@@ -125,7 +124,7 @@ close all
 for iState = 1:size(segmentwise_analysis,2)
     %direction rose plot
     polarhistogram('BinEdges',dir_edges,'BinCounts',binned_segment_directions{iState},'FaceColor',colors(iState,:),'EdgeColor',colors(iState,:))
-    title(strcat(subject,task,'state ',num2str(iState),'segment lengths'));
+    title(strcat(subject,strrep(task,'_',' '),'state ',num2str(iState),'segment lengths'));
     box off
     rlim([0 max(max(vertcat(binned_segment_directions{:})))]);
     set(gcf,'Color','White');

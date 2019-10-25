@@ -38,7 +38,7 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
         if strcmp(task,'center_out')
             title([subject,' center out Trial ',num2str(iTrial),' speed']);
         else
-            title(strcat(subject,task,'Trial ',num2str(iTrial),' speed'));
+            title(strcat(subject,strrep(task,'_',' '),'Trial ',num2str(iTrial),' speed'));
         end
         legend([plots{segments_unique_for_legend}],'Location','northwest');
         xlabel('time')
@@ -66,7 +66,7 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
     if strcmp(task,'center_out')
         title([subject,' center out Trial ',num2str(iTrial),' position']);
     else
-        title(strcat(subject,task,' Trial ',num2str(iTrial),' position'));
+        title(strcat(subject,strrep(task,'_',' '),' Trial ',num2str(iTrial),' position'));
     end
     legend([plots{segments_unique_for_legend}],'Location','northwest');
     xlabel('x position');
@@ -108,7 +108,7 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
         if strcmp(task,'center_out')
             title([subject,' center out Trial ',num2str(iTrial),' acceleration']);
         else
-            title(strcat(subject,task,'Trial ',num2str(iTrial),' acceleration'));
+            title(strcat(subject,strrep(task,'_',' '),'Trial ',num2str(iTrial),' acceleration'));
         end
         legend([plots{segments_unique_for_legend}],'Location','northwest');
         xlabel('time')

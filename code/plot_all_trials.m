@@ -35,7 +35,7 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
     
     
 end
-title(strcat(subject,task,' all trials position'));
+title(strcat(subject,' ',strrep(task,'_',' '),' all trials position'));
 % legend([plots{state_present(2,state_present(1,:)>0)}]);
 saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\',subject,task,num2str(num_states_subject),'states','_all_trials_position.png'));
 

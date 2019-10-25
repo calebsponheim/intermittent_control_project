@@ -13,7 +13,7 @@ trial_length = [-1 4]; %seconds. defaults is [-1 4];
 trial_event_cutoff = 'go'; % supersedes trial_length if active
 % trial_event_cutoff = 'speed'; % supersedes trial_length if active
 
-num_states_subject = 15;
+num_states_subject = 8;
 spike_hz_threshold = 0;
 bad_trials = [];
 
@@ -72,9 +72,8 @@ data = data_temp;
 bin_timestamps = timestamps_temp;
 
 %% Build and Run Model
-[trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],[]);
-
-
+[trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],0,round(rand(1)*1000));
+                                                       
 %% Save Model
 save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),'_states_OLDDATA',date))
 
@@ -96,28 +95,7 @@ trials_to_plot = trials_to_plot(randperm(length(trials_to_plot)));
 % trials_to_plot = [20:25];
 plot_all_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task)
 %%
-current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
-current_date_and_time = erase(current_date_and_time,' ');
-current_date_and_time = erase(current_date_and_time,':');
-current_date_and_time = current_date_and_time(1:end-4);
-mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
-
-figure; hold on;
-imagesc(hn_trained.a)
-colormap(gca,jet)
-axis square
-axis tight
-colorbar
-if strcmp(task,'center_out')
-title([subject,' center out transition matrix']);
-else
-title([subject,task,' transition matrix']);
-end
-box off
-set(gcf,'Color','White');
-saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\'...
-    ,subject,task,num2str(num_states_subject),'states_transition_matrix.png'));
-% close(gcf);
+plot_transition_matrix(subject,task,num_states_subject,hn_trained)
 
 %% normalized segments
 

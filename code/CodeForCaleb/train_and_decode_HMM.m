@@ -1,4 +1,4 @@
-function [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,data_RTP,data_center_out,crosstrain)
+function [trInd_train,trInd_test,hn_trained,dc,seed_to_train,trInd_train_validation] = train_and_decode_HMM(data,num_states_subject,data_RTP,data_center_out,crosstrain,seed_to_train)
 % example script built from Naama Kadmon Harpaz
 
 % Load data
@@ -8,75 +8,98 @@ function [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode
 %   bins.
 %   data(i).spikecount(j,k) holds the sum of spikes (integer value) of unit
 %   j at time bin k.
+
 if crosstrain == 1 % RTP model, center-out decode
-    NumTrials = length(data_RTP);
+    NumTrials_train = length(data_RTP);
+    NumTrials_test = length(data_center_out);
     data = data_RTP;
     data_test = data_center_out;
 elseif crosstrain == 2 % Center-out model, RTP decode
-    NumTrials = length(data_center_out);
+    NumTrials_train = length(data_center_out);
+    NumTrials_test = length(data_RTP);
     data = data_center_out;
     data_test = data_RTP;
 elseif crosstrain == 3
     disp('this is where you combine things')
     data = [data_center_out data_RTP];
-    NumTrials = length(data);
+    NumTrials_train = length(data);
 else
-    NumTrials = length(data); % Number of trials
+    NumTrials_train = length(data); % Number of trials
 end
+
 %% Prepare data
 % Static parameters:
 if crosstrain > 0 && crosstrain < 3
-    TRAIN_PORTION = .75; % Portion of trials to use for training
+    TRAIN_PORTION = 0.75; % Portion of trials from the first task to use for training
+    TEST_PORTION = 1; % Portion of trials from the second task to use for training
 else
     TRAIN_PORTION = 0.75; % Portion of trials to use for training
 end
-MAX_SPIKECOUNT = inf ; % Trim spikecounts at this value
-%
 
 if crosstrain > 0 && crosstrain < 3
-    trInd_train = 1:NumTrials;
-    trInd_test = 1:length(data_test);
-    seed_to_train = rand(1)*1000;
+MAX_SPIKECOUNT = min([max(max([data_test.spikecount])),max(max([data.spikecount]))]) ; % Trim spikecounts at this value 
+rp_test = randperm(length(data_test)); % Get shuffled trial indices
 else
-    
-% % Randomly divide into train/test trials..
-seed_to_train = rand(1)*1000;
+MAX_SPIKECOUNT = inf ; % Trim spikecounts at this value
+end
+%
+
+seed_to_train = seed_to_train;
 rng(seed_to_train); % Set seed for repeatability
 rp = randperm(length(data)); % Get shuffled trial indices
-nTrainTrials = round(TRAIN_PORTION*length(data)); % #train trials
-trInd_train = sort(rp(1:nTrainTrials)); % train indices
-trInd_test = sort(rp(nTrainTrials+1:end)); % test indices
-rng('shuffle'); % Reshuffle seed
+if crosstrain > 0 && crosstrain < 3
+    nTrainTrials = round(TRAIN_PORTION*length(data)); % #train trials
+    trInd_train = sort(rp(1:nTrainTrials)); % train indices
+    trInd_train_validation = sort(rp(nTrainTrials+1:end)); % test indices
+
+    nTestTrials = round(TEST_PORTION*length(data_test)); % #train trials
+    trInd_test = sort(rp_test(1:nTestTrials)); % train indices    
+    trainset_validation = cell(size(trInd_train_validation));
+else    
+    % % Randomly divide into train/test trials..
+    % seed_to_train = rand(1)*1000;
+    nTrainTrials = round(TRAIN_PORTION*length(data)); % #train trials
+    trInd_train = sort(rp(1:nTrainTrials)); % train indices
+    trInd_test = sort(rp(nTrainTrials+1:end)); % test indices
 end
 
 % Save data to arrays..
 trainset = cell(size(trInd_train));
 testset = cell(size(trInd_test));
-fullset = cell(1,NumTrials);
+fullset = cell(1,NumTrials_train);
 
-for iTrial = 1 : NumTrials
+for iTrial = 1 : NumTrials_train
     
-        % Get activations matrix, apply threshold:
-        S = data(iTrial).spikecount ;
-        S(S>MAX_SPIKECOUNT) = MAX_SPIKECOUNT;
-        
-        % Save matrix to proper cell array:
-        if any(iTrial==trInd_train) % if trial is in train set:
-            trainset{iTrial==trInd_train} = S;
-        else % else, trial is in test set:
+    % Get activations matrix, apply threshold:
+    S = data(iTrial).spikecount ;
+    S(S>MAX_SPIKECOUNT) = MAX_SPIKECOUNT;
+    
+    % Save matrix to proper cell array:
+    if any(iTrial==trInd_train) % if trial is in train set:
+        trainset{iTrial==trInd_train} = S;
+    else % else, trial is in test set:
+        if crosstrain > 0 && crosstrain < 3
+            trainset_validation{iTrial==trInd_train_validation} = S;
+        else
             testset{iTrial==trInd_test} = S;
         end
-        
-        fullset{iTrial} = S;
+    end
+    
+    fullset{iTrial} = S;
     
 end
 
 if crosstrain > 0 && crosstrain < 3
-    for iTrial = 1:length(data_test)
+    clear testset
+    testset = cell(size(trInd_test));
+    
+    for iTrial = 1:NumTrials_test
         % Get activations matrix, apply threshold:
         S = data_test(iTrial).spikecount ;
         S(S>MAX_SPIKECOUNT) = MAX_SPIKECOUNT;
-        testset{iTrial} = S;
+        if any(iTrial==trInd_test) % if trial is in train set:
+            testset{iTrial==trInd_test} = S;
+        end
     end
 end
 
@@ -90,7 +113,7 @@ NUM_STATES = num_states_subject ; % Number of states to train the model on.
 %   .b - Emission matrix in a tabular form, s.t.,
 %       hn_trained.b(i,j,k) = P(O = j|S = i) for unit k (i.e,. probability
 %       of observing j spikes in unit k, given that the current state = i.
-
+rng('shuffle'); % Reshuffle seed
 hn_trained = ehmmTrainAnneal(trainset,NUM_STATES);
 
 %% Decode
@@ -103,8 +126,7 @@ hn_trained = ehmmTrainAnneal(trainset,NUM_STATES);
 %       with maximal probability at time bin t.
 
 dc = ehmmDecode(hn_trained,testset) ;
-
-if seed_to_train
-else
-    seed_to_train = 0;
+if crosstrain == 0
+    trInd_train_validation = [];
+end
 end
