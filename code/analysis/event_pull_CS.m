@@ -2,7 +2,7 @@ function [trialwise_kinematics] = event_pull_CS(session)
 % Reading event data from Cerebus
 
 %session = '190228a';
-params = init_paramsBreaux_CS(session(1:6));
+params = init_paramsBreaux_CS();
 
 trial_start_event_channel = 1;
 reward_event_channel = 2;

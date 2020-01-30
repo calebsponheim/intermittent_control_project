@@ -53,16 +53,16 @@ elseif strcmp(task,'center_out')
     end
     
     if max(strfind(subject_filepath{1},'180323')) > 0
-        trial_start_relative_to_periOn = events(:,1);
+        %         trial_start_relative_to_periOn = events(:,1);
         trial_end_relative_to_periOn = events(:,6);
-        trial_go_relative_to_periOn = events(:,2);        
+        trial_go_relative_to_periOn = events(:,2);
     else
-        trial_start_relative_to_periOn = events(:,1);
-        trial_end_relative_to_periOn = events(:,7);
+        %         trial_start_relative_to_periOn = events(:,1);
+        trial_end_relative_to_periOn = events(:,6);
         trial_go_relative_to_periOn = events(:,3);
     end
     
-    if strcmp(trial_event_cutoff,'go')
+    if strcmp(trial_event_cutoff,'go') % goes from go to peri target reached.
         trial_start_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_go_relative_to_periOn');
         trial_end_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_end_relative_to_periOn');
     elseif strcmp(trial_event_cutoff,'')
@@ -71,6 +71,7 @@ elseif strcmp(task,'center_out')
     end
 end
 units = cellfun(@(x) (x./1000),units,'UniformOutput',false);
+
 
 %   data should be a struct array, with field 'spikecount'
 %   s.t., for each i trial, data(i).spikecount is an N x T matrix,
@@ -93,8 +94,21 @@ clear bin_timestamps
 
 trials = 1:size(units,1);
 trials(bad_trials) = [];
-units(bad_trials,:) = [];
+if ~isempty(bad_trials)
+    units{bad_trials,:} = [];
+end
 num_trials = size(trials,2);
+
+% Change Spiketime Relative Timing from periON to "trial start" time
+
+if strcmp(task,'center_out')
+    for iTrial = 1:num_trials
+        units(iTrial,:) = cellfun(@(x)(x - trial_go_relative_to_periOn(iTrial)),units(iTrial,:),'UniformOutput',false);
+    end %iTrial
+end
+%
+
+
 
 for iTrial = 1:num_trials
     if ~isnan(cpl_st_trial_rew(iTrial,2))

@@ -13,13 +13,13 @@ monkeyLong = params.monkeyLong;
 %files)
 
 % phyDataDir = ['C:\Kilosort\DATA\' session array '\'];
-% phyDataDir = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\' monkeyLong '\20' session(1:2) '\' session(1:6) '\Kilosort outputs\' monkey session(1:6) array '\'];
+% phyDataDir = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\' monkeyLong '\20' session(1:2) '\' session(1:6) '\kilosort_outputs\' monkey session(1:6) array '\'];
 % 
-% dataDirServer = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\' monkeyLong '\20' session(1:2) '\' session(1:6) '\'];
-% 
-phyDataDir = 'C:\Users\calebsponheim\Documents\Data\190228\Kilosort outputs\Bx190228M1l_CSedit\';
+dataDirServer = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\' monkeyLong '\20' session(1:2) '\' session(1:6) '\'];
 
-dataDirServer = 'C:\Users\calebsponheim\Documents\Data\190228\';
+% phyDataDir = ['C:\Users\calebsponheim\Documents\Data\'  session(1:6) '\Kilosort outputs\' monkey session(1:6) array '\'];
+phyDataDir =  ['C:\Users\calebsponheim\Documents\Data\from_vassilis\190227\Bx190227' array '\'];
+% dataDirServer = 'C:\Users\calebsponheim\Documents\Data\190227\';
 
 
 % saving file
@@ -168,9 +168,8 @@ for iChannel = 1:nChannels
                         
                         iSpikes = double(uSpikeTimes(uSpikeTimes>iStart & uSpikeTimes<iEnd));
                         if ~isempty(iSpikes)
-                            iSpikes = round((iSpikes-iStart)/32); %align and convert to ms
+                            iSpikes = round((iSpikes-iStart)/30); %align and convert to ms
                             u(uCount).spikeTimes{iTrial} = unique(iSpikes); %sometimes there will be duplicates because of short trials
-%                             u(uCount).spikesLogical(iTrial,ismember(spikesT,iSpikes)) = true; % no need to treat duplicates here
                         end%if spikes in trial                    
                 end%for nTrials
 

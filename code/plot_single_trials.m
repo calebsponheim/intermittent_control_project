@@ -11,12 +11,12 @@ current_date_and_time = current_date_and_time(1:end-4);
 mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
 
 for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
-    % Speed Plot
+%% Speed Plot
     clear segment_names
     empty_segment_count = 0;
     state_present = zeros(2,num_states_subject);
     figure('visible','off'); hold on
-    plot(trialwise_states(iTrial).kinematic_timestamps,trialwise_states(iTrial).speed,'k','LineWidth',2)
+%     plot(trialwise_states(iTrial).kinematic_timestamps,trialwise_states(iTrial).speed,'k','LineWidth',2)
     for iSegment = 1:size(trialwise_states(iTrial).segment_state_number,2)
         if ~isempty(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment})
             plot(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment}(1),trialwise_states(iTrial).segment_kinematic_speed{iSegment}(1),'ko')
@@ -50,9 +50,10 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
     close(gcf);
     clear plots
     clear segment_names
-    % Position Plot
+    
+    %% Position Plot
     figure('visible','off'); hold on
-    plot(trialwise_states(iTrial).x_smoothed,trialwise_states(iTrial).y_smoothed,'k','LineWidth',2)
+%     plot(trialwise_states(iTrial).x_smoothed,trialwise_states(iTrial).y_smoothed,'k','LineWidth',2)
     for iSegment = 1:size(trialwise_states(iTrial).segment_state_number,2)
         if ~isempty(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment})
             %             plot(trialwise_states(iTrial).segment_kinematic_x{iSegment}(1),trialwise_states(iTrial).segment_kinematic_y{iSegment}(1),'ko')
@@ -62,7 +63,7 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
         end
     end
     [~,segments_unique_for_legend,~] = unique(segment_names);
-    plot(trialwise_states(iTrial).x_smoothed(1),trialwise_states(iTrial).y_smoothed(1),'ro')
+    plot(trialwise_states(iTrial).segment_kinematic_x{1, 1}(1),trialwise_states(iTrial).segment_kinematic_y{1, 1}(1),'ro')
     if strcmp(task,'center_out')
         title([subject,' center out Trial ',num2str(iTrial),' position']);
     else
@@ -84,12 +85,12 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
     close(gcf);
     
     
-    % Acceleration Plot
+    %% Acceleration Plot
     if strcmp(subject,'RS') == 0
         clear segment_names
         state_present = zeros(2,num_states_subject);
         figure('visible','off'); hold on
-        plot(trialwise_states(iTrial).kinematic_timestamps,trialwise_states(iTrial).acceleration,'k','LineWidth',2)
+%         plot(trialwise_states(iTrial).kinematic_timestamps,trialwise_states(iTrial).acceleration,'k','LineWidth',2)
         for iSegment = 1:size(trialwise_states(iTrial).segment_state_number,2)
             if ~isempty(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment})
                 plot(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment}(1),trialwise_states(iTrial).segment_kinematic_acceleration{iSegment}(1),'ko')

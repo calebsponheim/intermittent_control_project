@@ -1,10 +1,15 @@
- %% Analyze Breaux Data
+%% Analyze Breaux Data
 clear
 
 subject = 'Bx';
 arrays = {'M1m' 'M1l'};
 session = '180323';
+if ispc
 subject_filepath_base = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\2018\' session '\'];
+elseif ismac
+subject_filepath_base = ['/Volumes/nicho-lab/Data/all_raw_datafiles_7/Breaux/2018/' session '/'];    
+end
+
 task = 'center_out';
 
 subject_filepath = cellfun(@(x) [subject_filepath_base session x '_units'] ,arrays,'UniformOutput',0);

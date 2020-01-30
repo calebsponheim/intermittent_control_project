@@ -1,7 +1,11 @@
 %% Analyze RS Data
 
 subject = 'RS';
+if ispc
 subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
+elseif ismac
+ subject_filepath = '/Volumes/nicho-lab/nicho/ANALYSIS/rs1050211/rs1050211_clean_spikes_SNRgt4';   
+end
 num_states_subject = 8;
 task = 'RTP';
 

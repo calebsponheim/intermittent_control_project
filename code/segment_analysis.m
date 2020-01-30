@@ -15,6 +15,15 @@ for iTrial = 1:length(trInd_test)
     trialwise_states(iTrial).test_indices = trInd_test(iTrial);
     trialwise_states(iTrial).latent_state = dc_thresholded(iTrial).maxprob_state;
     trialwise_states(iTrial).latent_state_bin_timestamp = bin_timestamps{trialwise_states(iTrial).test_indices};
+    
+    % calculating beginning and end of classified kinematics, cutting off
+%     % kinematic data from before and after that window
+%     trialwise_state(iTrial).trial_begin(1) = min(trialwise_states(iTrial).latent_state_bin_timestamp)
+%     
+    
+    
+    
+    
     trialwise_states(iTrial).speed = data(trialwise_states(iTrial).test_indices).speed;
     
     if strcmp(subject,'RS') == 0 

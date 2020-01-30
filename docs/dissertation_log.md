@@ -236,3 +236,21 @@ Files I'm using for crosstrain kinematic comparison:
 RS_HMM_analysis_16_states_11-Oct-2019crosstrain1_iter_1
 RS_HMM_analysis_16_states_11-Oct-2019crosstrain2_iter_1
 
+### 10/25/19
+
+SfN is over, I presented my poster using RS cross-task data. It's not enough to really contribute to my dissertation (much), but it was enough for a poster and I'm happy (ish).
+
+**next steps**
+
+SfN was a bit of a distraction. I'm now free to focus on longer-timescale aspects of my dissertation, those being writing up the HMM explainer, exploring other switching models, and working on side projects.
+
+I'm tentatively thinking about currently splitting my time between two different things: 
+
+1. Learning about machine learning and models, and writing up the explainer
+2. Putting in serious time towards coding up the coffee cup task for the human BMI project.
+
+Of course, there are many other things towards which I could put my effort and time. But, I don't know what it's worth.
+
+### 10/28/19
+
+So, I want to try and write up this HMM treatise. I'd love to have it done in the next couple months. Unfortunately, I don't really know the best way of going about it.

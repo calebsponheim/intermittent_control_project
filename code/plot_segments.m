@@ -38,7 +38,7 @@ current_date_and_time = current_date_and_time(1:end-4);
 mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
 for istate = 1:size(segmentwise_analysis,2)
     if ~isempty(segmentwise_analysis(istate).x)
-        figure;hold on
+        figure('visible','off');hold on
         cellfun(@(x,y) (plot(x,y,'Color',colors(istate,:))),segmentwise_analysis(istate).x,segmentwise_analysis(istate).y);
         x_start = cellfun(@(v)v(1),segmentwise_analysis(istate).x(~cellfun('isempty',segmentwise_analysis(istate).x)));
         y_start = cellfun(@(v)v(1),segmentwise_analysis(istate).y(~cellfun('isempty',segmentwise_analysis(istate).y)));

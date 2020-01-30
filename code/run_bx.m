@@ -2,16 +2,20 @@
 clear
 
 subject = 'Bx';
-% arrays = {'M1m';'M1l'};
-arrays = {'M1m'};
+arrays = {'M1m';'M1l'};
+% arrays = {'M1l'};
 session = '190228';
-subject_filepath_base = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\2019\' session '\'];
-% subject_filepath_base = 'C:\Users\calebsponheim\Documents\Data\190228\';
+if ispc
+    subject_filepath_base = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\2019\' session '\'];
+elseif ismac
+    subject_filepath_base = ['/Volumes/nicho-lab/Data/all_raw_datafiles_7/Breaux/2019/' session '/'];
+end
+    % subject_filepath_base = 'C:\Users\calebsponheim\Documents\Data\190228\';
 % task = 'center_out';
-% task = 'RTP';
-task = 'center_out_and_RTP';
+task = 'RTP';
+% task = 'center_out_and_RTP';
 
-crosstrain = 3; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
+crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
 
 if strcmp(task,'RTP') && crosstrain == 0
     subject_filepath = cellfun(@(x) [subject_filepath_base 'Bx' session x '_RTP_units'] ,arrays,'UniformOutput',0);
@@ -34,7 +38,8 @@ end
 num_states_subject = 8;
 spike_hz_threshold = 0;
 bad_trials = [];
-
+seed_to_train = round(abs(randn(1)*1000));
+% seed_to_train = 0239348;
 % Scripts to run:
 
 %% Structure Spiking Data
@@ -151,9 +156,9 @@ else
 end
 %% Build and Run Model
 if crosstrain > 0
-    [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM([],num_states_subject,data_RTP,data_center_out,crosstrain);
+    [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM([],num_states_subject,data_RTP,data_center_out,crosstrain,seed_to_train);
 else
-    [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],crosstrain);
+    [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],crosstrain,seed_to_train);
 end
 
 
@@ -164,7 +169,7 @@ save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_sta
 [dc_thresholded] = censor_and_threshold_HMM_output(dc);
 
 %% Create Snippets and Plot **everything**
-trials_to_plot = 1:20;
+trials_to_plot = 30:50;
 num_segments_to_plot = 1000;
 
 if crosstrain == 1 % RTP model, center-out decode
@@ -199,8 +204,14 @@ current_date_and_time = erase(current_date_and_time,':');
 current_date_and_time = current_date_and_time(1:end-4);
 mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
 
+transition_matrix_for_plot = hn_trained.a;
+
+for iState = 1:num_states_subject
+    transition_matrix_for_plot(iState,iState) = 0;
+end
+
 figure; hold on;
-imagesc(hn_trained.a)
+imagesc(transition_matrix_for_plot)
 colormap(gca,jet)
 axis square
 axis tight
@@ -223,4 +234,4 @@ saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent
 
 %% Save Result
 
-save(strcat(subject,'_',task,'_HMM_analysis_',num2str(num_states_subject),'_states_',date))
+% save(strcat(subject,'_',task,'_HMM_analysis_',num2str(num_states_subject),'_states_',date))
