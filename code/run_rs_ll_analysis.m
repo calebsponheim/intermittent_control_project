@@ -14,12 +14,14 @@ bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
 %% Build and Run Model - log-likelihood
 
 num_states_subject = 16;
+TRAIN_PORTION = .5;
 
-for iStatenum = 2:16
+for iStatenum = 2:20
     
     num_states_subject = iStatenum;
     for iRepeat = 1:5
-            [~,~,hn_trained{iStatenum,iRepeat},dc{iStatenum,iRepeat},~] = train_and_decode_HMM(data,num_states_subject,[],[],0);
+            seed_to_train = round(abs(randn(1)*1000));
+            [~,~,hn_trained{iStatenum,iRepeat},dc{iStatenum,iRepeat},~] = train_and_decode_HMM(data,num_states_subject,[],[],0,seed_to_train,TRAIN_PORTION);
     end
 end
     

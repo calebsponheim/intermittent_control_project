@@ -1,4 +1,4 @@
-function [trInd_train,trInd_test,hn_trained,dc,seed_to_train,trInd_train_validation] = train_and_decode_HMM(data,num_states_subject,data_RTP,data_center_out,crosstrain,seed_to_train)
+function [trInd_train,trInd_test,hn_trained,dc,seed_to_train,trInd_train_validation] = train_and_decode_HMM(data,num_states_subject,data_RTP,data_center_out,crosstrain,seed_to_train,TRAIN_PORTION)
 % example script built from Naama Kadmon Harpaz
 
 % Load data
@@ -33,7 +33,7 @@ if crosstrain > 0 && crosstrain < 3
     TRAIN_PORTION = 0.75; % Portion of trials from the first task to use for training
     TEST_PORTION = 1; % Portion of trials from the second task to use for training
 else
-    TRAIN_PORTION = 0.75; % Portion of trials to use for training
+    TRAIN_PORTION = TRAIN_PORTION; % Portion of trials to use for training
 end
 
 if crosstrain > 0 && crosstrain < 3

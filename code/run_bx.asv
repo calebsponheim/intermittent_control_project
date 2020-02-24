@@ -1,4 +1,3 @@
-clear
 %% Analyze Breaux Data
 clear
 
@@ -10,11 +9,11 @@ session = '190228'; % Which day of data
 include_EMG_analysis = 1; % Process EMG data along with kinematics?
 
 % task = 'center_out';       % Choose one of the three options here
-task = 'RTP';              % Choose one of the three options here
-% task = 'center_out_and_RTP'; % Choose one of the three options here
+% task = 'RTP';              % Choose one of the three options here
+task = 'center_out_and_RTP'; % Choose one of the three options here
 
 center_out_trial_window = 'go'; % If center-out, what event to bound analysis window?
-crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
+crosstrain = 3; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
 num_states_subject = 8; % How many states in the model?
 spike_hz_threshold = 0; % Minimum required FR for units?
 bad_trials = []; % Any explicitly bad trials to throw out?
@@ -133,6 +132,9 @@ else
     [data] = processing_CSS_kinematics(arrays,subject_filepath_base,cpl_st_trial_rew,data,task,session,subject_events,good_trials);
 end
 
+
+% Prepare EMG Data
+
 %%
 if crosstrain > 0
 else
@@ -162,18 +164,86 @@ else
     data = data_temp;
     bin_timestamps = timestamps_temp;
 end
-%% Build and Run Model - log-likelihood
 
-num_states_subject = 16;
-TRAIN_PORTION = .5;
+%% pre-model-save
+save(strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\data\',subject,task,'_HMM_struct_',date))
 
-for iStatenum = 2:20
-    
-    num_states_subject = iStatenum;
-    for iRepeat = 1:5
-            seed_to_train = round(abs(randn(1)*1000));
-            [~,~,hn_trained{iStatenum,iRepeat},dc{iStatenum,iRepeat},~] = train_and_decode_HMM(data,num_states_subject,[],[],crosstrain,seed_to_train,TRAIN_PORTION);
-    end
+%% Build and Run Model
+if crosstrain > 0
+    [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM([],num_states_subject,data_RTP,data_center_out,crosstrain,seed_to_train);
+else
+    [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],crosstrain,seed_to_train);
 end
-    
-save(strcat(subject,task,session,'_HMM_hn_',num2str(num_states_subject),'_states_',date),'hn_trained','dc')
+
+
+%% Save Model
+save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),'_states_',date))
+
+%% Process HMM output
+[dc_thresholded] = censor_and_threshold_HMM_output(dc);
+
+%% Create Snippets and Plot **everything**
+
+if crosstrain == 1 % RTP model, center-out decode
+    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps_center_out,data,subject);
+    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,'center_out')
+    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,'center_out');
+elseif crosstrain == 2 % 2: Center-out model, RTP decode
+    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps_RTP,data,subject);
+    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,'RTP')
+    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,'RTP');
+elseif crosstrain == 3
+    bin_timestamps = [bin_timestamps_center_out bin_timestamps_RTP];
+    data = [data_center_out data_RTP];
+    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject);
+    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task);
+    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task)
+else
+    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject);
+    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task);
+    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task)
+end
+
+%%
+trials_to_plot = datasample(1:length(trialwise_states),100);
+trials_to_plot = trials_to_plot(randperm(length(trials_to_plot)));
+% trials_to_plot = [20:25];
+plot_all_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task)
+%%
+current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
+current_date_and_time = erase(current_date_and_time,' ');
+current_date_and_time = erase(current_date_and_time,':');
+current_date_and_time = current_date_and_time(1:end-4);
+mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
+
+transition_matrix_for_plot = hn_trained.a;
+
+for iState = 1:num_states_subject
+    transition_matrix_for_plot(iState,iState) = 0;
+end
+
+figure; hold on;
+imagesc(transition_matrix_for_plot)
+colormap(gca,jet)
+axis square
+axis tight
+colorbar
+if strcmp(task,'center_out')
+    title([subject,' center out transition matrix']);
+else
+    title([subject,task,' transition matrix']);
+end
+box off
+set(gcf,'Color','White');
+saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\'...
+    ,subject,task,num2str(num_states_subject),'states_transition_matrix.png'));
+% close(gcf);
+
+%% normalized segments
+
+[segmentwise_analysis] = normalize_state_segments(segmentwise_analysis,subject,task,num_states_subject);
+
+
+%% Save Result
+
+% save(strcat(subject,'_',task,'_HMM_analysis_',num2str(num_states_subject),'_states_',date))

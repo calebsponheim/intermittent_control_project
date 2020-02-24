@@ -1,21 +1,34 @@
 %% Analyze Breaux Data
 clear
 
-subject = 'Bx';
-arrays = {'M1m';'M1l'};
-% arrays = {'M1l'};
-session = '190228';
+%% User-Defined Variables
+subject = 'Bx'; % Subject
+arrays = {'M1m';'M1l'}; % Which M1 Arrays to analyze
+session = '190228'; % Which day of data
+
+include_EMG_analysis = 1; % Process EMG data along with kinematics?
+
+% task = 'center_out';       % Choose one of the three options here
+task = 'RTP';              % Choose one of the three options here
+% task = 'center_out_and_RTP'; % Choose one of the three options here
+
+center_out_trial_window = 'go'; % If center-out, what event to bound analysis window?
+crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
+num_states_subject = 8; % How many states in the model?
+spike_hz_threshold = 0; % Minimum required FR for units?
+bad_trials = []; % Any explicitly bad trials to throw out?
+seed_to_train = round(abs(randn(1)*1000)); % can manually define the randomization seed for replication 
+% seed_to_train = 0239348;
+
+trials_to_plot = 1:2; % Which individual trials to plot
+num_segments_to_plot = 100; % How cluttered to make the segment plots
+
+%% Setting Paths
 if ispc
     subject_filepath_base = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\2019\' session '\'];
 elseif ismac
     subject_filepath_base = ['/Volumes/nicho-lab/Data/all_raw_datafiles_7/Breaux/2019/' session '/'];
 end
-    % subject_filepath_base = 'C:\Users\calebsponheim\Documents\Data\190228\';
-% task = 'center_out';
-task = 'RTP';
-% task = 'center_out_and_RTP';
-
-crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
 
 if strcmp(task,'RTP') && crosstrain == 0
     subject_filepath = cellfun(@(x) [subject_filepath_base 'Bx' session x '_RTP_units'] ,arrays,'UniformOutput',0);
@@ -26,21 +39,15 @@ elseif strcmp(task,'center_out') && crosstrain == 0
     subject_filepath = cellfun(@(x) [subject_filepath_base 'Bx' session x '_CO_units'] ,arrays,'UniformOutput',0);
     subject_events = [subject_filepath_base 'Bx' session 'x_events'];
     trial_length = [-1 4]; %seconds. defaults is [-1 4];
-    trial_event_cutoff = 'go'; % supersedes trial_length if active
+    trial_event_cutoff = center_out_trial_window; % supersedes trial_length if active
 elseif crosstrain ~= 0
     subject_filepath_RTP = cellfun(@(x) [subject_filepath_base 'Bx' session x '_RTP_units'] ,arrays,'UniformOutput',0);
-    subject_filepath_center_out = cellfun(@(x) [subject_filepath_base 'Bx' session 'x' x '_CO_units'] ,arrays,'UniformOutput',0);
+    subject_filepath_center_out = cellfun(@(x) [subject_filepath_base 'Bx' session x '_CO_units'] ,arrays,'UniformOutput',0);
     subject_events = [subject_filepath_base 'Bx' session 'x_events'];
     trial_length = [-1 4]; %seconds. defaults is [-1 4];
-    trial_event_cutoff = 'go'; % supersedes trial_length if active
+    trial_event_cutoff = center_out_trial_window; % supersedes trial_length if active
 end
 
-num_states_subject = 8;
-spike_hz_threshold = 0;
-bad_trials = [];
-seed_to_train = round(abs(randn(1)*1000));
-% seed_to_train = 0239348;
-% Scripts to run:
 
 %% Structure Spiking Data
 
@@ -125,6 +132,13 @@ else
     [data] = processing_CSS_kinematics(arrays,subject_filepath_base,cpl_st_trial_rew,data,task,session,subject_events,good_trials);
 end
 
+
+%% Prepare EMG Data
+
+if include_EMG_analysis == 1
+    [data] = processing_CSS_EMGs(arrays,subject_filepath_base,cpl_st_trial_rew,data,task,session,subject_events,good_trials);
+end
+
 %%
 if crosstrain > 0
 else
@@ -154,6 +168,10 @@ else
     data = data_temp;
     bin_timestamps = timestamps_temp;
 end
+
+%% pre-model-save
+save(strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\data\',subject,task,'_HMM_struct_',date))
+
 %% Build and Run Model
 if crosstrain > 0
     [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM([],num_states_subject,data_RTP,data_center_out,crosstrain,seed_to_train);
@@ -169,8 +187,6 @@ save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_sta
 [dc_thresholded] = censor_and_threshold_HMM_output(dc);
 
 %% Create Snippets and Plot **everything**
-trials_to_plot = 30:50;
-num_segments_to_plot = 1000;
 
 if crosstrain == 1 % RTP model, center-out decode
     [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps_center_out,data,subject);
