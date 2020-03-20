@@ -2,7 +2,7 @@ function params = init_paramsBreaux_CS()
 
 params.monkey = 'Bx';
 params.monkeyLong = 'Breaux';
-params.session = '190227';
+params.session = '190228';
 params.array = 'M1l';
 params.taskCondition = 'delay';
 params.task = 'center-out';

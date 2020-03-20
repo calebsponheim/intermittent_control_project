@@ -27,7 +27,7 @@ if strcmp(task,'RTP')
         clear u
     end
 elseif strcmp(task,'center_out')
-    load(subject_events, ['periOn' arrays{1}(1:2) '_30k'], ['rewardOn' arrays{1}(1:2) '_30k'],'events');
+    load(subject_events, ['periOn' arrays{1}(1:2) '_30k'], ['rewardOn' arrays{1}(1:2) '_30k'],'events','tp');
     
     for iArray = 1:length(subject_filepath)
         load(subject_filepath{iArray},'u');
@@ -103,6 +103,7 @@ num_trials = size(trials,2);
 
 if strcmp(task,'center_out')
     for iTrial = 1:num_trials
+        data(iTrial).tp = tp(iTrial);
         units(iTrial,:) = cellfun(@(x)(x - trial_go_relative_to_periOn(iTrial)),units(iTrial,:),'UniformOutput',false);
     end %iTrial
 end
@@ -130,7 +131,7 @@ for iTrial = 1:num_trials
 end
 
 % putting spike counts in bins.
-for iTrial = 1:num_trials
+for iTrial = 1:num_trials    
     for iUnit = 1:num_units
         for iBin = 1:(sum(bin_edges(iTrial,:,1)>0))
             data(iTrial).spikecount(iUnit,iBin) = sum(units{iTrial,iUnit} >  bin_edges(iTrial,iBin,1) & units{iTrial,iUnit} <  bin_edges(iTrial,iBin,2));

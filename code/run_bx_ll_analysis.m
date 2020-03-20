@@ -167,13 +167,15 @@ end
 num_states_subject = 16;
 TRAIN_PORTION = .5;
 
+rng(5);
+
 for iStatenum = 2:20
     
     num_states_subject = iStatenum;
     for iRepeat = 1:5
-            seed_to_train = round(abs(randn(1)*1000));
-            [~,~,hn_trained{iStatenum,iRepeat},dc{iStatenum,iRepeat},~] = train_and_decode_HMM(data,num_states_subject,[],[],crosstrain,seed_to_train,TRAIN_PORTION);
+        seed_to_train = round(abs(randn(1)*1000));
+        [~,~,hn_trained{iStatenum,iRepeat},dc{iStatenum,iRepeat},dc_trainset{iStatenum,iRepeat},~,~] = train_and_decode_HMM(data,num_states_subject,[],[],0,seed_to_train,TRAIN_PORTION);
     end
 end
     
-save(strcat(subject,task,session,'_HMM_hn_',num2str(num_states_subject),'_states_',date),'hn_trained','dc')
+save(strcat(subject,task,session,'_HMM_hn_',num2str(num_states_subject),'_states_',date),'hn_trained','dc','dc_trainset')

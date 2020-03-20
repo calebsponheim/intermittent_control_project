@@ -1,4 +1,4 @@
-function [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task)
+function [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task,muscle_names,include_EMG_analysis)
 
 colors = jet(num_states_subject);
 
@@ -11,6 +11,12 @@ for iTrial = 1:length(trInd_test)%datasample(1:length(trInd_test),num_segments_t
             segmentwise_analysis(state_num).kinetic_timestamps{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_timestamps{iSegment};
             segmentwise_analysis(state_num).x{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_x{iSegment};
             segmentwise_analysis(state_num).y{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_y{iSegment};
+            
+            if include_EMG_analysis == 1
+                for iMuscle = 1:length(muscle_names)
+                    segmentwise_analysis(state_num).(muscle_names{iMuscle}){global_segment_num(state_num)} = trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment};
+                end
+            end
             
             % Segment Direction
             beginning_of_segment(1) = trialwise_states(iTrial).segment_kinematic_x{iSegment}(1);

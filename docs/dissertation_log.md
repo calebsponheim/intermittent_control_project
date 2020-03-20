@@ -254,3 +254,19 @@ Of course, there are many other things towards which I could put my effort and t
 ### 10/28/19
 
 So, I want to try and write up this HMM treatise. I'd love to have it done in the next couple months. Unfortunately, I don't really know the best way of going about it.
+
+
+### 02/24/2020
+
+new year, same me. 
+
+Here's my predicament. My EMG trial timing seems to be a bit off. 
+
+
+
+
+cpl_st_trial_rew seems like the right timing, but I'm using it for the kinematics when maybe I shouldn't be doing that. 
+
+I'm not using the trial_start and trial_end that I pull from the M1 files. What's going on? Which timing is correct?
+
+

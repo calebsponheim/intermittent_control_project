@@ -1,4 +1,4 @@
-function [trInd_train,trInd_test,hn_trained,dc,seed_to_train,trInd_train_validation] = train_and_decode_HMM(data,num_states_subject,data_RTP,data_center_out,crosstrain,seed_to_train,TRAIN_PORTION)
+function [trInd_train,trInd_test,hn_trained,dc,dc_trainset,seed_to_train,trInd_train_validation] = train_and_decode_HMM(data,num_states_subject,data_RTP,data_center_out,crosstrain,seed_to_train,TRAIN_PORTION)
 % example script built from Naama Kadmon Harpaz
 
 % Load data
@@ -44,7 +44,6 @@ MAX_SPIKECOUNT = inf ; % Trim spikecounts at this value
 end
 %
 
-seed_to_train = seed_to_train;
 rng(seed_to_train); % Set seed for repeatability
 rp = randperm(length(data)); % Get shuffled trial indices
 if crosstrain > 0 && crosstrain < 3
@@ -126,6 +125,7 @@ hn_trained = ehmmTrainAnneal(trainset,NUM_STATES);
 %       with maximal probability at time bin t.
 
 dc = ehmmDecode(hn_trained,testset) ;
+dc_trainset = ehmmDecode(hn_trained,trainset) ;
 if crosstrain == 0
     trInd_train_validation = [];
 end

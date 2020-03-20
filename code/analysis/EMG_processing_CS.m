@@ -97,8 +97,8 @@ events_nev = openNEV(filestring_nev,'noread','nosave', 'nomat');
 % rewardEpoch = 65512;
 % 
 
-startEpoch = 10000;
-rewardEpoch = 01000;
+startEpoch = 100;
+rewardEpoch = 1000;
 
 binary_events = dec2bin(events_nev.Data.SerialDigitalIO.UnparsedData);
 binary_events = binary_events(:,12:16);

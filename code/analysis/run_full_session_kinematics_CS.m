@@ -1,6 +1,6 @@
 clear all
 
-session = {'190227a' '190227c' '190227e' '190227g'};
+session = {'190228a' '190228c' '190228e' '190228g'};
 
 total_trial_num = 0;
 

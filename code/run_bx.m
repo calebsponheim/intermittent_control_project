@@ -8,8 +8,8 @@ session = '190228'; % Which day of data
 
 include_EMG_analysis = 1; % Process EMG data along with kinematics?
 
-% task = 'center_out';       % Choose one of the three options here
-task = 'RTP';              % Choose one of the three options here
+task = 'center_out';       % Choose one of the three options here
+% task = 'RTP';              % Choose one of the three options here
 % task = 'center_out_and_RTP'; % Choose one of the three options here
 
 center_out_trial_window = 'go'; % If center-out, what event to bound analysis window?
@@ -20,7 +20,9 @@ bad_trials = []; % Any explicitly bad trials to throw out?
 seed_to_train = round(abs(randn(1)*1000)); % can manually define the randomization seed for replication 
 % seed_to_train = 0239348;
 
-trials_to_plot = 1:2; % Which individual trials to plot
+TRAIN_PORTION = 0.75; %
+
+trials_to_plot = 1:50; % Which individual trials to plot
 num_segments_to_plot = 100; % How cluttered to make the segment plots
 
 %% Setting Paths
@@ -30,20 +32,19 @@ elseif ismac
     subject_filepath_base = ['/Volumes/nicho-lab/Data/all_raw_datafiles_7/Breaux/2019/' session '/'];
 end
 
+subject_events = [subject_filepath_base 'Bx' session 'x_events'];
+
 if strcmp(task,'RTP') && crosstrain == 0
-    subject_filepath = cellfun(@(x) [subject_filepath_base 'Bx' session x '_RTP_units'] ,arrays,'UniformOutput',0);
-    subject_events = [subject_filepath_base 'Bx' session 'x_events'];
+    subject_filepath = cellfun(@(x) [subject_filepath_base 'Bx' session x '_RTP_units'] ,arrays,'UniformOutput',0);    
     trial_length = [-1 4]; %seconds. defaults is [-1 4];
     trial_event_cutoff = ''; % supersedes trial_length if active
 elseif strcmp(task,'center_out') && crosstrain == 0
     subject_filepath = cellfun(@(x) [subject_filepath_base 'Bx' session x '_CO_units'] ,arrays,'UniformOutput',0);
-    subject_events = [subject_filepath_base 'Bx' session 'x_events'];
     trial_length = [-1 4]; %seconds. defaults is [-1 4];
     trial_event_cutoff = center_out_trial_window; % supersedes trial_length if active
 elseif crosstrain ~= 0
     subject_filepath_RTP = cellfun(@(x) [subject_filepath_base 'Bx' session x '_RTP_units'] ,arrays,'UniformOutput',0);
     subject_filepath_center_out = cellfun(@(x) [subject_filepath_base 'Bx' session x '_CO_units'] ,arrays,'UniformOutput',0);
-    subject_events = [subject_filepath_base 'Bx' session 'x_events'];
     trial_length = [-1 4]; %seconds. defaults is [-1 4];
     trial_event_cutoff = center_out_trial_window; % supersedes trial_length if active
 end
@@ -72,6 +73,7 @@ if crosstrain > 0
             bad_trial_count = bad_trial_count + 1;
         else
             data_temp(trial_count).spikecount = data_center_out(iTrial).spikecount;
+            data_temp(trial_count).tp = data_center_out(iTrial).tp;
             timestamps_temp{trial_count} = bin_timestamps_center_out{iTrial};
             good_trials_CO(trial_count) = iTrial;
             trial_count = trial_count + 1;
@@ -109,6 +111,7 @@ else
             bad_trial_count = bad_trial_count + 1;
         else
             data_temp(trial_count).spikecount = data(iTrial).spikecount;
+            data_temp(trial_count).tp = data(iTrial).tp;
             timestamps_temp{trial_count} = bin_timestamps{iTrial};
             good_trials(trial_count) = iTrial;
             trial_count = trial_count + 1;
@@ -136,7 +139,9 @@ end
 %% Prepare EMG Data
 
 if include_EMG_analysis == 1
-    [data] = processing_CSS_EMGs(arrays,subject_filepath_base,cpl_st_trial_rew,data,task,session,subject_events,good_trials);
+    [data,muscle_names] = processing_CSS_EMGs(arrays,subject_filepath_base,cpl_st_trial_rew,data,task,session,subject_events,good_trials);
+else
+    muscle_names = [];
 end
 
 %%
@@ -158,6 +163,10 @@ else
             data_temp(trial_count).speed = data(iTrial).speed;
             data_temp(trial_count).acceleration = data(iTrial).acceleration;
             data_temp(trial_count).kinematic_timestamps = data(iTrial).kinematic_timestamps;
+            data_temp(trial_count).tp = data(iTrial).tp;
+            for iMuscle = 1:length(muscle_names)
+                data_temp(trial_count).(muscle_names{iMuscle}) = data(iTrial).(muscle_names{iMuscle});
+            end
             
             timestamps_temp{trial_count} = bin_timestamps{iTrial};
             good_trials(trial_count) = iTrial;
@@ -174,38 +183,41 @@ save(strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_contr
 
 %% Build and Run Model
 if crosstrain > 0
-    [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM([],num_states_subject,data_RTP,data_center_out,crosstrain,seed_to_train);
+    [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM([],num_states_subject,data_RTP,data_center_out,crosstrain,seed_to_train,TRAIN_PORTION);
 else
-    [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],crosstrain,seed_to_train);
+    [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],crosstrain,seed_to_train,TRAIN_PORTION);
 end
 
 
 %% Save Model
-save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),'_states_',date))
-
+if ispc
+    save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),'_states_',date))
+else
+    save(['/Volumes/nicho-lab/caleb_sponheim/intermittent_control/data/' subject task '_HMM_classified_test_data_and_output_' num2str(num_states_subject) '_states_' date])
+end
 %% Process HMM output
 [dc_thresholded] = censor_and_threshold_HMM_output(dc);
 
 %% Create Snippets and Plot **everything**
 
 if crosstrain == 1 % RTP model, center-out decode
-    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps_center_out,data,subject);
-    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,'center_out')
-    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,'center_out');
+    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps_center_out,data,subject,muscle_names,include_EMG_analysis);
+    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,'center_out',muscle_names,include_EMG_analysis)
+    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,'center_out',muscle_names,include_EMG_analysis);
 elseif crosstrain == 2 % 2: Center-out model, RTP decode
-    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps_RTP,data,subject);
-    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,'RTP')
-    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,'RTP');
+    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps_RTP,data,subject,muscle_names,include_EMG_analysis);
+    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,'RTP',muscle_names,include_EMG_analysis)
+    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,'RTP',muscle_names,include_EMG_analysis);
 elseif crosstrain == 3
     bin_timestamps = [bin_timestamps_center_out bin_timestamps_RTP];
     data = [data_center_out data_RTP];
-    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject);
-    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task);
-    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task)
+    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis);
+    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task,muscle_names,include_EMG_analysis);
+    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task,include_EMG_analysis)
 else
-    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject);
-    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task);
-    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task)
+    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis);
+    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task,muscle_names,include_EMG_analysis);
+    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task,muscle_names,include_EMG_analysis)
 end
 
 %%
@@ -245,7 +257,7 @@ saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent
 
 %% normalized segments
 
-[segmentwise_analysis] = normalize_state_segments(segmentwise_analysis,subject,task,num_states_subject);
+[segmentwise_analysis] = normalize_state_segments(segmentwise_analysis,subject,task,num_states_subject,include_EMG_analysis,muscle_names);
 
 
 %% Save Result

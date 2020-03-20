@@ -142,9 +142,9 @@ for iTrial = 1:length(trInd_test)
                             trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment} = trialwise_states(iTrial).(muscle_names{iMuscle})(closest_first:closest_end);
                         elseif length(trialwise_states(iTrial).kinematic_timestamps) > length(trialwise_states(iTrial).(muscle_names{iMuscle}))
                             trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment} = trialwise_states(iTrial).(muscle_names{iMuscle})(closest_first:closest_end-1);
-                            trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment}(length(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment})) = trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment}(end);
+                            trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment}(end+1)
                         elseif length(trialwise_states(iTrial).kinematic_timestamps) < length(trialwise_states(iTrial).(muscle_names{iMuscle}))
-                            trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment} = trialwise_states(iTrial).(muscle_names{iMuscle})(closest_first:closest_end);
+                            trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment} = trialwise_states(iTrial).(muscle_names{iMuscle})(closest_first:closest_end-1);
                         end
                     end
                 end
