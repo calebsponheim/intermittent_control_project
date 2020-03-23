@@ -33,7 +33,11 @@ for iTrial = 1:length(trInd_test)
     trialwise_states(iTrial).x_smoothed = data(trialwise_states(iTrial).test_indices).x_smoothed;
     trialwise_states(iTrial).y_smoothed = data(trialwise_states(iTrial).test_indices).y_smoothed;
     trialwise_states(iTrial).kinematic_timestamps = data(trialwise_states(iTrial).test_indices).kinematic_timestamps;
-
+    
+    if isfield(data, 'tp')
+        trialwise_states(iTrial).tp = data(trialwise_states(iTrial).test_indices).tp;
+    end
+    
     if include_EMG_analysis == 1
         for iMuscle = 1:length(muscle_names)
             trialwise_states(iTrial).(muscle_names{iMuscle}) = data(trialwise_states(iTrial).test_indices).(muscle_names{iMuscle});

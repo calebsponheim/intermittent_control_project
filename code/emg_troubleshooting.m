@@ -22,11 +22,16 @@ for iMuscle = 1:length(muscle_names)
             box off
             axis tight
             xlabel('time')
+            title(num2str(segmentwise_analysis(iState).tp{iSegment}))
             
         end
         set(gcf,'color','w','pos',[0 0 800 800])
         %save figure
-        saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,'state_',num2str(iState),'_',muscle_names{iMuscle},'.png'));
+        if ispc
+            saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,'state_',num2str(iState),'_',muscle_names{iMuscle},'.png'));
+        else
+            saveas(gcf,['~/git/intermittent_control_project/figures/' subject task 'state_' num2str(iState) '_' muscle_names{iMuscle} '.png']);
+        end
         close gcf
     end
 end

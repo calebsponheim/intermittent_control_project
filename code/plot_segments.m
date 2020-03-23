@@ -12,6 +12,9 @@ for iTrial = 1:length(trInd_test)%datasample(1:length(trInd_test),num_segments_t
             segmentwise_analysis(state_num).x{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_x{iSegment};
             segmentwise_analysis(state_num).y{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_y{iSegment};
             
+            if isfield(trialwise_states, 'tp')
+                segmentwise_analysis(state_num).tp{global_segment_num(state_num)} = trialwise_states(iTrial).tp;
+            end
             if include_EMG_analysis == 1
                 for iMuscle = 1:length(muscle_names)
                     segmentwise_analysis(state_num).(muscle_names{iMuscle}){global_segment_num(state_num)} = trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment};
@@ -41,7 +44,11 @@ current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
 current_date_and_time = erase(current_date_and_time,' ');
 current_date_and_time = erase(current_date_and_time,':');
 current_date_and_time = current_date_and_time(1:end-4);
+if ispc
 mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
+else
+mkdir(['~/git/intermittent_control_project/figures/',subject,task,num2str(num_states_subject),'states',current_date_and_time])
+end
 for istate = 1:size(segmentwise_analysis,2)
     if ~isempty(segmentwise_analysis(istate).x)
         figure('visible','off');hold on
@@ -65,7 +72,7 @@ for istate = 1:size(segmentwise_analysis,2)
         if ispc
         saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\',subject,task,num2str(num_states_subject),'states','_state_',num2str(istate),'_snippets_random_subset.png'));
         else
-        saveas(gcf,strcat(subject,task,num2str(num_states_subject),'states','_state_',num2str(istate),'_snippets_random_subset.png'));
+        saveas(gcf,strcat('~/git/intermittent_control_project/figures/',subject,task,num2str(num_states_subject),'states','_state_',num2str(istate),'_snippets_random_subset.png'));
         end
         close(gcf);
     end
@@ -81,6 +88,15 @@ for iTrial = 1:length(trInd_test)
             segmentwise_analysis(state_num).kinetic_timestamps{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_timestamps{iSegment};
             segmentwise_analysis(state_num).x{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_x{iSegment};
             segmentwise_analysis(state_num).y{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_y{iSegment};
+            
+            if isfield(trialwise_states, 'tp')
+                segmentwise_analysis(state_num).tp{global_segment_num(state_num)} = trialwise_states(iTrial).tp;
+            end
+            if include_EMG_analysis == 1
+                for iMuscle = 1:length(muscle_names)
+                    segmentwise_analysis(state_num).(muscle_names{iMuscle}){global_segment_num(state_num)} = trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment};
+                end
+            end
             
             %%% Segment Direction %%%
             beginning_of_segment(1) = trialwise_states(iTrial).segment_kinematic_x{iSegment}(1);
@@ -121,7 +137,7 @@ for iState = 1:size(segmentwise_analysis,2)
     if ispc
     saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\',subject,task,num2str(num_states_subject),'states','_state_',num2str(iState),'_snippet_length_histogram.png'));
     else
-    saveas(gcf,strcat(subject,task,num2str(num_states_subject),'states','_state_',num2str(iState),'_snippet_length_histogram.png'));
+    saveas(gcf,strcat('~/git/intermittent_control_project/figures/',subject,task,num2str(num_states_subject),'states','_state_',num2str(iState),'_snippet_length_histogram.png'));
     end
     close(gcf);
 end
@@ -137,7 +153,7 @@ for iState = 1:size(segmentwise_analysis,2)
     if ispc
     saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\',subject,task,num2str(num_states_subject),'states','_state_',num2str(iState),'_snippet_direction_histogram.png'));
     else
-    saveas(gcf,strcat(subject,task,num2str(num_states_subject),'states','_state_',num2str(iState),'_snippet_direction_histogram.png'));
+    saveas(gcf,strcat('~/git/intermittent_control_project/figures/',subject,task,num2str(num_states_subject),'states','_state_',num2str(iState),'_snippet_direction_histogram.png'));
     end
     close(gcf);
     
