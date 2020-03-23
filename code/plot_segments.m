@@ -4,7 +4,7 @@ colors = jet(num_states_subject);
 
 %% Plotting segments by state, by coords
 global_segment_num = ones(1,num_states_subject);
-for iTrial = 1:length(trInd_test)%datasample(1:length(trInd_test),num_segments_to_plot)
+for iTrial = datasample(1:length(trInd_test),num_segments_to_plot)
     for iSegment = 1:size(trialwise_states(iTrial).segment_state_number,2)
         if ~isempty(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment}) && trialwise_states(iTrial).segment_state_number(iSegment) ~= 0
             state_num = trialwise_states(iTrial).segment_state_number(iSegment);
@@ -72,7 +72,7 @@ for istate = 1:size(segmentwise_analysis,2)
 end
 
 %% Plotting segments by state, by coords
-clear segment_analysis
+clear segmentwise_analysis
 global_segment_num = ones(1,num_states_subject);
 for iTrial = 1:length(trInd_test)
     for iSegment = 1:size(trialwise_states(iTrial).segment_state_number,2)
@@ -81,6 +81,12 @@ for iTrial = 1:length(trInd_test)
             segmentwise_analysis(state_num).kinetic_timestamps{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_timestamps{iSegment};
             segmentwise_analysis(state_num).x{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_x{iSegment};
             segmentwise_analysis(state_num).y{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_y{iSegment};
+            
+            if include_EMG_analysis == 1
+                for iMuscle = 1:length(muscle_names)
+                    segmentwise_analysis(state_num).(muscle_names{iMuscle}){global_segment_num(state_num)} = trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment};
+                end
+            end
             
             %%% Segment Direction %%%
             beginning_of_segment(1) = trialwise_states(iTrial).segment_kinematic_x{iSegment}(1);
