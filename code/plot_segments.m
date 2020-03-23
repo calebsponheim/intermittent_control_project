@@ -4,7 +4,7 @@ colors = jet(num_states_subject);
 
 %% Plotting segments by state, by coords
 global_segment_num = ones(1,num_states_subject);
-for iTrial = 1:length(trInd_test)%datasample(1:length(trInd_test),num_segments_to_plot)
+for iTrial = datasample(1:length(trInd_test),num_segments_to_plot)
     for iSegment = 1:size(trialwise_states(iTrial).segment_state_number,2)
         if ~isempty(trialwise_states(iTrial).segment_kinematic_timestamps{iSegment}) && trialwise_states(iTrial).segment_state_number(iSegment) ~= 0
             state_num = trialwise_states(iTrial).segment_state_number(iSegment);
@@ -79,7 +79,7 @@ for istate = 1:size(segmentwise_analysis,2)
 end
 
 %% Plotting segments by state, by coords
-clear segment_analysis
+clear segmentwise_analysis
 global_segment_num = ones(1,num_states_subject);
 for iTrial = 1:length(trInd_test)
     for iSegment = 1:size(trialwise_states(iTrial).segment_state_number,2)
@@ -92,6 +92,7 @@ for iTrial = 1:length(trInd_test)
             if isfield(trialwise_states, 'tp')
                 segmentwise_analysis(state_num).tp{global_segment_num(state_num)} = trialwise_states(iTrial).tp;
             end
+
             if include_EMG_analysis == 1
                 for iMuscle = 1:length(muscle_names)
                     segmentwise_analysis(state_num).(muscle_names{iMuscle}){global_segment_num(state_num)} = trialwise_states(iTrial).(['segment_kinematic_' muscle_names{iMuscle}]){iSegment};

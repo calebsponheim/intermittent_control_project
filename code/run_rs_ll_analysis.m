@@ -1,8 +1,8 @@
 %% Analyze Breaux Data
 clear
 subject = 'RS';
-% subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
-subject_filepath = '/Volumes/nicho-lab/nicho/ANALYSIS/rs1050211/rs1050211_clean_spikes_SNRgt4.mat';
+subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
+% subject_filepath = '/Volumes/nicho-lab/nicho/ANALYSIS/rs1050211/rs1050211_clean_spikes_SNRgt4.mat';
 task = 'RTP';
 
 bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
@@ -12,7 +12,7 @@ bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
 %% Structure Spiking Data
 [data,cpl_st_trial_rew,bin_timestamps] = nicho_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials);
 
-save('RS_RTP_for_midway')
+% save('RS_RTP_for_midway')
 %% Build and Run Model - log-likelihood
 
 num_states_subject = 16;
@@ -20,7 +20,7 @@ TRAIN_PORTION = .5;
 
 rng(5);
 
-for iStatenum = 2:2:30
+for iStatenum = 2:30
     
     num_states_subject = iStatenum;
     for iRepeat = 1:3

@@ -14,7 +14,9 @@ task = 'center_out';       % Choose one of the three options here
 
 center_out_trial_window = 'go'; % If center-out, what event to bound analysis window?
 crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
+
 num_states_subject = 8; % How many states in the model?
+
 spike_hz_threshold = 0; % Minimum required FR for units?
 bad_trials = []; % Any explicitly bad trials to throw out?
 seed_to_train = round(abs(randn(1)*1000)); % can manually define the randomization seed for replication 
@@ -191,7 +193,7 @@ end
 
 %% Save Model
 if ispc
-    save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),'_states_',date))
+    save(strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\data\',subject,task,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),'_states_',date))
 else
     save(['/Volumes/nicho-lab/caleb_sponheim/intermittent_control/data/' subject task '_HMM_classified_test_data_and_output_' num2str(num_states_subject) '_states_' date])
 end
@@ -262,4 +264,4 @@ saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent
 
 %% Save Result
 
-% save(strcat(subject,'_',task,'_HMM_analysis_',num2str(num_states_subject),'_states_',date))
+save(strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\data\',subject,'_',task,'_HMM_analysis_',num2str(num_states_subject),'_states_',date))
