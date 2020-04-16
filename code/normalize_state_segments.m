@@ -1,4 +1,4 @@
-function [segmentwise_analysis] = normalize_state_segments(segmentwise_analysis,subject,task,num_states_subject,include_EMG_analysis,muscle_names)
+function [segmentwise_analysis] = normalize_state_segments(segmentwise_analysis,subject,task,num_states_subject,include_EMG_analysis,muscle_names,figure_folder_filepath)
 
 % Normalize State Segments (Figure 3)
 
@@ -47,11 +47,6 @@ end %iState
 
 
 %% Plot Normalized speed profile (normalized by speed and time) for each state
-current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
-current_date_and_time = erase(current_date_and_time,' ');
-current_date_and_time = erase(current_date_and_time,':');
-current_date_and_time = current_date_and_time(1:end-4);
-mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
 
 colors = jet(num_states_subject);
 
@@ -75,7 +70,7 @@ for iState = 1:size(segmentwise_analysis,2)
         ylabel('speed (normalized)')
         hold off
         if ispc
-            saveas(gcf,['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\' subject '_' task '_' num2str(num_states_subject) ...
+            saveas(gcf,[figure_folder_filepath,'\' subject '_' task '_' num2str(num_states_subject) ...
                 '_states_state_' num2str(iState) '_normalized_speed_segments.png']);
         else
             saveas(gcf,[subject '_' task '_' num2str(num_states_subject) ...
@@ -110,7 +105,7 @@ for iState = 1:size(segmentwise_analysis,2)
             legend(legend_figs,'Location','northeastoutside');
             hold off
             if ispc
-                saveas(gcf,['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\' subject '_' task '_' num2str(num_states_subject) ...
+                saveas(gcf,[figure_folder_filepath,'\' subject '_' task '_' num2str(num_states_subject) ...
                     '_states_state_' num2str(iState) '_normalized_muscle_activity_segments.png']);
             else
                 saveas(gcf,[subject '_' task '_' num2str(num_states_subject) ...

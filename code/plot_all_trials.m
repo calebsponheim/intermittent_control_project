@@ -1,14 +1,9 @@
-function [] = plot_all_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task)
+function [] = plot_all_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task,figure_folder_filepath)
 
 %%
 colors = jet(num_states_subject);
 
 %% Ok, so trying to plot a single trial?
-current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
-current_date_and_time = erase(current_date_and_time,' ');
-current_date_and_time = erase(current_date_and_time,':');
-current_date_and_time = current_date_and_time(1:end-4);
-mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time])
 
 for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
     state_present = zeros(2,num_states_subject);
@@ -37,7 +32,7 @@ for iTrial = trials_to_plot%datasample(1:length(trInd_test),3)
 end
 title(strcat(subject,' ',strrep(task,'_',' '),' all trials position'));
 % legend([plots{state_present(2,state_present(1,:)>0)}]);
-saveas(gcf,strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'states',current_date_and_time,'\',subject,task,num2str(num_states_subject),'states','_all_trials_position.png'));
+saveas(gcf,strcat(figure_folder_filepath,'\',subject,task,num2str(num_states_subject),'states','_all_trials_position.png'));
 
 end
 

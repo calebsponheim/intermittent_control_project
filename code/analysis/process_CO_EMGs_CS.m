@@ -42,7 +42,7 @@ for iMuscle = 1:length(EMG_signals_in)
 
         %% Smooth (another lowpass)
 
-        fhs=50; % lowpass frequency
+        fhs=10; % lowpass frequency
 
         [b,a]=butter(2,fhs/fN);
 

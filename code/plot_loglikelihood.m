@@ -2,11 +2,14 @@
 
 clear ll_train
 clear ll_test
+clear ll_train
+clear k_test
 
 for iStatenum = 2:length(dc)
     for iRep = 1:size(dc,2)
         ll_test_temp(iStatenum-1,iRep,:) = [dc{iStatenum,iRep}.ll];
     end
+    k_test(iStatenum) = numel(hn_trained{iStatenum,iRep}.a(2:end,:));
 end
 
 ll_test_mean_across_iters = mean(ll_test_temp,2);
@@ -30,6 +33,19 @@ end
 ll_train_mean_across_iters = mean(ll_train_temp,2);
 ll_train = sum(ll_train_mean_across_iters,3);
 
+%% Calculate AIC
+
+
+AIC = 2*k_test(2:end)' - 2*ll_test;
+quad_fit_to_AIC = polyfit(1:length(AIC),AIC',3);
+quad_fit_to_AIC = polyval(quad_fit_to_AIC,1:.1:length(AIC));
+figure; hold on;
+plot(1:length(AIC),AIC,'o')
+plot(1:.1:length(AIC),quad_fit_to_AIC)
+box off
+set(gcf,'color','white')
+xlabel('Number of Hidden States')
+ylabel('AIC')
 %%
 figure; hold on
 plot(ll_train,'k.','markersize',20)

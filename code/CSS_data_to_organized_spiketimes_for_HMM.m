@@ -1,4 +1,4 @@
-function  [data,cpl_st_trial_rew,bin_timestamps] = CSS_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,spike_hz_threshold,task,subject_events,arrays,trial_length,trial_event_cutoff)
+function  [data,cpl_st_trial_rew,bin_timestamps,targets] = CSS_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,spike_hz_threshold,task,subject_events,arrays,trial_length,trial_event_cutoff)
 
 % load and import unsorted spiketimes for each channel
 if strcmp(task,'RTP')
@@ -26,8 +26,9 @@ if strcmp(task,'RTP')
         end
         clear u
     end
+    targets = [];
 elseif strcmp(task,'center_out')
-    load(subject_events, ['periOn' arrays{1}(1:2) '_30k'], ['rewardOn' arrays{1}(1:2) '_30k'],'events','tp');
+    load(subject_events, ['periOn' arrays{1}(1:2) '_30k'], ['rewardOn' arrays{1}(1:2) '_30k'],'events','tp','targets');
     
     for iArray = 1:length(subject_filepath)
         load(subject_filepath{iArray},'u');
@@ -104,6 +105,7 @@ num_trials = size(trials,2);
 if strcmp(task,'center_out')
     for iTrial = 1:num_trials
         data(iTrial).tp = tp(iTrial);
+        data(iTrial).target = targets(tp(iTrial),1:2);
         units(iTrial,:) = cellfun(@(x)(x - trial_go_relative_to_periOn(iTrial)),units(iTrial,:),'UniformOutput',false);
     end %iTrial
 end

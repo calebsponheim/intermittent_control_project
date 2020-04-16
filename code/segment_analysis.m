@@ -1,4 +1,4 @@
-function [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis)
+function [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis,target_locations)
 % Link Kinematics to Neural States
 
 % This function takes in the decoded latent states from the HMM and links them, by each test trial, to the appropriate kinematics.
@@ -17,13 +17,6 @@ for iTrial = 1:length(trInd_test)
     trialwise_states(iTrial).latent_state_bin_timestamp = bin_timestamps{trialwise_states(iTrial).test_indices};
     
     % calculating beginning and end of classified kinematics, cutting off
-    %     % kinematic data from before and after that window
-    %     trialwise_state(iTrial).trial_begin(1) = min(trialwise_states(iTrial).latent_state_bin_timestamp)
-    %
-    
-    
-    
-    
     trialwise_states(iTrial).speed = data(trialwise_states(iTrial).test_indices).speed;
     
     if strcmp(subject,'RS') == 0
@@ -34,8 +27,20 @@ for iTrial = 1:length(trInd_test)
     trialwise_states(iTrial).y_smoothed = data(trialwise_states(iTrial).test_indices).y_smoothed;
     trialwise_states(iTrial).kinematic_timestamps = data(trialwise_states(iTrial).test_indices).kinematic_timestamps;
     
-    if isfield(data, 'tp')
+    if isfield(data, 'tp') && ~isempty(data(trialwise_states(iTrial).test_indices).tp)
         trialwise_states(iTrial).tp = data(trialwise_states(iTrial).test_indices).tp;
+        trialwise_states(iTrial).target = data(trialwise_states(iTrial).test_indices).target;
+        
+        %okay: so, this is where we turn "tp" into meaningful target
+        %designations instead of just, like, TP numbers which don't mean
+        %anything other than the person who made the freakin task in
+        %Dexterit-E. It's going to take an input into the function.
+        
+        trialwise_states(iTrial).target_location = target_locations{trialwise_states(iTrial).tp};
+    else    
+        trialwise_states(iTrial).tp = [];
+        trialwise_states(iTrial).target = [];
+        trialwise_states(iTrial).target_location = [];
     end
     
     if include_EMG_analysis == 1
@@ -116,10 +121,7 @@ for iTrial = 1:length(trInd_test)
             
             [~,closest_first] = min(abs(segment_beginning - trialwise_states(iTrial).kinematic_timestamps));
             [~,closest_end] = min(abs(segment_end - trialwise_states(iTrial).kinematic_timestamps));
-            
-%             closest_first = closest_first;
-%             closest_end = closest_end;
-            
+                        
             if length(trialwise_states(iTrial).x_smoothed) < closest_end
                 closest_end = closest_end - 1;
             end
