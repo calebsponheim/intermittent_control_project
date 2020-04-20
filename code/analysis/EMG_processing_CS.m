@@ -5,7 +5,7 @@ function [trialwise_EMG] = EMG_processing_CS(session,channels_to_analyze)
 % 2. Notch filter at 60hz
 % 3. Lowpass at 1k hz (due to downsampling)
 % 4. Downsample
-% 5. Maybe highpass at 10-15hz
+% 5. Highpass at 10-15hz
 % 6. Rectify
 % 7. Lowpass (to smooth)
 % 8. Format for HMM
@@ -56,7 +56,7 @@ sampling_rate = sampling_rate/downsample_factor;
 for iChannel = 1:size(filt_lowpass_1k,1)
     lowpassed_1k_resampled_2k(iChannel,:) = downsample(filt_lowpass_1k(iChannel,:),downsample_factor);
 end
-%% highpass at 10-15 hz
+%% highpass at 10 hz
 dt=1/sampling_rate; % defining timestep size
 fN=sampling_rate/2; 
 

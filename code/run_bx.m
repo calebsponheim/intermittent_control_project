@@ -8,11 +8,11 @@ session = '190228'; % Which day of data
 
 include_EMG_analysis = 1; % Process EMG data along with kinematics?
 
-task = 'center_out';       % Choose one of the three options here
-% task = 'RTP';              % Choose one of the three options here
+% task = 'center_out';       % Choose one of the three options here
+task = 'RTP';              % Choose one of the three options here
 % task = 'center_out_and_RTP'; % Choose one of the three options here
 
-center_out_trial_window = 'go'; % If center-out, what event to bound analysis window?
+center_out_trial_window = 'go'; % If center-out, what event to bound analysis window? (can be 'go' or 'move' or ' ')
 crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
 
 num_states_subject = 16; % How many states in the model?
@@ -24,7 +24,7 @@ seed_to_train = 9348;
 
 TRAIN_PORTION = 0.75; %
 
-trials_to_plot = 113:179; % Which individual trials to plot
+trials_to_plot = 50:55; % Which individual trials to plot
 num_segments_to_plot = 100; % How cluttered to make the segment plots
 
 %Defining Target Locations:
@@ -119,8 +119,11 @@ else
             bad_trial_count = bad_trial_count + 1;
         else
             data_temp(trial_count).spikecount = data(iTrial).spikecount;
-            data_temp(trial_count).tp = data(iTrial).tp;
-            data_temp(trial_count).target = data(iTrial).target;
+            if strcmp(task,'center_out')
+                data_temp(trial_count).tp = data(iTrial).tp;
+                data_temp(trial_count).target = data(iTrial).target;
+            end
+            
             timestamps_temp{trial_count} = bin_timestamps{iTrial};
             good_trials(trial_count) = iTrial;
             trial_count = trial_count + 1;
@@ -180,9 +183,11 @@ else
             data_temp(trial_count).y_smoothed = data(iTrial).y_smoothed;
             data_temp(trial_count).speed = data(iTrial).speed;
             data_temp(trial_count).acceleration = data(iTrial).acceleration;
-            data_temp(trial_count).kinematic_timestamps = data(iTrial).kinematic_timestamps;  
-            data_temp(trial_count).tp = data(iTrial).tp; 
-            data_temp(trial_count).target = data(iTrial).target;
+            data_temp(trial_count).kinematic_timestamps = data(iTrial).kinematic_timestamps;
+            if strcmp(task,'center_out')              
+                data_temp(trial_count).tp = data(iTrial).tp;
+                data_temp(trial_count).target = data(iTrial).target;
+            end
             for iMuscle = 1:length(muscle_names)
                 data_temp(trial_count).(muscle_names{iMuscle}) = data(iTrial).(muscle_names{iMuscle});
             end
@@ -223,7 +228,7 @@ file_list = {file_list.name};
 current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
 current_date_and_time = erase(current_date_and_time,' ');
 current_date_and_time = erase(current_date_and_time,':');
-current_date_and_time = current_date_and_time(1:end-4);
+current_date_and_time = current_date_and_time(1:end-6);
 
 figure_folder_filepath = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'_states_',current_date_and_time,'_CT_',num2str(crosstrain)];
 figure_folder_filepath_dupe_comp = [subject,task,num2str(num_states_subject),'_states_',current_date_and_time,'_CT_',crosstrain];
@@ -270,7 +275,7 @@ for iState = 1:num_states_subject
     transition_matrix_for_plot(iState,iState) = 0;
 end
 
-figure; hold on;
+figure('visible','off'); hold on;
 imagesc(transition_matrix_for_plot)
 colormap(gca,jet)
 axis square
@@ -285,7 +290,6 @@ box off
 set(gcf,'Color','White');
 saveas(gcf,strcat(figure_folder_filepath,'\'...
     ,subject,task,num2str(num_states_subject),'states_transition_matrix.png'));
-% close(gcf);
 
 %% normalized segments
 
@@ -294,7 +298,7 @@ saveas(gcf,strcat(figure_folder_filepath,'\'...
 %% Plot Avg EMG Center Out stuff
 
 if strcmp(task,'center_out')
-    avg_CO_emg_traces(muscle_names,trialwise_states,targets,figure_folder_filepath)
+    avg_CO_emg_traces(muscle_names,trialwise_states,targets,figure_folder_filepath,subject,task)
 end
 
 %% Save Result

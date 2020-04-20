@@ -61,10 +61,14 @@ elseif strcmp(task,'center_out')
         %         trial_start_relative_to_periOn = events(:,1);
         trial_end_relative_to_periOn = events(:,6);
         trial_go_relative_to_periOn = events(:,3);
+        trial_move_relative_to_periOn = events(:,5);
     end
     
     if strcmp(trial_event_cutoff,'go') % goes from go to peri target reached.
         trial_start_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_go_relative_to_periOn');
+        trial_end_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_end_relative_to_periOn');
+    elseif strcmp(trial_event_cutoff,'move') % goes from go to peri target reached.
+        trial_start_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_move_relative_to_periOn');
         trial_end_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_end_relative_to_periOn');
     elseif strcmp(trial_event_cutoff,'')
         trial_start_30k = arrayfun(@(x) (x + trial_length(1)*30000),periOnM1_30k);%,trial_start_relative_to_periOn');
