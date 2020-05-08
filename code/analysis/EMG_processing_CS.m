@@ -1,4 +1,4 @@
-function [trialwise_EMG] = EMG_processing_CS(session,channels_to_analyze)
+function [trialwise_EMG] = EMG_processing_CS(session,channels_to_analyze,task)
 %% EMG Processing
 %Steps
 % 1. Record at 10k
@@ -97,30 +97,57 @@ events_nev = openNEV(filestring_nev,'noread','nosave', 'nomat');
 % rewardEpoch = 65512;
 % 
 
-startEpoch = 100;
-rewardEpoch = 1000;
-
 binary_events = dec2bin(events_nev.Data.SerialDigitalIO.UnparsedData);
 binary_events = binary_events(:,12:16);
 binary_events = str2num(binary_events);
 % use dec2bin() to figure out which event is being changed or triggered with each thing
+
+if strcmp('CO',task)
+    startEpoch = 100;
+    rewardEpoch = 1000;   
+elseif strcmp('RTP',task)
+    startEpoch = 100;
+    rewardEpoch = 1000;
+end
+
+if strcmp('180323',session)
+    binary_events = binary_events(30:end);
+end
+
 
 %SerialDigitalIO.UnparsedData has one entry for each occuring event.
 %SerialDigitalIO.Timestamp has the time index of these events.
 state_start = events_nev.Data.SerialDigitalIO.TimeStamp(binary_events==startEpoch);
 state_reward = events_nev.Data.SerialDigitalIO.TimeStamp(binary_events==rewardEpoch);
 
-state_start_2k = state_start./15;
-state_reward_2k = state_reward./15;
+
+if strcmp('CO',task)
+    for iTrial = 1:length(state_reward)
+        state_start_temp = state_start(state_start < state_reward(iTrial));
+        state_start_success(iTrial) = state_start_temp(end);
+    end
+    state_start_2k = (state_start_success./15) - 1000*2 + 1;
+    state_reward_2k = (state_start_success./15) + 3500*2;   
+elseif strcmp('RTP',task)
+    state_start_2k = state_start./15;
+    state_reward_2k = state_reward./15;
+end
+
 %%
 for iTrial = 1:size(state_reward_2k,2)
     trialwise_EMG(iTrial).session = session;
-    trial_start_times_temp = state_start_2k(state_start_2k<state_reward_2k(iTrial));
-    trialwise_EMG(iTrial).trial_start = trial_start_times_temp(end);
-    trialwise_EMG(iTrial).trial_end = state_reward_2k(iTrial);    
-    trialwise_EMG(iTrial).trial_num = find(state_start_2k == trialwise_EMG(iTrial).trial_start);
-    for iMuscle = 1:length(channels_to_analyze)
-    trialwise_EMG(iTrial).(strcat('EMG_',muscle_labels{channels_to_analyze(iMuscle)})) = ...
-        final_lowpass_data(iMuscle,trialwise_EMG(iTrial).trial_start:trialwise_EMG(iTrial).trial_end);
+    if strcmp('CO',task)
+        trialwise_EMG(iTrial).trial_start = state_start_2k(iTrial);
+        trialwise_EMG(iTrial).trial_end = state_reward_2k(iTrial);    
+        trialwise_EMG(iTrial).trial_num = iTrial;
+    elseif strcmp('RTP',task)
+        trial_start_times_temp = state_start_2k(state_start_2k<state_reward_2k(iTrial));
+        trialwise_EMG(iTrial).trial_start = trial_start_times_temp(end);
+        trialwise_EMG(iTrial).trial_end = state_reward_2k(iTrial);
+        trialwise_EMG(iTrial).trial_num = find(state_start_2k == trialwise_EMG(iTrial).trial_start);
     end
+    for iMuscle = 1:length(channels_to_analyze)
+    trialwise_EMG(iTrial).(strcat('EMG_',muscle_labels{channels_to_analyze(iMuscle)})) = final_lowpass_data(iMuscle,trialwise_EMG(iTrial).trial_start:trialwise_EMG(iTrial).trial_end);
+    end
+end
 end

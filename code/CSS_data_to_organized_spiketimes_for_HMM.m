@@ -1,4 +1,4 @@
-function  [data,cpl_st_trial_rew,bin_timestamps,targets] = CSS_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,spike_hz_threshold,task,subject_events,arrays,trial_length,trial_event_cutoff)
+function  [data,cpl_st_trial_rew,bin_timestamps,targets] = CSS_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,spike_hz_threshold,task,subject_events,arrays,trial_length,trial_event_cutoff,bin_size)
 
 % load and import unsorted spiketimes for each channel
 if strcmp(task,'RTP')
@@ -59,15 +59,15 @@ elseif strcmp(task,'center_out')
         trial_go_relative_to_periOn = events(:,2);
     else
         %         trial_start_relative_to_periOn = events(:,1);
-        trial_end_relative_to_periOn = events(:,6);
         trial_go_relative_to_periOn = events(:,3);
         trial_move_relative_to_periOn = events(:,5);
+        trial_end_relative_to_periOn = events(:,6);
     end
     
     if strcmp(trial_event_cutoff,'go') % goes from go to peri target reached.
         trial_start_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_go_relative_to_periOn');
         trial_end_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_end_relative_to_periOn');
-    elseif strcmp(trial_event_cutoff,'move') % goes from go to peri target reached.
+    elseif strcmp(trial_event_cutoff,'move') % goes from move to peri target reached.
         trial_start_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_move_relative_to_periOn');
         trial_end_30k = arrayfun(@(x,y) (x + y*30000),periOnM1_30k,trial_end_relative_to_periOn');
     elseif strcmp(trial_event_cutoff,'')
@@ -89,7 +89,6 @@ cpl_st_trial_rew = ([trial_start_30k;trial_end_30k]')/30000;
 cpl_st_trial_rew_relative = cpl_st_trial_rew - ((trial_start_30k/30000)');
 
 num_units = size(units,2);
-bin_size = .050; %seconds
 
 % Create Bins
 clear trial_length

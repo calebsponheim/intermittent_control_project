@@ -1,4 +1,4 @@
-function  [data,cpl_st_trial_rew,bin_timestamps] = nicho_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,task)
+function  [data,cpl_st_trial_rew,bin_timestamps] = nicho_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,task,bin_size)
 
 % load and import unsorted spiketimes for each channel
 if max(strfind(subject_filepath,'1051013')) > 0
@@ -84,7 +84,6 @@ clear units_temp
 %   j at time bin k.
 
 num_units = size(units,2);
-bin_size = .050; %seconds
 
 % Create Bins
 clear trial_length

@@ -18,6 +18,7 @@ for iMuscle = 1:length(muscle_names)
     for iTp = unique([trialwise_states.tp])
         trial_count = 1;
         for iTrial = find([trialwise_states.tp] == iTp)
+            if ~isempty(trialwise_states(iTrial).segment_kinematic_timestamps)
             % before you do anything, crop the muscle traces down, based on
             % the first and last kinematic timestamp timing.
             trial_beginning =       trialwise_states(iTrial).segment_kinematic_timestamps{1}(1);  
@@ -27,6 +28,7 @@ for iMuscle = 1:length(muscle_names)
             emg_temp_temp(1,1:length(trialwise_states(iTrial).(muscle_names{iMuscle}))) = trialwise_states(iTrial).(muscle_names{iMuscle});
             emg_temp(trial_count,1:length(trial_beginning_index:trial_end_index)) = emg_temp_temp(trial_beginning_index:trial_end_index);
             trial_count =           trial_count + 1;
+            end
         end
         
         emg_temp(emg_temp == 0) = NaN;

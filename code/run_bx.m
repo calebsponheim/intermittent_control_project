@@ -8,10 +8,11 @@ session = '190228'; % Which day of data
 
 include_EMG_analysis = 1; % Process EMG data along with kinematics?
 
-% task = 'center_out';       % Choose one of the three options here
-task = 'RTP';              % Choose one of the three options here
+task = 'center_out';       % Choose one of the three options here
+% task = 'RTP';              % Choose one of the three options here
 % task = 'center_out_and_RTP'; % Choose one of the three options here
 
+bin_size = .050; %seconds
 center_out_trial_window = 'go'; % If center-out, what event to bound analysis window? (can be 'go' or 'move' or ' ')
 crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
 
@@ -19,13 +20,13 @@ num_states_subject = 16; % How many states in the model?
 
 spike_hz_threshold = 0; % Minimum required FR for units?
 bad_trials = []; % Any explicitly bad trials to throw out?
-% seed_to_train = round(abs(randn(1)*1000)); % can manually define the randomization seed for replication 
-seed_to_train = 9348;
+seed_to_train = round(abs(randn(1)*1000)); % can manually define the randomization seed for replication 
+% seed_to_train = 9348;
 
 TRAIN_PORTION = 0.75; %
 
-trials_to_plot = 50:55; % Which individual trials to plot
-num_segments_to_plot = 100; % How cluttered to make the segment plots
+trials_to_plot = 1:5; % Which individual trials to plot
+num_segments_to_plot = 200; % How cluttered to make the segment plots
 
 %Defining Target Locations:
 target_locations = {'N','NE','E','SE','S','SW','W','NW'};
@@ -59,13 +60,13 @@ end
 
 if crosstrain > 0
     [data_RTP,cpl_st_trial_rew_RTP,bin_timestamps_RTP,~] = ...
-        CSS_data_to_organized_spiketimes_for_HMM(subject_filepath_RTP,bad_trials,spike_hz_threshold,'RTP',subject_events,arrays,trial_length,trial_event_cutoff);
+        CSS_data_to_organized_spiketimes_for_HMM(subject_filepath_RTP,bad_trials,spike_hz_threshold,'RTP',subject_events,arrays,trial_length,trial_event_cutoff,bin_size);
     
     [data_center_out,cpl_st_trial_rew_center_out,bin_timestamps_center_out,targets] = ...
-        CSS_data_to_organized_spiketimes_for_HMM(subject_filepath_center_out,bad_trials,spike_hz_threshold,'center_out',subject_events,arrays,trial_length,trial_event_cutoff);
+        CSS_data_to_organized_spiketimes_for_HMM(subject_filepath_center_out,bad_trials,spike_hz_threshold,'center_out',subject_events,arrays,trial_length,trial_event_cutoff,bin_size);
 else
     [data,cpl_st_trial_rew,bin_timestamps,targets] = ...
-        CSS_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,spike_hz_threshold,task,subject_events,arrays,trial_length,trial_event_cutoff);
+        CSS_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,spike_hz_threshold,task,subject_events,arrays,trial_length,trial_event_cutoff,bin_size);
 end
 %%
 if crosstrain > 0
@@ -244,21 +245,21 @@ mkdir(figure_folder_filepath)
 %% Create Snippets and Plot **everything**
 
 if crosstrain == 1 % RTP model, center-out decode
-    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps_center_out,data,subject,muscle_names,include_EMG_analysis,target_locations);
+    [trialwise_states] = segment_analysis(trInd_test,dc_thresholded,bin_timestamps_center_out,data,subject,muscle_names,include_EMG_analysis,target_locations);
     plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,'center_out',muscle_names,include_EMG_analysis,figure_folder_filepath)
     [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,'center_out',muscle_names,include_EMG_analysis,figure_folder_filepath);
 elseif crosstrain == 2 % 2: Center-out model, RTP decode
-    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps_RTP,data,subject,muscle_names,include_EMG_analysis,target_locations);
+    [trialwise_states] = segment_analysis(trInd_test,dc_thresholded,bin_timestamps_RTP,data,subject,muscle_names,include_EMG_analysis,target_locations);
     plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,'RTP',muscle_names,include_EMG_analysis,figure_folder_filepath)
     [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,'RTP',muscle_names,include_EMG_analysis,figure_folder_filepath);
-elseif crosstrain == 3
+elseif crosstrain == 3 
     bin_timestamps = [bin_timestamps_center_out bin_timestamps_RTP];
     data = [data_center_out data_RTP];
-    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis,target_locations);
+    [trialwise_states] = segment_analysis(trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis,target_locations);
     [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task,muscle_names,include_EMG_analysis,figure_folder_filepath);
     plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task,muscle_names,include_EMG_analysis,figure_folder_filepath)
 else
-    [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis,target_locations);
+    [trialwise_states] = segment_analysis(trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis,target_locations);
     [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task,muscle_names,include_EMG_analysis,figure_folder_filepath);
     plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task,muscle_names,include_EMG_analysis,figure_folder_filepath)
 end

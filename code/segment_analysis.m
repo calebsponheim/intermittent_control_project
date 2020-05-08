@@ -1,11 +1,10 @@
-function [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis,target_locations)
+function [trialwise_states] = segment_analysis(trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis,target_locations)
 % Link Kinematics to Neural States
 
 % This function takes in the decoded latent states from the HMM and links them, by each test trial, to the appropriate kinematics.
 % In order to correctly run this function, you need to have run "nicho_data_to_organized_spiketimes_for_HMM",
 % "train_and_decode_HMM", "processing_kinematics", and "censor_and_threshold_HMM_output".
 
-num_states = num_states_subject;
 % get test trial indices
 % get state info from test trials
 % get kinematics for test trials

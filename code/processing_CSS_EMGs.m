@@ -24,6 +24,21 @@ elseif strcmp(task,'center_out')
     trial_start_relative_to_periOn = events(:,1);
     trial_end_relative_to_periOn = events(:,7);
     EMG_files_for_names = cellfun(@(x)[subject_filepath_base x],file_list(startsWith(file_list,'RTP_EMGs')),'UniformOutput',false);
+    
+    
+    % TESTING %%%%%%%%%%%%%%%%%%
+    
+    % Vassilis Files
+        VP_EMG_files = cellfun(@(x)[subject_filepath_base x],file_list(startsWith(file_list,['Bx' session]) & endsWith(file_list,'_emg50to1kN.mat')),'UniformOutput',false);
+        block_events_file = cellfun(@(x)[subject_filepath_base x],file_list(startsWith(file_list,['Bx' session]) & endsWith(file_list,'_events.mat')),'UniformOutput',false);
+        load(subject_events,'events','periOnPM_30k');
+        trial_start_relative_to_periOn = events(:,1);
+        trial_end_relative_to_periOn = events(:,7);
+    
+    % Caleb Files
+        CS_EMG_files = cellfun(@(x)[subject_filepath_base x],file_list(startsWith(file_list,'CO_EMGs')),'UniformOutput',false);
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end
 
 trial_start = [];
@@ -48,46 +63,87 @@ if strcmp(task,'RTP')
                     EMG_signals{iMuscle} = [EMG_signals{iMuscle} {trialwise_EMG.(muscle_names{iMuscle})}];
                 end
             end
-            %             x = [x {trialwise_EMG.x}]; % CHANGE ME
             clear trialwise_EMG
         end
     end
 elseif strcmp(task,'center_out')
     for iFile = 1:length(EMG_files)
         load(EMG_files{iFile});
-        
-        
         load(block_events_file{iFile},'isSuccess');
-        %         trial_start = [trial_start [trialwise_kinematics.trial_start]];
-        %         trial_end = [trial_end [trialwise_kinematics.trial_end]];
         t = emgt;
         
         load(EMG_files_for_names{iFile});
         muscle_names = fieldnames(trialwise_EMG);
         muscle_names = muscle_names(startsWith(muscle_names,['EMG']));
         clear trialwise_EMG
+%         for iMuscle = 1:length(muscle_names)
+%             for iTrial = 1:size(emgPERION{iMuscle},1)
+%                 emg_temp{iTrial} = emgPERION{iMuscle}(iTrial,:);
+%             end
+%             if iFile == 1
+%                 EMG_signals{iMuscle} = emg_temp;
+%             else
+%                 EMG_signals{iMuscle} = [EMG_signals{iMuscle} emg_temp];
+%             end
+%             clear emg_temp
+%         end
+%         clear emgPERION;
+%     end
+%     
+%     % Feed Unprocessed CO EMG Signals Into Processing Pipeline
+%     
+%     EMG_signals = process_CO_EMGs_CS(EMG_signals);
+%     
+%     %
+    
+    % Testing %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    % Vassilis
+%     for iFile = 1:length(VP_EMG_files)
+%         load(VP_EMG_files{iFile});
+%         load(block_events_file{iFile},'isSuccess');
+%         t = emgt;
+%         
+%         load(EMG_files_for_names{iFile});
+%         muscle_names = fieldnames(trialwise_EMG);
+%         muscle_names = muscle_names(startsWith(muscle_names,['EMG']));
+%         clear trialwise_EMG
+%         for iMuscle = 1:length(muscle_names)
+%             for iTrial = 1:size(emgPERION{iMuscle},1)
+%                 emg_temp{iTrial} = emgPERION{iMuscle}(iTrial,:);
+%             end
+%             if iFile == 1
+%                 VP_EMG_signals{iMuscle} = emg_temp;
+%             else
+%                 VP_EMG_signals{iMuscle} = [VP_EMG_signals{iMuscle} emg_temp];
+%             end
+%             clear emg_temp
+%         end
+%         clear emgPERION;
+%     end
+%     
+    % Caleb
+    for iFile = 1:length(CS_EMG_files)
+        load(CS_EMG_files{iFile});
+        muscle_names = fieldnames(trialwise_EMG);
+        muscle_names = muscle_names(startsWith(muscle_names,['EMG']));
+        trial_start = [trial_start [trialwise_EMG.trial_start]];
+        trial_end = [trial_end [trialwise_EMG.trial_end]];
+        
         for iMuscle = 1:length(muscle_names)
-            for iTrial = 1:size(emgPERION{iMuscle},1)
-                emg_temp{iTrial} = emgPERION{iMuscle}(iTrial,:);
-            end
             if iFile == 1
-                EMG_signals{iMuscle} = emg_temp;
+                CS_EMG_signals{iMuscle} = {trialwise_EMG.(muscle_names{iMuscle})};
             else
-                EMG_signals{iMuscle} = [EMG_signals{iMuscle} emg_temp];
+                CS_EMG_signals{iMuscle} = [CS_EMG_signals{iMuscle} {trialwise_EMG.(muscle_names{iMuscle})}];
             end
-            clear emg_temp
         end
-        clear emgPERION;
+        clear trialwise_EMG
     end
     
-    % Feed Unprocessed CO EMG Signals Into Processing Pipeline
+    EMG_signals = CS_EMG_signals;
     
-    EMG_signals = process_CO_EMGs_CS(EMG_signals);
-    
-    %
-    
+    % Testing Over %%%%%%%%%%%%%%%%%%%%%%%
 end
-
 if strcmp(task,'center_out')
     t = t/1000;
 end
