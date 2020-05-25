@@ -104,6 +104,7 @@ for iTrial = 1:length(trInd_test)
             
             segmentwise_analysis(state_num).speed{global_segment_num(state_num)} = trialwise_states(iTrial).segment_kinematic_speed{iSegment};
             segmentwise_analysis(state_num).length(global_segment_num(state_num)) = trialwise_states(iTrial).segment_length(iSegment);
+            segmentwise_analysis(state_num).trial_index(global_segment_num(state_num)) = trInd_test(iTrial);
             
             
         end

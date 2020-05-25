@@ -1,4 +1,4 @@
-function [trialwise_EMG] = EMG_processing_CS(session,channels_to_analyze,task)
+function [trialwise_EMG] = EMG_processing_CS(session,channels_to_analyze,task,periOnPM_30k)
 %% EMG Processing
 %Steps
 % 1. Record at 10k
@@ -86,9 +86,7 @@ end
 
 %% Package for HMM
 
-% trial_data = load(['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\2019\' session(1:6) '\RTP_kinematics_' session '.mat']);
 %% Bring in NEV events
-
 
 filestring_nev = [params.dataDirServer filenameNS5 '.nev'];
 events_nev = openNEV(filestring_nev,'noread','nosave', 'nomat');
@@ -103,8 +101,8 @@ binary_events = str2num(binary_events);
 % use dec2bin() to figure out which event is being changed or triggered with each thing
 
 if strcmp('CO',task)
-    startEpoch = 100;
-    rewardEpoch = 1000;   
+%     startEpoch = 100;
+%     rewardEpoch = 1000;   
 elseif strcmp('RTP',task)
     startEpoch = 100;
     rewardEpoch = 1000;
@@ -122,12 +120,12 @@ state_reward = events_nev.Data.SerialDigitalIO.TimeStamp(binary_events==rewardEp
 
 
 if strcmp('CO',task)
-    for iTrial = 1:length(state_reward)
-        state_start_temp = state_start(state_start < state_reward(iTrial));
-        state_start_success(iTrial) = state_start_temp(end);
-    end
-    state_start_2k = (state_start_success./15) - 1000*2 + 1;
-    state_reward_2k = (state_start_success./15) + 3500*2;   
+%     for iTrial = 1:length(state_reward)
+%         state_start_temp = state_start(state_start < state_reward(iTrial));
+%         state_start_success(iTrial) = state_start_temp(end);
+%     end
+%     state_start_2k = (state_start_success./15) - 1000*2 + 1;
+%     state_reward_2k = (state_start_success./15) + 3500*2;   
 elseif strcmp('RTP',task)
     state_start_2k = state_start./15;
     state_reward_2k = state_reward./15;

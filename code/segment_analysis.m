@@ -66,10 +66,11 @@ for iTrial = 1:length(trInd_test)
                 trialwise_states(iTrial).neural_state_segment{1}(2) = trialwise_states(iTrial).latent_state_bin_timestamp(2);
                 
                 segment_bin = 2;
+                iBin = 2;
             elseif ~isnan(trialwise_states(iTrial).latent_state(1))
                 disp('something''s wrong')
             end
-            
+        elseif iBin == 2 && ~isempty(trialwise_states(iTrial).neural_state_segment{1}(2))
         elseif iBin == (size(trialwise_states(iTrial).latent_state,2))
             if isnan(trialwise_states(iTrial).latent_state(iBin))
                 

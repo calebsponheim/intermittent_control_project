@@ -6,7 +6,7 @@ subject = 'Bx'; % Subject
 arrays = {'M1m';'M1l'}; % Which M1 Arrays to analyze
 session = '190228'; % Which day of data
 
-include_EMG_analysis = 1; % Process EMG data along with kinematics?
+include_EMG_analysis = 0; % Process EMG data along with kinematics?
 
 task = 'center_out';       % Choose one of the three options here
 % task = 'RTP';              % Choose one of the three options here
@@ -23,9 +23,9 @@ bad_trials = []; % Any explicitly bad trials to throw out?
 seed_to_train = round(abs(randn(1)*1000)); % can manually define the randomization seed for replication 
 % seed_to_train = 9348;
 
-TRAIN_PORTION = 0.75; %
+TRAIN_PORTION = 0.80; %
 
-trials_to_plot = 1:5; % Which individual trials to plot
+trials_to_plot = 1:10; % Which individual trials to plot
 num_segments_to_plot = 200; % How cluttered to make the segment plots
 
 %Defining Target Locations:
@@ -265,9 +265,10 @@ else
 end
 
 %%
-trials_to_plot = datasample(1:length(trialwise_states),100);
-trials_to_plot = trials_to_plot(randperm(length(trials_to_plot)));
+% trials_to_plot = datasample(1:length(trialwise_states),100);
+% trials_to_plot = trials_to_plot(randperm(length(trials_to_plot)));
 % trials_to_plot = [20:25];
+trials_to_plot = 1:length(trialwise_states);
 plot_all_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task,figure_folder_filepath)
 %%
 transition_matrix_for_plot = hn_trained.a;

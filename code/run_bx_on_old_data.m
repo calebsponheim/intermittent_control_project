@@ -29,7 +29,7 @@ bad_trials = []; % Any explicitly bad trials to throw out?
 seed_to_train = round(abs(randn(1)*1000)); % can manually define the randomization seed for replication 
 % seed_to_train = 9348;
 
-TRAIN_PORTION = 0.75; %
+TRAIN_PORTION = 0.80; %
 
 trials_to_plot = 1:5; % Which individual trials to plot
 num_segments_to_plot = 200; % How cluttered to make the segment plots
@@ -111,19 +111,37 @@ else
 end
 
 %% Build and Run Model
-[trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],0,round(rand(1)*1000));
-                                                       
+[trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],crosstrain,seed_to_train,TRAIN_PORTION); 
+                                                                  
 %% Save Model
 save(strcat(subject,task,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),'_states_OLDDATA',date))
 
 %% Process HMM output
 [dc_thresholded] = censor_and_threshold_HMM_output(dc);
 
+
+%%
+file_list = dir('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\');
+file_list = {file_list.name};
+current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
+current_date_and_time = erase(current_date_and_time,' ');
+current_date_and_time = erase(current_date_and_time,':');
+current_date_and_time = current_date_and_time(1:end-6);
+
+figure_folder_filepath = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'_states_',current_date_and_time,'_CT_',num2str(crosstrain)];
+figure_folder_filepath_dupe_comp = [subject,task,num2str(num_states_subject),'_states_',current_date_and_time,'_CT_',crosstrain];
+dupe_status = cell2mat(cellfun(@(x,y)strcmp(x,figure_folder_filepath_dupe_comp),file_list,'UniformOutput',false));
+if sum(dupe_status) > 0
+    figure_folder_filepath = [figure_folder_filepath 'a'];
+end
+mkdir(figure_folder_filepath)
 %% Create Snippets and Plot **everything**
 trials_to_plot = 1:10;
 num_segments_to_plot = 500;
 
-[trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject);
+
+[trialwise_states] = segment_analysis(trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,1,target_locations);
+
 %%
 [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task);
 %%
@@ -139,6 +157,12 @@ plot_transition_matrix(subject,task,num_states_subject,hn_trained)
 %% normalized segments
 
 [segmentwise_analysis] = normalize_state_segments(segmentwise_analysis,subject,task,num_states_subject);
+%% Plot Avg EMG Center Out stuff
+
+if strcmp(task,'center_out')
+    avg_CO_emg_traces(muscle_names,trialwise_states,targets,figure_folder_filepath,subject,task)
+end
+
 
 
 %% Save Result

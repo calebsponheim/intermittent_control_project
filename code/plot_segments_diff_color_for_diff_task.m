@@ -39,12 +39,12 @@ mkdir(['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\fi
 for istate = 1:size(segmentwise_analysis,2)
     if ~isempty(segmentwise_analysis(istate).x)
         figure;hold on
-        cellfun(@(x,y) (plot(x,y,'Color',[0 1 1 .5])),segmentwise_analysis(istate).x(segmentwise_analysis(istate).trial_index <= 348),segmentwise_analysis(istate).y(segmentwise_analysis(istate).trial_index <= 348));
-        cellfun(@(x,y) (plot(x,y,'Color',[1 0 1 .5])),segmentwise_analysis(istate).x(segmentwise_analysis(istate).trial_index >= 349),segmentwise_analysis(istate).y(segmentwise_analysis(istate).trial_index >= 349));
-        x_start_CO = cellfun(@(v)v(1),segmentwise_analysis(istate).x(~cellfun('isempty',segmentwise_analysis(istate).x(segmentwise_analysis(istate).trial_index <= 348))));
-        y_start_CO = cellfun(@(v)v(1),segmentwise_analysis(istate).y(~cellfun('isempty',segmentwise_analysis(istate).y(segmentwise_analysis(istate).trial_index <= 348))));
-        x_start_RTP = cellfun(@(v)v(1),segmentwise_analysis(istate).x(~cellfun('isempty',segmentwise_analysis(istate).x(segmentwise_analysis(istate).trial_index >= 349))));
-        y_start_RTP = cellfun(@(v)v(1),segmentwise_analysis(istate).y(~cellfun('isempty',segmentwise_analysis(istate).y(segmentwise_analysis(istate).trial_index >= 349))));
+        cellfun(@(x,y) (plot(x,y,'Color',[0 1 1 .5])),segmentwise_analysis(istate).x(segmentwise_analysis(istate).trial_index <= 480),segmentwise_analysis(istate).y(segmentwise_analysis(istate).trial_index <= 480));
+        cellfun(@(x,y) (plot(x,y,'Color',[1 0 1 .5])),segmentwise_analysis(istate).x(segmentwise_analysis(istate).trial_index >= 481),segmentwise_analysis(istate).y(segmentwise_analysis(istate).trial_index >= 481));
+        x_start_CO = cellfun(@(v)v(1),segmentwise_analysis(istate).x(~cellfun('isempty',segmentwise_analysis(istate).x(segmentwise_analysis(istate).trial_index <= 480))));
+        y_start_CO = cellfun(@(v)v(1),segmentwise_analysis(istate).y(~cellfun('isempty',segmentwise_analysis(istate).y(segmentwise_analysis(istate).trial_index <= 480))));
+        x_start_RTP = cellfun(@(v)v(1),segmentwise_analysis(istate).x(~cellfun('isempty',segmentwise_analysis(istate).x(segmentwise_analysis(istate).trial_index >= 481))));
+        y_start_RTP = cellfun(@(v)v(1),segmentwise_analysis(istate).y(~cellfun('isempty',segmentwise_analysis(istate).y(segmentwise_analysis(istate).trial_index >= 481))));
         plot(x_start_RTP,y_start_RTP,'ro');
         plot(x_start_CO,y_start_CO,'bo');
         

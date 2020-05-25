@@ -29,7 +29,11 @@ if strcmp(task,'RTP')
     targets = [];
 elseif strcmp(task,'center_out')
     load(subject_events, ['periOn' arrays{1}(1:2) '_30k'], ['rewardOn' arrays{1}(1:2) '_30k'],'events','tp','targets');
-    
+    periOnM1_30k = periOnM1_30k(events(:,7) > 0);
+    rewardOnM1_30k = rewardOnM1_30k(events(:,7) > 0);
+    tp = tp(events(:,7) > 0,:);
+    events = events(events(:,7) > 0,:);
+
     for iArray = 1:length(subject_filepath)
         load(subject_filepath{iArray},'u');
         
@@ -109,7 +113,11 @@ if strcmp(task,'center_out')
     for iTrial = 1:num_trials
         data(iTrial).tp = tp(iTrial);
         data(iTrial).target = targets(tp(iTrial),1:2);
-        units(iTrial,:) = cellfun(@(x)(x - trial_go_relative_to_periOn(iTrial)),units(iTrial,:),'UniformOutput',false);
+        if strcmp(trial_event_cutoff,'go')
+            units(iTrial,:) = cellfun(@(x)(x - trial_go_relative_to_periOn(iTrial)),units(iTrial,:),'UniformOutput',false);
+        elseif strcmp(trial_event_cutoff,'move')
+            units(iTrial,:) = cellfun(@(x)(x - trial_move_relative_to_periOn(iTrial)),units(iTrial,:),'UniformOutput',false);
+        end
     end %iTrial
 end
 %
