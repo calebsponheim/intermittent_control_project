@@ -1,4 +1,4 @@
-function [data] = processing_CSS_kinematics(arrays,subject_filepath_base,cpl_st_trial_rew,data,task,session,subject_events,good_trials)
+function [data] = processing_CSS_kinematics(arrays,subject_filepath_base,cpl_st_trial_rew,data,task,session,subject_events,good_trials,trial_length,trial_event_cutoff)
 % process Kinematics for HMM comparison
 
 %%
@@ -11,9 +11,13 @@ if strcmp(task,'RTP')
 elseif strcmp(task,'center_out')
     kinematic_files = cellfun(@(x)[subject_filepath_base x],file_list(startsWith(file_list,['Bx' session]) & endsWith(file_list,'_kinematics.mat')),'UniformOutput',false);
     block_events_file = cellfun(@(x)[subject_filepath_base x],file_list(startsWith(file_list,['Bx' session]) & endsWith(file_list,'_events.mat')),'UniformOutput',false);
-    load(subject_events,'events',['periOn' arrays{1}(1:2) '_30k']);
+    load(subject_events,'events',['periOn' arrays{1}(1:2) '_30k'],'isSuccess');
     trial_start_relative_to_periOn = events(events(:,7)>0,1);
     trial_end_relative_to_periOn = events(events(:,7)>0,7);
+    if strcmp(trial_event_cutoff,'')
+        trial_start_relative_to_periOn(:) = trial_length(1);
+        trial_end_relative_to_periOn(:) = trial_length(2);
+    end
 end
 
 trial_start = [];
@@ -102,11 +106,10 @@ velocity = cellfun(@(x,y) (sqrt(x.^2 + y.^2)),filt_lowpass_x_vel,filt_lowpass_y_
 
 %% segment position and speed vectors into trials
     if strcmp(task,'center_out')
-        periOn_seconds = periOnM1_30k./30000;
+        periOn_seconds = periOnM1_30k(isSuccess)./30000;
     end
 
 % for each trial
-
 
 
 for iTrial = 1:size(cpl_st_trial_rew,1)

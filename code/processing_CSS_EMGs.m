@@ -21,7 +21,7 @@ elseif strcmp(task,'center_out')
     EMG_files = cellfun(@(x)[subject_filepath_base x],file_list(startsWith(file_list,['Bx' session]) & endsWith(file_list,'_emg50to1kN.mat')),'UniformOutput',false);
     block_events_file = cellfun(@(x)[subject_filepath_base x],file_list(startsWith(file_list,['Bx' session]) & endsWith(file_list,'_events.mat')),'UniformOutput',false);
     load(subject_events,'events','periOnPM_30k');
-    events = events(events(:,7) > 0,:); 
+    events = events(events(:,7) > 0,:);
     periOnPM_30k = periOnPM_30k(events(:,7) > 0);
     trial_start_relative_to_periOn = events(:,1);
     trial_end_relative_to_periOn = events(:,7);
@@ -36,7 +36,7 @@ elseif strcmp(task,'center_out')
     
     % Vassilis Files
     VP_EMG_files = cellfun(@(x)[subject_filepath_base x],file_list(startsWith(file_list,['Bx' session]) & endsWith(file_list,'_emg50to1kN.mat')),'UniformOutput',false);
-
+    
     % Caleb Files
     CS_EMG_files = cellfun(@(x)[subject_filepath_base x],file_list(startsWith(file_list,'CO_EMGs')),'UniformOutput',false);
     
@@ -69,15 +69,13 @@ if strcmp(task,'RTP')
         end
     end
 elseif strcmp(task,'center_out')
-    for iFile = 1:length(EMG_files)
-        load(EMG_files{iFile});
-        load(block_events_file{iFile},'isSuccess');
-        t = emgt;
+%     for iFile = 1:length(EMG_files)
+%         load(block_events_file{iFile},'isSuccess');
         
-        load(EMG_files_for_names{iFile});
-        muscle_names = fieldnames(trialwise_EMG);
-        muscle_names = muscle_names(startsWith(muscle_names,['EMG']));
-        clear trialwise_EMG
+        %         load(EMG_files_for_names{iFile});
+        %         muscle_names = fieldnames(trialwise_EMG);
+        %         muscle_names = muscle_names(startsWith(muscle_names,['EMG']));
+%         clear trialwise_EMG
         %         for iMuscle = 1:length(muscle_names)
         %             for iTrial = 1:size(emgPERION{iMuscle},1)
         %                 emg_temp{iTrial} = emgPERION{iMuscle}(iTrial,:);
@@ -100,34 +98,35 @@ elseif strcmp(task,'center_out')
         
         % Testing %%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
-%         Vassilis
-            for iFile = 1:length(VP_EMG_files)
-                load(VP_EMG_files{iFile});
-                load(block_events_file{iFile},'isSuccess');
-                t = emgt;
-        
-                load(EMG_files_for_names{iFile});
-                muscle_names = fieldnames(trialwise_EMG);
-                muscle_names = muscle_names(startsWith(muscle_names,['EMG']));
-                clear trialwise_EMG
-                for iMuscle = 1:length(muscle_names)
-                    for iTrial = 1:size(emgPERION{iMuscle},1)
-                        emg_temp{iTrial} = emgPERION{iMuscle}(iTrial,:);
-                    end
-                    if iFile == 1
-                        VP_EMG_signals{iMuscle} = emg_temp;
-                    else
-                        VP_EMG_signals{iMuscle} = [VP_EMG_signals{iMuscle} emg_temp];
-                    end
-                    clear emg_temp
-                end
-                clear emgPERION;
-            end
-        
-    end
+        %         Vassilis
+        %             for iFile = 1:length(VP_EMG_files)
+        %                 load(VP_EMG_files{iFile});
+        %                 load(block_events_file{iFile},'isSuccess');
+        %                 t = emgt;
+        %
+        %                 load(EMG_files_for_names{iFile});
+        %                 muscle_names = fieldnames(trialwise_EMG);
+        %                 muscle_names = muscle_names(startsWith(muscle_names,['EMG']));
+        %                 clear trialwise_EMG
+        %                 for iMuscle = 1:length(muscle_names)
+        %                     for iTrial = 1:size(emgPERION{iMuscle},1)
+        %                         emg_temp{iTrial} = emgPERION{iMuscle}(iTrial,:);
+        %                     end
+        %                     if iFile == 1
+        %                         VP_EMG_signals{iMuscle} = emg_temp;
+        %                     else
+        %                         VP_EMG_signals{iMuscle} = [VP_EMG_signals{iMuscle} emg_temp];
+        %                     end
+        %                     clear emg_temp
+        %                 end
+        %                 clear emgPERION;
+%     end
+    
     
     % Caleb
     for iFile = 1:length(CS_EMG_files)
+        load(EMG_files{iFile});
+        t = emgt;
         load(CS_EMG_files{iFile});
         muscle_names = fieldnames(trialwise_EMG);
         muscle_names = muscle_names(startsWith(muscle_names,['EMG']));
@@ -143,45 +142,46 @@ elseif strcmp(task,'center_out')
         end
         clear trialwise_EMG
     end
-    
-    EMG_signals = CS_EMG_signals;
-%     EMG_signals = VP_EMG_signals;
-    
-    % Testing Over %%%%%%%%%%%%%%%%%%%%%%%
-    if strcmp(task,'center_out')
-        t = t/1000;
-    end
-    %% segment position and speed vectors into trials
-    if strcmp(task,'center_out')
-        periOn_seconds = periOnPM_30k./30000;
-    end
-    
-    % for each trial
-    trial_count = 1;
-    for iTrial = 1:size(cpl_st_trial_rew,1)
-        if strcmp(task,'RTP')
-            
-            for iMuscle = 1:length(muscle_names)
-                data(iTrial).(muscle_names{iMuscle}) = EMG_signals{iMuscle}{iTrial};
-            end
-            
-        elseif strcmp(task,'center_out')
-            
-            % put in exception for 180323 here
-            if isempty(data(iTrial).kinematic_timestamps)
-            elseif contains(subject_filepath_base,'180323') > 0 && iTrial < size(good_trials,2)
-                for iMuscle = 1:length(muscle_names)
-                    data(iTrial).(muscle_names{iMuscle}) = EMG_signals{iMuscle}{trial_count}(t >= trial_start_relative_to_periOn(trial_count)' & t <= trial_end_relative_to_periOn(trial_count)');
-                end
-                trial_count = trial_count + 1;
-            elseif contains(subject_filepath_base,'180323') == 0
-                %
-                for iMuscle = 1:length(muscle_names)
-                    data(iTrial).(muscle_names{iMuscle}) = EMG_signals{iMuscle}{iTrial}(t >= trial_start_relative_to_periOn(iTrial)' & t <= trial_end_relative_to_periOn(iTrial)');
-                end
-                
+end
 
+EMG_signals = CS_EMG_signals;
+%     EMG_signals = VP_EMG_signals;
+
+% Testing Over %%%%%%%%%%%%%%%%%%%%%%%
+if strcmp(task,'center_out')
+    t = t/1000;
+end
+%% segment position and speed vectors into trials
+if strcmp(task,'center_out')
+    periOn_seconds = periOnPM_30k./30000;
+end
+
+% for each trial
+trial_count = 1;
+for iTrial = 1:size(cpl_st_trial_rew,1)
+    if strcmp(task,'RTP')
+        
+        for iMuscle = 1:length(muscle_names)
+            data(iTrial).(muscle_names{iMuscle}) = EMG_signals{iMuscle}{iTrial};
+        end
+        
+    elseif strcmp(task,'center_out')
+        
+        % put in exception for 180323 here
+        if isempty(data(iTrial).kinematic_timestamps)
+        elseif contains(subject_filepath_base,'180323') > 0 && iTrial <= size(good_trials,2)
+            for iMuscle = 1:length(muscle_names)
+                data(iTrial).(muscle_names{iMuscle}) = EMG_signals{iMuscle}{trial_count}(t >= trial_start_relative_to_periOn(trial_count)' & t <= trial_end_relative_to_periOn(trial_count)');
             end
+            trial_count = trial_count + 1;
+        elseif contains(subject_filepath_base,'180323') == 0
+            %
+            for iMuscle = 1:length(muscle_names)
+                data(iTrial).(muscle_names{iMuscle}) = EMG_signals{iMuscle}{iTrial}(t >= trial_start_relative_to_periOn(iTrial)' & t <= trial_end_relative_to_periOn(iTrial)');
+            end
+            
+            
         end
     end
+end
 end
