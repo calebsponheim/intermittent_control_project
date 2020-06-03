@@ -22,7 +22,7 @@ meta.crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out
 
 meta.num_states_subject = 16; % How many states in the model?
 
-meta.spike_hz_threshold = 0; % Minimum required FR for units?
+meta.spike_hz_threshold = 0; % Minimum required FR for units
 meta.bad_trials = []; % Any explicitly bad trials to throw out?
 meta.seed_to_train = round(abs(randn(1)*1000)); % can manually define the randomization seed for replication 
 % seed_to_train = 9348;
