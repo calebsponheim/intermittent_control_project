@@ -179,7 +179,7 @@ for iTrial = 1:num_trials
     if strcmp(task,'center_out')
         data(iTrial).ms_relative_to_trial_start = 1:1:((abs(trial_length(1)) + trial_length(2))*1000); %ms
     elseif strcmp(task,'RTP')
-        data(iTrial).ms_relative_to_trial_start = 1:1:((data(iTrial).trial_end_ms - data(iTrial).trial_start_ms)); %ms
+        data(iTrial).ms_relative_to_trial_start = 1:1:((data(iTrial).trial_end_ms - data(iTrial).trial_start_ms)+1); %ms
     end
     
     for iUnit = 1:num_units
@@ -205,8 +205,10 @@ for iTrial = 1:num_trials
             data_temp(iTrial).spikecountresamp(iUnit,resamp_range) = spikecount;
             data_temp(iTrial).bin_timestamps_resamp(resamp_range) = data_temp(iTrial).bin_timestamps(iBin);
         end
-        data(iTrial).spikecountresamp(iUnit,1:length(data(iTrial).ms_relative_to_trial_start)) = data_temp(iTrial).spikecountresamp(iUnit,1:length(data(iTrial).ms_relative_to_trial_start));
+        data(iTrial).spikecountresamp(iUnit,1:length(data(iTrial).ms_relative_to_trial_start)) = ...
+            data_temp(iTrial).spikecountresamp(iUnit,1:length(data(iTrial).ms_relative_to_trial_start));
     end
-        data(iTrial).bin_timestamps_resamp = data_temp(iTrial).bin_timestamps_resamp(1:length(data(iTrial).ms_relative_to_trial_start));
+        data(iTrial).bin_timestamps_resamp = ...
+            data_temp(iTrial).bin_timestamps_resamp(1:length(data(iTrial).ms_relative_to_trial_start));
 end
 end
