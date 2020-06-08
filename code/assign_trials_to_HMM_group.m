@@ -1,4 +1,4 @@
-function [data] = assign_trials_to_HMM_group(data,meta)
+function [data] = assign_trials_to_HMM_group(data,meta,data_center_out,data_RTP)
 % This function will assign categories to trials based on the percentage
 % that need to be assigned to three categories: Training Data (meant for
 % log-likelihood analysis and other cross-validation methods) ; Model

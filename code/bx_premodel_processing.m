@@ -74,27 +74,19 @@ if meta.crosstrain > 0
     meta.subject_filepath = meta.subject_filepath_RTP;
     meta.task = 'RTP';
     
-    [data_RTP,~] = ...
-        CS_spiketimes_to_bins_v2(meta);
+    [data_RTP,~] = CS_spiketimes_to_bins_v2(meta);
     
     meta.subject_filepath = meta.subject_filepath_center_out;
     meta.task = 'center_out';
     
-    [data_center_out,meta.targets] = ...
-        CS_spiketimes_to_bins_v2(meta);
+    [data_center_out,meta.targets] = CS_spiketimes_to_bins_v2(meta);
 else
     [data,meta.targets] = CS_spiketimes_to_bins_v2(meta);
 end
 
 %% Prepare Kinematic Data
 
-if meta.crosstrain == 1 % RTP model, center-out decode
-    meta.task = 'center_out';
-    [data] = process_kinematics_v2(meta,data_center_out);
-elseif meta.crosstrain == 2 % 2: Center-out model, RTP decode
-    meta.task = 'RTP';
-    [data] = process_kinematics_v2(meta,data_RTP);
-elseif meta.crosstrain == 3 % 3: Center-out and RTP together
+if meta.crosstrain > 0
     meta.task = 'RTP';
     [data_RTP] = process_kinematics_v2(meta,data_RTP);
     meta.task = 'center_out';
@@ -106,13 +98,7 @@ end
 %% Prepare EMG Data
 
 if meta.include_EMG_analysis == 1
-    if meta.crosstrain == 1 % RTP model, center-out decode
-        meta.task = 'center_out';
-        [data_center_out,meta] = process_EMGs_v2(meta,data_center_out);
-    elseif meta.crosstrain == 2 % 2: Center-out model, RTP decode
-        meta.task = 'RTP';
-        [data_RTP,meta] = process_EMGs_v2(meta,data_RTP);
-    elseif meta.crosstrain == 3 % 3: Center-out and RTP together
+    if meta.crosstrain > 0
         meta.task = 'RTP';
         [data_RTP,meta] = process_EMGs_v2(meta,data_RTP);
         meta.task = 'center_out';
@@ -125,9 +111,11 @@ else
 end
 
 %% Allocate Trials to test/model/train
-
+if meta.crosstrain > 0
+[data] = assign_trials_to_HMM_group([],meta,data_center_out,data_RTP);
+else
 [data] = assign_trials_to_HMM_group(data,meta);
-
+end
 %% pre-model-save
 if ispc
     if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
