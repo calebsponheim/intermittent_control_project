@@ -1,12 +1,5 @@
-function [data] = processing_CSS_kinematics(meta,data)
+function [data] = processing_CSS_kinematics(arrays,subject_filepath_base,~,data,task,session,subject_events,~)
 % process Kinematics for HMM comparison
-arrays = meta.arrays;
-subject_filepath_base = meta.subject_filepath_base;
-task = meta.task;
-session = meta.session;
-subject_events = meta.subject_events;
-trial_length = meta.trial_length;
-trial_event_cutoff = meta.trial_event_cutoff;
 %%
 file_list = dir(subject_filepath_base);
 file_list = {file_list.name};

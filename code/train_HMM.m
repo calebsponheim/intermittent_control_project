@@ -1,7 +1,4 @@
 function [hn_trained,data,meta] = train_HMM(meta,data)
-
-num_states_subject = meta.num_states_subject;
-
 % Load data
 %   data should be a struct array, with field 'spikecount'
 %   s.t., for each i trial, data(i).spikecount is an N x T matrix,
@@ -10,18 +7,15 @@ num_states_subject = meta.num_states_subject;
 %   data(i).spikecount(j,k) holds the sum of spikes (integer value) of unit
 %   j at time bin k.
 
-NumTrials_train = sum(cellfun(@(x) strcmp(x,'train'),[data.trial_classification]));
 trInd_train = find(cellfun(@(x) strcmp(x,'train'),[data.trial_classification]));
 %% Prepare data
 % Static parameters:
 
 MAX_SPIKECOUNT = inf ; % Trim spikecounts at this value
-%
 
-% Save data to arrays..
 trainset = cell(length(trInd_train),1);
 
-for iTrial = 1 : NumTrials_train
+for iTrial = 1 : length(data)
     
     % Get activations matrix, apply threshold:
     S = data(iTrial).spikecountresamp;
@@ -43,6 +37,6 @@ end
 %       hn_trained.b(i,j,k) = P(O = j|S = i) for unit k (i.e,. probability
 %       of observing j spikes in unit k, given that the current state = i.
 rng('shuffle'); % Reshuffle seed
-hn_trained = ehmmTrainAnneal(trainset,num_states_subject);
+hn_trained = ehmmTrainAnneal(trainset',meta.num_states_subject);
 
 end
