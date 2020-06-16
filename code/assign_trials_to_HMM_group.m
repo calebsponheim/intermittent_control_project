@@ -1,4 +1,4 @@
-function [data] = assign_trials_to_HMM_group(data,meta,data_center_out,data_RTP)
+function [data,meta] = assign_trials_to_HMM_group(data,meta)
 % This function will assign categories to trials based on the percentage
 % that need to be assigned to three categories: Training Data (meant for
 % log-likelihood analysis and other cross-validation methods) ; Model
@@ -6,23 +6,36 @@ function [data] = assign_trials_to_HMM_group(data,meta,data_center_out,data_RTP)
 % Test Data (will be decoded using the chosen model).
 
 
-if meta.crosstrain == 1 % 1: RTP model, center-out decode
-    if strcmp(meta.task,'RTP')
-    elseif strcmp(meta.task,'center_out')
-    end
-elseif meta.crosstrain == 2 % 2: Center-out model, RTP decode
-    if strcmp(meta.task,'RTP')
-    elseif strcmp(meta.task,'center_out')
-    end
-elseif meta.crosstrain == 3 % 3: both tasks together
+if meta.crosstrain > 0 % 1: RTP model, center-out decode
+    center_out_data_and_meta = ...
+        load(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\' ...
+        meta.subject 'center_out' meta.session]);
+    RTP_data_and_meta = ...
+        load(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\' ...
+        meta.subject 'RTP' meta.session]);
     
-    % Add "task" label to the structs, based on data_RTP and
-    % data_center_out
-    
-    if strcmp(meta.task,'RTP')
-    elseif strcmp(meta.task,'center_out')
+    center_out_fieldnames = fieldnames(center_out_data_and_meta.data);
+    RTP_fieldnames = fieldnames(RTP_data_and_meta.data);
+    for iField = 1:length(center_out_fieldnames)
+       if sum(cellfun(@(x) strcmp(center_out_fieldnames(iField),x),RTP_fieldnames)) > 0
+           for iTrial = 1:length(center_out_data_and_meta.data)
+               data(iTrial).(center_out_fieldnames{iField}) = center_out_data_and_meta.data(iTrial).(center_out_fieldnames{iField});
+           end
+           for iTrial = (length(center_out_data_and_meta.data)+1):(length(center_out_data_and_meta.data)+length(RTP_data_and_meta.data))
+               data(iTrial).(center_out_fieldnames{iField}) = RTP_data_and_meta.data(iTrial).(center_out_fieldnames{iField});
+           end
+%            data.(center_out_fieldnames{iField}) = vertcat(center_out_data_and_meta.data.(center_out_fieldnames{iField}),RTP_data_and_meta.data.(center_out_fieldnames{iField}));
+       else
+           for iTrial = 1:length(center_out_data_and_meta.data)
+               data(iTrial).(center_out_fieldnames{iField}) = center_out_data_and_meta.data(iTrial).(center_out_fieldnames{iField});
+           end
+           for iTrial = (length(center_out_data_and_meta.data)+1):(length(center_out_data_and_meta.data)+length(RTP_data_and_meta.data))
+               data(iTrial).(center_out_fieldnames{iField}) = [];
+           end
+       end
     end
-
+        
+    
 elseif meta.crosstrain == 0 % 0: none | 
     train_portion = meta.TRAIN_PORTION;
     model_select_portion = meta.MODEL_SELECT_PORTION;

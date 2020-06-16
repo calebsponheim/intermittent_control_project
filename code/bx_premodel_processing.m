@@ -6,8 +6,8 @@ clear
 meta.subject = 'Bx'; % Subject
 meta.arrays = {'M1m';'M1l'}; % Which M1 Arrays to analyze
 meta.session = '190228'; % Which day of data
-meta.task = 'center_out';       % Choose one of the three options here
-% meta.task = 'RTP';              % Choose one of the three options here
+% meta.task = 'center_out';       % Choose one of the three options here
+meta.task = 'RTP';              % Choose one of the three options here
 % meta.task = 'center_out_and_RTP'; % Choose one of the three options here
 
 meta.include_EMG_analysis = 1; % Process EMG data along with kinematics?
@@ -18,7 +18,7 @@ meta.center_out_trial_window = ''; % If center-out, what event to bound analysis
 % in "events" ; this is the window that the HMM will actually analyze, inside of the bigger center-out window.
 meta.CO_HMM_analysis_window = {'move','reward'}; % TIMING IS RELATIVE TO "TRIAL  START". THIS IS USUALLY -1000ms FROM PERION
 
-meta.crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
+meta.crosstrain = 1; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
 
 meta.num_states_subject = 16; % How many states in the model?
 
@@ -71,15 +71,6 @@ end
 %% Structure Spiking Data
 
 if meta.crosstrain > 0
-    meta.subject_filepath = meta.subject_filepath_RTP;
-    meta.task = 'RTP';
-    
-    [data_RTP,~] = CS_spiketimes_to_bins_v2(meta);
-    
-    meta.subject_filepath = meta.subject_filepath_center_out;
-    meta.task = 'center_out';
-    
-    [data_center_out,meta.targets] = CS_spiketimes_to_bins_v2(meta);
 else
     [data,meta.targets] = CS_spiketimes_to_bins_v2(meta);
 end
@@ -87,10 +78,6 @@ end
 %% Prepare Kinematic Data
 
 if meta.crosstrain > 0
-    meta.task = 'RTP';
-    [data_RTP] = process_kinematics_v2(meta,data_RTP);
-    meta.task = 'center_out';
-    [data_center_out] = process_kinematics_v2(meta,data_center_out);
 else
     [data] = process_kinematics_v2(meta,data);
 end
@@ -99,10 +86,6 @@ end
 
 if meta.include_EMG_analysis == 1
     if meta.crosstrain > 0
-        meta.task = 'RTP';
-        [data_RTP,meta] = process_EMGs_v2(meta,data_RTP);
-        meta.task = 'center_out';
-        [data_center_out,meta] = process_EMGs_v2(meta,data_center_out);
     else
         [data,meta] = process_EMGs_v2(meta,data);
     end
@@ -112,9 +95,9 @@ end
 
 %% Allocate Trials to test/model/train
 if meta.crosstrain > 0
-[data] = assign_trials_to_HMM_group([],meta,data_center_out,data_RTP);
+[data,meta] = assign_trials_to_HMM_group([],meta);
 else
-[data] = assign_trials_to_HMM_group(data,meta);
+[data,meta] = assign_trials_to_HMM_group(data,meta);
 end
 %% pre-model-save
 if ispc
