@@ -17,26 +17,28 @@ if meta.crosstrain > 0 % 1: RTP model, center-out decode
     center_out_fieldnames = fieldnames(center_out_data_and_meta.data);
     RTP_fieldnames = fieldnames(RTP_data_and_meta.data);
     for iField = 1:length(center_out_fieldnames)
-       if sum(cellfun(@(x) strcmp(center_out_fieldnames(iField),x),RTP_fieldnames)) > 0
-           for iTrial = 1:length(center_out_data_and_meta.data)
-               data(iTrial).(center_out_fieldnames{iField}) = center_out_data_and_meta.data(iTrial).(center_out_fieldnames{iField});
-           end
-           for iTrial = (length(center_out_data_and_meta.data)+1):(length(center_out_data_and_meta.data)+length(RTP_data_and_meta.data))
-               data(iTrial).(center_out_fieldnames{iField}) = RTP_data_and_meta.data(iTrial).(center_out_fieldnames{iField});
-           end
-%            data.(center_out_fieldnames{iField}) = vertcat(center_out_data_and_meta.data.(center_out_fieldnames{iField}),RTP_data_and_meta.data.(center_out_fieldnames{iField}));
-       else
-           for iTrial = 1:length(center_out_data_and_meta.data)
-               data(iTrial).(center_out_fieldnames{iField}) = center_out_data_and_meta.data(iTrial).(center_out_fieldnames{iField});
-           end
-           for iTrial = (length(center_out_data_and_meta.data)+1):(length(center_out_data_and_meta.data)+length(RTP_data_and_meta.data))
-               data(iTrial).(center_out_fieldnames{iField}) = [];
-           end
-       end
+        trial_count = 1;
+        if sum(cellfun(@(x) strcmp(center_out_fieldnames(iField),x),RTP_fieldnames)) > 0
+            for iTrial = 1:length(center_out_data_and_meta.data)
+                data(iTrial).(center_out_fieldnames{iField}) = center_out_data_and_meta.data(iTrial).(center_out_fieldnames{iField});
+            end
+            for iTrial = (length(center_out_data_and_meta.data)+1):(length(center_out_data_and_meta.data)+length(RTP_data_and_meta.data))
+                data(iTrial).(center_out_fieldnames{iField}) = RTP_data_and_meta.data(trial_count).(center_out_fieldnames{iField});
+                trial_count = trial_count+1;
+            end
+            %            data.(center_out_fieldnames{iField}) = vertcat(center_out_data_and_meta.data.(center_out_fieldnames{iField}),RTP_data_and_meta.data.(center_out_fieldnames{iField}));
+        else
+            for iTrial = 1:length(center_out_data_and_meta.data)
+                data(iTrial).(center_out_fieldnames{iField}) = center_out_data_and_meta.data(iTrial).(center_out_fieldnames{iField});
+            end
+            for iTrial = (length(center_out_data_and_meta.data)+1):(length(center_out_data_and_meta.data)+length(RTP_data_and_meta.data))
+                data(iTrial).(center_out_fieldnames{iField}) = [];
+            end
+        end
     end
-        
     
-elseif meta.crosstrain == 0 % 0: none | 
+    
+elseif meta.crosstrain == 0 % 0: none |
     train_portion = meta.TRAIN_PORTION;
     model_select_portion = meta.MODEL_SELECT_PORTION;
     test_portion = meta.TEST_PORTION;
