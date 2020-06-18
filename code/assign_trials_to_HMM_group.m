@@ -6,13 +6,13 @@ function [data,meta] = assign_trials_to_HMM_group(data,meta)
 % Test Data (will be decoded using the chosen model).
 
 
-if meta.crosstrain > 0 % 1: RTP model, center-out decode
+if meta.crosstrain > 0
     center_out_data_and_meta = ...
         load(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\' ...
-        meta.subject 'center_out' meta.session]);
+        meta.subject 'center_out' meta.session 'CT0']);
     RTP_data_and_meta = ...
         load(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\' ...
-        meta.subject 'RTP' meta.session]);
+        meta.subject 'RTP' meta.session 'CT0']);
     
     center_out_fieldnames = fieldnames(center_out_data_and_meta.data);
     RTP_fieldnames = fieldnames(RTP_data_and_meta.data);
@@ -21,23 +21,65 @@ if meta.crosstrain > 0 % 1: RTP model, center-out decode
         if sum(cellfun(@(x) strcmp(center_out_fieldnames(iField),x),RTP_fieldnames)) > 0
             for iTrial = 1:length(center_out_data_and_meta.data)
                 data(iTrial).(center_out_fieldnames{iField}) = center_out_data_and_meta.data(iTrial).(center_out_fieldnames{iField});
+                data(iTrial).task = "center_out";
             end
             for iTrial = (length(center_out_data_and_meta.data)+1):(length(center_out_data_and_meta.data)+length(RTP_data_and_meta.data))
                 data(iTrial).(center_out_fieldnames{iField}) = RTP_data_and_meta.data(trial_count).(center_out_fieldnames{iField});
                 trial_count = trial_count+1;
+                data(iTrial).task = "RTP";
             end
             %            data.(center_out_fieldnames{iField}) = vertcat(center_out_data_and_meta.data.(center_out_fieldnames{iField}),RTP_data_and_meta.data.(center_out_fieldnames{iField}));
         else
             for iTrial = 1:length(center_out_data_and_meta.data)
                 data(iTrial).(center_out_fieldnames{iField}) = center_out_data_and_meta.data(iTrial).(center_out_fieldnames{iField});
+                data(iTrial).task = "center_out";
             end
             for iTrial = (length(center_out_data_and_meta.data)+1):(length(center_out_data_and_meta.data)+length(RTP_data_and_meta.data))
                 data(iTrial).(center_out_fieldnames{iField}) = [];
+                data(iTrial).task = "RTP";
             end
         end
     end
     
-    
+    if meta.crosstrain == 1  % RTP MODEL, center-out DECODE
+        % for each trial
+        for iTrial = 1:size(data,2)
+            % if the task is RTP
+            if strcmp(data(iTrial).task,'RTP')
+                
+                % if the trial classification is train, leave it
+                if strcmp(data(iTrial).trial_classification,'test')
+                    % if the trial classification is test, change it to 'test_native'
+                    data(iTrial).trial_classification = 'test_native';
+                end
+                % if the trial classification if model_select, leave it
+                
+                % if the task is center_out
+            elseif strcmp(data(iTrial).task,'center_out')
+                % set trial classification as test, regardless.
+                data(iTrial).trial_classification = 'test';
+            end
+        end
+    elseif meta.crosstrain == 2
+        % for each trial
+        for iTrial = 1:size(data,2)
+            % if the task is center_out
+            if strcmp(data(iTrial).task,'center_out')
+                if strcmp(data(iTrial).trial_classification,'test')
+                % if the trial classification is test, change it to 'test_native'
+                    data(iTrial).trial_classification = 'test_native';
+                end
+            % if the task is RTP
+            elseif strcmp(data(iTrial).task,'RTP')
+               % set trial classification as test, regardless.
+               data(iTrial).trial_classification = 'test';
+            end
+        end
+    elseif meta.crosstrain == 3
+        % nothing changes because it's combined, babyyyyyy
+    else
+        disp("this shouldn't be possible");
+    end
 elseif meta.crosstrain == 0 % 0: none |
     train_portion = meta.TRAIN_PORTION;
     model_select_portion = meta.MODEL_SELECT_PORTION;
