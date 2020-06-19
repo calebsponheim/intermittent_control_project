@@ -1,5 +1,8 @@
 % Master Breaux
 
-bx_premodel_processing
+%%
+run bx_premodel_processing
 
-bx_postmodel_analysis
+
+%%
+run bx_postmodel_analysis
