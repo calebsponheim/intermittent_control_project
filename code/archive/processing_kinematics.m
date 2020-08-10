@@ -1,9 +1,11 @@
+function [data] = processing_kinematics(subject_filepath,cpl_st_trial_rew,data)
+
 % process Kinematics for HMM comparison
 
 %clear all
 
 % load and import unsorted kinematics
-load('\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4','cpl_st_trial_rew','x','y');
+load(subject_filepath,'x','y');
 
 %% bidirectionally filter x and y traces separately
 
@@ -33,10 +35,13 @@ acceleration = diff(velocity);
 
 %% segment position and speed vectors into trials
 
-% for each trial (with time shifted by 100ms)
+% for each trial
 for iTrial = 1:size(cpl_st_trial_rew,1)
     data(iTrial).x_smoothed = filt_lowpass_x(x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2)));
-    data(iTrial).y_smoothed = filt_lowpass_y(y(:,1) >= (cpl_st_trial_rew(iTrial,1)) & y(:,1) <= (cpl_st_trial_rew(iTrial,2)));
+        %Note: Hacky hack here: there is , for some reason, a difference with this line, causing each trial of y_smoothed to be al ittle
+        %longer than the x. Idk why this is; it's the same code.
+    %data(iTrial).y_smoothed = filt_lowpass_y(y(:,1) >= (cpl_st_trial_rew(iTrial,1)) & y(:,1) <= (cpl_st_trial_rew(iTrial,2)));
+    data(iTrial).y_smoothed = filt_lowpass_y(x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2)));
     data(iTrial).speed = velocity(y(:,1) >= (cpl_st_trial_rew(iTrial,1)) & y(:,1) <= (cpl_st_trial_rew(iTrial,2)));
     data(iTrial).kinematic_timestamps = x((y(:,1) >= (cpl_st_trial_rew(iTrial,1)) & y(:,1) <= (cpl_st_trial_rew(iTrial,2))),1);
 end 
