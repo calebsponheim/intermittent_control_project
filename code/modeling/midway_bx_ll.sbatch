@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --array=2
+#SBATCH --array=2-30
 #SBATCH --job-name=Bx_ll_sbatch_%A
 #SBATCH --output=./data_midway/bx_log_likelihood_%a.out
 #SBATCH --error=./data_midway/bx_log_likelihood_%a.err
