@@ -1,0 +1,636 @@
+My SLURM_ARRAY_TASK_ID:  14
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2014 The MathWorks, Inc.
+                   R2014b (8.4.0.150421) 64-bit (glnxa64)
+                             September 15, 2014
+
+ 
+For online documentation, see http://www.mathworks.com/support
+For product information, visit www.mathworks.com.
+ 
+EM for 14 states, 131 emission nodes. 25 observed values.
+            gibbs: 0
+    nGibbsItrPcnt: 0.8000
+     annealParams: {}
+           maxItr: 500
+      convergeEps: 1.0000e-06
+           minItr: 5
+       parametric: 0
+        initprobs: []
+      persistBias: 0
+          obsVals: []
+
+- Initalized simulated annealing with params:
+                     type: 'linear'
+    max_chance_accpetance: 0.2000
+             min_duration: 5
+        min_init_duration: 5
+             max_duration: 11
+              converge_th: 1.0000e-06
+
+--
+Itr 1, LL= -15393325.013042 (Inf). Anneal status: T=NaN, dE=422.06, collecting statistics
+Itr 2, LL= -4154830.058497 (Inf). Anneal status: T=NaN, dE=-292.72, collecting statistics
+Itr 3, LL= -4045999.062566 (Inf). Anneal status: T=NaN, dE=-455.65, collecting statistics
+Itr 4, LL= -4004655.620526 (10218.351858). Anneal status: T=NaN, dE=-103.67, collecting statistics
+Itr 5, LL= -3985091.029104 (4885.461642). Anneal status: T=NaN, dE=-66.93, collecting statistics
+Itr 6, LL= -3973156.764216 (2994.728301). Anneal status: T=NaN, dE=-186.20, collecting statistics
+Itr 7, LL= -3965937.530391 (1817.002009). Anneal status: T=NaN, dE=-19.70, collecting statistics
+Itr 8, LL= -3961937.401650 (1008.621218). Anneal status: T=NaN, dE=24.60, collecting statistics
+Itr 9, LL= -3959609.701261 (587.515691). Anneal status: T=NaN, dE=23.58, collecting statistics
+Itr 10, LL= -3958157.602215 (366.727823). Anneal status: T=12.51, dE=55.93, candidate was rejected
+Itr 11, LL= -3957163.560073 (251.137585). Anneal status: T=12.51, dE=10.75, candidate was chosen by chance
+Itr 12, LL= -3956459.128888 (178.014170). Anneal status: T=12.51, dE=80.66, candidate was rejected
+Itr 13, LL= -3955935.759169 (132.282352). Anneal status: T=12.51, dE=40.38, candidate was rejected
+Itr 14, LL= -3955543.448799 (99.170056). Anneal status: T=12.51, dE=21.82, candidate was rejected
+Itr 15, LL= -3955203.065746 (86.052159). Anneal status: T=11.26, dE=7.67, candidate was rejected
+Itr 16, LL= -3954908.149657 (74.564083). Anneal status: T=11.26, dE=33.70, candidate was rejected
+Itr 17, LL= -3954657.547757 (63.364784). Anneal status: T=11.26, dE=32.70, candidate was rejected
+Itr 18, LL= -3954440.884125 (54.786952). Anneal status: T=11.26, dE=26.44, candidate was rejected
+Itr 19, LL= -3954278.403226 (41.088210). Anneal status: T=11.26, dE=11.31, candidate was rejected
+Itr 20, LL= -3954145.970116 (33.491094). Anneal status: T=10.01, dE=9.30, candidate was chosen by chance
+Itr 21, LL= -3954001.806077 (36.458957). Anneal status: T=10.01, dE=18.64, candidate was rejected
+Itr 22, LL= -3953890.279666 (28.205959). Anneal status: T=10.01, dE=24.78, candidate was rejected
+Itr 23, LL= -3953800.849063 (22.618383). Anneal status: T=10.01, dE=12.33, candidate was rejected
+Itr 24, LL= -3953721.814707 (19.989463). Anneal status: T=10.01, dE=18.40, candidate was rejected
+Itr 25, LL= -3953646.549570 (19.036528). Anneal status: T=8.76, dE=32.71, candidate was rejected
+Itr 26, LL= -3953561.799829 (21.435841). Anneal status: T=8.76, dE=10.47, candidate was rejected
+Itr 27, LL= -3953488.152400 (18.628122). Anneal status: T=8.76, dE=24.30, candidate was rejected
+Itr 28, LL= -3953423.979986 (16.231847). Anneal status: T=8.76, dE=15.37, candidate was rejected
+Itr 29, LL= -3953362.189539 (15.629603). Anneal status: T=8.76, dE=9.95, candidate was rejected
+Itr 30, LL= -3953281.791754 (20.336559). Anneal status: T=7.51, dE=6.24, candidate was rejected
+Itr 31, LL= -3953187.965407 (23.733787). Anneal status: T=7.51, dE=23.32, candidate was rejected
+Itr 32, LL= -3953117.663681 (17.783553). Anneal status: T=7.51, dE=22.83, candidate was rejected
+Itr 33, LL= -3953058.546162 (14.954657). Anneal status: T=7.51, dE=5.75, candidate was chosen by chance
+Itr 34, LL= -3952982.195841 (19.314240). Anneal status: T=7.51, dE=119.06, candidate was rejected
+Itr 35, LL= -3952901.825348 (20.331610). Anneal status: T=6.25, dE=5.07, candidate was rejected
+Itr 36, LL= -3952825.889027 (19.210272). Anneal status: T=6.25, dE=150.31, candidate was rejected
+Itr 37, LL= -3952746.722666 (20.027789). Anneal status: T=6.25, dE=19.69, candidate was rejected
+Itr 38, LL= -3952656.389800 (22.853188). Anneal status: T=6.25, dE=8.88, candidate was rejected
+Itr 39, LL= -3952557.520101 (25.013482). Anneal status: T=6.25, dE=31.36, candidate was rejected
+Itr 40, LL= -3952462.010269 (24.164059). Anneal status: T=5.00, dE=11.77, candidate was rejected
+Itr 41, LL= -3952378.725926 (21.071510). Anneal status: T=5.00, dE=27.25, candidate was rejected
+Itr 42, LL= -3952297.768744 (20.483154). Anneal status: T=5.00, dE=19.55, candidate was rejected
+Itr 43, LL= -3952219.372679 (19.835567). Anneal status: T=5.00, dE=30.56, candidate was rejected
+Itr 44, LL= -3952151.626790 (17.141227). Anneal status: T=5.00, dE=4.55, candidate was chosen by chance
+Itr 45, LL= -3952083.596502 (17.213481). Anneal status: T=3.75, dE=6.78, candidate was rejected
+Itr 46, LL= -3952030.094077 (13.537777). Anneal status: T=3.75, dE=4.65, candidate was chosen by chance
+Itr 47, LL= -3951954.759222 (19.062318). Anneal status: T=3.75, dE=10.92, candidate was rejected
+Itr 48, LL= -3951905.488116 (12.467528). Anneal status: T=3.75, dE=18.61, candidate was rejected
+Itr 49, LL= -3951868.223179 (9.429612). Anneal status: T=3.75, dE=13.05, candidate was rejected
+Itr 50, LL= -3951822.585926 (11.548273). Anneal status: T=2.50, dE=14.38, candidate was rejected
+Itr 51, LL= -3951778.253325 (11.218267). Anneal status: T=2.50, dE=2.75, candidate was rejected
+Itr 52, LL= -3951735.993756 (10.693811). Anneal status: T=2.50, dE=132.25, candidate was rejected
+Itr 53, LL= -3951678.883468 (14.451949). Anneal status: T=2.50, dE=5.64, candidate was rejected
+Itr 54, LL= -3951624.256530 (13.823729). Anneal status: T=2.50, dE=15.62, candidate was rejected
+Itr 55, LL= -3951562.171571 (15.711251). Anneal status: T=1.25, dE=97.80, candidate was rejected
+Itr 56, LL= -3951497.724555 (16.309250). Anneal status: T=1.25, dE=11.89, candidate was rejected
+Itr 57, LL= -3951424.905191 (18.428294). Anneal status: T=1.25, dE=10.29, candidate was rejected
+Itr 58, LL= -3951328.447073 (24.410971). Anneal status: T=1.25, dE=8.71, candidate was rejected
+Itr 59, LL= -3951231.272776 (24.592817). Anneal status: T=1.25, dE=19.93, candidate was rejected
+Itr 60, LL= -3951133.139098 (24.836227). Anneal status: T=0.00, dE=2.61, candidate was rejected
+Itr 61, LL= -3951024.635234 (27.461455). Anneal status: T=0.00, dE=6.14, candidate was rejected
+Itr 62, LL= -3950908.764518 (29.326751). Anneal status: T=0.00, dE=27.27, candidate was rejected
+Itr 63, LL= -3950792.175776 (29.509348). Anneal status: T=0.00, dE=49.45, candidate was rejected
+Itr 64, LL= -3950685.285490 (27.055406). Anneal status: T=0.00, dE=2.54, candidate was rejected
+Itr 65, LL= -3950563.777670 (30.756138). Anneal status: T=0.00, dE=17.42, candidate was rejected
+Itr 66, LL= -3950470.808340 (23.533180). Anneal status: T=0.00, dE=15.67, candidate was rejected
+Itr 67, LL= -3950397.115511 (18.654189). Anneal status: T=0.00, dE=1.87, candidate was rejected
+Itr 68, LL= -3950323.443209 (18.649341). Anneal status: T=0.00, dE=17.06, candidate was rejected
+Itr 69, LL= -3950260.055126 (16.046302). Anneal status: T=0.00, dE=3.78, candidate was rejected
+Itr 70, LL= -3950204.616707 (14.034119). Anneal status: T=0.00, dE=5.73, candidate was rejected
+Itr 71, LL= -3950155.155975 (12.521056). Anneal status: T=0.00, dE=1.02, candidate was rejected
+Itr 72, LL= -3950117.684429 (9.486095). Anneal status: T=0.00, dE=11.02, candidate was rejected
+Itr 73, LL= -3950067.388295 (12.732819). Anneal status: T=0.00, dE=43.31, candidate was rejected
+Itr 74, LL= -3950028.288393 (9.898540). Anneal status: T=0.00, dE=14.89, candidate was rejected
+Itr 75, LL= -3950005.951154 (5.654957). Anneal status: T=0.00, dE=3.61, candidate was rejected
+Itr 76, LL= -3949997.563222 (2.123524). Anneal status: T=0.00, dE=12.82, candidate was rejected
+Itr 77, LL= -3949974.249699 (5.902161). Anneal status: T=0.00, dE=8.63, candidate was rejected
+Itr 78, LL= -3949962.756852 (2.909600). Anneal status: T=0.00, dE=5.42, candidate was rejected
+Itr 79, LL= -3949945.775609 (4.299089). Anneal status: T=0.00, dE=18.15, candidate was rejected
+Itr 80, LL= -3949940.488317 (1.338573). Anneal status: T=0.00, dE=35.66, candidate was rejected
+Itr 81, LL= -3949930.773924 (2.459377). Anneal status: T=0.00, dE=7.72, candidate was rejected
+Itr 82, LL= -3949906.931151 (6.036251). Anneal status: T=0.00, dE=9.00, candidate was rejected
+Itr 83, LL= -3949882.706570 (6.132950). Anneal status: T=0.00, dE=3.83, candidate was rejected
+Itr 84, LL= -3949862.325589 (5.159895). Anneal status: T=0.00, dE=5.60, candidate was rejected
+Itr 85, LL= -3949833.038773 (7.414642). Anneal status: T=0.00, dE=37.95, candidate was rejected
+Itr 86, LL= -3949823.105322 (2.514904). Anneal status: T=0.00, dE=55.81, candidate was rejected
+Itr 87, LL= -3949815.791580 (1.851663). Anneal status: T=0.00, dE=52.18, candidate was rejected
+Itr 88, LL= -3949800.239378 (3.937450). Anneal status: T=0.00, dE=23.44, candidate was rejected
+Itr 89, LL= -3949789.116335 (2.816103). Anneal status: T=0.00, dE=32.02, candidate was rejected
+Itr 90, LL= -3949766.894996 (5.625956). Anneal status: T=0.00, dE=56.93, candidate was rejected
+Itr 91, LL= -3949748.699398 (4.606752). Anneal status: T=0.00, dE=7.04, candidate was rejected
+Itr 92, LL= -3949740.146213 (2.165501). Anneal status: T=0.00, dE=11.61, candidate was rejected
+Itr 93, LL= -3949736.669494 (0.880240). Anneal status: T=0.00, dE=13.73, candidate was rejected
+Itr 94, LL= -3949725.253122 (2.890413). Anneal status: T=0.00, dE=19.40, candidate was rejected
+Itr 95, LL= -3949716.869092 (2.122687). Anneal status: T=0.00, dE=7.36, candidate was rejected
+Itr 96, LL= -3949712.438594 (1.121725). Anneal status: T=0.00, dE=10.62, candidate was rejected
+Itr 97, LL= -3949707.755290 (1.185733). Anneal status: T=0.00, dE=6.58, candidate was rejected
+Itr 98, LL= -3949704.928030 (0.715815). Anneal status: T=0.00, dE=7.95, candidate was rejected
+Itr 99, LL= -3949699.588850 (1.351792). Anneal status: T=0.00, dE=5.90, candidate was rejected
+Itr 100, LL= -3949691.122811 (2.143464). Anneal status: T=0.00, dE=25.38, candidate was rejected
+Itr 101, LL= -3949687.947500 (0.803939). Anneal status: T=0.00, dE=1.01, candidate was rejected
+Itr 102, LL= -3949684.950011 (0.758918). Anneal status: T=0.00, dE=25.28, candidate was rejected
+Itr 103, LL= -3949676.175500 (2.221572). Anneal status: T=0.00, dE=2.64, candidate was rejected
+Itr 104, LL= -3949663.428177 (3.227435). Anneal status: T=0.00, dE=13.24, candidate was rejected
+Itr 105, LL= -3949646.783835 (4.214116). Anneal status: T=0.00, dE=76.03, candidate was rejected
+Itr 106, LL= -3949627.303402 (4.932196). Anneal status: T=0.00, dE=11.25, candidate was rejected
+Itr 107, LL= -3949616.905274 (2.632686). Anneal status: T=0.00, dE=1.83, candidate was rejected
+Itr 108, LL= -3949605.641891 (2.851766). Anneal status: T=0.00, dE=65.91, candidate was rejected
+Itr 109, LL= -3949588.254544 (4.402300). Anneal status: T=0.00, dE=16.34, candidate was rejected
+Itr 110, LL= -3949575.871325 (3.135319). Anneal status: T=0.00, dE=33.48, candidate was rejected
+Itr 111, LL= -3949567.329720 (2.162664). Anneal status: T=0.00, dE=15.61, candidate was rejected
+Itr 112, LL= -3949553.361261 (3.536706). Anneal status: T=0.00, dE=22.87, candidate was rejected
+Itr 113, LL= -3949547.186507 (1.563406). Anneal status: T=0.00, dE=2.37, candidate was rejected
+Itr 114, LL= -3949545.452953 (0.438925). Anneal status: T=0.00, dE=9.52, candidate was rejected
+Itr 115, LL= -3949544.910886 (0.137248). Anneal status: T=0.00, dE=4.50, candidate was rejected
+Itr 116, LL= -3949542.872355 (0.516143). Anneal status: T=0.00, dE=64.86, candidate was rejected
+-- Annealing statistics:
+Portion of times candidate was better: 0.000000
+Portion of times candidate was chosen by chance: 0.043103
+--
+EM for 14 states, 131 emission nodes. 25 observed values.
+            gibbs: 0
+    nGibbsItrPcnt: 0.8000
+     annealParams: {}
+           maxItr: 500
+      convergeEps: 1.0000e-06
+           minItr: 5
+       parametric: 0
+        initprobs: []
+      persistBias: 0
+          obsVals: []
+
+- Initalized simulated annealing with params:
+                     type: 'linear'
+    max_chance_accpetance: 0.2000
+             min_duration: 5
+        min_init_duration: 5
+             max_duration: 11
+              converge_th: 1.0000e-06
+
+--
+Itr 1, LL= -15362498.844393 (Inf). Anneal status: T=NaN, dE=-5224.07, collecting statistics
+Itr 2, LL= -4177895.470063 (Inf). Anneal status: T=NaN, dE=-409.13, collecting statistics
+Itr 3, LL= -4064143.031385 (Inf). Anneal status: T=NaN, dE=-81.40, collecting statistics
+Itr 4, LL= -4008537.230004 (13682.048331). Anneal status: T=NaN, dE=-155.56, collecting statistics
+Itr 5, LL= -3980985.364846 (6873.296561). Anneal status: T=NaN, dE=-344.58, collecting statistics
+Itr 6, LL= -3970192.275331 (2711.160310). Anneal status: T=NaN, dE=-1.16, collecting statistics
+Itr 7, LL= -3964476.129908 (1439.765388). Anneal status: T=NaN, dE=-58.09, collecting statistics
+Itr 8, LL= -3960993.652839 (878.420491). Anneal status: T=NaN, dE=3.82, collecting statistics
+Itr 9, LL= -3958774.655881 (560.212197). Anneal status: T=NaN, dE=171.45, collecting statistics
+Itr 10, LL= -3957402.201914 (346.686560). Anneal status: T=NaN, dE=39.83, collecting statistics
+Itr 11, LL= -3956364.964965 (262.100463). Anneal status: T=NaN, dE=-0.61, collecting statistics
+Itr 12, LL= -3955433.482004 (235.439088). Anneal status: T=7.06, dE=5.62, candidate was chosen by chance
+Itr 13, LL= -3954625.516837 (204.267161). Anneal status: T=7.06, dE=21.86, candidate was rejected
+Itr 14, LL= -3953945.682153 (171.908739). Anneal status: T=7.06, dE=18.12, candidate was rejected
+Itr 15, LL= -3953382.058146 (142.547231). Anneal status: T=7.06, dE=4.36, candidate was chosen by chance
+Itr 16, LL= -3952870.871192 (129.303707). Anneal status: T=7.06, dE=31.69, candidate was rejected
+Itr 17, LL= -3952466.070091 (102.406862). Anneal status: T=6.35, dE=31.55, candidate was rejected
+Itr 18, LL= -3952147.365497 (80.634366). Anneal status: T=6.35, dE=74.16, candidate was rejected
+Itr 19, LL= -3951841.169506 (77.475854). Anneal status: T=6.35, dE=1.80, candidate was rejected
+Itr 20, LL= -3951579.062166 (66.325373). Anneal status: T=6.35, dE=17.94, candidate was rejected
+Itr 21, LL= -3951332.742925 (62.334382). Anneal status: T=6.35, dE=6.77, candidate was chosen by chance
+Itr 22, LL= -3951116.119782 (54.822805). Anneal status: T=5.65, dE=16.16, candidate was rejected
+Itr 23, LL= -3950939.814484 (44.621644). Anneal status: T=5.65, dE=20.34, candidate was rejected
+Itr 24, LL= -3950761.249172 (45.195655). Anneal status: T=5.65, dE=11.73, candidate was rejected
+Itr 25, LL= -3950638.941563 (30.957985). Anneal status: T=5.65, dE=2.24, candidate was chosen by chance
+Itr 26, LL= -3950517.012689 (30.863077). Anneal status: T=5.65, dE=31.65, candidate was rejected
+Itr 27, LL= -3950409.923250 (27.107702). Anneal status: T=4.94, dE=11.43, candidate was rejected
+Itr 28, LL= -3950312.871417 (24.567535). Anneal status: T=4.94, dE=8.85, candidate was rejected
+Itr 29, LL= -3950229.249587 (21.168407). Anneal status: T=4.94, dE=42.42, candidate was rejected
+Itr 30, LL= -3950115.469712 (28.803360). Anneal status: T=4.94, dE=20.68, candidate was rejected
+Itr 31, LL= -3949987.516597 (32.392247). Anneal status: T=4.94, dE=5.53, candidate was chosen by chance
+Itr 32, LL= -3949852.495312 (34.182712). Anneal status: T=4.24, dE=37.11, candidate was rejected
+Itr 33, LL= -3949715.275329 (34.740533). Anneal status: T=4.24, dE=51.82, candidate was rejected
+Itr 34, LL= -3949568.907445 (37.057832). Anneal status: T=4.24, dE=58.62, candidate was rejected
+Itr 35, LL= -3949412.579960 (39.580898). Anneal status: T=4.24, dE=1.80, candidate was chosen by chance
+Itr 36, LL= -3949262.615714 (37.971279). Anneal status: T=4.24, dE=24.61, candidate was rejected
+Itr 37, LL= -3949132.748804 (32.883837). Anneal status: T=3.53, dE=3.11, candidate was chosen by chance
+Itr 38, LL= -3949016.063505 (29.547069). Anneal status: T=3.53, dE=10.35, candidate was rejected
+Itr 39, LL= -3948904.836259 (28.165813). Anneal status: T=3.53, dE=12.57, candidate was rejected
+Itr 40, LL= -3948809.814210 (24.062887). Anneal status: T=3.53, dE=11.43, candidate was chosen by chance
+Itr 41, LL= -3948711.531490 (24.889201). Anneal status: T=3.53, dE=63.32, candidate was rejected
+Itr 42, LL= -3948639.561570 (18.226178). Anneal status: T=2.82, dE=34.13, candidate was rejected
+Itr 43, LL= -3948568.985860 (17.873424). Anneal status: T=2.82, dE=51.55, candidate was rejected
+Itr 44, LL= -3948507.744726 (15.509703). Anneal status: T=2.82, dE=39.83, candidate was rejected
+Itr 45, LL= -3948457.724558 (12.668120). Anneal status: T=2.82, dE=18.34, candidate was rejected
+Itr 46, LL= -3948412.871575 (11.359621). Anneal status: T=2.82, dE=68.15, candidate was rejected
+Itr 47, LL= -3948362.177353 (12.839139). Anneal status: T=2.12, dE=12.51, candidate was rejected
+Itr 48, LL= -3948312.172958 (12.664592). Anneal status: T=2.12, dE=5.95, candidate was rejected
+Itr 49, LL= -3948266.729657 (11.509551). Anneal status: T=2.12, dE=61.91, candidate was rejected
+Itr 50, LL= -3948224.870415 (10.601929). Anneal status: T=2.12, dE=30.38, candidate was rejected
+Itr 51, LL= -3948183.156502 (10.565232). Anneal status: T=2.12, dE=24.56, candidate was rejected
+Itr 52, LL= -3948154.031191 (7.376890). Anneal status: T=1.41, dE=6.10, candidate was rejected
+Itr 53, LL= -3948130.327031 (6.003859). Anneal status: T=1.41, dE=3.10, candidate was rejected
+Itr 54, LL= -3948104.036916 (6.658877). Anneal status: T=1.41, dE=38.24, candidate was rejected
+Itr 55, LL= -3948067.958214 (9.138235). Anneal status: T=1.41, dE=6.15, candidate was rejected
+Itr 56, LL= -3948050.316652 (4.468404). Anneal status: T=1.41, dE=51.83, candidate was rejected
+Itr 57, LL= -3948030.125514 (5.114205). Anneal status: T=0.71, dE=36.65, candidate was rejected
+Itr 58, LL= -3948009.442695 (5.238769). Anneal status: T=0.71, dE=42.79, candidate was rejected
+Itr 59, LL= -3948001.120211 (2.108020). Anneal status: T=0.71, dE=23.23, candidate was rejected
+Itr 60, LL= -3947975.364136 (6.523827). Anneal status: T=0.71, dE=62.20, candidate was rejected
+Itr 61, LL= -3947939.161606 (9.169898). Anneal status: T=0.71, dE=4.85, candidate was rejected
+Itr 62, LL= -3947927.832886 (2.869528). Anneal status: T=0.00, dE=2.72, candidate was rejected
+Itr 63, LL= -3947905.530624 (5.649106). Anneal status: T=0.00, dE=4.40, candidate was rejected
+Itr 64, LL= -3947870.620433 (8.842712). Anneal status: T=0.00, dE=23.75, candidate was rejected
+Itr 65, LL= -3947859.313057 (2.864171). Anneal status: T=0.00, dE=19.85, candidate was rejected
+Itr 66, LL= -3947832.066724 (6.901546). Anneal status: T=0.00, dE=6.60, candidate was rejected
+Itr 67, LL= -3947817.036396 (3.807236). Anneal status: T=0.00, dE=3.53, candidate was rejected
+Itr 68, LL= -3947807.594385 (2.391704). Anneal status: T=0.00, dE=6.72, candidate was rejected
+Itr 69, LL= -3947794.783546 (3.245052). Anneal status: T=0.00, dE=24.81, candidate was rejected
+Itr 70, LL= -3947785.105306 (2.451556). Anneal status: T=0.00, dE=4.56, candidate was rejected
+Itr 71, LL= -3947774.486224 (2.689884). Anneal status: T=0.00, dE=4.44, candidate was rejected
+Itr 72, LL= -3947763.494816 (2.784204). Anneal status: T=0.00, dE=76.94, candidate was rejected
+Itr 73, LL= -3947762.012040 (0.375599). Anneal status: T=0.00, dE=4.51, candidate was rejected
+Itr 74, LL= -3947760.917009 (0.277380). Anneal status: T=0.00, dE=50.29, candidate was rejected
+Itr 75, LL= -3947759.808740 (0.280733). Anneal status: T=0.00, dE=9.32, candidate was rejected
+-- Annealing statistics:
+Portion of times candidate was better: 0.000000
+Portion of times candidate was chosen by chance: 0.106667
+--
+EM for 14 states, 131 emission nodes. 25 observed values.
+            gibbs: 0
+    nGibbsItrPcnt: 0.8000
+     annealParams: {}
+           maxItr: 500
+      convergeEps: 1.0000e-06
+           minItr: 5
+       parametric: 0
+        initprobs: []
+      persistBias: 0
+          obsVals: []
+
+- Initalized simulated annealing with params:
+                     type: 'linear'
+    max_chance_accpetance: 0.2000
+             min_duration: 5
+        min_init_duration: 5
+             max_duration: 11
+              converge_th: 1.0000e-06
+
+--
+Itr 1, LL= -15453488.251060 (Inf). Anneal status: T=NaN, dE=-415.92, collecting statistics
+Itr 2, LL= -4163638.975400 (Inf). Anneal status: T=NaN, dE=-100.68, collecting statistics
+Itr 3, LL= -4050768.945723 (Inf). Anneal status: T=NaN, dE=-808.45, collecting statistics
+Itr 4, LL= -4005659.800886 (11135.946148). Anneal status: T=NaN, dE=-529.40, collecting statistics
+Itr 5, LL= -3986014.913552 (4904.282518). Anneal status: T=NaN, dE=-25.15, collecting statistics
+Itr 6, LL= -3976518.980951 (2382.312361). Anneal status: T=NaN, dE=-75.21, collecting statistics
+Itr 7, LL= -3970262.308896 (1573.404298). Anneal status: T=NaN, dE=-44.90, collecting statistics
+Itr 8, LL= -3966089.316533 (1051.062131). Anneal status: T=NaN, dE=72.04, collecting statistics
+Itr 9, LL= -3963744.868796 (591.123283). Anneal status: T=NaN, dE=9.28, collecting statistics
+Itr 10, LL= -3962193.744332 (391.328028). Anneal status: T=NaN, dE=6.48, collecting statistics
+Itr 11, LL= -3961170.249447 (258.315204). Anneal status: T=2.45, dE=3.84, candidate was rejected
+Itr 12, LL= -3960446.224358 (182.780604). Anneal status: T=2.45, dE=31.82, candidate was rejected
+Itr 13, LL= -3959927.654615 (130.937201). Anneal status: T=2.45, dE=6.09, candidate was chosen by chance
+Itr 14, LL= -3959519.903316 (102.969381). Anneal status: T=2.45, dE=12.85, candidate was rejected
+Itr 15, LL= -3959215.831090 (76.795226). Anneal status: T=2.45, dE=25.44, candidate was rejected
+Itr 16, LL= -3958993.251662 (56.218059). Anneal status: T=2.20, dE=10.10, candidate was rejected
+Itr 17, LL= -3958781.737089 (53.426354). Anneal status: T=2.20, dE=34.25, candidate was rejected
+Itr 18, LL= -3958537.485006 (61.698800). Anneal status: T=2.20, dE=6.83, candidate was rejected
+Itr 19, LL= -3958304.359530 (58.891820). Anneal status: T=2.20, dE=105.32, candidate was rejected
+Itr 20, LL= -3958072.753619 (58.511395). Anneal status: T=2.20, dE=17.69, candidate was rejected
+Itr 21, LL= -3957844.792025 (57.594089). Anneal status: T=1.96, dE=8.47, candidate was rejected
+Itr 22, LL= -3957586.142045 (65.351218). Anneal status: T=1.96, dE=47.06, candidate was rejected
+Itr 23, LL= -3957280.248804 (77.292883). Anneal status: T=1.96, dE=8.91, candidate was rejected
+Itr 24, LL= -3956971.226984 (78.089445). Anneal status: T=1.96, dE=10.61, candidate was rejected
+Itr 25, LL= -3956543.980557 (107.973094). Anneal status: T=1.96, dE=5.21, candidate was rejected
+Itr 26, LL= -3956051.375754 (124.503811). Anneal status: T=1.71, dE=8.16, candidate was rejected
+Itr 27, LL= -3955566.272011 (122.623216). Anneal status: T=1.71, dE=41.37, candidate was rejected
+Itr 28, LL= -3955174.958754 (98.927241). Anneal status: T=1.71, dE=14.28, candidate was rejected
+Itr 29, LL= -3954850.008138 (82.158342). Anneal status: T=1.71, dE=8.61, candidate was rejected
+Itr 30, LL= -3954613.550936 (59.789171). Anneal status: T=1.71, dE=37.63, candidate was rejected
+Itr 31, LL= -3954348.205831 (67.097607). Anneal status: T=1.47, dE=37.59, candidate was rejected
+Itr 32, LL= -3954080.845182 (67.611813). Anneal status: T=1.47, dE=2.08, candidate was rejected
+Itr 33, LL= -3953883.911174 (49.805256). Anneal status: T=1.47, dE=35.45, candidate was rejected
+Itr 34, LL= -3953750.536785 (33.732500). Anneal status: T=1.47, dE=43.14, candidate was rejected
+Itr 35, LL= -3953597.541882 (38.696145). Anneal status: T=1.47, dE=16.01, candidate was rejected
+Itr 36, LL= -3953488.327241 (27.624117). Anneal status: T=1.22, dE=73.01, candidate was rejected
+Itr 37, LL= -3953399.511239 (22.465224). Anneal status: T=1.22, dE=50.14, candidate was rejected
+Itr 38, LL= -3953297.638828 (25.768307). Anneal status: T=1.22, dE=30.32, candidate was rejected
+Itr 39, LL= -3953184.363208 (28.653451). Anneal status: T=1.22, dE=30.60, candidate was rejected
+Itr 40, LL= -3953115.285902 (17.473839). Anneal status: T=1.22, dE=18.96, candidate was rejected
+Itr 41, LL= -3953018.484467 (24.487380). Anneal status: T=0.98, dE=4.58, candidate was rejected
+Itr 42, LL= -3952860.412062 (39.987773). Anneal status: T=0.98, dE=15.58, candidate was rejected
+Itr 43, LL= -3952734.340617 (31.893726). Anneal status: T=0.98, dE=15.01, candidate was rejected
+Itr 44, LL= -3952669.804169 (16.327039). Anneal status: T=0.98, dE=6.60, candidate was rejected
+Itr 45, LL= -3952617.076535 (13.339752). Anneal status: T=0.98, dE=15.41, candidate was rejected
+Itr 46, LL= -3952574.124679 (10.866688). Anneal status: T=0.73, dE=4.64, candidate was rejected
+Itr 47, LL= -3952529.644192 (11.253549). Anneal status: T=0.73, dE=9.09, candidate was rejected
+Itr 48, LL= -3952472.271332 (14.515479). Anneal status: T=0.73, dE=46.58, candidate was rejected
+Itr 49, LL= -3952412.349502 (15.160595). Anneal status: T=0.73, dE=26.37, candidate was rejected
+Itr 50, LL= -3952353.271920 (14.947221). Anneal status: T=0.73, dE=2.97, candidate was rejected
+Itr 51, LL= -3952289.156354 (16.222124). Anneal status: T=0.49, dE=32.94, candidate was rejected
+Itr 52, LL= -3952225.438950 (16.121645). Anneal status: T=0.49, dE=26.67, candidate was rejected
+Itr 53, LL= -3952179.310978 (11.671392). Anneal status: T=0.49, dE=14.65, candidate was rejected
+Itr 54, LL= -3952087.096482 (23.332569). Anneal status: T=0.49, dE=2.61, candidate was rejected
+Itr 55, LL= -3952014.859334 (18.278228). Anneal status: T=0.49, dE=5.50, candidate was rejected
+Itr 56, LL= -3951958.567761 (14.243766). Anneal status: T=0.24, dE=16.64, candidate was rejected
+Itr 57, LL= -3951900.959572 (14.577124). Anneal status: T=0.24, dE=32.97, candidate was rejected
+Itr 58, LL= -3951850.662716 (12.727256). Anneal status: T=0.24, dE=17.56, candidate was rejected
+Itr 59, LL= -3951787.689220 (15.935191). Anneal status: T=0.24, dE=89.03, candidate was rejected
+Itr 60, LL= -3951747.776237 (10.099982). Anneal status: T=0.24, dE=64.89, candidate was rejected
+Itr 61, LL= -3951708.147739 (10.028094). Anneal status: T=0.00, dE=32.83, candidate was rejected
+Itr 62, LL= -3951663.697812 (11.248282). Anneal status: T=0.00, dE=9.28, candidate was rejected
+Itr 63, LL= -3951621.239608 (10.744387). Anneal status: T=0.00, dE=15.42, candidate was rejected
+Itr 64, LL= -3951577.979425 (10.947452). Anneal status: T=0.00, dE=8.72, candidate was rejected
+Itr 65, LL= -3951537.277392 (10.300197). Anneal status: T=0.00, dE=37.63, candidate was rejected
+Itr 66, LL= -3951495.162851 (10.657761). Anneal status: T=0.00, dE=7.50, candidate was rejected
+Itr 67, LL= -3951433.730814 (15.546530). Anneal status: T=0.00, dE=16.67, candidate was rejected
+Itr 68, LL= -3951385.788881 (12.132794). Anneal status: T=0.00, dE=19.38, candidate was rejected
+Itr 69, LL= -3951330.541363 (13.981808). Anneal status: T=0.00, dE=6.02, candidate was rejected
+Itr 70, LL= -3951282.888647 (12.059916). Anneal status: T=0.00, dE=3.98, candidate was rejected
+Itr 71, LL= -3951226.167735 (14.355062). Anneal status: T=0.00, dE=16.15, candidate was rejected
+Itr 72, LL= -3951180.846278 (11.470226). Anneal status: T=0.00, dE=2.59, candidate was rejected
+Itr 73, LL= -3951135.738657 (11.416238). Anneal status: T=0.00, dE=2.25, candidate was rejected
+Itr 74, LL= -3951087.017828 (12.330842). Anneal status: T=0.00, dE=16.94, candidate was rejected
+Itr 75, LL= -3951045.822802 (10.426251). Anneal status: T=0.00, dE=1.06, candidate was rejected
+Itr 76, LL= -3951005.338211 (10.246551). Anneal status: T=0.00, dE=4.34, candidate was rejected
+Itr 77, LL= -3950949.196979 (14.209354). Anneal status: T=0.00, dE=2.24, candidate was rejected
+Itr 78, LL= -3950902.011685 (11.942774). Anneal status: T=0.00, dE=21.46, candidate was rejected
+Itr 79, LL= -3950848.322695 (13.589046). Anneal status: T=0.00, dE=7.11, candidate was rejected
+Itr 80, LL= -3950794.505672 (13.621637). Anneal status: T=0.00, dE=19.31, candidate was rejected
+Itr 81, LL= -3950756.665550 (9.577851). Anneal status: T=0.00, dE=22.47, candidate was rejected
+Itr 82, LL= -3950716.544766 (10.155215). Anneal status: T=0.00, dE=17.11, candidate was rejected
+Itr 83, LL= -3950661.542057 (13.922211). Anneal status: T=0.00, dE=76.48, candidate was rejected
+Itr 84, LL= -3950614.648612 (11.869770). Anneal status: T=0.00, dE=6.69, candidate was rejected
+Itr 85, LL= -3950571.752953 (10.857971). Anneal status: T=0.00, dE=10.68, candidate was rejected
+Itr 86, LL= -3950518.095463 (13.582209). Anneal status: T=0.00, dE=37.72, candidate was rejected
+Itr 87, LL= -3950442.429019 (19.153549). Anneal status: T=0.00, dE=5.27, candidate was rejected
+Itr 88, LL= -3950389.978670 (13.277082). Anneal status: T=0.00, dE=22.25, candidate was rejected
+Itr 89, LL= -3950325.804507 (16.245020). Anneal status: T=0.00, dE=7.27, candidate was rejected
+Itr 90, LL= -3950265.313648 (15.312879). Anneal status: T=0.00, dE=4.99, candidate was rejected
+Itr 91, LL= -3950216.389522 (12.385023). Anneal status: T=0.00, dE=20.37, candidate was rejected
+Itr 92, LL= -3950179.081628 (9.444519). Anneal status: T=0.00, dE=63.82, candidate was rejected
+Itr 93, LL= -3950147.521067 (7.989653). Anneal status: T=0.00, dE=11.17, candidate was rejected
+Itr 94, LL= -3950123.309030 (6.129401). Anneal status: T=0.00, dE=14.78, candidate was rejected
+Itr 95, LL= -3950106.128318 (4.349412). Anneal status: T=0.00, dE=15.97, candidate was rejected
+Itr 96, LL= -3950073.915289 (8.154978). Anneal status: T=0.00, dE=10.04, candidate was rejected
+Itr 97, LL= -3950036.988034 (9.348497). Anneal status: T=0.00, dE=14.31, candidate was rejected
+Itr 98, LL= -3950024.549308 (3.149015). Anneal status: T=0.00, dE=42.99, candidate was rejected
+Itr 99, LL= -3950006.116154 (4.666592). Anneal status: T=0.00, dE=44.16, candidate was rejected
+Itr 100, LL= -3949990.966781 (3.835278). Anneal status: T=0.00, dE=33.31, candidate was rejected
+Itr 101, LL= -3949945.677889 (11.465569). Anneal status: T=0.00, dE=40.97, candidate was rejected
+Itr 102, LL= -3949910.765422 (8.838721). Anneal status: T=0.00, dE=14.85, candidate was rejected
+Itr 103, LL= -3949878.319132 (8.214436). Anneal status: T=0.00, dE=74.64, candidate was rejected
+Itr 104, LL= -3949850.025372 (7.163198). Anneal status: T=0.00, dE=30.90, candidate was rejected
+Itr 105, LL= -3949829.421937 (5.216257). Anneal status: T=0.00, dE=42.44, candidate was rejected
+Itr 106, LL= -3949808.064990 (5.407055). Anneal status: T=0.00, dE=6.14, candidate was rejected
+Itr 107, LL= -3949790.143722 (4.537251). Anneal status: T=0.00, dE=9.35, candidate was rejected
+Itr 108, LL= -3949781.444814 (2.202372). Anneal status: T=0.00, dE=16.60, candidate was rejected
+Itr 109, LL= -3949769.076823 (3.131310). Anneal status: T=0.00, dE=10.18, candidate was rejected
+Itr 110, LL= -3949759.877874 (2.328984). Anneal status: T=0.00, dE=1.60, candidate was rejected
+Itr 111, LL= -3949755.141840 (1.199069). Anneal status: T=0.00, dE=11.57, candidate was rejected
+Itr 112, LL= -3949745.796955 (2.365940). Anneal status: T=0.00, dE=29.71, candidate was rejected
+Itr 113, LL= -3949740.136473 (1.433126). Anneal status: T=0.00, dE=12.13, candidate was rejected
+Itr 114, LL= -3949733.497737 (1.680803). Anneal status: T=0.00, dE=38.34, candidate was rejected
+Itr 115, LL= -3949720.872952 (3.196364). Anneal status: T=0.00, dE=3.14, candidate was rejected
+Itr 116, LL= -3949713.748737 (1.803726). Anneal status: T=0.00, dE=3.29, candidate was rejected
+Itr 117, LL= -3949703.800973 (2.518604). Anneal status: T=0.00, dE=36.97, candidate was rejected
+Itr 118, LL= -3949693.309492 (2.656270). Anneal status: T=0.00, dE=29.20, candidate was rejected
+Itr 119, LL= -3949678.721056 (3.693562). Anneal status: T=0.00, dE=19.95, candidate was rejected
+Itr 120, LL= -3949667.214457 (2.913300). Anneal status: T=0.00, dE=53.34, candidate was rejected
+Itr 121, LL= -3949662.365625 (1.227656). Anneal status: T=0.00, dE=9.94, candidate was rejected
+Itr 122, LL= -3949651.560824 (2.735627). Anneal status: T=0.00, dE=12.93, candidate was rejected
+Itr 123, LL= -3949647.353456 (1.065250). Anneal status: T=0.00, dE=1.90, candidate was rejected
+Itr 124, LL= -3949646.075979 (0.323441). Anneal status: T=0.00, dE=52.04, candidate was rejected
+Itr 125, LL= -3949645.311411 (0.193579). Anneal status: T=0.00, dE=4.15, candidate was rejected
+Itr 126, LL= -3949643.695501 (0.409128). Anneal status: T=0.00, dE=21.34, candidate was rejected
+-- Annealing statistics:
+Portion of times candidate was better: 0.000000
+Portion of times candidate was chosen by chance: 0.007937
+--
+Your MATLAB session has timed out.  All license keys have been returned.
+EM for 14 states, 131 emission nodes. 25 observed values.
+            gibbs: 0
+    nGibbsItrPcnt: 0.8000
+     annealParams: {}
+           maxItr: 500
+      convergeEps: 1.0000e-06
+           minItr: 5
+       parametric: 0
+        initprobs: []
+      persistBias: 0
+          obsVals: []
+
+- Initalized simulated annealing with params:
+                     type: 'linear'
+    max_chance_accpetance: 0.2000
+             min_duration: 5
+        min_init_duration: 5
+             max_duration: 11
+              converge_th: 1.0000e-06
+
+--
+Itr 1, LL= -15497055.139231 (Inf). Anneal status: T=NaN, dE=-416.08, collecting statistics
+Itr 2, LL= -4178097.799929 (Inf). Anneal status: T=NaN, dE=-1312.48, collecting statistics
+Itr 3, LL= -4053665.376180 (Inf). Anneal status: T=NaN, dE=-1028.60, collecting statistics
+Itr 4, LL= -4010727.685284 (10592.312614). Anneal status: T=NaN, dE=90.49, collecting statistics
+Itr 5, LL= -3986006.333426 (6163.807119). Anneal status: T=NaN, dE=-96.09, collecting statistics
+Itr 6, LL= -3973485.660654 (3141.157270). Anneal status: T=NaN, dE=-27.57, collecting statistics
+Itr 7, LL= -3967602.567426 (1480.587507). Anneal status: T=NaN, dE=-22.10, collecting statistics
+Itr 8, LL= -3963802.175116 (957.856097). Anneal status: T=NaN, dE=-7.79, collecting statistics
+Itr 9, LL= -3960994.342376 (708.368535). Anneal status: T=NaN, dE=34.74, collecting statistics
+Itr 10, LL= -3958980.952339 (508.304194). Anneal status: T=NaN, dE=8.76, collecting statistics
+Itr 11, LL= -3957889.507555 (275.688314). Anneal status: T=6.76, dE=4.39, candidate was rejected
+Itr 12, LL= -3957227.181706 (167.343188). Anneal status: T=6.76, dE=65.73, candidate was rejected
+Itr 13, LL= -3956785.083655 (111.719148). Anneal status: T=6.76, dE=64.75, candidate was rejected
+Itr 14, LL= -3956440.311855 (87.134326). Anneal status: T=6.76, dE=5.69, candidate was rejected
+Itr 15, LL= -3956107.440890 (84.133954). Anneal status: T=6.76, dE=8.33, candidate was rejected
+Itr 16, LL= -3955773.508159 (84.409419). Anneal status: T=6.08, dE=1.72, candidate was rejected
+Itr 17, LL= -3955439.379210 (84.466147). Anneal status: T=6.08, dE=5.28, candidate was chosen by chance
+Itr 18, LL= -3955092.593942 (87.673008). Anneal status: T=6.08, dE=35.92, candidate was rejected
+Itr 19, LL= -3954746.449520 (87.518664). Anneal status: T=6.08, dE=29.96, candidate was rejected
+Itr 20, LL= -3954451.487974 (74.584186). Anneal status: T=6.08, dE=77.75, candidate was rejected
+Itr 21, LL= -3954199.694886 (63.673329). Anneal status: T=5.41, dE=138.15, candidate was rejected
+Itr 22, LL= -3953958.557028 (60.982721). Anneal status: T=5.41, dE=8.49, candidate was chosen by chance
+Itr 23, LL= -3953747.951881 (53.264379). Anneal status: T=5.41, dE=9.83, candidate was rejected
+Itr 24, LL= -3953581.395175 (42.126283). Anneal status: T=5.41, dE=-2.56, candidate was better
+Itr 25, LL= -3953428.803123 (38.595905). Anneal status: T=5.41, dE=5.34, candidate was rejected
+Itr 26, LL= -3953287.001100 (35.868111). Anneal status: T=4.73, dE=24.70, candidate was rejected
+Itr 27, LL= -3953145.439777 (35.808511). Anneal status: T=4.73, dE=125.97, candidate was rejected
+Itr 28, LL= -3953010.068293 (34.243993). Anneal status: T=4.73, dE=9.02, candidate was rejected
+Itr 29, LL= -3952891.129224 (30.088228). Anneal status: T=4.73, dE=2.89, candidate was rejected
+Itr 30, LL= -3952781.953878 (27.619113). Anneal status: T=4.73, dE=6.94, candidate was rejected
+Itr 31, LL= -3952688.796357 (23.567584). Anneal status: T=4.05, dE=35.50, candidate was rejected
+Itr 32, LL= -3952606.082852 (20.925883). Anneal status: T=4.05, dE=4.28, candidate was rejected
+Itr 33, LL= -3952514.618354 (23.140302). Anneal status: T=4.05, dE=94.10, candidate was rejected
+Itr 34, LL= -3952421.947472 (23.446057). Anneal status: T=4.05, dE=19.92, candidate was rejected
+Itr 35, LL= -3952339.594477 (20.836084). Anneal status: T=4.05, dE=4.09, candidate was chosen by chance
+Itr 36, LL= -3952246.013833 (23.677278). Anneal status: T=3.38, dE=74.01, candidate was rejected
+Itr 37, LL= -3952128.969265 (29.614697). Anneal status: T=3.38, dE=20.55, candidate was rejected
+Itr 38, LL= -3952033.678926 (24.111141). Anneal status: T=3.38, dE=5.26, candidate was rejected
+Itr 39, LL= -3951941.898051 (23.223708). Anneal status: T=3.38, dE=27.44, candidate was rejected
+Itr 40, LL= -3951844.502246 (24.645050). Anneal status: T=3.38, dE=24.36, candidate was rejected
+Itr 41, LL= -3951734.884621 (27.738345). Anneal status: T=2.70, dE=64.11, candidate was rejected
+Itr 42, LL= -3951662.591041 (18.294137). Anneal status: T=2.70, dE=29.61, candidate was rejected
+Itr 43, LL= -3951589.397224 (18.522284). Anneal status: T=2.70, dE=41.80, candidate was rejected
+Itr 44, LL= -3951503.596258 (21.713027). Anneal status: T=2.70, dE=10.99, candidate was rejected
+Itr 45, LL= -3951417.019634 (21.909792). Anneal status: T=2.70, dE=5.84, candidate was rejected
+Itr 46, LL= -3951344.200406 (18.428636). Anneal status: T=2.03, dE=12.93, candidate was rejected
+Itr 47, LL= -3951255.333373 (22.490330). Anneal status: T=2.03, dE=36.68, candidate was rejected
+Itr 48, LL= -3951183.776773 (18.109839). Anneal status: T=2.03, dE=4.10, candidate was rejected
+Itr 49, LL= -3951136.323236 (12.009954). Anneal status: T=2.03, dE=65.95, candidate was rejected
+Itr 50, LL= -3951093.126038 (10.932855). Anneal status: T=2.03, dE=3.73, candidate was rejected
+Itr 51, LL= -3951050.892611 (10.689049). Anneal status: T=1.35, dE=49.22, candidate was rejected
+Itr 52, LL= -3951016.183877 (8.784684). Anneal status: T=1.35, dE=4.79, candidate was rejected
+Itr 53, LL= -3950979.528395 (9.277482). Anneal status: T=1.35, dE=23.39, candidate was rejected
+Itr 54, LL= -3950939.522811 (10.125485). Anneal status: T=1.35, dE=59.64, candidate was rejected
+Itr 55, LL= -3950902.260911 (9.431149). Anneal status: T=1.35, dE=4.60, candidate was rejected
+Itr 56, LL= -3950881.638974 (5.219551). Anneal status: T=0.68, dE=31.10, candidate was rejected
+Itr 57, LL= -3950859.650403 (5.565485). Anneal status: T=0.68, dE=3.81, candidate was rejected
+Itr 58, LL= -3950832.023790 (6.992557). Anneal status: T=0.68, dE=6.94, candidate was rejected
+Itr 59, LL= -3950797.177082 (8.820094). Anneal status: T=0.68, dE=24.09, candidate was rejected
+Itr 60, LL= -3950737.605396 (15.078396). Anneal status: T=0.68, dE=7.01, candidate was rejected
+Itr 61, LL= -3950716.317154 (5.388422). Anneal status: T=0.00, dE=4.83, candidate was rejected
+Itr 62, LL= -3950676.349276 (10.116616). Anneal status: T=0.00, dE=8.67, candidate was rejected
+Itr 63, LL= -3950638.303250 (9.630256). Anneal status: T=0.00, dE=5.23, candidate was rejected
+Itr 64, LL= -3950608.463608 (7.553119). Anneal status: T=0.00, dE=10.99, candidate was rejected
+Itr 65, LL= -3950593.369035 (3.820822). Anneal status: T=0.00, dE=7.51, candidate was rejected
+Itr 66, LL= -3950579.018691 (3.632453). Anneal status: T=0.00, dE=51.45, candidate was rejected
+Itr 67, LL= -3950570.828482 (2.073167). Anneal status: T=0.00, dE=2.89, candidate was rejected
+Itr 68, LL= -3950558.422392 (3.140328). Anneal status: T=0.00, dE=12.96, candidate was rejected
+Itr 69, LL= -3950548.696007 (2.462028). Anneal status: T=0.00, dE=64.46, candidate was rejected
+Itr 70, LL= -3950540.634642 (2.040568). Anneal status: T=0.00, dE=20.46, candidate was rejected
+Itr 71, LL= -3950528.070081 (3.180466). Anneal status: T=0.00, dE=98.95, candidate was rejected
+Itr 72, LL= -3950495.153482 (8.332202). Anneal status: T=0.00, dE=42.18, candidate was rejected
+Itr 73, LL= -3950478.622644 (4.184498). Anneal status: T=0.00, dE=3.92, candidate was rejected
+Itr 74, LL= -3950467.807528 (2.737672). Anneal status: T=0.00, dE=13.60, candidate was rejected
+Itr 75, LL= -3950461.676323 (1.552020). Anneal status: T=0.00, dE=4.01, candidate was rejected
+Itr 76, LL= -3950458.252935 (0.866579). Anneal status: T=0.00, dE=43.17, candidate was rejected
+Itr 77, LL= -3950456.441875 (0.458443). Anneal status: T=0.00, dE=15.90, candidate was rejected
+Itr 78, LL= -3950452.456503 (1.008839). Anneal status: T=0.00, dE=52.99, candidate was rejected
+Itr 79, LL= -3950443.357316 (2.303328). Anneal status: T=0.00, dE=3.83, candidate was rejected
+Itr 80, LL= -3950439.867304 (0.883448). Anneal status: T=0.00, dE=8.56, candidate was rejected
+Itr 81, LL= -3950431.760060 (2.052238). Anneal status: T=0.00, dE=32.06, candidate was rejected
+Itr 82, LL= -3950417.108425 (3.708869). Anneal status: T=0.00, dE=2.09, candidate was rejected
+Itr 83, LL= -3950399.584333 (4.436011). Anneal status: T=0.00, dE=7.35, candidate was rejected
+Itr 84, LL= -3950393.826579 (1.457512). Anneal status: T=0.00, dE=54.20, candidate was rejected
+Itr 85, LL= -3950390.254825 (0.904151). Anneal status: T=0.00, dE=6.47, candidate was rejected
+Itr 86, LL= -3950382.467948 (1.971166). Anneal status: T=0.00, dE=4.94, candidate was rejected
+Itr 87, LL= -3950379.445030 (0.765222). Anneal status: T=0.00, dE=74.98, candidate was rejected
+Itr 88, LL= -3950377.273494 (0.549703). Anneal status: T=0.00, dE=40.81, candidate was rejected
+Itr 89, LL= -3950375.946660 (0.335875). Anneal status: T=0.00, dE=34.54, candidate was rejected
+-- Annealing statistics:
+Portion of times candidate was better: 0.011236
+Portion of times candidate was chosen by chance: 0.033708
+--
+EM for 14 states, 131 emission nodes. 25 observed values.
+            gibbs: 0
+    nGibbsItrPcnt: 0.8000
+     annealParams: {}
+           maxItr: 500
+      convergeEps: 1.0000e-06
+           minItr: 5
+       parametric: 0
+        initprobs: []
+      persistBias: 0
+          obsVals: []
+
+- Initalized simulated annealing with params:
+                     type: 'linear'
+    max_chance_accpetance: 0.2000
+             min_duration: 5
+        min_init_duration: 5
+             max_duration: 11
+              converge_th: 1.0000e-06
+
+--
+Itr 1, LL= -15231254.863074 (Inf). Anneal status: T=NaN, dE=-2242.54, collecting statistics
+Itr 2, LL= -4151131.780412 (Inf). Anneal status: T=NaN, dE=-75.57, collecting statistics
+Itr 3, LL= -4046477.224716 (Inf). Anneal status: T=NaN, dE=-323.33, collecting statistics
+Itr 4, LL= -4007752.200997 (9570.058490). Anneal status: T=NaN, dE=-142.22, collecting statistics
+Itr 5, LL= -3986358.925575 (5337.973594). Anneal status: T=NaN, dE=152.21, collecting statistics
+Itr 6, LL= -3976051.591919 (2585.651179). Anneal status: T=NaN, dE=49.00, collecting statistics
+Itr 7, LL= -3970063.324098 (1506.084034). Anneal status: T=NaN, dE=-4.08, collecting statistics
+Itr 8, LL= -3966064.426566 (1007.262909). Anneal status: T=NaN, dE=22.49, collecting statistics
+Itr 9, LL= -3963138.145960 (737.829821). Anneal status: T=NaN, dE=-1.38, collecting statistics
+Itr 10, LL= -3961127.915041 (507.232109). Anneal status: T=11.10, dE=10.76, candidate was rejected
+Itr 11, LL= -3959588.015232 (388.752861). Anneal status: T=11.10, dE=10.41, candidate was chosen by chance
+Itr 12, LL= -3958412.998834 (296.752186). Anneal status: T=11.10, dE=4.79, candidate was chosen by chance
+Itr 13, LL= -3957467.048199 (238.972193). Anneal status: T=11.10, dE=9.56, candidate was rejected
+Itr 14, LL= -3956595.987936 (220.105500). Anneal status: T=11.10, dE=54.39, candidate was rejected
+Itr 15, LL= -3955692.301105 (228.400078). Anneal status: T=9.99, dE=46.25, candidate was rejected
+Itr 16, LL= -3955038.714919 (165.226751). Anneal status: T=9.99, dE=3.41, candidate was chosen by chance
+Itr 17, LL= -3954464.141836 (145.276222). Anneal status: T=9.99, dE=57.50, candidate was rejected
+Itr 18, LL= -3953919.144302 (137.818302). Anneal status: T=9.99, dE=52.32, candidate was rejected
+Itr 19, LL= -3953444.161081 (120.129725). Anneal status: T=9.99, dE=3.77, candidate was chosen by chance
+Itr 20, LL= -3953149.926818 (74.424793). Anneal status: T=8.88, dE=2.94, candidate was chosen by chance
+Itr 21, LL= -3952927.228281 (56.334452). Anneal status: T=8.88, dE=18.11, candidate was rejected
+Itr 22, LL= -3952747.077599 (45.573994). Anneal status: T=8.88, dE=96.99, candidate was rejected
+Itr 23, LL= -3952594.898455 (38.499591). Anneal status: T=8.88, dE=13.28, candidate was rejected
+Itr 24, LL= -3952393.634678 (50.919404). Anneal status: T=8.88, dE=16.83, candidate was rejected
+Itr 25, LL= -3952278.597056 (29.105811). Anneal status: T=7.77, dE=3.11, candidate was chosen by chance
+Itr 26, LL= -3952143.705348 (34.130111). Anneal status: T=7.77, dE=74.62, candidate was rejected
+Itr 27, LL= -3952074.665761 (17.468896). Anneal status: T=7.77, dE=100.38, candidate was rejected
+Itr 28, LL= -3951973.615306 (25.568964). Anneal status: T=7.77, dE=11.95, candidate was rejected
+Itr 29, LL= -3951836.932134 (34.586054). Anneal status: T=7.77, dE=49.37, candidate was rejected
+Itr 30, LL= -3951658.096913 (45.253695). Anneal status: T=6.66, dE=53.65, candidate was rejected
+Itr 31, LL= -3951535.679192 (30.978824). Anneal status: T=6.66, dE=118.60, candidate was rejected
+Itr 32, LL= -3951373.129162 (41.135914). Anneal status: T=6.66, dE=23.49, candidate was rejected
+Itr 33, LL= -3951232.610903 (35.561881). Anneal status: T=6.66, dE=0.67, candidate was chosen by chance
+Itr 34, LL= -3951130.416288 (25.863984). Anneal status: T=6.66, dE=39.06, candidate was rejected
+Itr 35, LL= -3951054.335767 (19.255381). Anneal status: T=5.55, dE=5.59, candidate was chosen by chance
+Itr 36, LL= -3950985.546098 (17.410459). Anneal status: T=5.55, dE=26.32, candidate was chosen by chance
+Itr 37, LL= -3950869.953667 (29.256607). Anneal status: T=5.55, dE=92.95, candidate was rejected
+Itr 38, LL= -3950792.700339 (19.553498). Anneal status: T=5.55, dE=80.82, candidate was rejected
+Itr 39, LL= -3950739.067269 (13.575268). Anneal status: T=5.55, dE=7.33, candidate was rejected
+Itr 40, LL= -3950693.356638 (11.570147). Anneal status: T=4.44, dE=34.22, candidate was rejected
+Itr 41, LL= -3950647.373041 (11.639374). Anneal status: T=4.44, dE=11.35, candidate was rejected
+Itr 42, LL= -3950600.836502 (11.779472). Anneal status: T=4.44, dE=17.81, candidate was rejected
+Itr 43, LL= -3950519.837471 (20.502965). Anneal status: T=4.44, dE=6.85, candidate was rejected
+Itr 44, LL= -3950434.975416 (21.481237). Anneal status: T=4.44, dE=66.60, candidate was rejected
+Itr 45, LL= -3950360.433838 (18.869208). Anneal status: T=3.33, dE=29.96, candidate was rejected
+Itr 46, LL= -3950263.932292 (24.428542). Anneal status: T=3.33, dE=24.36, candidate was rejected
+Itr 47, LL= -3950224.387390 (10.010699). Anneal status: T=3.33, dE=21.05, candidate was rejected
+Itr 48, LL= -3950197.511568 (6.803619). Anneal status: T=3.33, dE=13.77, candidate was rejected
+Itr 49, LL= -3950143.964562 (13.555526). Anneal status: T=3.33, dE=41.22, candidate was rejected
+Itr 50, LL= -3950055.053468 (22.508317). Anneal status: T=2.22, dE=24.06, candidate was rejected
+Itr 51, LL= -3949965.093072 (22.774467). Anneal status: T=2.22, dE=50.00, candidate was rejected
+Itr 52, LL= -3949883.337086 (20.697901). Anneal status: T=2.22, dE=3.80, candidate was rejected
+Itr 53, LL= -3949835.788928 (12.037864). Anneal status: T=2.22, dE=3.91, candidate was rejected
+Itr 54, LL= -3949812.901319 (5.794572). Anneal status: T=2.22, dE=9.64, candidate was rejected
+Itr 55, LL= -3949788.814048 (6.098332). Anneal status: T=1.11, dE=45.83, candidate was rejected
+Itr 56, LL= -3949748.832060 (10.122563). Anneal status: T=1.11, dE=33.59, candidate was rejected
+Itr 57, LL= -3949702.223528 (11.800379). Anneal status: T=1.11, dE=8.18, candidate was rejected
+Itr 58, LL= -3949689.103266 (3.321836). Anneal status: T=1.11, dE=192.11, candidate was rejected
+Itr 59, LL= -3949660.875895 (7.146732). Anneal status: T=1.11, dE=15.55, candidate was rejected
+Itr 60, LL= -3949628.723610 (8.140518). Anneal status: T=0.00, dE=19.96, candidate was rejected
+Itr 61, LL= -3949606.459490 (5.637016). Anneal status: T=0.00, dE=16.96, candidate was rejected
+Itr 62, LL= -3949589.944024 (4.181547). Anneal status: T=0.00, dE=7.84, candidate was rejected
+Itr 63, LL= -3949574.810535 (3.831661). Anneal status: T=0.00, dE=15.13, candidate was rejected
+Itr 64, LL= -3949566.784053 (2.032240). Anneal status: T=0.00, dE=27.03, candidate was rejected
+Itr 65, LL= -3949534.445426 (8.187892). Anneal status: T=0.00, dE=6.49, candidate was rejected
+Itr 66, LL= -3949493.210876 (10.440357). Anneal status: T=0.00, dE=29.34, candidate was rejected
+Itr 67, LL= -3949481.705633 (2.913094). Anneal status: T=0.00, dE=28.44, candidate was rejected
+Itr 68, LL= -3949456.788801 (6.308887). Anneal status: T=0.00, dE=9.50, candidate was rejected
+Itr 69, LL= -3949440.500726 (4.124130). Anneal status: T=0.00, dE=16.54, candidate was rejected
+Itr 70, LL= -3949418.133859 (5.663300). Anneal status: T=0.00, dE=10.05, candidate was rejected
+Itr 71, LL= -3949393.413063 (6.259351). Anneal status: T=0.00, dE=23.31, candidate was rejected
+Itr 72, LL= -3949382.295757 (2.814940). Anneal status: T=0.00, dE=9.62, candidate was rejected
+Itr 73, LL= -3949379.843598 (0.620897). Anneal status: T=0.00, dE=54.00, candidate was rejected
+Itr 74, LL= -3949367.844577 (3.038204). Anneal status: T=0.00, dE=90.18, candidate was rejected
+Itr 75, LL= -3949361.760335 (1.540561). Anneal status: T=0.00, dE=47.17, candidate was rejected
+Itr 76, LL= -3949357.692799 (1.029922). Anneal status: T=0.00, dE=30.13, candidate was rejected
+Itr 77, LL= -3949339.405035 (4.630567). Anneal status: T=0.00, dE=14.60, candidate was rejected
+Itr 78, LL= -3949331.931180 (1.892432). Anneal status: T=0.00, dE=39.92, candidate was rejected
+Itr 79, LL= -3949318.930177 (3.291950). Anneal status: T=0.00, dE=4.88, candidate was rejected
+Itr 80, LL= -3949312.179424 (1.709346). Anneal status: T=0.00, dE=5.76, candidate was rejected
+Itr 81, LL= -3949307.481256 (1.189617). Anneal status: T=0.00, dE=5.16, candidate was rejected
+Itr 82, LL= -3949303.357613 (1.044143). Anneal status: T=0.00, dE=36.93, candidate was rejected
+Itr 83, LL= -3949295.940772 (1.878013). Anneal status: T=0.00, dE=11.46, candidate was rejected
+Itr 84, LL= -3949289.850671 (1.542072). Anneal status: T=0.00, dE=18.54, candidate was rejected
+Itr 85, LL= -3949260.261918 (7.492171). Anneal status: T=0.00, dE=72.61, candidate was rejected
+Itr 86, LL= -3949257.984950 (0.576556). Anneal status: T=0.00, dE=13.78, candidate was rejected
+Itr 87, LL= -3949246.153222 (2.995937). Anneal status: T=0.00, dE=3.73, candidate was rejected
+Itr 88, LL= -3949233.217565 (3.275475). Anneal status: T=0.00, dE=4.32, candidate was rejected
+Itr 89, LL= -3949223.725639 (2.403486). Anneal status: T=0.00, dE=34.88, candidate was rejected
+Itr 90, LL= -3949221.552864 (0.550178). Anneal status: T=0.00, dE=4.96, candidate was rejected
+Itr 91, LL= -3949219.571519 (0.501705). Anneal status: T=0.00, dE=28.07, candidate was rejected
+Itr 92, LL= -3949217.848159 (0.436380). Anneal status: T=0.00, dE=7.35, candidate was rejected
+-- Annealing statistics:
+Portion of times candidate was better: 0.000000
+Portion of times candidate was chosen by chance: 0.097826
+--
+>> 
