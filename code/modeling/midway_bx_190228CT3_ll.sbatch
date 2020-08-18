@@ -10,4 +10,4 @@
 echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 
 module load matlab/2014b
-matlab -nojvm -nodisplay -nosplash -r "addpath(genpath('./')); midway_train_HMM_log_likelihood('./data/Bxcenter_out190228CT0.mat',$SLURM_ARRAY_TASK_ID,5)"
+matlab -nojvm -nodisplay -nosplash -r "addpath(genpath('./')); midway_train_HMM_log_likelihood('./data/Bx190228CT3.mat',$SLURM_ARRAY_TASK_ID,4)"
