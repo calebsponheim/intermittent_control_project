@@ -60,13 +60,14 @@ end
 %% Next, transfer all the data back from midway AND decode trials based on their role
 % Determine optimal number of states
 [meta] = model_select_HMM(data,meta);
+[data] = decode_with_optimal_states(data,meta);
 
+%% Saving
 if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
     save(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\data_with_optimal_states_estimate\' meta.subject meta.task meta.session 'CT' num2str(meta.crosstrain)], 'meta', 'data','-v7.3')
 else
     save(strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\data\data_with_optimal_states_estimate\',meta.subject,meta.task,'_HMM_struct_',date),'-v7.3')
 end
-
 
 %%
 run bx_postmodel_analysis
