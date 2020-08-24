@@ -29,5 +29,5 @@ for iIter = 1:num_iters
     rng('shuffle'); % Reshuffle seed
     hn_trained{iIter} = ehmmTrainAnneal(trainset',num_states);
 end
-save([meta.subject,meta.task,meta.session,'_HMM_hn_',num2str(num_states),'_states_CT0'],'hn_trained')
+save(['./data_midway/hn_trained/',meta.subject,meta.task,meta.session,'_HMM_hn_',num2str(num_states),'_states_CT0'],'hn_trained')
 end
