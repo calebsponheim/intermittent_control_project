@@ -1,74 +1,25 @@
-% %% Build and Run Model
-% if crosstrain > 0
-%     [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM([],num_states_subject,data_RTP,data_center_out,crosstrain,seed_to_train,TRAIN_PORTION);
-% else
-%     [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],crosstrain,seed_to_train,TRAIN_PORTION);
-% end
-% 
-
-%% Save Model
-if ispc
-    if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
-        save(strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\',subject,task,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),'_states_CT_',num2str(crosstrain),'_',date))
-    else
-        save(strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\data\',subject,task,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),'_states_CT_',num2str(crosstrain),'_',date))
-    end
-    %     save(['C:\Users\vpapadourakis\Documents\' subject task '_HMM_classified_test_data_and_output_' num2str(num_states_subject) '_states_' date])
-else
-    save(['/Volumes/nicho-lab/caleb_sponheim/intermittent_control/data/' subject task '_HMM_classified_test_data_and_output_' num2str(num_states_subject) '_states_' date])
-end
-
 %% Create Plot Figure Results Folder
 if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
-    file_list = dir('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\');
+    if meta.crosstrain == 0
+        file_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0\'];
+    else
+        file_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\_CT' meta.crosstrain '\'];        
+    end
 else
-    file_list = dir('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\');
+    if meta.crosstrain == 0
+        file_folder_filepath = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\' meta.subject '\' meta.task '_CT0\'];
+    else
+        file_folder_filepath = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\' meta.subject '\_CT' meta.crosstrain '\'];        
+    end
 end
-
-file_list = {file_list.name};
-current_date_and_time = char(datetime(now,'ConvertFrom','datenum'));
-current_date_and_time = erase(current_date_and_time,' ');
-current_date_and_time = erase(current_date_and_time,':');
-current_date_and_time = current_date_and_time(1:end-6);
-
-if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
-    figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\',subject,task,num2str(num_states_subject),'_states_',current_date_and_time,'_CT_',num2str(crosstrain)];
-else
-    figure_folder_filepath = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\',subject,task,num2str(num_states_subject),'_states_',current_date_and_time,'_CT_',num2str(crosstrain)];
-end
-figure_folder_filepath_dupe_comp = [subject,task,num2str(num_states_subject),'_states_',current_date_and_time,'_CT_',crosstrain];
-dupe_status = cell2mat(cellfun(@(x,y)strcmp(x,figure_folder_filepath_dupe_comp),file_list,'UniformOutput',false));
-if sum(dupe_status) > 0
-    figure_folder_filepath = [figure_folder_filepath 'a'];
-end
-mkdir(figure_folder_filepath)
-
-%% Process HMM output
-[dc_thresholded] = censor_and_threshold_HMM_output(dc);
 
 %% Create Snippets and Plot **everything**
 
-if crosstrain == 1 % RTP model, center-out decode
-    [trialwise_states] = segment_analysis(trInd_test,dc_thresholded,bin_timestamps_center_out,data,subject,muscle_names,include_EMG_analysis,target_locations);
-    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,'center_out',muscle_names,include_EMG_analysis,figure_folder_filepath)
-    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,'center_out',muscle_names,include_EMG_analysis,figure_folder_filepath);
-elseif crosstrain == 2 % 2: Center-out model, RTP decode
-    [trialwise_states] = segment_analysis(trInd_test,dc_thresholded,bin_timestamps_RTP,data,subject,muscle_names,include_EMG_analysis,target_locations);
-    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,'RTP',muscle_names,include_EMG_analysis,figure_folder_filepath)
-    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,'RTP',muscle_names,include_EMG_analysis,figure_folder_filepath);
-elseif crosstrain == 3
-    bin_timestamps = [bin_timestamps_center_out bin_timestamps_RTP];
-    data = [data_center_out data_RTP];
-    [trialwise_states] = segment_analysis(trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis,target_locations);
-    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task,muscle_names,include_EMG_analysis,figure_folder_filepath);
-    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task,muscle_names,include_EMG_analysis,figure_folder_filepath)
-else
-    [trialwise_states] = segment_analysis(trInd_test,dc_thresholded,bin_timestamps,data,subject,muscle_names,include_EMG_analysis,target_locations);
-    [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task,muscle_names,include_EMG_analysis,figure_folder_filepath);
-    plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task,muscle_names,include_EMG_analysis,figure_folder_filepath)
-end
+% Segment Analysis
+% Plot Single Trials
+% Plot Segments
 
-%%
+%% Plot all Trials
 % trials_to_plot = datasample(1:length(trialwise_states),100);
 % trials_to_plot = trials_to_plot(randperm(length(trials_to_plot)));
 % trials_to_plot = [20:25];

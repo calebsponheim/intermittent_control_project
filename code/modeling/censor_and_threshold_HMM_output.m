@@ -1,11 +1,7 @@
 function [dc_thresholded] = censor_and_threshold_HMM_output(dc)
 % Process and threshold HMM output
 
-% filepath = '\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\data\nicho_rs1050211_HMM_output.mat';
-%
-% load(filepath,'dc');
 dc_thresholded = dc;
-% clear dc
 
 for iTrial = 1:size(dc_thresholded,2)
     
@@ -28,7 +24,7 @@ for iTrial = 1:size(dc_thresholded,2)
                 
             % if the first bin does not match the second bin, then remove it.
             elseif (dc_thresholded(iTrial).maxprob_state(iBin + 1) ~= dc_thresholded(iTrial).maxprob_state(iBin))
-                dc_thresholded(iTrial).maxprob_state(iBin) = NaN;
+                dc_thresholded(iTrial).maxprob_state(iBin) = dc_thresholded(iTrial).maxprob_state(iBin + 1);
             end
          
         % if the bin isn't 1
