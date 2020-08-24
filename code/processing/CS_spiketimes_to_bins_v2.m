@@ -95,6 +95,15 @@ elseif strcmp(task,'center_out')
 end
 units = cellfun(@(x) (x./1000),units,'UniformOutput',false);
 
+%%%%%% Shifting Neural Timing back x ms to account for brain -> muscle lag
+if meta.muscle_lag > 0
+    trial_start_30k = trial_start_30k - (meta.muscle_lag * 30000);
+    trial_end_30k = trial_end_30k - (meta.muscle_lag * 30000);
+    if strcmp(task,'center_out')  
+        periOnM1_30k = periOnM1_30k - (meta.muscle_lag * 30000);
+    end
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %   data should be a struct array, with field 'spikecount'
 %   s.t., for each i trial, data(i).spikecount is an N x T matrix,
@@ -210,7 +219,7 @@ for iTrial = 1:num_trials
         data(iTrial).spikecountresamp(iUnit,1:length(data(iTrial).ms_relative_to_trial_start)) = ...
             data_temp(iTrial).spikecountresamp(iUnit,1:length(data(iTrial).ms_relative_to_trial_start));
     end
-        data(iTrial).bin_timestamps_resamp = ...
-            data_temp(iTrial).bin_timestamps_resamp(1:length(data(iTrial).ms_relative_to_trial_start));
+    data(iTrial).bin_timestamps_resamp = ...
+        data_temp(iTrial).bin_timestamps_resamp(1:length(data(iTrial).ms_relative_to_trial_start));
 end
 end
