@@ -23,6 +23,7 @@ for iStateNum = state_num_range % for each state num
     hn_trained_temp = load(model_files{iStateNum-1},'hn_trained'); % load their models
     hn_trained_temp = hn_trained_temp.hn_trained;
     num_states_temp = size(hn_trained_temp{1}.a,1);
+    num_states_for_plotting(num_states_temp-1) = num_states_temp;
     % decode ALL trials
     for iIter = 1:numel(hn_trained_temp)
         dc_temp = decode_trials(hn_trained_temp{iIter},data,meta);
@@ -33,12 +34,18 @@ for iStateNum = state_num_range % for each state num
     % if the trial is "model select", then pull those trials aside alongside their state num
     disp(['processed models for ' num2str(num_states_temp) ' states'])
 end
+ll_sum = sum(dc_temp_ll_model_select,3);
+% ll_sum(ll_sum(:,1) == 0,:) = [];
+
+num_states_for_plotting(num_states_for_plotting == 0) = [];
+ll_sum(num_states_for_plotting == 0,:) = [];
+
 %% Plotting
 % plot all the "model-select" trials dc ll together
-figure('color','white','visible','off'); plot(state_num_range,sum(dc_temp_ll_model_select,3),'k.'); hold on
+figure('color','white','visible','off'); plot(num_states_for_plotting,ll_sum,'k.'); hold on
 % fit a curve to that CHAOS
-quad_fit_to_log_likelihood = polyfit(state_num_range,mean(sum(dc_temp_ll_model_select,3),2),2);
-curve_range = min(state_num_range):.1:max(state_num_range);
+quad_fit_to_log_likelihood = polyfit(num_states_for_plotting,mean(ll_sum,2),2);
+curve_range = min(num_states_for_plotting):.1:max(num_states_for_plotting);
 quad_fit_to_log_likelihood = ...
     polyval(quad_fit_to_log_likelihood,curve_range);
 plot(curve_range,quad_fit_to_log_likelihood);

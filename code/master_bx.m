@@ -6,8 +6,8 @@ meta.subject = 'Bx'; % Subject
 meta.arrays = {'M1m';'M1l'}; % Which M1 Arrays to analyze
 meta.session = '190228'; % Which day of data
 % meta.task = 'center_out';       % Choose one of the three options here
-% meta.task = 'RTP';              % Choose one of the three options here
-meta.task = 'center_out_and_RTP'; % Choose one of the three options here
+meta.task = 'RTP';              % Choose one of the three options here
+% meta.task = 'center_out_and_RTP'; % Choose one of the three options here
 
 meta.include_EMG_analysis = 1; % Process EMG data along with kinematics?
 
@@ -18,7 +18,7 @@ meta.center_out_trial_window = ''; % If center-out, what event to bound analysis
 % in "events" ; this is the window that the HMM will actually analyze, inside of the bigger center-out window.
 meta.CO_HMM_analysis_window = {'move','reward'}; % TIMING IS RELATIVE TO "TRIAL START". THIS IS USUALLY -1000ms FROM PERION
 
-meta.crosstrain = 3; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
+meta.crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
 
 % meta.num_states_subject = 16; % How many states in the model? NO LONGER USED
 
@@ -55,6 +55,8 @@ end
 %% Preprocessing
 if data_file_already_exists == 0
     [meta,data] = bx_premodel_processing(meta);
+elseif data_file_already_exists == 1
+    load(['.\data\' meta.subject meta.task meta.session 'CT' num2str(meta.crosstrain)])
 end
 %% Next, run models on midway
 
