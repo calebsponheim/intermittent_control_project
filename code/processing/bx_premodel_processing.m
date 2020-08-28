@@ -37,6 +37,7 @@ end
 if meta.crosstrain > 0
 else
     [data,meta.targets] = CS_spiketimes_to_bins_v2(meta);
+    disp('- spikes have been binned');
 end
 
 %% Prepare Kinematic Data
@@ -44,6 +45,7 @@ end
 if meta.crosstrain > 0
 else
     [data] = process_kinematics_v2(meta,data);
+    disp('- kinematics have been processed')
 end
 
 %% Prepare EMG Data
@@ -52,6 +54,7 @@ if meta.include_EMG_analysis == 1
     if meta.crosstrain > 0
     else
         [data,meta] = process_EMGs_v2(meta,data);
+        disp('- EMGs have been processed')
     end
 else
     meta.muscle_names = [];
@@ -60,8 +63,10 @@ end
 %% Allocate Trials to test/model/train
 if meta.crosstrain > 0
     [data,meta] = assign_trials_to_HMM_group([],meta);
+    disp('- trials have been assigned to their HMM group')
 else
     [data,meta] = assign_trials_to_HMM_group(data,meta);
+    disp('- trials have been assigned to their HMM group')
 end
 %% pre-model-save
 if meta.crosstrain == 0
@@ -85,4 +90,6 @@ elseif meta.crosstrain > 0
         save(['/Volumes/nicho-lab/caleb_sponheim/intermittent_control/data/' meta.subject meta.session 'CT' num2str(meta.crosstrain)],'meta', 'data','-v7.3')
     end
 end
+
+disp('- pre-model data has been saved');
 end
