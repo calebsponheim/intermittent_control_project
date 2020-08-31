@@ -1,6 +1,6 @@
 function midway_train_HMM_log_likelihood(filepath,num_states,num_iters)
 
-load(filepath,'meta','data')
+load(filepath)
 addpath(genpath('./CodeForCaleb'))
 trInd_train = find(cellfun(@(x) strcmp(x,'train'),[data.trial_classification]));
 %% Prepare data
