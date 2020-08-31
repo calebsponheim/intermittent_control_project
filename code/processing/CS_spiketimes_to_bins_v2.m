@@ -99,7 +99,7 @@ units = cellfun(@(x) (x./1000),units,'UniformOutput',false);
 if meta.muscle_lag > 0
     trial_start_30k = trial_start_30k - (meta.muscle_lag * 30000);
     trial_end_30k = trial_end_30k - (meta.muscle_lag * 30000);
-    if strcmp(task,'center_out')  
+    if strcmp(task,'center_out')
         periOnM1_30k = periOnM1_30k - (meta.muscle_lag * 30000);
     end
 end
@@ -133,10 +133,12 @@ num_trials = size(trials,2);
 
 if strcmp(task,'center_out')
     for iTrial = 1:num_trials
-        data(iTrial).periOn_ms = periOnM1_30k(iTrial)/30;
         data(iTrial).tp = tp(iTrial);
         data(iTrial).target = targets(tp(iTrial),1:2);
-        data(iTrial).ms_relative_to_periOn = ((trial_length(1)*1000)+.001):1:(trial_length(2)*1000); %ms
+        if strcmp(trial_event_cutoff,'') % goes from go to peri target reached.
+            data(iTrial).periOn_ms = periOnM1_30k(iTrial)/30;
+            data(iTrial).ms_relative_to_periOn = ((trial_length(1)*1000)+.001):1:(trial_length(2)*1000); %ms
+        end
         if strcmp(trial_event_cutoff,'go')
             units(iTrial,:) = ...
                 cellfun(@(x)(x - trial_go_relative_to_periOn(iTrial)),units(iTrial,:),'UniformOutput',false);
@@ -188,7 +190,11 @@ for iTrial = 1:num_trials
     data(iTrial).trial_end_ms = cpl_st_trial_rew(iTrial,2)*1000;
     
     if strcmp(task,'center_out')
-        data(iTrial).ms_relative_to_trial_start = 1:1:((abs(trial_length(1)) + trial_length(2))*1000); %ms
+        if strcmp(trial_event_cutoff,'') % goes from go to peri target reached.
+            data(iTrial).ms_relative_to_trial_start = 1:1:((abs(trial_length(1)) + trial_length(2))*1000); %ms
+        else
+            data(iTrial).ms_relative_to_trial_start = 1:1:((data(iTrial).trial_end_ms - data(iTrial).trial_start_ms)); %ms            
+        end
     elseif strcmp(task,'RTP')
         data(iTrial).ms_relative_to_trial_start = 1:1:((data(iTrial).trial_end_ms - data(iTrial).trial_start_ms)+1); %ms
     end

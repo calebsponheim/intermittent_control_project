@@ -1,4 +1,4 @@
-function tangle_visualize( out )
+function tangle_visualize_cs( out )
 % input is the second output of tangleAnalysis.m
 
 % choose an interesting  t1
@@ -77,12 +77,12 @@ for tt = 1:step:sum(pairs2use)
    
    if q_T1(tt) > hightangling
       pause(.2)
-      pause
+%       pause
    elseif q_T1(tt) > medtangling
       pause(.1)
-      pause
+%       pause
    else % low tangling
-      pause
+%       pause
    end
    
 end

@@ -6,11 +6,18 @@ function [meta] = model_select_HMM(data,meta)
 file_list = dir('.\data_midway\hn_trained');
 folder = file_list(1).folder;
 file_list = {file_list.name};
-model_files = cellfun(@(x)[folder '\' x],file_list(...
-    endsWith(file_list,['CT' num2str(meta.crosstrain) '.mat'])),'UniformOutput',false);
 
-if meta.crosstrain == 0
+if (meta.crosstrain == 0) || (meta.crosstrain == 3) % 0: none || 3: both tasks together
+    model_files = cellfun(@(x)[folder '\' x],file_list(...
+        endsWith(file_list,['CT' num2str(meta.crosstrain) '.mat'])),'UniformOutput',false);
+    
     model_files = model_files(contains(model_files,[meta.subject meta.task]));
+elseif meta.crosstrain == 1 %1: RTP model, center-out decode
+    model_files = cellfun(@(x)[folder '\' x],file_list(endsWith(file_list,'CT0.mat')),'UniformOutput',false);
+    model_files = model_files(contains(model_files,[meta.subject 'RTP']));
+elseif meta.crosstrain == 2 %2: Center-out model, RTP decode
+    model_files = cellfun(@(x)[folder '\' x],file_list(endsWith(file_list,'CT0.mat')),'UniformOutput',false);
+    model_files = model_files(contains(model_files,[meta.subject 'center_out']));
 end
 model_files = sort(model_files);
 
