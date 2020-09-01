@@ -44,8 +44,8 @@ end
 ll_sum = sum(dc_temp_ll_model_select,3);
 % ll_sum(ll_sum(:,1) == 0,:) = [];
 
-num_states_for_plotting(num_states_for_plotting == 0) = [];
 ll_sum(num_states_for_plotting == 0,:) = [];
+num_states_for_plotting(num_states_for_plotting == 0) = [];
 
 %% Plotting
 % plot all the "model-select" trials dc ll together
