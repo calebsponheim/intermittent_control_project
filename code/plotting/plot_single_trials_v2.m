@@ -28,7 +28,7 @@ for iTrial = available_test_trials(meta.trials_to_plot)
     scatter(data(iTrial).ms_relative_to_trial_start(1),data(iTrial).speed(1),150,'g','filled')
     scatter(data(iTrial).ms_relative_to_trial_start(end),data(iTrial).speed(end),150,'r','filled')
     title([meta.subject,'  ',strrep(meta.task,'_',' '),' trial ',num2str(iTrial),' velocity']);
-    xlim([min([data.ms_relative_to_trial_start]) max([data.ms_relative_to_trial_start])])
+    xlim([min([data(iTrial).ms_relative_to_trial_start]) max([data(iTrial).ms_relative_to_trial_start])])
     ylim([min([data.speed]) max([data.speed])])
     xlabel('time relative to trial start (ms)')
     box off
@@ -42,7 +42,7 @@ for iTrial = available_test_trials(meta.trials_to_plot)
     scatter(data(iTrial).ms_relative_to_trial_start(1),data(iTrial).acceleration(1),150,'g','filled')
     scatter(data(iTrial).ms_relative_to_trial_start(end),data(iTrial).acceleration(end),150,'r','filled')
     title([meta.subject,'  ',strrep(meta.task,'_',' '),' trial ',num2str(iTrial),' acceleration']);
-    xlim([min([data.ms_relative_to_trial_start]) max([data.ms_relative_to_trial_start])])
+    xlim([min([data(iTrial).ms_relative_to_trial_start]) max([data(iTrial).ms_relative_to_trial_start])])
     ylim([min([data.acceleration]) max([data.acceleration])])
     xlabel('time relative to trial start (ms)')
     box off

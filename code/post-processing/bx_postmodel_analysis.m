@@ -21,9 +21,13 @@ end
 plot_single_trials_v2(meta,data)
 % Plot Segments
 plot_state_snippets(meta,data,snippet_data)
-plot_state_direction
-plot_state_normalized_velocity
-%% Plot all Trials
+% Plot State Direction
+plot_state_direction(meta,data,snippet_data)
+
+% Plot normalized velocity
+plot_state_normalized_velocity(meta,data,snippet_data)
+
+% Plot all Trials
 plot_all_trials_v2(meta,data);
 %%
 % transition_matrix_for_plot = hn_trained.a;

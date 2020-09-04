@@ -49,7 +49,7 @@ num_states_for_plotting(num_states_for_plotting == 0) = [];
 
 %% Plotting
 % plot all the "model-select" trials dc ll together
-figure('color','white','visible','off'); plot(num_states_for_plotting,ll_sum,'k.'); hold on
+figure('color','white','visible','on'); plot(num_states_for_plotting,ll_sum,'k.'); hold on
 % fit a curve to that CHAOS
 quad_fit_to_log_likelihood = polyfit(num_states_for_plotting,mean(ll_sum,2),2);
 curve_range = min(num_states_for_plotting):.1:max(num_states_for_plotting);
