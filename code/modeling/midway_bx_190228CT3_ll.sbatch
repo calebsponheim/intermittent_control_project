@@ -5,7 +5,7 @@
 #SBATCH --error=./data_midway/log_files/Bx190228CT3_%a.err
 #SBATCH --partition=broadwl
 #SBATCH --ntasks=4
-#SBATCH --mem=8G
+#SBATCH --mem=16G
 
 echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 
