@@ -1,3 +1,5 @@
+function bx_postmodel_analysis(meta,data)
+
 %% Create Plot Figure Results Folder
 if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
     if meta.crosstrain == 0
@@ -13,10 +15,13 @@ else
     end
 end
 
-%% Create Snippets and Plot **everything**
+%% Create Snippet Timing
 
 % Segment Analysis
 [meta,data,snippet_data] = segment_analysis_v2(meta,data);
+
+%% Plot Everything
+
 % Plot Single Trials
 plot_single_trials_v2(meta,data)
 % Plot Segments
@@ -29,40 +34,24 @@ plot_state_normalized_velocity(meta,data,snippet_data)
 
 % Plot all Trials
 plot_all_trials_v2(meta,data);
-%%
-% transition_matrix_for_plot = hn_trained.a;
-% 
-% for iState = 1:num_states_subject
-%     transition_matrix_for_plot(iState,iState) = 0;
-% end
-% 
-% figure('visible','off'); hold on;
-% imagesc(transition_matrix_for_plot)
-% colormap(gca,jet)
-% axis square
-% axis tight
-% colorbar
-% if strcmp(task,'center_out')
-%     title([subject,' center out transition matrix']);
-% else
-%     title([subject,task,' transition matrix']);
-% end
-% box off
-% set(gcf,'Color','White');
-% saveas(gcf,strcat(figure_folder_filepath,'\'...
-%     ,subject,task,num2str(num_states_subject),'states_transition_matrix.png'));
-% 
-% %% normalized segments
-% 
-% [segmentwise_analysis] = normalize_state_segments(segmentwise_analysis,subject,task,num_states_subject,include_EMG_analysis,muscle_names,figure_folder_filepath);
-% 
-% %% Plot Avg EMG Center Out stuff
-% 
-% if strcmp(task,'center_out')
-%     avg_CO_emg_traces(muscle_names,trialwise_states,targets,figure_folder_filepath,subject,task)
-% end
 
-%% Save Result
+% Plot Transition Matrix
+plot_transition_matrix_v2(meta);
 
-% save(strcat('\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\data\',subject,'_',task,'_HMM_analysis_',num2str(num_states_subject),'_states_',date))
-% save(strcat('C:\Users\vpapadourakis\Documents\',subject,'_',task,'_HMM_analysis_',num2str(num_states_subject),'_states_',date))
+%% State-to-state comparison
+
+
+% direction_comparison_matrix = direction_comparison(meta,data,snippet_data,second_dataset,second_dataset_meta);
+
+
+direction_comparison_matrix = direction_comparison(data,snippet_data,...
+    load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\data_with_optimal_states_estimate\BxRTP190228CT0.mat','data'),...
+    load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\data_with_optimal_states_estimate\BxRTP190228CT0.mat','meta')...
+    );
+
+
+velocity_compare = velocity_comparison(data,snippet_data,...
+    load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\data_with_optimal_states_estimate\BxRTP190228CT0.mat','data'),...
+    load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\data_with_optimal_states_estimate\BxRTP190228CT0.mat','meta')...
+    );
+end
