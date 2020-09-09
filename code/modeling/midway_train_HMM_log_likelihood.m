@@ -3,6 +3,10 @@ function midway_train_HMM_log_likelihood(filepath,num_states,num_iters)
 load(filepath)
 addpath(genpath('./CodeForCaleb'))
 trInd_train = find(cellfun(@(x) strcmp(x,'train'),[data.trial_classification]));
+
+if num_states >= 25
+   num_iters = 3; 
+end
 %% Prepare data
 % Static parameters:
 
