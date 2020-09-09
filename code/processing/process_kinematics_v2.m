@@ -125,14 +125,17 @@ velocity = cellfun(@(x,y) (sqrt(x.^2 + y.^2)),filt_lowpass_x_vel,filt_lowpass_y_
 
 for iTrial = 1:size(data,2)
     if strcmp(task,'RTP')
-        data(iTrial).x_smoothed = filt_lowpass_x{iTrial}(1:2:end);
-        data(iTrial).y_smoothed = filt_lowpass_y{iTrial}(1:2:end);
-        data(iTrial).speed = velocity{iTrial}(1:2:end);
+        x_temp = filt_lowpass_x{iTrial}(1:2:end);
+        data(iTrial).x_smoothed = x_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
+        y_temp = filt_lowpass_y{iTrial}(1:2:end);
+        data(iTrial).y_smoothed = y_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
+        speed_temp = velocity{iTrial}(1:2:end);
+        data(iTrial).speed = speed_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
         
         %adding acceleration analysis
         data(iTrial).acceleration = [0 diff(data(iTrial).speed)];
         
-        data(iTrial).kinematic_timestamps = (data(iTrial).trial_start_ms+1):1:data(iTrial).trial_end_ms;
+        data(iTrial).kinematic_timestamps = (data(iTrial).trial_start_ms):1:data(iTrial).trial_end_ms;
         
     elseif strcmp(task,'center_out') && (iTrial <= size(filt_lowpass_x,2))
         

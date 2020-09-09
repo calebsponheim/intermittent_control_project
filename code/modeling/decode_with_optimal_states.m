@@ -1,4 +1,4 @@
-function [data] = decode_with_optimal_states(data,meta)
+function [data,meta] = decode_with_optimal_states(data,meta)
 %%
 % This function is meant to use the "optimal state number" identified in
 % the previous step to decode all trials in the data struct.
@@ -10,24 +10,24 @@ model_for_decode = load(model_filepath,'hn_trained');
 model_for_decode = model_for_decode.hn_trained{1, 1};
 
 [dc] = decode_trials(model_for_decode,data,meta);
-bins = 1:50:4500;
 for iTrial = 1:size(dc,1)
-% resample the dc_thresholded struct to 1k
-for iBin = 1:numel(bins)
-    if iBin == 1
-        resamp_range = 1:(meta.bin_size*1000);
-    else
-        resamp_range = ((iBin-1)*(meta.bin_size*1000)+1) : ((iBin)*(meta.bin_size*1000));
+    bins = 1:50:size(data(iTrial).ms_relative_to_trial_start,2);
+    % resample the dc_thresholded struct to 1k
+    for iBin = 1:numel(bins)
+        if iBin == 1
+            resamp_range = 1:(meta.bin_size*1000);
+        else
+            resamp_range = ((iBin-1)*(meta.bin_size*1000)+1) : ((iBin)*(meta.bin_size*1000));
+        end
+        
+        trial_resamp_temp(resamp_range) = dc(iTrial).maxprob_state(iBin);
     end
-
-    trial_resamp_temp(resamp_range) = dc(1).maxprob_state(iBin);
-end
-
-
-% put the decoded states into the data_struct
-data(iTrial).states_resamp = trial_resamp_temp;
-
-clear trial_resamp_temp
-
+    
+    trial_resamp_temp = trial_resamp_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
+    % put the decoded states into the data_struct
+    data(iTrial).states_resamp = trial_resamp_temp;
+    meta.hn = model_for_decode;
+    clear trial_resamp_temp
+    
 end
 end
