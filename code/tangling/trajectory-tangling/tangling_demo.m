@@ -159,7 +159,7 @@ formattedScatter(Q_m1, Q_emg, {'Q_{M1}','Q_{EMG}'});
 % for the jankiness).
 %
 
-tangle_visualize( out_emg ) 
+tangle_visualize_cs( out_emg ) 
 
 
 %% Visualize tangling in M1

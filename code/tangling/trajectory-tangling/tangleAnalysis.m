@@ -40,7 +40,7 @@
 % * cond2use (vector, default: 1:length(Data)) - specifies which conditions
 % to use in calculating tangling
 % * withinConditionsOnly (logical, default: false) - if desired, tangling
-% will only be calculated for pai   rs of times that correspond to the same
+% will only be calculated for pairs of times that correspond to the same
 % condition
 % * timeStep (scalar, default: 20) - Because tangling is a pairwise
 % computation, things can get quite slow if enough data is included. After
