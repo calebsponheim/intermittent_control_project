@@ -23,6 +23,9 @@ elseif strcmp(task,'center_out')
     if strcmp(trial_event_cutoff,'')
         trial_start_relative_to_periOn(:) = trial_length(1);
         trial_end_relative_to_periOn(:) = trial_length(2);
+    elseif strcmp(trial_event_cutoff,'move')
+        trial_start_relative_to_periOn = events(events(:,7)>0,4);
+        trial_end_relative_to_periOn = events(events(:,7)>0,7);
     end
 end
 

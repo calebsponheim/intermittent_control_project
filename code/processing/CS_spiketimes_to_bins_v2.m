@@ -78,8 +78,8 @@ elseif strcmp(task,'center_out')
     else
         %         trial_start_relative_to_periOn = events(:,1);
         trial_go_relative_to_periOn = events(:,3);
-        trial_move_relative_to_periOn = events(:,5);
-        trial_end_relative_to_periOn = events(:,6);
+        trial_move_relative_to_periOn = events(:,4);
+        trial_end_relative_to_periOn = events(:,7);
     end
     
     if strcmp(trial_event_cutoff,'go') % goes from go to peri target reached.
@@ -190,12 +190,11 @@ for iTrial = 1:num_trials
     data(iTrial).trial_end_ms = cpl_st_trial_rew(iTrial,2)*1000;
     
     if strcmp(task,'center_out')
-        data(iTrial).periOn_relative_to_trial_start = data(iTrial).periOn_ms - data(iTrial).trial_start_ms;
-        data(iTrial).go_relative_to_trial_start = trial_go_relative_to_periOn(iTrial) + data(iTrial).periOn_relative_to_trial_start;
-        data(iTrial).move_relative_to_trial_start = trial_move_relative_to_periOn(iTrial) + data(iTrial).periOn_relative_to_trial_start;
-        data(iTrial).target_reach_relative_to_trial_start = trial_end_relative_to_periOn(iTrial) + data(iTrial).periOn_relative_to_trial_start;
-        
         if strcmp(trial_event_cutoff,'') % goes from go to peri target reached. Not sure if this is actually used?
+            data(iTrial).periOn_relative_to_trial_start = data(iTrial).periOn_ms - data(iTrial).trial_start_ms;
+            data(iTrial).go_relative_to_trial_start = trial_go_relative_to_periOn(iTrial) + data(iTrial).periOn_relative_to_trial_start;
+            data(iTrial).move_relative_to_trial_start = trial_move_relative_to_periOn(iTrial) + data(iTrial).periOn_relative_to_trial_start;
+            data(iTrial).target_reach_relative_to_trial_start = trial_end_relative_to_periOn(iTrial) + data(iTrial).periOn_relative_to_trial_start;
             data(iTrial).ms_relative_to_trial_start = 1:1:((abs(trial_length(1)) + trial_length(2))*1000); %ms
         else
             data(iTrial).ms_relative_to_trial_start = 1:1:((data(iTrial).trial_end_ms - data(iTrial).trial_start_ms)); %ms
