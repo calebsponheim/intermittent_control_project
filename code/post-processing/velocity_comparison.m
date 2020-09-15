@@ -1,4 +1,4 @@
-function velocity_compare = velocity_comparison(data,snippet_data,second_dataset,second_dataset_meta)
+function velocity_compare = velocity_comparison(data,snippet_data,meta,second_dataset,second_dataset_meta)
 % function intention: compare the average speed of each state's snippets to
 % every other state's speed.
 
@@ -45,16 +45,23 @@ if exist('second_dataset','var')
     c=cat(2,A',B');
     d=reshape(c,[],2);
     d = unique(sort(d,2), 'rows');
-    d(d(:,1)==d(:,2),:) = [];
+%     d(d(:,1)==d(:,2),:) = [];
     
     
     %bonferroni correction
     p_thresh = (.05)/size(d,1);
-    
+    diff_count = 0;
+    same_count = 0;
     for iCompare = 1:size(d,1)
         [p(d(iCompare,1),d(iCompare,2)),h(d(iCompare,1),d(iCompare,2)),~] = ...
             ranksum(all_snippet_velocity(all_snippet_velocity(:,d(iCompare,1)) ~= 0,d(iCompare,1)),... input 1
             all_snippet_velocity(all_snippet_velocity(:,d(iCompare,2)) ~= 0,d(iCompare,2)),'alpha',p_thresh); % input 2
+        if h(d(iCompare,1),d(iCompare,2)) == 1
+            diff_count = diff_count + 1;
+        elseif h(d(iCompare,1),d(iCompare,2)) == 0
+            same_count = same_count + 1;
+        end
+        
     end
 else
     states = 1:size(snippet_velocity,2);
@@ -62,22 +69,33 @@ else
     c=cat(2,A',B');
     d=reshape(c,[],2);
     d = unique(sort(d,2), 'rows');
-    d(d(:,1)==d(:,2),:) = [];
+%     d(d(:,1)==d(:,2),:) = [];
     
     
-    %bonferroni correction
+    %bonferroni correction\
     p_thresh = (.05)/size(d,1);
+    diff_count = 0;
+    same_count = 0;
     
     for iCompare = 1:size(d,1)
         [p(d(iCompare,1),d(iCompare,2)),h(d(iCompare,1),d(iCompare,2)),~] = ...
             ranksum(snippet_velocity(snippet_velocity(:,d(iCompare,1)) ~= 0,d(iCompare,1)),... input 1
             snippet_velocity(snippet_velocity(:,d(iCompare,2)) ~= 0,d(iCompare,2)),'alpha',p_thresh); % input 2
+        if h(d(iCompare,1),d(iCompare,2)) == 1
+            diff_count = diff_count + 1;
+        elseif h(d(iCompare,1),d(iCompare,2)) == 0
+            same_count = same_count + 1;
+        end
     end
 end
 
 velocity_compare.p = p;
 velocity_compare.p_thresh = p_thresh;
 velocity_compare.is_sig = h;
+velocity_compare.diff_count = diff_count;
+velocity_compare.same_count = same_count;
+velocity_compare.total_num_comparisons = diff_count + same_count;
+velocity_compare.num_different_comparisons_percentage = diff_count/velocity_compare.total_num_comparisons;
 if exist('second_dataset','var')
     velocity_compare.state_labels = all_snippet_velocity_labels;
 else
@@ -85,9 +103,12 @@ else
 end
 
 %% visualize stats lmao
-figure('visible','off','color','white'); hold on
-imagesc(h);
+figure('visible','on','color','white'); hold on
+[n,~]=size(h);
+h_reflect=h'+h;
+h_reflect(1:n+1:end)=diag(h);
 
+imagesc(h_reflect);
 if exist('second_dataset','var')
     xticks(all_snippet_velocity_labels)
     xticks(all_snippet_velocity_labels)
@@ -100,10 +121,13 @@ axis square
 axis tight
 c = colorbar;
 c.Ticks = [0,1];
-c.TickLabels = {'different','similar'};
+c.TickLabels = {'similar','different'};
 box off
 xlabel('State Number')
 ylabel('State Number')
+dim = [.18 .6 .3 .3];
+str = {'significant proportion of ',['comparisons between states: ' num2str(velocity_compare.num_different_comparisons_percentage)]};
+annotation('textbox',dim,'String',str,'FitBoxToText','on','BackgroundColor','white');
 
 title(strcat(meta.subject,' ',strrep(meta.task,'_',' '),' state difference matrix - velocity'));
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,num2str(meta.optimal_number_of_states),'states','_velocity_compare_matrix.png'));

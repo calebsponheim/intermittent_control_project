@@ -1,4 +1,4 @@
-function direction_comparison_matrix = direction_comparison(data,snippet_data,second_dataset,second_dataset_meta)
+function direction_comparison_matrix = direction_comparison(data,snippet_data,meta,second_dataset,second_dataset_meta)
 % function intention: compare the average speed of each state's snippets to
 % every other state's speed.
 
@@ -56,12 +56,13 @@ if exist('second_dataset','var')
     c=cat(2,A',B');
     d=reshape(c,[],2);
     d = unique(sort(d,2), 'rows');
-    d(d(:,1)==d(:,2),:) = [];
     
     
     %bonferroni correction
     p_thresh = (.05)/size(d,1);
-
+    diff_count = 0;
+    same_count = 0;
+    
     for iCompare = 1:size(d,1)
         [p(d(iCompare,1),d(iCompare,2)),h(d(iCompare,1),d(iCompare,2)),~] = ...
             ranksum(all_snippet_directions(all_snippet_directions(:,d(iCompare,1)) ~= 0,d(iCompare,1)),... input 1
@@ -70,21 +71,25 @@ if exist('second_dataset','var')
             all_snippet_directions(all_snippet_directions(:,d(iCompare,2)) ~= 0,d(iCompare,2)));
         cvfX = {all_snippet_directions(all_snippet_directions(:,d(iCompare,1)) ~= 0,d(iCompare,1)),all_snippet_directions(all_snippet_directions(:,d(iCompare,2)) ~= 0,d(iCompare,2))};
         [bH{d(iCompare,1),d(iCompare,2)}, fPEst{d(iCompare,1),d(iCompare,2)}, fWTest{d(iCompare,1),d(iCompare,2)}, strPMethod{d(iCompare,1),d(iCompare,2)}] = mardiatestn_circ_equal(cvfX,p_thresh);
+        if pcirc(d(iCompare,1),d(iCompare,2)) <= p_thresh
+            diff_count = diff_count + 1;
+        elseif pcirc(d(iCompare,1),d(iCompare,2)) >= p_thresh
+            same_count = same_count + 1;
+        end
     end
     
-%% 
+    %%
 else
     states = 1:size(snippet_direction,2);
     [A,B] = meshgrid(states,states);
     c=cat(2,A',B');
     d=reshape(c,[],2);
     d = unique(sort(d,2), 'rows');
-    d(d(:,1)==d(:,2),:) = [];
-    
     
     %bonferroni correction
     p_thresh = (.05)/size(d,1);
-    
+    diff_count = 0;
+    same_count = 0;
     for iCompare = 1:size(d,1)
         [p(d(iCompare,1),d(iCompare,2)),h(d(iCompare,1),d(iCompare,2)),~] = ...
             ranksum(snippet_direction(snippet_direction(:,d(iCompare,1)) ~= 0,d(iCompare,1)),... input 1
@@ -93,9 +98,14 @@ else
             snippet_direction(snippet_direction(:,d(iCompare,2)) ~= 0,d(iCompare,2)));
         cvfX = {snippet_direction(snippet_direction(:,d(iCompare,1)) ~= 0,d(iCompare,1)),snippet_direction(snippet_direction(:,d(iCompare,2)) ~= 0,d(iCompare,2))};
         [bH{d(iCompare,1),d(iCompare,2)}, fPEst{d(iCompare,1),d(iCompare,2)}, fWTest{d(iCompare,1),d(iCompare,2)}, strPMethod{d(iCompare,1),d(iCompare,2)}] = mardiatestn_circ_equal(cvfX,p_thresh);
-    end
-    
-    
+        if p_circ(d(iCompare,1),d(iCompare,2)) <= p_thresh
+            diff_count = diff_count + 1;
+            h(d(iCompare,1),d(iCompare,2)) = 1;
+        elseif p_circ(d(iCompare,1),d(iCompare,2)) >= p_thresh
+            same_count = same_count + 1;
+            h(d(iCompare,1),d(iCompare,2)) = 0;
+        end
+    end    
 end
 
 
@@ -103,6 +113,10 @@ end
 direction_comparison_matrix.p = p_circ;
 direction_comparison_matrix.p_thresh = p_thresh;
 direction_comparison_matrix.is_sig = p_circ < p_thresh;
+direction_compare.diff_count = diff_count;
+direction_compare.same_count = same_count;
+direction_compare.total_num_comparisons = diff_count + same_count;
+direction_compare.num_different_comparisons_percentage = diff_count/direction_compare.total_num_comparisons;
 if exist('second_dataset','var')
     direction_comparison_matrix.state_labels = all_snippet_direction_labels;
 else
@@ -111,8 +125,13 @@ end
 
 
 %% Plotting
-figure('visible','off','color','white'); hold on
-imagesc(p_circ > p_thresh);
+figure('visible','on','color','white'); hold on
+h = h';
+[n,~]=size(h);
+h_reflect=h'+h;
+h_reflect(1:n+1:end)=diag(h);
+
+imagesc(h_reflect);
 
 if exist('second_dataset','var')
     xticks(all_snippet_direction_labels)
@@ -126,10 +145,13 @@ axis square
 axis tight
 c = colorbar;
 c.Ticks = [0,1];
-c.TickLabels = {'different','similar'};
+c.TickLabels = {'similar','different'};
 box off
 xlabel('State Number')
 ylabel('State Number')
+dim = [.18 .6 .3 .3];
+str = {'significant proportion of ',['comparisons between states: ' num2str(direction_compare.num_different_comparisons_percentage)]};
+annotation('textbox',dim,'String',str,'FitBoxToText','on','BackgroundColor','white');
 
 title(strcat(meta.subject,' ',strrep(meta.task,'_',' '),' state difference matrix - direction'));
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,num2str(meta.optimal_number_of_states),'states','_direction_compare_matrix.png'));
