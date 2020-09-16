@@ -8,7 +8,7 @@ for iTrial = 1:size(data,2)
     if strcmp(data(iTrial).trial_classification,'test')
         trial_colors = zeros(length(data(iTrial).states_resamp),3);
         trial_colors(~isnan(data(iTrial).states_resamp),:) = colors(data(iTrial).states_resamp(~isnan(data(iTrial).states_resamp)),:);
-        scatter(data(iTrial).x_smoothed,data(iTrial).y_smoothed,5,trial_colors,'filled')
+        scatter(data(iTrial).x_smoothed(1:length(trial_colors)),data(iTrial).y_smoothed(1:length(trial_colors)),5,trial_colors,'filled')
     end
 end
 title(strcat(meta.subject,' ',strrep(meta.task,'_',' '),' all trials position'));

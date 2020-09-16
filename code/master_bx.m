@@ -62,8 +62,9 @@ end
 
 %% Next, transfer all the data back from midway AND decode trials based on their role
 % Determine optimal number of states
-[meta] = model_select_HMM(data,meta);
-
+if meta.crosstrain == 0 || meta.crosstrain == 3
+    [meta] = model_select_HMM(data,meta);
+end
 %% decode with the optimal number of states
 [data,meta] = decode_with_optimal_states(data,meta);
 

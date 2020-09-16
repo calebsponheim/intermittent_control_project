@@ -5,13 +5,13 @@ if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Do
     if meta.crosstrain == 0
         meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0\'];
     else
-        meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\_CT' meta.crosstrain '\'];        
+        meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\CT' num2str(meta.crosstrain) '\'];        
     end
 else
     if meta.crosstrain == 0
         meta.figure_folder_filepath = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\' meta.subject '\' meta.task '_CT0\'];
     else
-        meta.figure_folder_filepath = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\' meta.subject '\_CT' meta.crosstrain '\'];        
+        meta.figure_folder_filepath = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\' meta.subject '\CT' num2str(meta.crosstrain) '\'];        
     end
 end
 

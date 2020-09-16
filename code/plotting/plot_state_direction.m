@@ -17,7 +17,8 @@ for iState = 1:size(snippet_data,2)
         snippet_direction(iSnippet,iState) = atan2(snippet_vector(2),snippet_vector(1));
     end
     if ~isempty(state_snippet_trials)
-        polarhistogram(snippet_direction(snippet_direction(:,iState) ~= 0,iState),'Visible','on','numbins',25,'FaceAlpha',.5,'FaceColor',colors(iState,:),'EdgeColor',colors(iState,:)); hold on
+        figure('visible','off');polaraxes; hold on
+        polarhistogram(snippet_direction(snippet_direction(:,iState) ~= 0,iState),'numbins',25,'FaceAlpha',.5,'FaceColor',colors(iState,:),'EdgeColor',colors(iState,:)); hold on
         title([meta.subject,'  ',strrep(meta.task,'_',' '),' State ',num2str(iState),' Direction']);
         box off
         set(gcf,'color','white')
