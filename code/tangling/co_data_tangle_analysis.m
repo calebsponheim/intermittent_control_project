@@ -13,7 +13,7 @@
 %% Collect 1ms - bin un-averaged trial data, aligned on movement
 clear
 %%%%%%%% User-defined Variables %%%%%%%%%%%%%%%
-subject = 'RJ'; % Subject
+subject = 'Bx'; % Subject
 
 if strcmp(subject,'Bx')
     meta.subject = 'Bx'; % Subject
@@ -24,8 +24,8 @@ if strcmp(subject,'Bx')
     % meta.task = 'center_out_and_RTP'; % Choose one of the three options here
     
     meta.bin_size = .001; %seconds
-    meta.muscle_lag = .1; %seconds
-    meta.center_out_trial_window = 'move'; % If center-out, what event to bound analysis window? (can be 'go' or 'move' or ' ')
+    meta.muscle_lag = 0.100; %seconds
+    meta.center_out_trial_window = ''; % If center-out, what event to bound analysis window? (can be 'go' or 'move' or ' ')
     
     % in "events" ; this is the window that the HMM will actually analyze, inside of the bigger center-out window.
     %     meta.CO_HMM_analysis_window = {'move','reward'}; % TIMING IS RELATIVE TO "TRIAL START". THIS IS USUALLY -1000ms FROM PERION
@@ -71,34 +71,71 @@ if strcmp(subject,'RJ')
     if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
         save(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\tangling\' subject task '_1ms_struct_for_tangling'],'-v7.3')
     end
-elseif strcmpt(subject,'Bx')
+elseif strcmp(subject,'Bx')
     if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
         save(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\tangling\' meta.subject meta.task meta.session '_1ms_struct_for_tangling'], 'meta', 'data','-v7.3')
     end
 end
 %% find velocity peaks, and crop around them
+kernel_size = 25; %ms
+align = 'vel';
+
 if strcmp(meta.task,'center_out')
-    
-    crop_window = [-250 249];
-    data_aligned_to_vel_peak = align_to_velocity_peak_and_crop(data,crop_window);
-    kernel_size = 25; %ms
-    data_aligned_and_smoothed = gaussian_filt(data_aligned_to_vel_peak,kernel_size);
+    if strcmp(align,'vel')
+        crop_window = [-300 299];
+        data_aligned = align_to_velocity_peak_and_crop(data,crop_window);
+        data_aligned_and_smoothed = gaussian_filt(data_aligned,kernel_size);
+    elseif strcmp(align,'move')
+        crop_window = [-100 699];
+        data_aligned = align_to_movement_and_crop(data,crop_window);
+        data_aligned_and_smoothed = gaussian_filt(data_aligned,kernel_size);
+    end
 end
+
+%% Soft Normalize
+normalize = 1;
+
+if normalize == 1
+    for iTrial = 1:size(data_aligned_and_smoothed,2)
+        for iUnit = 1:size(data_aligned_and_smoothed(iTrial).spikecountresamp,1)
+            if sum(data_aligned_and_smoothed(iTrial).spikecountresamp(iUnit,:)) > 0
+                smoothed_spikes = data_aligned_and_smoothed(iTrial).spikecountresamp(iUnit,:);
+                normalized_unit = smoothed_spikes ./ max(smoothed_spikes);
+                data_aligned_and_smoothed(iTrial).spikecountresamp(iUnit,:) = normalized_unit;
+            end
+        end
+    end
+end
+
+%% Crop in by 50ms to avoid edge effects of filtering
+data_aligned_and_smoothed_and_cropped = struct();
+for iTrial = 1:size(data_aligned_and_smoothed,2)
+    for iUnit = 1:size(data_aligned_and_smoothed(iTrial).spikecountresamp,1)
+        uncropped = data_aligned_and_smoothed(iTrial).spikecountresamp(iUnit,:);
+        cropped = uncropped(50:end-51);
+        data_aligned_and_smoothed_and_cropped(iTrial).spikecountresamp(iUnit,:) = cropped;
+        
+        uncropped = data_aligned(iTrial).speed;
+        cropped = uncropped(50:end-51);        
+        data_aligned_and_smoothed_and_cropped(iTrial).speed = cropped;
+    end
+end
+
 %% average across trials, but not across units
 
 if strcmp(meta.task,'center_out')
-    times = data_aligned_to_vel_peak(1).ms_relative_to_trial_start;
+    times = data_aligned(1).ms_relative_to_trial_start(50:end-51);
     analyzeTimes = times; %we wanna analyze the whole dang thing, bobby;
-    
+    data_to_average = struct();
     for iTP = unique([data.tp])
-        data_to_average(iTP). data = zeros(size(data_aligned_and_smoothed(1).spikecountresamp,1),size(data_aligned_and_smoothed(1).spikecountresamp,2),sum([data.tp] == iTP));
+        data_to_average(iTP). data = zeros(size(data_aligned_and_smoothed_and_cropped(1).spikecountresamp,1),size(data_aligned_and_smoothed_and_cropped(1).spikecountresamp,2),sum([data.tp] == iTP));
     end
     trial_count = zeros(1,numel(unique([data.tp])));
     
     for iTrial = 1:size(data,2)
         trial_count(data(iTrial).tp) = trial_count(data(iTrial).tp) + 1;
-        data_to_average(data(iTrial).tp).data(:,:,trial_count(data(iTrial).tp)) = data_aligned_and_smoothed(iTrial).spikecountresamp;
-        data_to_average(data(iTrial).tp).speed(:,:,trial_count(data(iTrial).tp)) = data_aligned_to_vel_peak(iTrial).speed;
+        data_to_average(data(iTrial).tp).data(:,:,trial_count(data(iTrial).tp)) = data_aligned_and_smoothed_and_cropped(iTrial).spikecountresamp;
+        data_to_average(data(iTrial).tp).speed(:,:,trial_count(data(iTrial).tp)) = data_aligned_and_smoothed_and_cropped(iTrial).speed;
     end %iTrial
     
     D_m1_CO = struct();
@@ -115,21 +152,29 @@ elseif strcmp(meta.task,'RTP')
 end
 
 %% Perform Actual Tangling Analysis
-timestep = 2;
+timestep = 2; % sample number
 [ Q, out] = tangleAnalysis( D_m1_CO, meta.bin_size,'timeStep',timestep);
 
-%% Create Plot Figure Results Folder
+
+%% curvature
+timepoints = 0:length(D_m1_CO(1).A):length(out.X);
+
+for iTP = unique([data.tp])
+[L{iTP},R{iTP},k{iTP}] = curvature(out.X((timepoints(iTP)+1):timepoints(iTP+1),1:3));
+end
+
+%% Create Plot Figure Results Folder Filepath
 if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
-        meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_Tangling\'];
+    meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_Tangling\'];
 else
-        meta.figure_folder_filepath = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\' meta.subject '\' meta.task '_Tangling\'];
+    meta.figure_folder_filepath = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\intermittent_control\figures\' meta.subject '\' meta.task '_Tangling\'];
 end
 
 %% Visualize
 colors = hsv(numel(unique([data.tp])));
-timepoints = 0:500:length(out.X);
+timepoints = 0:length(D_m1_CO(1).A):length(out.X);
 timepoints_q = timepoints/timestep;
-Q_for_plotting = normalize(Q,'range')*100;
+Q_for_plotting = (Q/max(Q))*100;
 Q_for_plotting(Q_for_plotting == 0) = .0001;
 figure('visible','off','color','white');
 hold on
@@ -141,11 +186,11 @@ end
 xlabel('PC1')
 ylabel('PC2')
 zlabel('PC3')
-view(172,33);
+view(0,90);
 title('Avg Neural Trajectories, center-out. size = tangling')
 grid on
 hold off;
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'_PC-traj_with_tangling.png']);
+saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'_PC-traj_with_tangling_aligned_on' align '.png']);
 close gcf
 
 
@@ -162,16 +207,17 @@ for iTP = unique([data.tp])
     yyaxis right
     plot(1:timestep:length(D_m1_CO(iTP).speed),Q_for_plotting((timepoints_q(iTP)+1):timepoints_q(iTP+1)),'-o','color',colors(iTP,:),'linewidth',2,'markersize',3)
     ylabel('Tangling Amount')
-    xticklabels(-250:50:250)
+    xticklabels(crop_window(1)+50:50:crop_window(2)-50)
     xlabel('Time(ms)')
+    ylim([min(Q_for_plotting) max(Q_for_plotting)])
     title(['Velocity vs Tangling ; ' meta.target_locations{iTP} ' Target; Subject ' meta.subject])
     hold off
-    saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'_Target_',meta.target_locations{iTP},'_speed_vs_tangling.png']);
+    saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'_Target_',meta.target_locations{iTP},'_speed_vs_tangling_aligned_on' align '.png']);
     close gcf
     
 end
 
 
 %%
-tangle_visualize_cs( out )
+% tangle_visualize_cs( out )
 

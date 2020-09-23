@@ -49,20 +49,40 @@ num_states_for_plotting(num_states_for_plotting == 0) = [];
 
 %% Plotting
 % plot all the "model-select" trials dc ll together
-figure('color','white','visible','on'); plot(num_states_for_plotting,ll_sum,'k.'); hold on
+figure('color','white','visible','on'); 
+
+% plot(num_states_for_plotting,ll_sum,'k.'); hold on
 % fit a curve to that CHAOS
-quad_fit_to_log_likelihood = polyfit(num_states_for_plotting,mean(ll_sum,2),2);
+% quad_fit_to_log_likelihood = polyfit(num_states_for_plotting,mean(ll_sum,2),2);
+% curve_range = min(num_states_for_plotting):.1:max(num_states_for_plotting);
+% quad_fit_to_log_likelihood = ...
+%     polyval(quad_fit_to_log_likelihood,curve_range);
+% plot(curve_range,quad_fit_to_log_likelihood);
+% findchangepts(mean(ll_sum,2),'Statistic','linear'); hold on
+% ipt = findchangepts(mean(ll_sum,2),'Statistic','linear');
+% best_num_states = num_states_for_plotting(ipt);
+
+
+fit_to_log_likelihood = fit(num_states_for_plotting',mean(ll_sum,2),'exp2');
 curve_range = min(num_states_for_plotting):.1:max(num_states_for_plotting);
-quad_fit_to_log_likelihood = ...
-    polyval(quad_fit_to_log_likelihood,curve_range);
-plot(curve_range,quad_fit_to_log_likelihood);
+resamp_fit = fit_to_log_likelihood(curve_range);
+ipt = findchangepts(resamp_fit,'Statistic','linear');
+% findchangepts(resamp_fit,'Statistic','linear'); hold on
+plot(num_states_for_plotting,ll_sum,'k.'); hold on
+plot(curve_range(ipt),resamp_fit(ipt),'ro')
+plot(fit_to_log_likelihood);
+best_num_states = round(curve_range(ipt));
+
+legend off
+xticks(1:2:30);
+xticklabels(2:2:31);
 box off
 ylabel('Log Likelihood Across Trials')
 xlabel('Number of States')
 title([meta.subject ' ' meta.task ' CT' num2str(meta.crosstrain) ' log-likelihood'],'Interpreter', 'none')
 % find a maximum point there or something
-best_num_states = round(curve_range(quad_fit_to_log_likelihood == max(quad_fit_to_log_likelihood)));
-plot(curve_range(quad_fit_to_log_likelihood == max(quad_fit_to_log_likelihood)),max(quad_fit_to_log_likelihood),'r*')
+% best_num_states = round(curve_range(quad_fit_to_log_likelihood == max(quad_fit_to_log_likelihood)));
+% plot(curve_range(quad_fit_to_log_likelihood == max(quad_fit_to_log_likelihood)),max(quad_fit_to_log_likelihood),'r*')
 annotation('textbox',[.5 .5 0 0],'String',['Optimal Number of States: ' num2str(best_num_states)],'FitBoxToText','on')
 
 % saving this to meta params
