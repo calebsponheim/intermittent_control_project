@@ -7,7 +7,7 @@ function [data,meta] = assign_trials_to_HMM_group(data,meta)
 
 % NOTE: if Crosstrain is enabled, this script will look for and load
 % *existing* files representing the CO and RTP structs, NOT recreate them
-% from scratch. 
+% from scratch.
 
 
 if meta.crosstrain > 0
@@ -61,7 +61,11 @@ if meta.crosstrain > 0
                 % if the task is center_out
             elseif strcmp(data(iTrial).task,'center_out')
                 % set trial classification as test, regardless.
-                data(iTrial).trial_classification = 'test';
+                if strcmp(data(iTrial).trial_classification,'test')
+                    data(iTrial).trial_classification = 'test';
+                else
+                    data(iTrial).trial_classification = 'test_extra';
+                end
             end
         end
     elseif meta.crosstrain == 2
@@ -70,13 +74,17 @@ if meta.crosstrain > 0
             % if the task is center_out
             if strcmp(data(iTrial).task,'center_out')
                 if strcmp(data(iTrial).trial_classification,'test')
-                % if the trial classification is test, change it to 'test_native'
+                    % if the trial classification is test, change it to 'test_native'
                     data(iTrial).trial_classification = 'test_native';
                 end
-            % if the task is RTP
+                % if the task is RTP
             elseif strcmp(data(iTrial).task,'RTP')
-               % set trial classification as test, regardless.
-               data(iTrial).trial_classification = 'test';
+                % set trial classification as test, regardless.
+                if strcmp(data(iTrial).trial_classification,'test')
+                    data(iTrial).trial_classification = 'test';
+                else
+                    data(iTrial).trial_classification = 'test_extra';
+                end
             end
         end
     elseif meta.crosstrain == 3

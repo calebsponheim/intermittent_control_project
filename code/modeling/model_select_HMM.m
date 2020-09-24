@@ -30,6 +30,7 @@ for iStateNum = state_num_range % for each state num
     hn_trained_temp = load(model_files{iStateNum-1},'hn_trained'); % load their models
     hn_trained_temp = hn_trained_temp.hn_trained;
     num_states_temp = size(hn_trained_temp{1}.a,1);
+    num_params(num_states_temp-1) = numel(hn_trained_temp{1}.a);
     num_states_for_plotting(num_states_temp-1) = num_states_temp;
     % decode ALL trials
     for iIter = 1:numel(hn_trained_temp)
@@ -42,14 +43,14 @@ for iStateNum = state_num_range % for each state num
     disp(['processed models for ' num2str(num_states_temp) ' states'])
 end
 ll_sum = sum(dc_temp_ll_model_select,3);
-% ll_sum(ll_sum(:,1) == 0,:) = [];
 
 ll_sum(num_states_for_plotting == 0,:) = [];
+num_params(num_states_for_plotting == 0) = [];
 num_states_for_plotting(num_states_for_plotting == 0) = [];
 
 %% Plotting
 % plot all the "model-select" trials dc ll together
-figure('color','white','visible','on'); 
+figure('color','white','visible','on'); hold on
 
 % plot(num_states_for_plotting,ll_sum,'k.'); hold on
 % fit a curve to that CHAOS
@@ -63,19 +64,36 @@ figure('color','white','visible','on');
 % best_num_states = num_states_for_plotting(ipt);
 
 
+% fit_to_log_likelihood = fit(num_states_for_plotting',mean(ll_sum,2),'exp2');
+% curve_range = min(num_states_for_plotting):.1:max(num_states_for_plotting);
+% resamp_fit = fit_to_log_likelihood(curve_range);
+% ipt = findchangepts(resamp_fit,'Statistic','linear');
+% % findchangepts(resamp_fit,'Statistic','linear'); hold on
+% plot(num_states_for_plotting,ll_sum,'k.'); hold on
+% plot(curve_range(ipt),resamp_fit(ipt),'ro')
+% plot(fit_to_log_likelihood);
+% best_num_states = round(curve_range(ipt));
+% 
+
+
 fit_to_log_likelihood = fit(num_states_for_plotting',mean(ll_sum,2),'exp2');
 curve_range = min(num_states_for_plotting):.1:max(num_states_for_plotting);
 resamp_fit = fit_to_log_likelihood(curve_range);
-ipt = findchangepts(resamp_fit,'Statistic','linear');
-% findchangepts(resamp_fit,'Statistic','linear'); hold on
-plot(num_states_for_plotting,ll_sum,'k.'); hold on
-plot(curve_range(ipt),resamp_fit(ipt),'ro')
-plot(fit_to_log_likelihood);
-best_num_states = round(curve_range(ipt));
+percent_change_threshold = .10; %proportion
+a=abs(diff(resamp_fit)) ./ abs(diff(resamp_fit(1:2)));
+xvalSat=curve_range(find(a<percent_change_threshold,1));
 
+plot(num_states_for_plotting,ll_sum,'k.'); 
+plot(fit_to_log_likelihood);
 legend off
-xticks(1:2:30);
-xticklabels(2:2:31);
+plot(xvalSat,resamp_fit(find(a<percent_change_threshold,1)),'go')
+% yyaxis right
+% plot(curve_range,resamp_AIC_fit)
+% plot(curve_range(resamp_AIC_fit == min(resamp_AIC_fit)),min(resamp_AIC_fit),'go')
+best_num_states = round(xvalSat);
+legend off
+% xticks(1:2:30);
+% xticklabels(2:2:31);
 box off
 ylabel('Log Likelihood Across Trials')
 xlabel('Number of States')
