@@ -77,7 +77,7 @@ elseif strcmp(subject,'Bx')
     end
 end
 %% find velocity peaks, and crop around them
-kernel_size = 25; %ms
+kernel_size = 50; %ms
 align = 'vel';
 
 if strcmp(meta.task,'center_out')
@@ -193,7 +193,7 @@ hold off;
 saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'_PC-traj_with_tangling_aligned_on' align '.png']);
 close gcf
 
-
+%% Plot Tangling
 Q_for_plotting = Q;
 Q_for_plotting(Q_for_plotting == 0) = .0001;
 
@@ -213,6 +213,27 @@ for iTP = unique([data.tp])
     title(['Velocity vs Tangling ; ' meta.target_locations{iTP} ' Target; Subject ' meta.subject])
     hold off
     saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'_Target_',meta.target_locations{iTP},'_speed_vs_tangling_aligned_on' align '.png']);
+    close gcf
+    
+end
+
+%% Plot Curvature
+for iTP = unique([data.tp])
+    figure('visible','off','color','white'); hold on
+    yyaxis left
+    patch([(1:size(D_m1_CO(iTP).speed,1)) flip(1:size(D_m1_CO(iTP).speed,1))],[(D_m1_CO(iTP).speed+D_m1_CO(iTP).speed_std_err)' flip(D_m1_CO(iTP).speed-D_m1_CO(iTP).speed_std_err)'],colors(iTP,:),'edgecolor','none');
+    alpha(0.4)
+    ylabel('Speed')
+    plot(1:size(D_m1_CO(iTP).speed),D_m1_CO(iTP).speed,'color',colors(iTP,:),'linewidth',2);
+    yyaxis right
+    plot(1:size(D_m1_CO(iTP).speed),R{iTP},'color',colors(iTP,:),'linewidth',2);
+    ylabel('Curvature Amount')
+    xticklabels(crop_window(1)+50:50:crop_window(2)-50)
+    xlabel('Time(ms)')
+%     ylim([min(min([R{:}])) max(max([R{:}]))])
+    title(['Velocity vs Curvature ; ' meta.target_locations{iTP} ' Target; Subject ' meta.subject])
+    hold off
+    saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'_Target_',meta.target_locations{iTP},'_speed_vs_curvature_aligned_on' align '.png']);
     close gcf
     
 end

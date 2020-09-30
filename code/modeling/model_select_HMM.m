@@ -54,15 +54,15 @@ figure('color','white','visible','on'); hold on
 
 % plot(num_states_for_plotting,ll_sum,'k.'); hold on
 % fit a curve to that CHAOS
-% quad_fit_to_log_likelihood = polyfit(num_states_for_plotting,mean(ll_sum,2),2);
-% curve_range = min(num_states_for_plotting):.1:max(num_states_for_plotting);
-% quad_fit_to_log_likelihood = ...
-%     polyval(quad_fit_to_log_likelihood,curve_range);
+quad_fit_to_log_likelihood = polyfit(num_states_for_plotting,mean(ll_sum,2),2);
+curve_range = min(num_states_for_plotting):.1:max(num_states_for_plotting);
+quad_fit_to_log_likelihood = ...
+    polyval(quad_fit_to_log_likelihood,curve_range);
 % plot(curve_range,quad_fit_to_log_likelihood);
 % findchangepts(mean(ll_sum,2),'Statistic','linear'); hold on
 % ipt = findchangepts(mean(ll_sum,2),'Statistic','linear');
 % best_num_states = num_states_for_plotting(ipt);
-
+best_num_states = round(curve_range(quad_fit_to_log_likelihood == max(quad_fit_to_log_likelihood)));
 
 % fit_to_log_likelihood = fit(num_states_for_plotting',mean(ll_sum,2),'exp2');
 % curve_range = min(num_states_for_plotting):.1:max(num_states_for_plotting);
@@ -90,7 +90,7 @@ plot(xvalSat,resamp_fit(find(a<percent_change_threshold,1)),'go')
 % yyaxis right
 % plot(curve_range,resamp_AIC_fit)
 % plot(curve_range(resamp_AIC_fit == min(resamp_AIC_fit)),min(resamp_AIC_fit),'go')
-best_num_states = round(xvalSat);
+% best_num_states = round(xvalSat);
 legend off
 % xticks(1:2:30);
 % xticklabels(2:2:31);
