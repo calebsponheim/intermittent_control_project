@@ -58,12 +58,58 @@ if strcmp(subject,'Bx')
     [data] = process_kinematics_v2(meta,data);
     
     meta.target_locations = {'N','NE','E','SE','S','SW','W','NW'};
-elseif strcmp(subject,'RJ')
-    subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\Collaborators data\RTP\Raju\r1031206_PMd_MI\r1031206_PMd_MI_modified_clean_spikesSNRgt4';
-    bin_size = .001; %seconds
+elseif strcmp(subject,'RS')
+    subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
     task = 'CO';
-    bad_trials = [4;10;30;43;44;46;53;66;71;78;79;84;85;91;106;107;118;128;141;142;145;146;163;165;172;173;180;185;203;209;210;245;254;260;267;270;275;278;281;283;288;289;302;313;314;321;326;340;350;363;364;366;383;385;386;390;391];
-    [data,~,bin_timestamps] = nicho_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,task,bin_size);
+    meta.task = task;
+    bin_size = .002; %seconds
+    bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
+    
+    % Scripts to run:
+    
+    %% Structure Spiking Data
+    [data,cpl_st_trial_rew,bin_timestamps] = nicho_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,task,bin_size);
+    load(subject_filepath,'x','y');
+    
+    %% bidirectionally filter x and y traces separately
+    
+    sampling_rate = 500;
+    
+    dt=1/sampling_rate; % defining timestep size
+    fN=sampling_rate/2;
+    
+    fc = 6;
+    fs = sampling_rate;
+    
+    [b,a] = butter(6,fc/(fs/2));
+    
+    filt_lowpass_x = filtfilt(b,a,x(:,2)); % running lowpass filter.
+    filt_lowpass_y = filtfilt(b,a,y(:,2)); % running lowpass filter.
+    
+    %% calculate speed/velocity/acceleration
+    
+    x_speed = diff(filt_lowpass_x);
+    y_speed = diff(filt_lowpass_y);
+    
+    % velocity
+    velocity = sqrt(x_speed.^2 + y_speed.^2);
+    
+    % Acceleration
+    acceleration = diff(velocity);
+    
+    %% segment position and speed vectors into trials
+    
+    % for each trial
+    for iTrial = 1:size(cpl_st_trial_rew,1)
+        data(iTrial).x_smoothed = filt_lowpass_x(x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2)));
+        %Note: Hacky hack here: there is , for some reason, a difference with this line, causing each trial of y_smoothed to be al ittle
+        %longer than the x. Idk why this is; it's the same code.
+        %data(iTrial).y_smoothed = filt_lowpass_y(y(:,1) >= (cpl_st_trial_rew(iTrial,1)) & y(:,1) <= (cpl_st_trial_rew(iTrial,2)));
+        data(iTrial).y_smoothed = filt_lowpass_y(x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2)));
+        data(iTrial).speed = velocity(y(:,1) >= (cpl_st_trial_rew(iTrial,1)) & y(:,1) <= (cpl_st_trial_rew(iTrial,2)));
+        data(iTrial).kinematic_timestamps = x((y(:,1) >= (cpl_st_trial_rew(iTrial,1)) & y(:,1) <= (cpl_st_trial_rew(iTrial,2))),1);
+    end
+    
 end
 
 %% save real quick
@@ -75,15 +121,19 @@ elseif strcmp(subject,'Bx')
     if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
         save(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\tangling\' meta.subject meta.task meta.session '_1ms_struct_for_tangling'], 'meta', 'data','-v7.3')
     end
+elseif strcmp(subject,'RS')
+    if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
+        save(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\tangling\' subject task '_1ms_struct_for_tangling'],'-v7.3')
+    end
 end
 %% find velocity peaks, and crop around them
-kernel_size = 50; %ms
-align = 'vel';
+kernel_size = 100; %ms
+align = 'move';
 
-if strcmp(meta.task,'center_out')
+if strcmp(meta.task,'center_out') || strcmp(meta.task,'CO')
     if strcmp(align,'vel')
         crop_window = [-300 299];
-        data_aligned = align_to_velocity_peak_and_crop(data,crop_window);
+        data_aligned = align_to_velocity_peak_and_crop(data,crop_window,subject);
         data_aligned_and_smoothed = gaussian_filt(data_aligned,kernel_size);
     elseif strcmp(align,'move')
         crop_window = [-100 699];
@@ -116,14 +166,14 @@ for iTrial = 1:size(data_aligned_and_smoothed,2)
         data_aligned_and_smoothed_and_cropped(iTrial).spikecountresamp(iUnit,:) = cropped;
         
         uncropped = data_aligned(iTrial).speed;
-        cropped = uncropped(50:end-51);        
+        cropped = uncropped(50:end-51);
         data_aligned_and_smoothed_and_cropped(iTrial).speed = cropped;
     end
 end
 
 %% average across trials, but not across units
 
-if strcmp(meta.task,'center_out')
+if strcmp(meta.task,'center_out') || strcmp(meta.task,'CO')
     times = data_aligned(1).ms_relative_to_trial_start(50:end-51);
     analyzeTimes = times; %we wanna analyze the whole dang thing, bobby;
     data_to_average = struct();
@@ -157,11 +207,22 @@ timestep = 2; % sample number
 
 
 %% curvature
-timepoints = 0:length(D_m1_CO(1).A):length(out.X);
 
+% curvature from tangle analysis
+% timepoints = 0:length(D_m1_CO(1).A):length(out.X);
+% 
+% for iTP = unique([data.tp])
+%     [L{iTP},R{iTP},k{iTP}] = curvature(out.X((timepoints(iTP)+1):timepoints(iTP+1),1:3));
+% end
+
+% curvature from individual PCA for each reach:
 for iTP = unique([data.tp])
-[L{iTP},R{iTP},k{iTP}] = curvature(out.X((timepoints(iTP)+1):timepoints(iTP+1),1:3));
+[PCs{iTP}, ~, v{iTP}] = pca(D_m1_CO(iTP).A);
+topPCs{iTP} = PCs{iTP}(:,1:3);
+X{iTP} = D_m1_CO(iTP).A * topPCs{iTP};
+[L{iTP},R{iTP},k{iTP}] = curvature(X{iTP});
 end
+
 
 %% Create Plot Figure Results Folder Filepath
 if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
@@ -230,7 +291,7 @@ for iTP = unique([data.tp])
     ylabel('Curvature Amount')
     xticklabels(crop_window(1)+50:50:crop_window(2)-50)
     xlabel('Time(ms)')
-%     ylim([min(min([R{:}])) max(max([R{:}]))])
+    ylim([min(min([R{:}])) max(max([R{:}]))/3])
     title(['Velocity vs Curvature ; ' meta.target_locations{iTP} ' Target; Subject ' meta.subject])
     hold off
     saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'_Target_',meta.target_locations{iTP},'_speed_vs_curvature_aligned_on' align '.png']);
