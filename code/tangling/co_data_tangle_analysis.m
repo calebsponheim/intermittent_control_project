@@ -143,7 +143,7 @@ if strcmp(meta.task,'center_out') || strcmp(meta.task,'CO')
 end
 
 %% Soft Normalize
-normalize = 1;
+normalize = 0;
 
 if normalize == 1
     for iTrial = 1:size(data_aligned_and_smoothed,2)
@@ -172,7 +172,8 @@ for iTrial = 1:size(data_aligned_and_smoothed,2)
 end
 
 %% average across trials, but not across units
-
+breakout = 1;
+breakouts = {'A','B','C'};
 if strcmp(meta.task,'center_out') || strcmp(meta.task,'CO')
     times = data_aligned(1).ms_relative_to_trial_start(50:end-51);
     analyzeTimes = times; %we wanna analyze the whole dang thing, bobby;
@@ -190,7 +191,13 @@ if strcmp(meta.task,'center_out') || strcmp(meta.task,'CO')
     
     D_m1_CO = struct();
     for iTP = unique([data.tp])
-        D_m1_CO(iTP).A = mean(data_to_average(iTP).data,3)';
+        if breakout == 1
+            D_m1_CO(iTP).A = mean(data_to_average(iTP).data(:,:,1:round(size(data_to_average(iTP).data,3)/3)),3)';
+            D_m1_CO(iTP).B = mean(data_to_average(iTP).data(:,:,round(size(data_to_average(iTP).data,3)/3):round((size(data_to_average(iTP).data,3)/3)*2)),3)';
+            D_m1_CO(iTP).C = mean(data_to_average(iTP).data(:,:,round((size(data_to_average(iTP).data,3)/3)*2):size(data_to_average(iTP).data,3)),3)';
+        else
+            D_m1_CO(iTP).A = mean(data_to_average(iTP).data,3)';
+        end
         D_m1_CO(iTP).speed = mean(data_to_average(iTP).speed,3)';
         D_m1_CO(iTP).speed_std_err = (std(data_to_average(iTP).speed,[],3) / sqrt(size(data_to_average(iTP).speed,3)))';
         D_m1_CO(iTP).times = times';
@@ -210,19 +217,29 @@ timestep = 2; % sample number
 
 % curvature from tangle analysis
 % timepoints = 0:length(D_m1_CO(1).A):length(out.X);
-% 
+%
 % for iTP = unique([data.tp])
 %     [L{iTP},R{iTP},k{iTP}] = curvature(out.X((timepoints(iTP)+1):timepoints(iTP+1),1:3));
 % end
 
 % curvature from individual PCA for each reach:
-for iTP = unique([data.tp])
-[PCs{iTP}, ~, v{iTP}] = pca(D_m1_CO(iTP).A);
-topPCs{iTP} = PCs{iTP}(:,1:3);
-X{iTP} = D_m1_CO(iTP).A * topPCs{iTP};
-[L{iTP},R{iTP},k{iTP}] = curvature(X{iTP});
+if breakout == 1
+    for iGroup = 1:3
+        for iTP = unique([data.tp])
+            [PCs{iGroup,iTP}, ~, v{iGroup,iTP}] = pca(D_m1_CO(iTP).(breakouts{iGroup}));
+            topPCs{iGroup,iTP} = PCs{iGroup,iTP}(:,1:3);
+            X{iGroup,iTP} = D_m1_CO(iTP).(breakouts{iGroup}) * topPCs{iGroup,iTP};
+            [L{iGroup,iTP},R{iGroup,iTP},k{iGroup,iTP}] = curvature(X{iGroup,iTP});
+        end
+    end
+else
+    for iTP = unique([data.tp])
+        [PCs{iTP}, ~, v{iTP}] = pca(D_m1_CO(iTP).A);
+        topPCs{iTP} = PCs{iTP}(:,1:3);
+        X{iTP} = D_m1_CO(iTP).A * topPCs{iTP};
+        [L{iTP},R{iTP},k{iTP}] = curvature(X{iTP});
+    end
 end
-
 
 %% Create Plot Figure Results Folder Filepath
 if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
@@ -287,7 +304,13 @@ for iTP = unique([data.tp])
     ylabel('Speed')
     plot(1:size(D_m1_CO(iTP).speed),D_m1_CO(iTP).speed,'color',colors(iTP,:),'linewidth',2);
     yyaxis right
-    plot(1:size(D_m1_CO(iTP).speed),R{iTP},'color',colors(iTP,:),'linewidth',2);
+    if breakout == 1
+        for iGroup = 1:3
+            plot(1:size(D_m1_CO(iTP).speed),R{iGroup,iTP},'color',colors(iTP,:),'linewidth',2);   
+        end
+    else
+        plot(1:size(D_m1_CO(iTP).speed),R{iTP},'color',colors(iTP,:),'linewidth',2);
+    end
     ylabel('Curvature Amount')
     xticklabels(crop_window(1)+50:50:crop_window(2)-50)
     xlabel('Time(ms)')
