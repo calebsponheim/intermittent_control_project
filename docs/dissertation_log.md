@@ -269,4 +269,6 @@ cpl_st_trial_rew seems like the right timing, but I'm using it for the kinematic
 
 I'm not using the trial_start and trial_end that I pull from the M1 files. What's going on? Which timing is correct?
 
+### 1/14/2021
+
 
