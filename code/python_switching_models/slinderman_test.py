@@ -66,6 +66,33 @@ for iFile in kinfiles:
     file_count += 1
     print(f'Processed {file_count} trials.')
 
+#%% Import events
+kinfiles = [f for f in listdir(folderpath) if isfile(join(folderpath, f)) if f.endswith('_events.csv')]
+file_count = 0
+for iFile in kinfiles:
+    with open(folderpath + iFile) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count == 0:
+                start_ind_file = row
+            elif line_count == 1:
+                move_ind_file = row
+            elif line_count == 2:
+                end_ind_file = row
+            line_count += 1
+    if file_count == 0:
+        start_concatenated = start_ind_file
+        move_concatenated = move_ind_file
+        end_concatenated = end_ind_file
+    start_concatenated = np.hstack((start_concatenated,start_ind_file))
+    
+    move_concatenated = np.hstack((move_concatenated,move_ind_file))
+    
+    end_concatenated = np.hstack((end_concatenated,end_ind_file))
+    
+    file_count += 1
+    print(f'Processed {file_count} trials.')
 
 
 #%%
@@ -133,6 +160,14 @@ for iTrial in np.arange(0,10): #data_by_trial.shape[2]):
 
     plt.subplot(212)
     plt.plot(speed_concatenated.astype(np.float)[np.arange((4500*iTrial),(4500*(iTrial+1)))])
+    
+    move_in_trial = move_concatenated[iTrial].astype(float) - start_concatenated[iTrial].astype(float)
+    
+    plt.vlines(move_in_trial,0,.15,color='r')
+    
+    end_in_trial = end_concatenated[iTrial].astype(float) - start_concatenated[iTrial].astype(float)
+    plt.vlines(end_in_trial,0,.15,color='k')
+
     plt.xlim(0,4500)
     plt.tight_layout()
     plt.savefig(str(iTrial) + '.png')
