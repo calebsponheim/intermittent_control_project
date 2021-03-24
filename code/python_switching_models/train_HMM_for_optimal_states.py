@@ -105,6 +105,11 @@ def train_HMM_for_optimal_states(data,trial_classification,meta,bin_size):
 
 
 
-hmm_max = []
-for iState in np.arange(23):
-    hmm_max.append(max(hmm_lls_storage[iState]))
+    hmm_max = []
+    for iState in np.arange(23):
+        hmm_max.append(max(hmm_lls_storage[iState]))
+        
+    plt.plot(hmm_max, label="EM")
+    plt.xlabel("state number")
+    plt.ylabel("Log Probability")
+    plt.show()
