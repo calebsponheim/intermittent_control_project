@@ -1,4 +1,4 @@
-function [data] = processing_CSS_kinematics(arrays,subject_filepath_base,~,data,task,session,subject_events,~)
+function [data] = processing_CSS_kinematics(arrays,subject_filepath_base,trial_event_cutoff,data,task,session,subject_events,trial_length)
 % process Kinematics for HMM comparison
 %%
 file_list = dir(subject_filepath_base);

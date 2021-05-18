@@ -13,6 +13,10 @@ from import_matlab_data import import_matlab_data
 from assign_trials_to_HMM_group import assign_trials_to_HMM_group
 from train_HMM_for_optimal_states import train_HMM_for_optimal_states
 folderpath = 'C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/Bxcenter_out1902280.05sBins/'
+folderpath = 'C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/Bxcenter_out1902280.05_sBins_move_window_only/'
+# folderpath = 'C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/RSCO0.05sBins/'
+# folderpath = 'C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/Bxcenter_out_and_RTP1902280.05sBins/'
+# folderpath = 'C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/Bxcenter_out1803230.05sBins/'
 
 class meta:
     def __init__(self,train_portion,model_select_portion,test_portion):
@@ -27,7 +31,7 @@ bin_size = 50 #in milliseconds
 meta = meta(train_portion,model_select_portion,test_portion)
 
 
-data = import_matlab_data(folderpath)
+data, is_it_breaux = import_matlab_data(folderpath)
 
 #%%
 
@@ -37,54 +41,50 @@ trial_classification = assign_trials_to_HMM_group(data,meta)
 
 #%% Finding Optimal States
 
-hmm_storage, hmm_lls_storage, bin_sums, bin_sums_select, optimal_state_number = train_HMM_for_optimal_states(data,trial_classification,meta,bin_size)
+hmm_storage, hmm_lls_storage, bin_sums, bin_sums_select, optimal_state_number = train_HMM_for_optimal_states(data,trial_classification,meta,bin_size,is_it_breaux)
 
-#%% Separate out Test Data
+#%% structure all data for decode
+if is_it_breaux == 0:
+    bin_size = 1
 
-
-trind_test = [i for i, x in enumerate(
-    trial_classification) if x == "test"]
-testset = []
-# S = []
-# trial_count = 1
+export_set = []
 for iTrial in range(len(trial_classification)):
     S_temp = data.spikes[iTrial]
     for iUnit in range(len(S_temp)):
         temp = S_temp[iUnit]
         temp_indices = np.arange(0, len(temp), bin_size)
         temp_binned = [temp[i] for i in temp_indices]
-        if iTrial in trind_test:
-            if len(testset) <= iUnit:
-                testset.append(temp_binned)
-            else:
-                testset[iUnit].extend(temp_binned)
+        if len(export_set) <= iUnit:
+            export_set.append(temp_binned)
+        else:
+            export_set[iUnit].extend(temp_binned)
 
-# Okay now that we have the training trials in its own variable, we need to turn it into the right shape for training, presumably.
+# Okay now that we have the data in the right format, we need to put in an HMM-readable format.
 
-for iUnit in range(len(testset)):
+for iUnit in range(len(export_set)):
     if iUnit == 0:
-        bin_sums_test = testset[iUnit]
+        bin_sums = export_set[iUnit]
     else:
-        bin_sums_test = np.vstack(
-            (bin_sums_test, testset[iUnit]))
+        bin_sums = np.vstack(
+            (bin_sums, export_set[iUnit]))
         
 
 #%% Decoding Test Data using Optimal States
 
-decoded_test_data = []
+decoded_data = []
 for iState in range(len(hmm_storage)):
-    decoded_test_data.append(hmm_storage[iState].most_likely_states(np.transpose(bin_sums_test)))
+    decoded_data.append(hmm_storage[iState].most_likely_states(np.transpose(bin_sums)))
     
 #%% Save
 
 import csv
 
-with open('decoded_test_data.csv', 'w') as f:
+with open(folderpath +'decoded_test_data.csv', 'w') as f:
     write = csv.writer(f)
     
-    write.writerows(decoded_test_data)
+    write.writerows(decoded_data)
     
-with open('trial_classifiction.csv', 'w') as f:
+with open(folderpath + 'trial_classifiction.csv', 'w') as f:
     write = csv.writer(f,delimiter=' ')
     for iTrial in range(len(trial_classification)):
         write.writerow(trial_classification[iTrial])

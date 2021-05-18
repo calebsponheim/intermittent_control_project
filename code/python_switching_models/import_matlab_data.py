@@ -84,36 +84,52 @@ def import_matlab_data(folderpath):
         print(f'Processed Kinematics from trial {file_count}')
     
     #%% Import events
-    kinfiles = [f for f in listdir(folderpath) if isfile(join(folderpath, f)) if f.endswith('_events.csv')]
-    file_count = 0
-    start_concatenated = []
-    move_concatenated = []
-    end_concatenated = []
-    for iFile in kinfiles:
-        with open(folderpath + iFile) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            line_count = 0
-            for row in csv_reader:
-                for i in range(0,len(row)):
-                    row[i] = float(row[i])
-                if line_count == 0:
-                    if file_count == 0:
-                        start_concatenated.append(row)
+    
+    # First, check to see if it's rockstar or breaux
+    
+    metafile = [f for f in listdir(folderpath) if isfile(join(folderpath, f)) if f.endswith('meta.csv')]
+    if len(metafile) > 0:
+        with open(folderpath + metafile[0]) as csv_file:
+                csv_reader = csv.reader(csv_file, delimiter=',')
+                for row in csv_reader:
+                    if row[0] == 'RS':
+                        is_it_breaux = 0
                     else:
-                        start_concatenated[0].extend(row)
-                elif line_count == 1:
-                    if file_count == 0:
-                        move_concatenated.append(row)
-                    else:
-                        move_concatenated[0].extend(row)
-                elif line_count == 2:
-                    if file_count == 0:
-                        move_concatenated.append(row)
-                    else:
-                        move_concatenated[0].extend(row)
-                line_count += 1
-        file_count += 1
-        print(f'Processed events from trial {file_count}')
+                        is_it_breaux = 1
+    else:
+        is_it_breaux = 1
+    #
+    if is_it_breaux == 1:
+        kinfiles = [f for f in listdir(folderpath) if isfile(join(folderpath, f)) if f.endswith('_events.csv')]
+        file_count = 0
+        start_concatenated = []
+        move_concatenated = []
+        end_concatenated = []
+        for iFile in kinfiles:
+            with open(folderpath + iFile) as csv_file:
+                csv_reader = csv.reader(csv_file, delimiter=',')
+                line_count = 0
+                for row in csv_reader:
+                    for i in range(0,len(row)):
+                        row[i] = float(row[i])
+                    if line_count == 0:
+                        if file_count == 0:
+                            start_concatenated.append(row)
+                        else:
+                            start_concatenated[0].extend(row)
+                    elif line_count == 1:
+                        if file_count == 0:
+                            move_concatenated.append(row)
+                        else:
+                            move_concatenated[0].extend(row)
+                    elif line_count == 2:
+                        if file_count == 0:
+                            move_concatenated.append(row)
+                        else:
+                            move_concatenated[0].extend(row)
+                    line_count += 1
+            file_count += 1
+            print(f'Processed events from trial {file_count}')
     
     #%% export
     class data:
@@ -125,6 +141,8 @@ def import_matlab_data(folderpath):
             self.start = start_concatenated
             self.move = move_concatenated
             self.end = end_concatenated
-    
-    data = data(data_by_trial,x_by_trial,y_by_trial,speed_by_trial,start_concatenated,move_concatenated,end_concatenated)
-    return data
+    if is_it_breaux == 1:
+        data = data(data_by_trial,x_by_trial,y_by_trial,speed_by_trial,start_concatenated,move_concatenated,end_concatenated)
+    elif is_it_breaux == 0:
+         data = data(data_by_trial,x_by_trial,y_by_trial,speed_by_trial,[],[],[])       
+    return data, is_it_breaux

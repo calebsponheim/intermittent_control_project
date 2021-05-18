@@ -5,11 +5,11 @@ subject = 'Bx';
 arrays = {'M1m' 'M1l'};
 session = '180323';
 if ispc
-subject_filepath_base = ...
-    ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\2018\' session '\'];
+    subject_filepath_base = ...
+        ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\2018\' session '\'];
 elseif ismac
-subject_filepath_base = ...
-    ['/Volumes/nicho-lab/Data/all_raw_datafiles_7/Breaux/2018/' session '/'];    
+    subject_filepath_base = ...
+        ['/Volumes/nicho-lab/Data/all_raw_datafiles_7/Breaux/2018/' session '/'];
 end
 
 task = 'center_out';
@@ -20,29 +20,29 @@ subject_events = [subject_filepath_base 'Bx' session '_events'];
 trial_length = [-1 3.5]; %seconds. defaults is [-1 4];
 
 % If center-out, what event to bound analysis window? (can be 'go' or 'move' or ' ')
-center_out_trial_window = ''; 
+center_out_trial_window = 'go';
 trial_event_cutoff = center_out_trial_window; % supersedes trial_length if active
 % trial_event_cutoff = 'speed'; % supersedes trial_length if active
 
 bin_size = .050; %seconds
 
 
-% 0: none | 
-% 1: RTP model, center-out decode | 
-% 2: Center-out model, RTP decode | 
+% 0: none |
+% 1: RTP model, center-out decode |
+% 2: Center-out model, RTP decode |
 % 3: both tasks together
-crosstrain = 0; 
+crosstrain = 0;
 
 % How many states in the model?
-num_states_subject = 12; 
+num_states_subject = 12;
 
 % Minimum required FR for units?
-spike_hz_threshold = 0; 
+spike_hz_threshold = 0;
 
 % Any explicitly bad trials to throw out?
-bad_trials = []; 
+bad_trials = [];
 
-% can manually define the randomization seed for replication 
+% can manually define the randomization seed for replication
 seed_to_train = round(abs(randn(1)*1000));
 
 % seed_to_train = 9348;
@@ -64,33 +64,31 @@ target_locations = {'N','NE','E','SE','S','SW','W','NW'};
     spike_hz_threshold,task,subject_events,arrays,...
     trial_length,trial_event_cutoff,bin_size);
 %%
-    trial_count = 1;
-    bad_trial_count = 1;
-    for iTrial = 1:size(data,2)
-        if isempty(data(iTrial).spikecount)
-            bad_trials(bad_trial_count) = iTrial;
-            bad_trial_count = bad_trial_count + 1;
-        else
-            data_temp(trial_count).spikecount = data(iTrial).spikecount;
-            if strcmp(task,'center_out')
-                data_temp(trial_count).tp = data(iTrial).tp;
-                data_temp(trial_count).target = data(iTrial).target;
-            end
-            
-            timestamps_temp{trial_count} = bin_timestamps{iTrial};
-            good_trials(trial_count) = iTrial;
-            trial_count = trial_count + 1;
+trial_count = 1;
+bad_trial_count = 1;
+for iTrial = 1:size(data,2)
+    if isempty(data(iTrial).spikecount)
+        bad_trials(bad_trial_count) = iTrial;
+        bad_trial_count = bad_trial_count + 1;
+    else
+        data_temp(trial_count).spikecount = data(iTrial).spikecount;
+        if strcmp(task,'center_out')
+            data_temp(trial_count).tp = data(iTrial).tp;
+            data_temp(trial_count).target = data(iTrial).target;
         end
+        
+        timestamps_temp{trial_count} = bin_timestamps{iTrial};
+        good_trials(trial_count) = iTrial;
+        trial_count = trial_count + 1;
     end
-    
-    data = data_temp;
-    bin_timestamps = timestamps_temp;
-    
+end
+
+data = data_temp;
+bin_timestamps = timestamps_temp;
+
 %% Prepare Kinematic Data
 
-[data] = processing_CSS_kinematics(arrays,subject_filepath_base,...
-    cpl_st_trial_rew,data,task,session,subject_events,good_trials,trial_length,trial_event_cutoff);
-
+[data] = processing_CSS_kinematics(arrays,subject_filepath_base,trial_event_cutoff,data,task,session,subject_events,trial_length);
 %% muscles
 
 [data,muscle_names] = processing_CSS_EMGs(arrays,subject_filepath_base,...
@@ -115,7 +113,7 @@ else
             data_temp(trial_count).acceleration = data(iTrial).acceleration;
             data_temp(trial_count).kinematic_timestamps = ...
                 data(iTrial).kinematic_timestamps;
-            if strcmp(task,'center_out')              
+            if strcmp(task,'center_out')
                 data_temp(trial_count).tp = data(iTrial).tp;
                 data_temp(trial_count).target = data(iTrial).target;
             end
@@ -137,8 +135,8 @@ end
 %% Build and Run Model
 [trInd_train,trInd_test,hn_trained,dc,dc_trainset,seed_to_train,trInd_train_validation] = ...
     train_and_decode_HMM(data,num_states_subject,[],[],...
-    crosstrain,seed_to_train,TRAIN_PORTION); 
-                                                                  
+    crosstrain,seed_to_train,TRAIN_PORTION);
+
 %% Save Model
 save(strcat(subject,task,'_HMM_classified_test_data_and_output_',...
     num2str(num_states_subject),'_states_OLDDATA',date))

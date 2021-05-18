@@ -3,7 +3,7 @@ function [] = plot_single_trials_v2(meta,data)
 %%
 colors = hsv(meta.optimal_number_of_states);
 
-available_test_trials = find(ismember([data.trial_classification],'test'));
+available_test_trials = find(ismember({data.trial_classification},'test'));
 
 for iTrial = available_test_trials(meta.trials_to_plot)
     

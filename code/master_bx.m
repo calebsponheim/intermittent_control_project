@@ -13,12 +13,12 @@ meta.include_EMG_analysis = 1; % Process EMG data along with kinematics?
 
 meta.bin_size = .050; %seconds
 meta.muscle_lag = .1; %seconds
-meta.center_out_trial_window = ''; % If center-out, what event to bound analysis window? (can be 'go' or 'move' or ' ')
+% meta.center_out_trial_window = ''; % If center-out, what event to bound analysis window? (can be 'go' or 'move' or ' ')
 
 % in "events" ; this is the window that the HMM will actually analyze, inside of the bigger center-out window.
-meta.CO_HMM_analysis_window = {'move','reward'}; % TIMING IS RELATIVE TO "TRIAL START". THIS IS USUALLY -1000ms FROM PERION
+% meta.CO_HMM_analysis_window = {'move','reward'}; % TIMING IS RELATIVE TO "TRIAL START". THIS IS USUALLY -1000ms FROM PERION
 
-meta.crosstrain = 1; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
+meta.crosstrain = 0; % 0: none | 1: RTP model, center-out decode | 2: Center-out model, RTP decode | 3: both tasks together
 
 % meta.num_states_subject = 16; % How many states in the model? NO LONGER USED
 

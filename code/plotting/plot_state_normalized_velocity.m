@@ -3,8 +3,8 @@ function plot_state_normalized_velocity(meta,data,snippet_data)
 
 colors = hsv(meta.optimal_number_of_states);
 
-% available_test_trials = find(ismember([data.trial_classification],'test'));
-available_test_trials = find(ismember([data.tp],2));
+available_test_trials = find(ismember([data.trial_classification],'test'));
+% available_test_trials = find(ismember([data.tp],2));
 normspeed = [];
 interpnormspeed = {};
 interpnormspeedmean = cell(size(snippet_data,2),1);

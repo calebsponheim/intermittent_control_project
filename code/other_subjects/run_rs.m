@@ -2,19 +2,19 @@
 
 subject = 'RS';
 if ispc
-subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
+    subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
 elseif ismac
- subject_filepath = '/Volumes/nicho-lab/nicho/ANALYSIS/rs1050211/rs1050211_clean_spikes_SNRgt4';   
+    subject_filepath = '/Volumes/nicho-lab/nicho/ANALYSIS/rs1050211/rs1050211_clean_spikes_SNRgt4';
 end
 num_states_subject = 8;
-task = 'RTP';
-
+task = 'CO';
+bin_size = .050; %s
 bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
 
 % Scripts to run:
 
 %% Structure Spiking Data
-[data,cpl_st_trial_rew,bin_timestamps] = nicho_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials);
+[data,cpl_st_trial_rew,bin_timestamps] = nicho_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,task,bin_size);
 
 %% Build and Run Model
 [trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],0);
