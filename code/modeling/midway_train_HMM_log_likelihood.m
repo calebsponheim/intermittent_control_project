@@ -17,7 +17,7 @@ trainset = cell(length(trInd_train),1);
 for iTrial = 1 : length(data)
     
     % Get activations matrix, apply threshold:
-    if strcmp(meta.subject,'RJ')
+    if strcmp(meta.subject,'RJ') || strcmp(meta.subject,'RS')
         S = data(iTrial).spikecount;
     else
         S = data(iTrial).spikecountresamp;

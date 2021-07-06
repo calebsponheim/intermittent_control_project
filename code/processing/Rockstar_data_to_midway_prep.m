@@ -1,11 +1,17 @@
-%% Raju Data to Midway-prep-ready
+%% Rockstar_data_to_midway_prep
 
-subject = 'RJ';
-subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\Collaboratorsdata\RTP\Raju\r1031206_PMd_MI\r1031206_PMd_MI_modified_clean_spikesSNRgt4';
+subject = 'RS';
+if ispc
+    subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
+elseif ismac
+    subject_filepath = '/Volumes/nicho-lab/nicho/ANALYSIS/rs1050211/rs1050211_clean_spikes_SNRgt4';
+end
 task = 'CO';
-bin_size = .050;
-meta.session = '1031206';
-bad_trials = [4;10;30;43;44;46;53;66;71;78;79;84;85;91;106;107;118;128;141;142;145;146;163;165;172;173;180;185;203;209;210;245;254;260;267;270;275;278;281;283;288;289;302;313;314;321;326;340;350;363;364;366;383;385;386;390;391];
+bin_size = .050; %s
+bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
+meta.session = '1050211';
+
+% Scripts to run:
 
 %% Structure Spiking Data
 [data,cpl_st_trial_rew,bin_timestamps] = nicho_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,task,bin_size);
@@ -20,8 +26,7 @@ meta.TEST_PORTION = 0.1;
 meta.task = task;
 [data,meta] = assign_trials_to_HMM_group(data,meta);
 
-%% Save Data for Midway
-
+%% save
 if ispc
     if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
         save(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\' meta.subject meta.task meta.session 'CT' num2str(meta.crosstrain)], 'meta', 'data','-v7.3')
