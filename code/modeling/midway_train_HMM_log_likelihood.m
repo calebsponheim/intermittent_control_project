@@ -17,8 +17,13 @@ trainset = cell(length(trInd_train),1);
 for iTrial = 1 : length(data)
     
     % Get activations matrix, apply threshold:
-    S = data(iTrial).spikecountresamp;
-    S = S(:,1:(meta.bin_size*1000):end);
+    if strcmp(meta.subject,'RJ')
+        S = data(iTrial).spikecount;
+    else
+        S = data(iTrial).spikecountresamp;
+        S = S(:,1:(meta.bin_size*1000):end);
+    end
+    
     S(S>MAX_SPIKECOUNT) = MAX_SPIKECOUNT;
     
     % Save matrix to proper cell array:
@@ -29,9 +34,12 @@ end
 
 %% Train model
 
+hn_trained = cell(num_iters,1);
+
 for iIter = 1:num_iters
     rng('shuffle'); % Reshuffle seed
     hn_trained{iIter} = ehmmTrainAnneal(trainset',num_states);
 end
+
 save(['./data_midway/hn_trained/',meta.subject,meta.task,meta.session,'_HMM_hn_',num2str(num_states),'_states_CT' num2str(meta.crosstrain)],'hn_trained')
 end
