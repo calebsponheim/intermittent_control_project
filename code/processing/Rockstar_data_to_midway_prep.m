@@ -11,6 +11,10 @@ bin_size = .050; %s
 bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
 meta.session = '1050211';
 
+
+
+% Rockstar: RTP: rs1050211_MI
+
 % Scripts to run:
 
 %% Structure Spiking Data
