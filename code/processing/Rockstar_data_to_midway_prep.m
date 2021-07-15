@@ -6,7 +6,7 @@ if ispc
 elseif ismac
     subject_filepath = '/Volumes/nicho-lab/nicho/ANALYSIS/rs1050211/rs1050211_clean_spikes_SNRgt4';
 end
-task = 'CO';
+task = 'RTP';
 bin_size = .050; %s
 bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
 meta.session = '1050211';

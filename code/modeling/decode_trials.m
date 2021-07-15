@@ -9,8 +9,12 @@ decodeset = cell(length(data),1);
 for iTrial = 1 : length(data)
     
     % Get activations matrix, apply threshold:
-    S = data(iTrial).spikecountresamp;
-    S = S(:,1:(meta.bin_size*1000):end);
+    if strcmp(meta.subject,'RJ') || strcmp(meta.subject,'RS')
+        S = data(iTrial).spikecount;
+    else
+        S = data(iTrial).spikecountresamp;
+        S = S(:,1:(meta.bin_size*1000):end);
+    end
     S(S>MAX_SPIKECOUNT) = MAX_SPIKECOUNT;
     
     % Save matrix to proper cell array:

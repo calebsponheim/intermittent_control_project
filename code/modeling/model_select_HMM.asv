@@ -7,7 +7,7 @@ file_list = dir('.\data_midway\hn_trained');
 folder = file_list(1).folder;
 file_list = {file_list.name};
 
-dataset_to_evaluate = 'train';
+dataset_to_evaluate = 'test';
 
 if (meta.crosstrain == 0) || (meta.crosstrain == 3) % 0: none || 3: both tasks together
     model_files = cellfun(@(x)[folder '\' x],file_list(...
@@ -34,7 +34,7 @@ for iStateNum = state_num_range % for each state num
         hn_trained_temp = load(model_files{endsWith(model_files,['_' num2str(iStateNum) '_states_CT0.mat'])},'hn_trained'); % load their models
         hn_trained_temp = hn_trained_temp.hn_trained;
         num_states_temp = size(hn_trained_temp{1}.a,1);
-        num_params(num_states_temp-1) = (iStateNum * (iStateNum-1)) + numel(hn_trained_temp{1, 1}.prior) + numel(hn_trained_temp{1, 1}.b(2:end,:,:));
+        num_params(num_states_temp-1) = (iStateNum * (iStateNum-1)) + numel(hn_trained_temp{1, 1}.prior);
         num_states_for_plotting(num_states_temp-1) = num_states_temp;
         % decode ALL trials
         for iIter = 1:numel(hn_trained_temp)
@@ -134,18 +134,5 @@ end
 
 close(gcf);
 
-
-figure('color','white','visible','off'); hold on
-plot(state_num_range,num_params,'k.')
-xlabel('State Number')
-ylabel('Number of Parameters')
-
-if startsWith(matlab.desktop.editor.getActiveFilename,'C:\Users\calebsponheim\Documents\')
-    saveas(gcf,['C:\Users\calebsponheim\Documents\git\intermittent_control_project\code\modeling\ll_plots\' meta.subject ' ' meta.task ' CT' num2str(meta.crosstrain) dataset_to_evaluate ' params.png']);
-else
-    saveas(gcf,[meta.subject ' ' meta.task ' CT' num2str(meta.crosstrain) dataset_to_evaluate ' params.png']');
-end
-
-close(gcf);
 
 end
