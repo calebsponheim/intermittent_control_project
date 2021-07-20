@@ -16,9 +16,9 @@ bad_trials = [4;10;30;43;44;46;53;66;71;78;79;84;85;91;106;107;118;128;141;142;1
 meta.bin_size = bin_size;
 meta.subject = subject;
 meta.crosstrain = 0;
-meta.TRAIN_PORTION = 0.8; % percent
-meta.MODEL_SELECT_PORTION = 0.1;
-meta.TEST_PORTION = 0.1;
+meta.TRAIN_PORTION = 0.75; % percent
+meta.MODEL_SELECT_PORTION = 0;
+meta.TEST_PORTION = 0.25;
 meta.task = task;
 [data,meta] = assign_trials_to_HMM_group(data,meta);
 

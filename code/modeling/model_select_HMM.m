@@ -7,7 +7,7 @@ file_list = dir('.\data_midway\hn_trained');
 folder = file_list(1).folder;
 file_list = {file_list.name};
 
-dataset_to_evaluate = 'train';
+dataset_to_evaluate = 'test';
 
 if (meta.crosstrain == 0) || (meta.crosstrain == 3) % 0: none || 3: both tasks together
     model_files = cellfun(@(x)[folder '\' x],file_list(...
@@ -34,7 +34,7 @@ for iStateNum = state_num_range % for each state num
         hn_trained_temp = load(model_files{endsWith(model_files,['_' num2str(iStateNum) '_states_CT0.mat'])},'hn_trained'); % load their models
         hn_trained_temp = hn_trained_temp.hn_trained;
         num_states_temp = size(hn_trained_temp{1}.a,1);
-        num_params(num_states_temp-1) = (iStateNum * (iStateNum-1)) + numel(hn_trained_temp{1, 1}.prior) + numel(hn_trained_temp{1, 1}.b(2:end,:,:));
+        num_params(num_states_temp-1) = (iStateNum * (iStateNum-1));% + numel(hn_trained_temp{1, 1}.prior) + numel(hn_trained_temp{1, 1}.b(2:end,:,:));
         num_states_for_plotting(num_states_temp-1) = num_states_temp;
         % decode ALL trials
         for iIter = 1:numel(hn_trained_temp)
@@ -51,16 +51,16 @@ for iStateNum = state_num_range % for each state num
         disp("we're missing something");
     end
 end
-ll_sum_model_select = sum(dc_temp_ll_model_select,3);
-ll_sum_train = sum(dc_temp_ll_train,3);
-ll_sum_test = sum(dc_temp_ll_test,3);
+ll_mean_model_select = mean(dc_temp_ll_model_select,3);
+ll_mean_train = mean(dc_temp_ll_train,3);
+ll_mean_test = mean(dc_temp_ll_test,3);
 %%
 if strcmp(dataset_to_evaluate,'train')
-    LL = ll_sum_train;
+    LL = ll_mean_train;
 elseif strcmp(dataset_to_evaluate,'test')
-    LL = ll_sum_test;
+    LL = ll_mean_test;
 elseif strcmp(dataset_to_evaluate,'model_select')
-    LL = ll_sum_model_select;
+    LL = ll_mean_model_select;
 end
 k = num_params;
 AIC = [];
@@ -75,15 +75,15 @@ AIC = AIC(AIC ~= 0);
 AIC_state_nums = AIC_state_nums(AIC_state_nums ~= 0);
 
 % get rid of weird matlab dropouts
-AIC = AIC(AIC > mean(AIC)/2);
+AIC_plot = AIC(AIC > mean(AIC)/2);
 AIC_state_nums = AIC_state_nums(AIC > mean(AIC)/2);
 
 %%
-testfit = fit(AIC_state_nums',AIC','poly2');
+testfit = fit(AIC_state_nums',AIC_plot','poly2');
 
 % taking average
 for iState = unique(AIC_state_nums)
-    AIC_mean(iState) = mean(AIC(AIC_state_nums == iState));
+    AIC_mean(iState) = mean(AIC_plot(AIC_state_nums == iState));
     AIC_mean_state_num(iState) = iState;
 end
 AIC_mean = AIC_mean(AIC_mean ~= 0);
@@ -94,7 +94,7 @@ best_num_states = AIC_mean_state_num(AIC_mean == min(AIC_mean));
 %% Plotting
 % plot all the "model-select" trials dc ll together
 figure('color','white','visible','off'); hold on
-plot(AIC_state_nums,AIC,'k.')
+plot(AIC_state_nums,AIC_plot,'k.')
 plot(AIC_mean_state_num,AIC_mean,'r-')
 plot(best_num_states,min(AIC_mean),'ro','DisplayName','Optimal State Number');
 xlabel('State Number')
