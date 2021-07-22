@@ -1,6 +1,6 @@
 %% Import Data from Python and integrate into matlab struct.
 filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05sBins\';
-move_window = 1;
+move_window = 0;
 
 
 decoded_data = readmatrix(...

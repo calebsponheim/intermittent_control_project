@@ -73,8 +73,8 @@ def train_HMM_for_optimal_states(data, trial_classification, meta, bin_size, is_
     hmm_lls_storage = []
     hmm_lls_max = []
     select_ll = []
+    train_ll = []
     AIC = []
-    BIC = []
     
     for iState in state_range:
         hmm = ssm.HMM(iState, observation_dimensions, observations="poisson")
@@ -85,22 +85,25 @@ def train_HMM_for_optimal_states(data, trial_classification, meta, bin_size, is_
         hmm_lls_max.append(max(hmm_lls))
         
         # model selection decode
-        select_ll_temp = hmm.log_likelihood(np.transpose(bin_sums_select))
+        select_ll_temp = hmm.log_likelihood(np.transpose(bin_sums_select))/len(trind_select)
         select_ll.append(select_ll_temp)
-       
+        
+        # trainset decode
+        train_ll_temp = hmm.log_likelihood(np.transpose(bin_sums))/len(trind_train)
+        train_ll.append(train_ll_temp)
+      
         #AIC Section
         if iState == 1:
-            num_params = (len(hmm.params[0][0]) + len(hmm.params[1][0]) + len(hmm.params[2]))
+            # num_params = (len(hmm.params[0][0]))# + len(hmm.params[1][0]) + len(hmm.params[2]))
+            num_params = 1
         else:
-            num_params = (len(hmm.params[0][0]) + (len(hmm.params[1][0]) * len(hmm.params[1][0])) + (len(hmm.params[2]) * len(hmm.params[2][1])))
+            num_params = iState * (iState-1)
+            # num_params = (len(hmm.params[0][0]))# + (len(hmm.params[1][0]) * len(hmm.params[1][0])) + (len(hmm.params[2]) * len(hmm.params[2][1])))
         
-        num_samples = len(bin_sums_select)
         
         LL = select_ll_temp
         k = num_params
-        N = num_samples
         AIC.append(((-2)*(LL)) + (2 * (k)))
-        BIC.append(((-2)*(LL)) + (np.log(N) * (k)))
         
         print(f'Created Model For {iState} States.')
 
@@ -113,36 +116,42 @@ def train_HMM_for_optimal_states(data, trial_classification, meta, bin_size, is_
 
     plt.plot(state_range,np.transpose(select_ll))
     plt.xlabel("state number")
-    plt.title("Log Likelihood over state number")
+    plt.title("Model-Select Log Likelihood over state number")
     plt.ylabel("Log Probability")
+    plt.show()
+
+    plt.plot(state_range,np.transpose(AIC))
+    plt.xlabel("state number")
+    plt.title("AIC over state number")
+    plt.ylabel("AIC")
     plt.show()
     #%% AIC Calculation
    
     # AIC with training LL
-    AIC_train = []
-    BIC_train = []
-    for iState in range(0,len(state_range)):
-        LL = hmm_lls_max[iState]
+    # AIC_train = []
+    # BIC_train = []
+    # for iState in range(0,len(state_range)):
+    #     LL = hmm_lls_max[iState]
         
-        if iState == 0:
-            num_params = (len(hmm_storage[iState].params[0][0]) + len(hmm_storage[iState].params[1][0]) + len(hmm_storage[iState].params[2]))
-        else:
-            num_params = (len(hmm_storage[iState].params[0][0]) + (len(hmm_storage[iState].params[1][0]) * len(hmm_storage[iState].params[1][0])) + (len(hmm_storage[iState].params[2]) * len(hmm_storage[iState].params[2][1])))
+    #     if iState == 0:
+    #         num_params = (len(hmm_storage[iState].params[0][0]) + len(hmm_storage[iState].params[1][0]) + len(hmm_storage[iState].params[2]))
+    #     else:
+    #         num_params = (len(hmm_storage[iState].params[0][0]) + (len(hmm_storage[iState].params[1][0]) * len(hmm_storage[iState].params[1][0])) + (len(hmm_storage[iState].params[2]) * len(hmm_storage[iState].params[2][1])))
         
-        N = len(bin_sums[0])
-        k = num_params
-        AIC_train.append(((-2)*(LL)) + (2 * (k)))
-        BIC_train.append(((-2)*(LL)) + (np.log(N) * (k)))
+    #     N = len(bin_sums[0])
+    #     k = num_params
+    #     AIC_train.append(((-2)*(LL)) + (2 * (k)))
+    #     BIC_train.append(((-2)*(LL)) + (np.log(N) * (k)))
         
-    plt.plot(state_range,AIC_train)
-    # plt.plot(state_range,BIC_train)
-    plt.title("Akiake Information Criterion, with increasing state number")
-    plt.xlabel("state number")
-    plt.ylabel("AIC")
-    plt.show()
+    # plt.plot(state_range,AIC_train)
+    # # plt.plot(state_range,BIC_train)
+    # plt.title("Akiake Information Criterion, with increasing state number")
+    # plt.xlabel("state number")
+    # plt.ylabel("AIC")
+    # plt.show()
     # %% Determine Optimal State using "model classification" trials
     
-    optimal_state_number = state_range[AIC_train.index(min(AIC_train))]
+    optimal_state_number = state_range[AIC.index(min(AIC))]
 
 
     #%% Return variables
