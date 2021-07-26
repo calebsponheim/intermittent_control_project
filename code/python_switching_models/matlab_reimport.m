@@ -12,10 +12,10 @@ decoded_data = readmatrix(...
 
 trial_classification = (readmatrix(...
     [filepath 'trial_classifiction.csv']...
-    ,'FileType','text','OutputType','char','Delimiter',' '));
+    ,'FileType','text','OutputType','char','Delimiter',','));
 trial_classification_catted = {};
 for iTrial = 1:size(trial_classification,1)
-    trial_classification_catted{iTrial,1} = strcat(trial_classification{iTrial,:});
+    trial_classification_catted{iTrial,1} = strrep(trial_classification{iTrial,:},' ','');
 end
 
 trial_classification = trial_classification_catted;
@@ -24,31 +24,28 @@ trial_classification = trial_classification_catted;
 
 if contains(filepath,'190228')
     load([filepath '\Bxcenter_out190228CT0.mat'])
-    state_num = 8;
+    state_num = 7;
     meta.optimal_number_of_states = state_num;
-    test_trial_count = 1;
     
-    for iTrial = 1:size(data,2)
-        if iTrial == 1
-            if move_window == 1
-                trial_bin_range(1,1:2) = [1,size(data(iTrial).spikecount,2)];
-            else
-                trial_bin_range(1,1:2) = [1,size(data(iTrial).spikecount,2)];
-            end
-        else
-            trial_bin_range(iTrial,1:2) = [trial_bin_range(iTrial-1,2)+1, (trial_bin_range(iTrial-1,1)+1)+size(data(iTrial).spikecount,2)];
-        end
-    end
+%     for iTrial = 1:size(data,2)
+%         if iTrial == 1
+%             if move_window == 1
+%                 trial_bin_range(1,1:2) = [1,size(data(iTrial).spikecountresamp,2)];
+%             else
+%                 trial_bin_range(1,1:2) = [1,size(data(iTrial).spikecountresamp,2)];
+%             end
+%         else
+%             trial_bin_range(iTrial,1:2) = [trial_bin_range(iTrial-1,2)+1, (trial_bin_range(iTrial-1,1)+1)+size(data(iTrial).spikecountresamp,2)];
+%         end
+%     end
     
     
     for iTrial = 1:size(trial_classification,1)
         data(iTrial).trial_classification = trial_classification{iTrial};
-        if test_trial_count == 1
-            decoded_trial_temp = decoded_data(state_num-1,1:90) + 1;
-            test_trial_count = test_trial_count + 1;
+        if iTrial == 1
+            decoded_trial_temp = decoded_data(state_num-1,1:90) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
         else
-            decoded_trial_temp = decoded_data(state_num-1,(((test_trial_count-1)*90):((test_trial_count*90)-1))) + 1;
-            test_trial_count = test_trial_count + 1;
+            decoded_trial_temp = decoded_data(state_num-1,(((iTrial-1)*90):((iTrial*90)-1))) + 1;
         end
         
         for iBin = 1:(length(decoded_trial_temp))

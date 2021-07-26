@@ -84,7 +84,11 @@ with open(folderpath +'decoded_test_data.csv', 'w') as f:
     
     write.writerows(decoded_data)
     
-with open(folderpath + 'trial_classifiction.csv', 'w') as f:
-    write = csv.writer(f,delimiter=' ')
+with open(folderpath + 'trial_classifiction.csv', 'w', newline='') as f:
+    # write = csv.writer(f,delimiter=',') 
+    write = csv.writer(f, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
     for iTrial in range(len(trial_classification)):
         write.writerow(trial_classification[iTrial])
+        
+        
+        
