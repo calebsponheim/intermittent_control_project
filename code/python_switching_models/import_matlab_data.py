@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Feb  9 09:41:28 2021
+Created on Tue Feb  9 09:41:28 2021.
 
 @author: calebsponheim
 """
 
+
 def import_matlab_data(folderpath):
-    #%%
+    # %%
     import csv
     from os import listdir
     from os.path import isfile, join
-    
-    spikefiles = [f for f in listdir(folderpath) if isfile(join(folderpath, f)) if f.endswith('_spikes.csv')]
-    
-    
+
+    spikefiles = [f for f in listdir(folderpath) if isfile(
+        join(folderpath, f)) if f.endswith('_spikes.csv')]
+
     file_count = 0
     data_by_trial = []
     # data_concatenated = []
@@ -24,7 +25,7 @@ def import_matlab_data(folderpath):
             csv_reader = csv.reader(csv_file, delimiter=',')
             line_count = 0
             for row in csv_reader:
-                for i in range(0,len(row)):
+                for i in range(0, len(row)):
                     row[i] = int(row[i])
                 data_ind_file.append(row)
                 # if file_count == 0:
@@ -35,16 +36,17 @@ def import_matlab_data(folderpath):
         data_by_trial.append(data_ind_file)
         file_count += 1
         print(f'Processed spikes from trial {file_count}.')
-           
-    #%% Import Kinematics into the equation
-    kinfiles = [f for f in listdir(folderpath) if isfile(join(folderpath, f)) if f.endswith('_kinematics.csv')]
+
+    # %% Import Kinematics into the equation
+    kinfiles = [f for f in listdir(folderpath) if isfile(
+        join(folderpath, f)) if f.endswith('_kinematics.csv')]
     file_count = 0
     x_by_trial = []
-    y_by_trial = []        
-    speed_by_trial  = []
+    y_by_trial = []
+    speed_by_trial = []
     x_concatenated = []
-    y_concatenated = []        
-    speed_concatenated  = []
+    y_concatenated = []
+    speed_concatenated = []
 
     for iFile in kinfiles:
         x_ind_file = []
@@ -54,7 +56,7 @@ def import_matlab_data(folderpath):
             csv_reader = csv.reader(csv_file, delimiter=',')
             line_count = 0
             for row in csv_reader:
-                for i in range(0,len(row)):
+                for i in range(0, len(row)):
                     row[i] = float(row[i])
 
                 if line_count == 0:
@@ -75,32 +77,34 @@ def import_matlab_data(folderpath):
                         speed_concatenated.append(row)
                     else:
                         speed_concatenated[0].extend(row)
-                line_count += 1       
+                line_count += 1
         x_by_trial.append(x_ind_file)
-        y_by_trial.append(y_ind_file)        
+        y_by_trial.append(y_ind_file)
         speed_by_trial.append(speed_ind_file)
-        
+
         file_count += 1
         print(f'Processed Kinematics from trial {file_count}')
-    
-    #%% Import events
-    
+
+    # %% Import events
+
     # First, check to see if it's rockstar or breaux
-    
-    metafile = [f for f in listdir(folderpath) if isfile(join(folderpath, f)) if f.endswith('meta.csv')]
+
+    metafile = [f for f in listdir(folderpath) if isfile(
+        join(folderpath, f)) if f.endswith('meta.csv')]
     if len(metafile) > 0:
         with open(folderpath + metafile[0]) as csv_file:
-                csv_reader = csv.reader(csv_file, delimiter=',')
-                for row in csv_reader:
-                    if row[0] == 'RS':
-                        is_it_breaux = 0
-                    else:
-                        is_it_breaux = 1
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            for row in csv_reader:
+                if row[0] == 'RS':
+                    is_it_breaux = 0
+                else:
+                    is_it_breaux = 1
     else:
         is_it_breaux = 1
     #
     if is_it_breaux == 1:
-        kinfiles = [f for f in listdir(folderpath) if isfile(join(folderpath, f)) if f.endswith('_events.csv')]
+        kinfiles = [f for f in listdir(folderpath) if isfile(
+            join(folderpath, f)) if f.endswith('_events.csv')]
         file_count = 0
         start_concatenated = []
         move_concatenated = []
@@ -110,7 +114,7 @@ def import_matlab_data(folderpath):
                 csv_reader = csv.reader(csv_file, delimiter=',')
                 line_count = 0
                 for row in csv_reader:
-                    for i in range(0,len(row)):
+                    for i in range(0, len(row)):
                         row[i] = float(row[i])
                     if line_count == 0:
                         if file_count == 0:
@@ -130,10 +134,10 @@ def import_matlab_data(folderpath):
                     line_count += 1
             file_count += 1
             print(f'Processed events from trial {file_count}')
-    
-    #%% export
+
+    # %% export
     class data:
-        def __init__(self,data_by_trial,x_by_trial,y_by_trial,speed_by_trial,start_concatenated,move_concatenated,end_concatenated):
+        def __init__(self, data_by_trial, x_by_trial, y_by_trial, speed_by_trial, start_concatenated, move_concatenated, end_concatenated):
             self.spikes = data_by_trial
             self.x = x_by_trial
             self.y = y_by_trial
@@ -142,7 +146,9 @@ def import_matlab_data(folderpath):
             self.move = move_concatenated
             self.end = end_concatenated
     if is_it_breaux == 1:
-        data = data(data_by_trial,x_by_trial,y_by_trial,speed_by_trial,start_concatenated,move_concatenated,end_concatenated)
+        data = data(data_by_trial, x_by_trial, y_by_trial, speed_by_trial,
+                    start_concatenated, move_concatenated, end_concatenated)
     elif is_it_breaux == 0:
-         data = data(data_by_trial,x_by_trial,y_by_trial,speed_by_trial,[],[],[])       
+        data = data(data_by_trial, x_by_trial, y_by_trial,
+                    speed_by_trial, [], [], [])
     return data, is_it_breaux

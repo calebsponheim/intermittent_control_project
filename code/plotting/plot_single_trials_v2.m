@@ -8,7 +8,9 @@ available_test_trials = find(ismember({data.trial_classification},'test'));
 for iTrial = available_test_trials(meta.trials_to_plot)
     
     trial_colors = zeros(length(data(iTrial).states_resamp),3);
-    trial_colors(~isnan(data(iTrial).states_resamp),:) = colors(data(iTrial).states_resamp(~isnan(data(iTrial).states_resamp)),:);
+    selection = data(iTrial).states_resamp(~isnan(data(iTrial).states_resamp));
+    selection = selection > 0;
+    trial_colors(selection,:) = colors(data(iTrial).states_resamp(selection),:);
     % Pos
     figure('visible','off','color','white'); hold on
     scatter(data(iTrial).x_smoothed(1:length(trial_colors)),data(iTrial).y_smoothed(1:length(trial_colors)),5,trial_colors,'filled')

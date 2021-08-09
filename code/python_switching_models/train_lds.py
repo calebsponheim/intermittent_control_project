@@ -65,7 +65,7 @@ def train_lds(data, trial_classification, meta, bin_size, is_it_breaux):
     # time_bins = bin_sums.shape[1]
     observation_dimensions = bin_sums.shape[0]
     N_iters = 100
-    number_of_states = 2
+    number_of_states = 8
     bin_sums = bin_sums.astype(int)
 
     hmm_storage = []
@@ -76,7 +76,7 @@ def train_lds(data, trial_classification, meta, bin_size, is_it_breaux):
     AIC = []
     y = np.transpose(bin_sums);
     
-    lds = LDS(observation_dimensions, number_of_states, emissions="poisson")
+    lds = LDS(observation_dimensions, number_of_states, emissions="gaussian")
     lds.initialize(y)
     
     #%% fit
@@ -119,7 +119,7 @@ def train_lds(data, trial_classification, meta, bin_size, is_it_breaux):
     plt.legend()
 
 
-    plt.figure(figsize=(8,4))
+    plt.figure(figsize=(50,4))
     for d in range(number_of_states):
         plt.plot(q_lem_x[:,d] + 4 * d, '--', color=colors[2], label="Laplace-EM" if d==0 else None)
     plt.ylabel("$x$")

@@ -1,6 +1,6 @@
 function plot_transition_matrix_v2(meta)
 
-matrix_no_identity = meta.hn.a;
+    matrix_no_identity = meta.hn.a;
 
 for iState = 1:meta.optimal_number_of_states
     matrix_no_identity(iState,iState) = 0;
