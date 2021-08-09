@@ -1,0 +1,162 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon July 26th 09:58:02 2021.
+
+@author: calebsponheim
+"""
+import matplotlib.pyplot as plt
+import ssm
+import numpy as np
+import autograd.numpy.random as npr
+import seaborn as sns
+import matplotlib.gridspec as gridspec
+from matplotlib.font_manager import FontProperties
+npr.seed(100)
+
+
+color_names = ["windows blue", "red", "amber", "faded green"]
+colors = sns.xkcd_palette(color_names)
+sns.set_style("white")
+sns.set_context("talk")
+
+# %% functions from slinderman
+# Helper functions for plotting results
+def plot_trajectory(z, x, ax=None, ls="-"):
+    zcps = np.concatenate(([0], np.where(np.diff(z))[0] + 1, [z.size]))
+    if ax is None:
+        fig = plt.figure(figsize=(4, 4))
+        ax = fig.gca()
+    for start, stop in zip(zcps[:-1], zcps[1:]):
+        ax.plot(x[start:stop + 1, 0],
+                x[start:stop + 1, 1],
+                lw=1, ls=ls,
+                color=colors[z[start] % len(colors)],
+                alpha=1.0)
+
+    return ax
+
+def plot_most_likely_dynamics(model,
+    xlim=(-4, 4), ylim=(-3, 3), nxpts=30, nypts=30,
+    alpha=0.8, ax=None, figsize=(3, 3)):
+
+    K = model.K
+    assert model.D == 2
+    x = np.linspace(*xlim, nxpts)
+    y = np.linspace(*ylim, nypts)
+    X, Y = np.meshgrid(x, y)
+    xy = np.column_stack((X.ravel(), Y.ravel()))
+
+    # Get the probability of each state at each xy location
+    log_Ps = model.transitions.log_transition_matrices(
+        xy, np.zeros((nxpts * nypts, 0)), np.ones_like(xy, dtype=bool), None)
+    z = np.argmax(log_Ps[:, 0, :], axis=-1)
+    z = np.concatenate([[z[0]], z])
+
+    if ax is None:
+        fig = plt.figure(figsize=figsize)
+        ax = fig.add_subplot(111)
+
+    for k, (A, b) in enumerate(zip(model.dynamics.As, model.dynamics.bs)):
+        dxydt_m = xy.dot(A.T) + b - xy
+
+        zk = z == k
+        if zk.sum(0) > 0:
+            ax.quiver(xy[zk, 0], xy[zk, 1],
+                      dxydt_m[zk, 0], dxydt_m[zk, 1],
+                      color=colors[k % len(colors)], alpha=alpha)
+
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+
+    plt.tight_layout()
+
+    return ax
+# %%
+
+def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux):
+    """Train a Switching Linear Dynamical System."""
+    # %% Making a bin_sums that's all trials, because idk how to do cross
+    # validation with this method yet
+
+    trainset = []
+
+    for iTrial in range(len(trial_classification)):
+        S_temp = data.spikes[iTrial]
+        for iUnit in range(len(S_temp)):
+            temp = S_temp[iUnit]
+            if is_it_breaux == 1:
+                temp_indices = np.arange(0, len(temp), bin_size)
+            else:
+                temp_indices = np.arange(0, len(temp), 1)
+            temp_binned = [temp[i] for i in temp_indices]
+            if len(trainset) <= iUnit:
+                trainset.append(temp_binned)
+            else:
+                trainset[iUnit].extend(temp_binned)
+        print(iTrial)
+
+    # Okay now that we have the training trials in its own variable, we need
+    # to turn it into the right shape for training, presumably.
+
+    for iUnit in range(len(trainset)):
+        if iUnit == 0:
+            bin_sums = trainset[iUnit]
+        else:
+            bin_sums = np.vstack(
+                (bin_sums, trainset[iUnit]))
+        print(iUnit)
+
+    # %% Okay NOW we train
+
+    # time_bins = bin_sums.shape[1]
+    observation_dimensions = bin_sums.shape[0]
+    number_of_states = 16
+    bin_sums = bin_sums.astype(int)
+
+    y = np.transpose(bin_sums)
+
+    sns.set_style("white")
+    sns.set_context("talk")
+
+    # Set the parameters of the HMM
+    K = number_of_states       # number of discrete states
+    D_latent = 2       # number of latent dimensions
+    D_obs = observation_dimensions      # number of observed dimensions
+    # %% Train
+    # Fit with Laplace EM
+    rslds_lem = ssm.SLDS(D_obs, K, D_latent,
+                 transitions="recurrent_only",
+                 dynamics="diagonal_gaussian",
+                 emissions="poisson_nn",
+                 single_subspace=True)
+    rslds_lem.initialize(y)
+    q_elbos_lem, q_lem = rslds_lem.fit(y, method="bbvi",
+                               variational_posterior="tridiag",
+                               initialize=False, num_iters=1000)
+    xhat_lem = q_lem.mean_continuous_states[0]
+    zhat_lem = rslds_lem.most_likely_states(xhat_lem, y)
+
+    # %% Plot some results
+    plt.figure()
+    plt.plot(q_elbos_lem[1:], label="Laplace-EM")
+    plt.legend()
+    plt.xlabel("Iteration")
+    plt.ylabel("ELBO")
+    plt.tight_layout()
+
+    plt.figure()
+    plot_trajectory(zhat_lem[0:200], xhat_lem[0:200])
+    plt.title("Inferred, Laplace-EM")
+    plt.tight_layout()
+
+    plt.figure(figsize=(6,6))
+    ax = plt.subplot(111)
+    lim = abs(xhat_lem).max(axis=0) + 1
+    plot_most_likely_dynamics(rslds_lem, xlim=(-lim[0], lim[0]), ylim=(-lim[1], lim[1]), ax=ax)
+    plt.title("Most Likely Dynamics, Laplace-EM")
+
+    plt.show()
+
+
+    # %%
+    return rslds_lem, xhat_lem, y
