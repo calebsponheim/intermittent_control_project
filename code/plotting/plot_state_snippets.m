@@ -10,10 +10,12 @@ for iState = 1:size(snippet_data,2)
     [~,~,allowed_snippets] = intersect(available_test_trials,snippet_data(iState).snippet_trial);
     state_snippets = snippet_data(iState).snippet_timestamps(allowed_snippets);
     state_snippet_trials = snippet_data(iState).snippet_trial(allowed_snippets);
-    for iSnippet = 1:size(state_snippets,2)
-        scatter(data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet}),data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}),3,colors(iState,:),'filled');
-        scatter(data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet}(1)),data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}(1)),7,'g','filled');
-        scatter(data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet}(end)),data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}(end)),7,'r','filled');
+    if ~isempty(state_snippets)
+        for iSnippet = 1:size(state_snippets,2)
+            scatter(data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet}),data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}),3,colors(iState,:),'filled');
+            scatter(data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet}(1)),data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}(1)),7,'g','filled');
+            scatter(data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet}(end)),data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}(end)),7,'r','filled');
+        end
     end
     xlim([min([data.x_smoothed]) max([data.x_smoothed])])
     ylim([min([data.y_smoothed]) max([data.y_smoothed])])

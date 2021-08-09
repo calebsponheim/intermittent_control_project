@@ -36,7 +36,7 @@ plot_state_normalized_velocity(meta,data,snippet_data)
 plot_all_trials_v2(meta,data);
 
 % Plot Transition Matrix
-plot_transition_matrix_v2(meta);
+% plot_transition_matrix_v2(meta);
 
 %% State-to-state comparison
 
@@ -44,10 +44,10 @@ plot_transition_matrix_v2(meta);
 % direction_comparison_matrix = direction_comparison(meta,data,snippet_data,second_dataset,second_dataset_meta);
 
 
-direction_comparison_matrix = direction_comparison(data,snippet_data,meta);
-
-velocity_compare_single_task = velocity_comparison(data,snippet_data,meta);
-
+% direction_comparison_matrix = direction_comparison(data,snippet_data,meta);
+% 
+% velocity_compare_single_task = velocity_comparison(data,snippet_data,meta);
+% 
 
 
 end

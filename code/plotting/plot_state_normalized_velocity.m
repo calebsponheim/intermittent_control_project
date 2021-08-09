@@ -13,8 +13,8 @@ for iState = 1:size(snippet_data,2)
     [~,~,allowed_snippets] = intersect(available_test_trials,snippet_data(iState).snippet_trial);
     state_snippets = snippet_data(iState).snippet_timestamps(allowed_snippets);
     state_snippet_trials = snippet_data(iState).snippet_trial(allowed_snippets);
-    max_snippet_length = max(cellfun(@(x) length(x),state_snippets));
-    if ~isempty(max_snippet_length)
+    if ~isempty(state_snippets)
+        max_snippet_length = max(cellfun(@(x) length(x),state_snippets));
         max_res = (1/max_snippet_length):(1/max_snippet_length):1;
         for iSnippet = 1:size(state_snippets,2)
             % Normalize Speed
