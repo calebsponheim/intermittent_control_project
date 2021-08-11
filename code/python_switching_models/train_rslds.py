@@ -110,7 +110,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux):
 
     # time_bins = bin_sums.shape[1]
     observation_dimensions = bin_sums.shape[0]
-    number_of_states = 16
+    number_of_states = 2
     bin_sums = bin_sums.astype(int)
 
     y = np.transpose(bin_sums)
@@ -120,20 +120,20 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux):
 
     # Set the parameters of the HMM
     K = number_of_states       # number of discrete states
-    D_latent = 2       # number of latent dimensions
+    D_latent = 3       # number of latent dimensions
     D_obs = observation_dimensions      # number of observed dimensions
     # %% Train
     # Fit with Laplace EM
     rslds_lem = ssm.SLDS(D_obs, K, D_latent,
                  transitions="recurrent_only",
                  dynamics="diagonal_gaussian",
-                 emissions="poisson_nn",
+                 emissions="poisson",
                  single_subspace=True)
     rslds_lem.initialize(y)
     q_elbos_lem, q_lem = rslds_lem.fit(y, method="bbvi",
                                variational_posterior="tridiag",
                                initialize=False, num_iters=1000)
-    xhat_lem = q_lem.mean_continuous_states[0]
+    xhat_lem = q_lem.mean[0]
     zhat_lem = rslds_lem.most_likely_states(xhat_lem, y)
 
     # %% Plot some results
@@ -145,7 +145,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux):
     plt.tight_layout()
 
     plt.figure()
-    plot_trajectory(zhat_lem[0:200], xhat_lem[0:200])
+    plot_trajectory(zhat_lem, xhat_lem)
     plt.title("Inferred, Laplace-EM")
     plt.tight_layout()
 

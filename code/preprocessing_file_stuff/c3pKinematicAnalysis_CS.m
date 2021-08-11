@@ -8,7 +8,8 @@ setName = session;
 %     plotDir = [params.plotDir 'behavior\from kinarm\']; % set plotting directory
 % else % otherwise, set your own goddamn analysis paths   
     dataDir = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\20' session(1:2) '\' session(1:6) '\'];
-    plotDir = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\new_results\Breaux\' session '\behavior\from kinarm\'];
+%     plotDir = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\new_results\Breaux\' session '\behavior\from kinarm\'];
+    plotDir = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\new_results\Theseus\210810\'];
 % end
 
 if ~exist(plotDir,'dir'), mkdir(plotDir); end
@@ -66,27 +67,30 @@ nFifth_target_on = 0;
 nSixth_target_on = 0;
 nSeventh_target_on = 0;
 iSuccessTrial = 0;
-
+trials = [];
 nAllTrials = size(bkindata,2);
 for iTrial = 1:nAllTrials
     if ~isempty(bkindata(iTrial).EVENTS)
         events = bkindata(iTrial).EVENTS.TIMES;
         evlabels = bkindata(iTrial).EVENTS.LABELS;
-        if strncmp(evlabels(end),'FIRST_TARGET_ON',7)
-            nFirst_target_on = nFirst_target_on+1;
-        elseif strncmp(evlabels(end),'SECOND_TARGET_ON',7)
-            nSecond_target_on = nSecond_target_on+1;
-        elseif strncmp(evlabels(end),'THIRD_TARGET_ON',7)
-            nThird_target_on = nThird_target_on+1;
-        elseif strncmp(evlabels(end),'FOURTH_TARGET_ON',7)
-            nFourth_target_on = nFourth_target_on+1;
-        elseif strncmp(evlabels(end),'FIFTH_TARGET_ON',7)
-            nFifth_target_on = nFifth_target_on+1;
-        elseif strncmp(evlabels(end),'SIXTH_TARGET_ON',7)
-            nSixth_target_on = nSixth_target_on+1;
-        elseif strncmp(evlabels(end),'SEVENTH TARGET ON',7)
-            nSeventh_target_on = nSeventh_target_on+1;
-        elseif strncmp(evlabels(end),'SUCCESS',7)
+%         if strncmp(evlabels(end),'FIRST_TARGET_ON',7)
+%             nFirst_target_on = nFirst_target_on+1;
+%         elseif strncmp(evlabels(end),'SECOND_TARGET_ON',7)
+%             nSecond_target_on = nSecond_target_on+1;
+%         elseif strncmp(evlabels(end),'THIRD_TARGET_ON',7)
+%             nThird_target_on = nThird_target_on+1;
+%         elseif strncmp(evlabels(end),'FOURTH_TARGET_ON',7)
+%             nFourth_target_on = nFourth_target_on+1;
+%         elseif strncmp(evlabels(end),'FIFTH_TARGET_ON',7)
+%             nFifth_target_on = nFifth_target_on+1;
+%         elseif strncmp(evlabels(end),'SIXTH_TARGET_ON',7)
+%             nSixth_target_on = nSixth_target_on+1;
+%         elseif strncmp(evlabels(end),'SEVENTH TARGET ON',7)
+%             nSeventh_target_on = nSeventh_target_on+1;
+%         elseif strncmp(evlabels(end),'SUCCESS',7)
+         if contains(evlabels(end),'ERROR')
+         elseif contains (evlabels(end),'HAND_IN_CENTER')
+         else
             iSuccessTrial = iSuccessTrial+1;
             
             t = 0:(1000/rate):1000*events(end);
@@ -173,7 +177,7 @@ disp(['nSuccess: ' num2str(nSuccess) '/' num2str(nAllTrials) '(' num2str(100*nSu
 % end
 % suptitle([session 'x y']);
 % saveas(gcf,[plotDir  session ' x y.png']);
-
+% 
 %% plot L1 L2 separately for each tp
 % fromEvent = 5; toEvent = 7;
 % 
@@ -208,19 +212,18 @@ disp(['nSuccess: ' num2str(nSuccess) '/' num2str(nAllTrials) '(' num2str(100*nSu
 
 %% plot 2D trajectories
 fromEvent = 1; toEvent = 7;
-figure; hold on
 for iTrial = 1:nSuccess
+    figure('visible','off'); hold on
     t = trials(iTrial).t; ev = trials(iTrial).events;
     x = 100*trials(iTrial).x - trgCentersGlobal(1,1); y = 100*trials(iTrial).y - trgCentersGlobal(1,2);
-    v = trials(iTrial).v;
+%     v = trials(iTrial).v;
     
-    [~,iStart] = min(abs(t-ev(fromEvent))); [~,iEnd] = min(abs(t-ev(toEvent)));
+    [~,iStart] = min(abs(t-ev(fromEvent))); [~,iEnd] = min(abs(t-ev(end)));
     
     %     plot(x(iStart:iEnd),y(iStart:iEnd),'color',[dirColors(trials(iTrial).tp,:)]);
     plot(x(iStart:iEnd),y(iStart:iEnd))%,'color',[colors_directory(trials(iTrial).tp,:) 0.4]);
     %     plot(x(iStart:iEnd),y(iStart:iEnd),'color',[0 0 0 0.3]);
     %     plot(trials(iTrial).t,trials(iTrial).v,'color',[0 0 0 0.3])
-end
 axis([-8 8 -8 8]); axis equal
 
 %add target circles
@@ -235,8 +238,10 @@ for iTarget = 1:nTargets
 %     distanceFrom1 = sqrt((targetC(1) - 0)^2 + (targetC(2) - 0)^2);
 %     text(targetC(1),targetC(2),num2str(distanceFrom1,3));
 end
-axis([-8 8 -8 8]); axis equal
-saveas(gcf,[plotDir  session ' trajectories.png']);
+axis([-8 8 -8 8]); 
+saveas(gcf,[plotDir  num2str(iTrial) 'trajectories.png']);
+close(gcf);
+end
 
 
 %% hist epoch durations
