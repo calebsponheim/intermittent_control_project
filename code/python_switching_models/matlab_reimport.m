@@ -2,7 +2,7 @@
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05_sBins_move_window_only\';
 filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05sBins\';
 move_window = 0;
-state_num = 16;
+state_num = 3;
 
 
 decoded_data = readmatrix(...

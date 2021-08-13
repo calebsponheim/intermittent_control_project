@@ -51,7 +51,7 @@ rslds_lem, xhat_lem, y = train_rslds(data, trial_classification,
 # %% Decoding Test Data using Optimal States
 decoded_data = rslds_lem.most_likely_states(xhat_lem, y)
 
-# %% Save Data
+# %% write data for matlab
 
 with open(folderpath + 'decoded_test_data.csv', 'w') as f:
     write = csv.writer(f)

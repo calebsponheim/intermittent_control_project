@@ -110,7 +110,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux):
 
     # time_bins = bin_sums.shape[1]
     observation_dimensions = bin_sums.shape[0]
-    number_of_states = 2
+    number_of_states = 8
     bin_sums = bin_sums.astype(int)
 
     y = np.transpose(bin_sums)
@@ -125,14 +125,14 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux):
     # %% Train
     # Fit with Laplace EM
     rslds_lem = ssm.SLDS(D_obs, K, D_latent,
-                 transitions="recurrent_only",
-                 dynamics="diagonal_gaussian",
+                 transitions="standard",
+                 dynamics="none",
                  emissions="poisson",
-                 single_subspace=True)
+                 single_subspace=False)
     rslds_lem.initialize(y)
     q_elbos_lem, q_lem = rslds_lem.fit(y, method="bbvi",
                                variational_posterior="tridiag",
-                               initialize=False, num_iters=1000)
+                               initialize=False, num_iters=1000, verbose = 2)
     xhat_lem = q_lem.mean[0]
     zhat_lem = rslds_lem.most_likely_states(xhat_lem, y)
 
@@ -149,13 +149,13 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux):
     plt.title("Inferred, Laplace-EM")
     plt.tight_layout()
 
-    plt.figure(figsize=(6,6))
-    ax = plt.subplot(111)
-    lim = abs(xhat_lem).max(axis=0) + 1
-    plot_most_likely_dynamics(rslds_lem, xlim=(-lim[0], lim[0]), ylim=(-lim[1], lim[1]), ax=ax)
-    plt.title("Most Likely Dynamics, Laplace-EM")
+    # plt.figure(figsize=(6,6))
+    # ax = plt.subplot(111)
+    # lim = abs(xhat_lem).max(axis=0) + 1
+    # plot_most_likely_dynamics(rslds_lem, xlim=(-lim[0], lim[0]), ylim=(-lim[1], lim[1]), ax=ax)
+    # plt.title("Most Likely Dynamics, Laplace-EM")
 
-    plt.show()
+    # plt.show()
 
 
     # %%
