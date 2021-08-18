@@ -10,7 +10,7 @@ function [data,meta] = assign_trials_to_HMM_group(data,meta)
 % from scratch.
 
 
-if meta.crosstrain > 0
+if meta.crosstrain > 0  || strcmp(meta.task,'center_out_and_RTP')
     center_out_data_and_meta = ...
         load(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\' ...
         meta.subject 'center_out' meta.session 'CT0']);
@@ -89,13 +89,36 @@ if meta.crosstrain > 0
         end
     elseif meta.crosstrain == 3
         % nothing changes because it's combined, babyyyyyy
-    else
+    elseif strcmp(meta.task,'center_out_and_RTP')
         disp("this shouldn't be possible. you did something wrong");
+        
+        train_portion = meta.TRAIN_PORTION;
+        model_select_portion = meta.MODEL_SELECT_PORTION;
+        
+        number_of_trials = size(data,2);
+        trial_indices = 1:number_of_trials;
+        shuffled_indices = trial_indices(randperm(number_of_trials));
+        
+        train_trials = ...
+            shuffled_indices(1:round(number_of_trials*train_portion));
+        model_select_trials = ...
+            shuffled_indices(round(number_of_trials*train_portion):...
+            (round(number_of_trials*train_portion)+round(number_of_trials*model_select_portion)));
+        test_trials = ...
+            shuffled_indices((round(number_of_trials*train_portion)+round(number_of_trials*model_select_portion)):end);
+        trial_classification = {};
+        trial_classification(train_trials) = {'train'};
+        trial_classification(model_select_trials) = {'model_select'};
+        trial_classification(test_trials) = {'test'};
+        
+        for iTrial = 1:number_of_trials
+            data(iTrial).trial_classification = trial_classification(iTrial);
+        end
+        
     end
 elseif meta.crosstrain == 0 % 0: none |
     train_portion = meta.TRAIN_PORTION;
     model_select_portion = meta.MODEL_SELECT_PORTION;
-    test_portion = meta.TEST_PORTION; % why isn't this used?
     
     number_of_trials = size(data,2);
     trial_indices = 1:number_of_trials;

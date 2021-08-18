@@ -3,7 +3,7 @@ function data_export(filepath)
 data = load(filepath);
 
 
-move_window = 1;
+move_window = 0;
 
 %% Main Loop
 

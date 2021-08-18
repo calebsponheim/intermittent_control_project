@@ -1,8 +1,9 @@
 %% Import Data from Python and integrate into matlab struct.
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05_sBins_move_window_only\';
-filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05sBins\';
+% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05sBins\';
+filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out_and_RTP1902280.05sBins\';
 move_window = 0;
-state_num = 3;
+state_num = 8;
 
 
 decoded_data = readmatrix(...
@@ -25,7 +26,11 @@ trial_classification = trial_classification_catted;
 %%
 
 if contains(filepath,'190228')
-    load([filepath '\Bxcenter_out190228CT0.mat'])
+    if contains(filepath, 'Bxcenter_out_and_RTP1902280.05sBins')
+        load([filepath 'Bxcenter_out_and_RTP190228CT0.mat']);
+    else
+        load([filepath '\Bxcenter_out190228CT0.mat'])
+    end
     meta.optimal_number_of_states = state_num;
     if size(decoded_data,1) == 1
         for iTrial = 1:size(trial_classification,1)
@@ -39,7 +44,7 @@ if contains(filepath,'190228')
                 length_of_original_resampled_prewindow = ...
                     length(data(iTrial).spikecountresamp(...
                     :,1:int64(data(iTrial).move_relative_to_trial_start))) - 1;
-
+                
                 length_of_original_resampled_postwindow = ...
                     length(data(iTrial).spikecountresamp(...
                     :,int64(data(iTrial).target_reach_relative_to_trial_start):end)) - 1;
@@ -47,12 +52,12 @@ if contains(filepath,'190228')
                 length_of_trial(iTrial) = length_of_original_resampled_data + length_of_original_resampled_prewindow + length_of_original_resampled_postwindow;
                 
                 length_of_original_data(iTrial) = round(length_of_original_resampled_data/(meta.bin_size*1000));
-
+                
                 if iTrial == 1
                     decoded_trial_temp = decoded_data(1,1:length_of_original_data(iTrial)) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
                 else
                     decoded_trial_temp = decoded_data(1,((sum(length_of_original_data(1:iTrial-1)):(sum(length_of_original_data(1:iTrial)))))) + 1;
-%                     decoded_trial_temp = [zeros(1,length_of_original_prewindow(iTrial)) actual_states zeros(1,length_of_original_postwindow(iTrial))];    
+                    %                     decoded_trial_temp = [zeros(1,length_of_original_prewindow(iTrial)) actual_states zeros(1,length_of_original_postwindow(iTrial))];
                 end
                 
                 decoded_trial_temp_resamp = zeros(1,length(length_of_original_resampled_data));
@@ -63,12 +68,12 @@ if contains(filepath,'190228')
                     else
                         resamp_range = ((iBin-1)*(meta.bin_size*1000)+1) : ((iBin)*(meta.bin_size*1000));
                     end
-                
+                    
                     decoded_trial_temp_resamp(resamp_range) = decoded_trial_temp(iBin);
                 end
                 if length_of_original_resampled_data < length(decoded_trial_temp_resamp)
                     decoded_trial_temp_resamp = decoded_trial_temp_resamp(1:length_of_original_resampled_data);
-%                     disp('sound the alarm')
+                    %                     disp('sound the alarm')
                 elseif length_of_original_resampled_data > length(decoded_trial_temp_resamp)
                     decoded_trial_temp_resamp = [decoded_trial_temp_resamp repmat(decoded_trial_temp_resamp(end),1,(length_of_original_resampled_data - length(decoded_trial_temp_resamp)))];
                 end
@@ -79,33 +84,65 @@ if contains(filepath,'190228')
                 % time.
                 
                 
-%                 for iBin = 1:(length(decoded_trial_temp))
-%                     if iBin == 1
-%                         resamp_range = 1:(meta.bin_size*1000);
-%                     else
-%                         resamp_range = ((iBin-1)*(meta.bin_size*1000)+1) : ((iBin)*(meta.bin_size*1000));
-%                     end
-%                 
-%                     data(iTrial).states_resamp(resamp_range) = decoded_trial_temp(iBin);
-%                 end
+                %                 for iBin = 1:(length(decoded_trial_temp))
+                %                     if iBin == 1
+                %                         resamp_range = 1:(meta.bin_size*1000);
+                %                     else
+                %                         resamp_range = ((iBin-1)*(meta.bin_size*1000)+1) : ((iBin)*(meta.bin_size*1000));
+                %                     end
+                %
+                %                     data(iTrial).states_resamp(resamp_range) = decoded_trial_temp(iBin);
+                %                 end
             elseif move_window == 0
-                if iTrial == 1
-                    decoded_trial_temp = decoded_data(1,1:90) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
-                else
-                    decoded_trial_temp = decoded_data(1,(((iTrial-1)*90):((iTrial*90)-1))) + 1;
-                end
-                
-                for iBin = 1:(length(decoded_trial_temp))
-                    if iBin == 1
-                        resamp_range = 1:(meta.bin_size*1000);
+                if contains(filepath,'Bxcenter_out1902280')
+                    if iTrial == 1
+                        decoded_trial_temp = decoded_data(1,1:90) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
                     else
-                        resamp_range = ((iBin-1)*(meta.bin_size*1000)+1) : ((iBin)*(meta.bin_size*1000));
+                        decoded_trial_temp = decoded_data(1,(((iTrial-1)*90):((iTrial*90)-1))) + 1;
                     end
-                
-                    data(iTrial).states_resamp(resamp_range) = decoded_trial_temp(iBin);
+                    
+                    for iBin = 1:(length(decoded_trial_temp))
+                        if iBin == 1
+                            resamp_range = 1:(meta.bin_size*1000);
+                        else
+                            resamp_range = ((iBin-1)*(meta.bin_size*1000)+1) : ((iBin)*(meta.bin_size*1000));
+                        end
+                        
+                        data(iTrial).states_resamp(resamp_range) = decoded_trial_temp(iBin);
+                    end
+                else
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    % THIS IS FOR FULL TRIAL TASK-NEUTRAL DATA
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                    length_of_original_resampled_data = length(data(iTrial).spikecountresamp);
+                    length_of_trial(iTrial) = length_of_original_resampled_data;
+                    length_of_original_data(iTrial) = round(length_of_original_resampled_data/(meta.bin_size*1000));
+                    
+                    if iTrial == 1
+                        decoded_trial_temp = decoded_data(1,1:length_of_original_data(iTrial)) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
+                    else
+                        decoded_trial_temp = decoded_data(1,((sum(length_of_original_data(1:iTrial-1)):(sum(length_of_original_data(1:iTrial)))))) + 1;
+                    end
+                    decoded_trial_temp_resamp = zeros(1,length(length_of_original_resampled_data));
+                    
+                    for iBin = 1:(length(decoded_trial_temp))
+                        if iBin == 1
+                            resamp_range = 1:(meta.bin_size*1000);
+                        else
+                            resamp_range = ((iBin-1)*(meta.bin_size*1000)+1) : ((iBin)*(meta.bin_size*1000));
+                        end
+                        
+                        decoded_trial_temp_resamp(resamp_range) = decoded_trial_temp(iBin);
+                    end
+                    if length_of_original_resampled_data < length(decoded_trial_temp_resamp)
+                        decoded_trial_temp_resamp = decoded_trial_temp_resamp(1:length_of_original_resampled_data);
+                    elseif length_of_original_resampled_data > length(decoded_trial_temp_resamp)
+                        decoded_trial_temp_resamp = [decoded_trial_temp_resamp repmat(decoded_trial_temp_resamp(end),1,(length_of_original_resampled_data - length(decoded_trial_temp_resamp)))];
+                    end
+                    data(iTrial).states_resamp = decoded_trial_temp_resamp;
                 end
             end
-
+            
         end
         
     else

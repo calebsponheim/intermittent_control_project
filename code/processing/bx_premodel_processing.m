@@ -22,7 +22,7 @@ elseif strcmp(meta.task,'center_out') && meta.crosstrain == 0
         cellfun(@(x) [meta.subject_filepath_base 'Bx' meta.session x '_CO_units'] ,meta.arrays,'UniformOutput',0);
     meta.trial_length = [-1 3.5]; %seconds. defaults is [-1 4];
     meta.trial_event_cutoff = meta.center_out_trial_window; % supersedes trial_length if active
-elseif meta.crosstrain ~= 0
+elseif (meta.crosstrain ~= 0) || strcmp(meta.task,'center_out_and_RTP')
     meta.subject_filepath_RTP = ...
         cellfun(@(x) [meta.subject_filepath_base 'Bx' meta.session x '_RTP_units'] ,meta.arrays,'UniformOutput',0);
     meta.subject_filepath_center_out = ...
@@ -34,7 +34,7 @@ end
 
 %% Structure Spiking Data
 
-if meta.crosstrain > 0
+if meta.crosstrain > 0 || strcmp(meta.task,'center_out_and_RTP')
 else
     [data,meta.targets] = CS_spiketimes_to_bins_v2(meta);
     disp('- spikes have been binned');
@@ -42,7 +42,7 @@ end
 
 %% Prepare Kinematic Data
 
-if meta.crosstrain > 0
+if meta.crosstrain > 0 || strcmp(meta.task,'center_out_and_RTP')
 else
     [data] = process_kinematics_v2(meta,data);
     disp('- kinematics have been processed')
@@ -51,7 +51,7 @@ end
 %% Prepare EMG Data
 
 if meta.include_EMG_analysis == 1
-    if meta.crosstrain > 0
+    if meta.crosstrain > 0 || strcmp(meta.task,'center_out_and_RTP')
     else
         [data,meta] = process_EMGs_v2(meta,data);
         disp('- EMGs have been processed')
@@ -61,7 +61,7 @@ else
 end
 
 %% Allocate Trials to test/model/train
-if meta.crosstrain > 0
+if meta.crosstrain > 0 || strcmp(meta.task,'center_out_and_RTP')
     [data,meta] = assign_trials_to_HMM_group([],meta);
     disp('- trials have been assigned to their HMM group')
 else
