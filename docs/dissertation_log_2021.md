@@ -23,3 +23,16 @@ Results to add in this section:
 *Python Replication*
 
 Due to feedback from my thesis committee AND Naama, I was encouraged to explore more realistic switching models of neural activity. I spoke with Ken Latimer of the Freedman lab about this, and he recommended [Scott Linderman's models and toolbox. ](https://github.com/lindermanlab/ssm)
+
+The toolbox "called 'ssm' by the github repository" contains a multitude of different ways of modeling switching dynamics for time series data. The most basic version of these models is approximately the same type as was implemented in Kadmon Harpaz (2019), a Hidden Markov Model.
+
+The difference between this HMM implementation and Naama's is two-fold:
+
+1. The linderman group's HMM is parametric; that means the emission probabilities are modeled not by estimating the probabilities of each individual possible value with in the range of emissions, but by assuming that the emissions have some sort of distribution *a priori*. This provides the benefit of fewer parametrs to fit, but requires an assumption about the distribution of the data.
+2. As far as I can tell, The Liderman Group's HMMs don't take in multiple trials. As such, I am required to input a concatonated string of spike counts instead of one trial at a time.
+
+As such, I wanted to make sure that the movement decomposition that we observe using Naama's method could be recovered using this similar but slightly different HMM method.
+
+Results to add in this section:
+1. RS, Bx, and RJ examples of movement decoding
+2. RS, Bx, and RJ examples of AIC

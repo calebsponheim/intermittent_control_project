@@ -9,7 +9,7 @@ setName = session;
 % else % otherwise, set your own goddamn analysis paths   
     dataDir = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\20' session(1:2) '\' session(1:6) '\'];
 %     plotDir = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\new_results\Breaux\' session '\behavior\from kinarm\'];
-    plotDir = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\new_results\Theseus\210810\'];
+    plotDir = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\new_results\Theseus\' session '\'];
 % end
 
 if ~exist(plotDir,'dir'), mkdir(plotDir); end

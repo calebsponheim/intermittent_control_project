@@ -7,7 +7,7 @@ file_list = dir('.\data_midway\hn_trained');
 folder = file_list(1).folder;
 file_list = {file_list.name};
 
-dataset_to_evaluate = 'test';
+dataset_to_evaluate = 'train';
 
 if (meta.crosstrain == 0) || (meta.crosstrain == 3) % 0: none || 3: both tasks together
     model_files = cellfun(@(x)[folder '\' x],file_list(...
