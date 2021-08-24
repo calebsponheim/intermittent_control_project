@@ -38,12 +38,6 @@ data, is_it_breaux = import_matlab_data(folderpath)
 
 trial_classification = assign_trials_to_HMM_group(data, meta)
 
-
-# %% Finding Optimal States
-
-# hmm_storage, hmm_lls_storage, bin_sums, bin_sums_select, optimal_state_number = train_lds(
-#     data, trial_classification, meta, bin_size, is_it_breaux)
-
 # %% Finding Optimal States
 rslds_lem, xhat_lem, y = train_rslds(data, trial_classification,
                            meta, bin_size, is_it_breaux)
