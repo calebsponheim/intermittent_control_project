@@ -17,8 +17,10 @@ My initial goal was to replicate the results published in Kadmon Harpas et al (2
 Results to add in this section:
 
 1. AIC and Log-Likelihood results from RS / RJ
-    Raju AIC: ![RJ RTP AIC](embeds/RJ%20RTP%20CT0train%20AIC.png)
-    Rockstar AIC: ![RS RTP AIC](/docs/embeds/RS%20RTP%20CT0test%20AIC.png)
+    Raju AIC: 
+    ![RJ RTP AIC](embeds/RJ%20RTP%20CT0train%20AIC.png)
+    Rockstar AIC: 
+    ![RS RTP AIC](/docs/embeds/RS%20RTP%20CT0test%20AIC.png)
 2. Center out and RTP results (respectively) with optimal states for RS and RJ, from Caleb Matlab Analysis.
     ![BX CO](embeds/bx_co.png)
     ![RS CO](embeds/rs_co.png)
@@ -43,5 +45,6 @@ Results to add in this section:
 
 1. RS, Bx, and RJ examples of movement decoding from python
 
-    BX example:![BX CO Python](embeds/bx_co_python.png)
+    BX example:
+    ![BX CO Python](embeds/bx_co_python.png)
 2. RS, Bx, and RJ examples of AIC from python
