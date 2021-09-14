@@ -12,7 +12,7 @@ bad_trials = [4;10;30;43;44;46;53;66;71;78;79;84;85;91;106;107;118;128;141;142;1
 [data,cpl_st_trial_rew,bin_timestamps] = nicho_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials);
 
 %% Build and Run Model
-[trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject);
+[trInd_train,trInd_test,hn_trained,dc,seed_to_train] = train_and_decode_HMM(data,num_states_subject,[],[],1,100,0.8);
 
 %save(strcat(subject,'_HMM_classified_test_data_and_output_',num2str(NUM_STATES),date))
 %% Prepare Kinematic Data

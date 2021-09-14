@@ -51,7 +51,7 @@ def train_lds(data, trial_classification, meta, bin_size, is_it_breaux):
             bin_sums = np.vstack(
                 (bin_sums, trainset[iUnit]))
         print(iUnit)
-        
+
     for iUnit in range(len(selectset)):
         if iUnit == 0:
             bin_sums_select = selectset[iUnit]
@@ -75,15 +75,15 @@ def train_lds(data, trial_classification, meta, bin_size, is_it_breaux):
     train_ll = []
     AIC = []
     y = np.transpose(bin_sums);
-    
-    lds = LDS(observation_dimensions, number_of_states, emissions="gaussian")
+
+    lds = LDS(observation_dimensions, number_of_states, emissions="poisson")
     lds.initialize(y)
-    
+
     #%% fit
-    
+
     q_lem_elbos, q_lem = lds.fit(y, method="laplace_em", variational_posterior="structured_meanfield",
                                  num_iters=10, initialize=False)
-    
+
     # Get the posterior mean of the continuous states
     q_lem_x = q_lem.mean_continuous_states[0]
     # Smooth the data under the variational posterior
@@ -93,7 +93,7 @@ def train_lds(data, trial_classification, meta, bin_size, is_it_breaux):
     # %% Plotting
     sns.set_style("white")
     sns.set_context("talk")
-    
+
     color_names = ["windows blue",
                "red",
                "amber",

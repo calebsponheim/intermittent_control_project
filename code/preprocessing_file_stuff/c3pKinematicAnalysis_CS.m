@@ -7,7 +7,7 @@ setName = session;
 %     dataDir = params.dataDirServer; % set data directory
 %     plotDir = [params.plotDir 'behavior\from kinarm\']; % set plotting directory
 % else % otherwise, set your own goddamn analysis paths   
-    dataDir = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\Breaux\20' session(1:2) '\' session(1:6) '\'];
+    dataDir = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\5894970_2021-08-27_13-14-03.zip'];
 %     plotDir = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\new_results\Breaux\' session '\behavior\from kinarm\'];
     plotDir = ['\\prfs.cri.uchicago.edu\nicho-lab\caleb_sponheim\new_results\Theseus\' session '\'];
 % end
@@ -15,7 +15,7 @@ setName = session;
 if ~exist(plotDir,'dir'), mkdir(plotDir); end
 
 %% load
-file2read = [dataDir 'Bx' setName 'kinarmLog.zip'];
+file2read = dataDir;
 bkindata = zip_load(file2read);
 bkindata = bkindata(1).c3d;
 bkindata = KINARM_add_hand_kinematics(bkindata);
@@ -141,74 +141,13 @@ trials = sortStruct(trials,'trialNum');
 %% calc and display success rates
 nSuccess = iSuccessTrial;
 nAllTrials = nFirst_target_on + nSecond_target_on + nThird_target_on + nFourth_target_on + nFifth_target_on + nSixth_target_on + nSeventh_target_on + nSuccess;
-% disp(['Peri appeared but monkey broke hold: ' num2str(nPeriOn) '/' num2str(nAllTrials) '(' num2str(100*nPeriOn/nAllTrials,3) '%)']);
-% disp(['Go cue given but monkey started implausibly fast: ' num2str(nGocue) '/' num2str(nAllTrials) '(' num2str(100*nGocue/nAllTrials,3) '%)']);
-% disp(['Go cue given but monkey did not start moving: ' num2str(nGocueNoMovement) '/' num2str(nAllTrials) '(' num2str(100*nGocueNoMovement/nAllTrials,3) '%)']);
-% disp(['Movement started but did not reach peri in time: ' num2str(nMovementStart) '/' num2str(nAllTrials) '(' num2str(100*nMovementStart/nAllTrials,3) '%)']);
-% disp(['Cursor in peri but not for long enough: ' num2str(nHandInPeri) '/' num2str(nAllTrials) '(' num2str(100*nHandInPeri/nAllTrials,3) '%)']);
+disp(['Peri appeared but monkey broke hold: ' num2str(nPeriOn) '/' num2str(nAllTrials) '(' num2str(100*nPeriOn/nAllTrials,3) '%)']);
+disp(['Go cue given but monkey started implausibly fast: ' num2str(nGocue) '/' num2str(nAllTrials) '(' num2str(100*nGocue/nAllTrials,3) '%)']);
+disp(['Go cue given but monkey did not start moving: ' num2str(nGocueNoMovement) '/' num2str(nAllTrials) '(' num2str(100*nGocueNoMovement/nAllTrials,3) '%)']);
+disp(['Movement started but did not reach peri in time: ' num2str(nMovementStart) '/' num2str(nAllTrials) '(' num2str(100*nMovementStart/nAllTrials,3) '%)']);
+disp(['Cursor in peri but not for long enough: ' num2str(nHandInPeri) '/' num2str(nAllTrials) '(' num2str(100*nHandInPeri/nAllTrials,3) '%)']);
 disp(['nSuccess: ' num2str(nSuccess) '/' num2str(nAllTrials) '(' num2str(100*nSuccess/nAllTrials,3) '%)']);
 
-%% plot x y separately for each tp
-% fromEvent = 1; toEvent = 7;
-% 
-% figure('position',[96,126,1144,852]);
-% idx = [2 3 6 9 8 7 4 1];
-% for iTarget = 1:8
-%     tIDX = [trials(:).tp]==iTarget;
-%     tTrials = trials(tIDX);
-%     ntTrials = size(tTrials,2);
-%     subplot(3,3,idx(iTarget)); hold on
-%     for iTrial = 1:ntTrials
-%         t = tTrials(iTrial).t; ev = tTrials(iTrial).events;
-%         x = 100*tTrials(iTrial).x - trgCentersGlobal(1,1);
-%         y = 100*tTrials(iTrial).y - trgCentersGlobal(1,2);
-%         [~,iStart] = min(abs(t-ev(fromEvent))); [~,iEnd] = min(abs(t-ev(toEvent)));
-%         t = t - t(iStart); %align to ev2 (gocue)
-%         iStart = iStart-200; %plot a bit before that (samprate = 1000)
-%         h1 = plot(t(iStart:iEnd),x(iStart:iEnd),'color',[.8 .1 .1 .3]);
-%         h2 = plot(t(iStart:iEnd),y(iStart:iEnd),'color',[.1 .1 .8 .3]);
-%     end
-%       axis([-0.200 2.5 -7 7]); %x / y
-%     if iTarget == 6
-%         xlabel(['sec from ' trials(1).eventLabels{fromEvent}]);
-%         ylabel('cm from central target'); legend({'x'; 'y'});
-%     end
-%     line([0 0],ylim,'color','k');
-% end
-% suptitle([session 'x y']);
-% saveas(gcf,[plotDir  session ' x y.png']);
-% 
-%% plot L1 L2 separately for each tp
-% fromEvent = 5; toEvent = 7;
-% 
-% figure('position',[96,126,1144,852]);
-% idx = [2 3 6 9 8 7 4 1];
-% for iTarget = 1:8
-%     tIDX = [trials(:).tp]==iTarget;
-%     tTrials = trials(tIDX);
-%     ntTrials = size(tTrials,2);
-%     subplot(3,3,idx(iTarget)); hold on
-%     for iTrial = 1:ntTrials
-%         t = tTrials(iTrial).t; ev = tTrials(iTrial).events;
-%         x = rad2deg(tTrials(iTrial).L1Ang) - LAngAtCenter(1); %tTrials(iTrial).x;
-%         y = rad2deg(tTrials(iTrial).L2Ang) - LAngAtCenter(2); %tTrials(iTrial).y;
-%         [~,iStart] = min(abs(t-ev(fromEvent))); [~,iEnd] = min(abs(t-ev(toEvent)));
-%         t = t - t(iStart); %align to ev2 (gocue)
-%         iStart = iStart-200; %plot a bit before that (samprate = 1000)
-%         h1 = plot(t(iStart:iEnd),x(iStart:iEnd),'color',[.8 .1 .1 .3]);
-%         h2 = plot(t(iStart:iEnd),y(iStart:iEnd),'color',[.1 .1 .8 .3]);
-%     end
-%     axis([-0.200 1.5 -40 40]); %L1 L2 ang
-%     
-%     if iTarget == 6
-%         xlabel(['sec from ' trials(1).eventLabels{fromEvent}]);
-%         ylabel('deg from central position'); legend({'L1ang'; 'L2ang'});
-%     end
-%     line([0 0],ylim,'color','k');
-% end
-% 
-% suptitle([session 'L1 L2']);
-% saveas(gcf,[plotDir  session ' L1 L2.png']);
 
 %% plot 2D trajectories
 fromEvent = 1; toEvent = 7;
