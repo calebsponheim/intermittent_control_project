@@ -43,8 +43,16 @@ As such, I wanted to make sure that the movement decomposition that we observe u
 
 Results to add in this section:
 
-1. RS, Bx, and RJ examples of movement decoding from python
+1. Bx example of movement decoding from python
 
     BX example:
     ![BX CO Python](embeds/bx_co_python.png)
-2. RS, Bx, and RJ examples of AIC from python
+2. Bx example of AIC from python
+
+    ![BX AIC](embeds/bxCOAIC_ssm.png)
+
+## Future Directions
+
+### Taka Strategy
+
+### Dynamic Modeling

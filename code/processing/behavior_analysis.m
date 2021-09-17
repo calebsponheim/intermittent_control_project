@@ -1,7 +1,8 @@
 task = 'CO';
-session = '210810';
+session = '210916';
 subject = 'Theseus';
-
+fromEvent = 4;
+toEvent = 6;
 dataDir = ['\\prfs.cri.uchicago.edu\nicho-lab\Data\all_raw_datafiles_7\' subject '\' num2str(20) session(1:2) '\' session '\'];
 files = dir([dataDir '*.zip']);
 setName = files.name;
@@ -119,7 +120,6 @@ if strcmp(task,'CO')
     disp(['nSuccess: ' num2str(nSuccess) '/' num2str(nAllTrials) '(' num2str(100*nSuccess/nAllTrials,3) '%)']);
     
     % plot x y separately for each tp
-    fromEvent = 1; toEvent = 7;
     
     figure('visible','off','position',[96,126,1144,852]);
     idx = [2 3 6 9 8 7 4 1];
@@ -154,7 +154,6 @@ if strcmp(task,'CO')
     saveas(gcf,[plotDir  session ' x y.png']);
     
     % plot 2D trajectories
-    fromEvent = 1; toEvent = 7;
     figure('visible','off'); hold on
     for iTrial = 1:nSuccess
         t = trials(iTrial).t; ev = trials(iTrial).events;
@@ -166,7 +165,7 @@ if strcmp(task,'CO')
             [~,iEnd] = min(abs(t-ev(end)));
             
             %     plot(x(iStart:iEnd),y(iStart:iEnd),'color',[dirColors(trials(iTrial).tp,:)]);
-            plot(x,y,'color',[dirColors(trials(iTrial).tp,:) 0.4]);
+            plot(x(iStart:iEnd),y(iStart:iEnd),'color',[dirColors(trials(iTrial).tp,:) 0.4]);
             %     plot(x(iStart:iEnd),y(iStart:iEnd),'color',[0 0 0 0.3]);
             %     plot(trials(iTrial).t,trials(iTrial).v,'color',[0 0 0 0.3])
         end
@@ -198,8 +197,8 @@ if strcmp(task,'CO')
             disp('something is wrong');
         end
     end
-%     events = reshape([trials(:).events],nEvents,nSuccess);
-
+    %     events = reshape([trials(:).events],nEvents,nSuccess);
+    
     epochs = nan(length(events),nEvents-1);
     for iEpoch = 1:nEvents-1
         epochs(:,iEpoch) = events(:,iEpoch+1) - events(:,iEpoch);
@@ -229,7 +228,7 @@ if strcmp(task,'CO')
         
         for iTP = 1:8
             if sum(tp==iTP)
-                epData{ii} = epochs(tp==iTP,iEpoch); 
+                epData{ii} = epochs(tp==iTP,iEpoch);
                 ii = ii+1;
             end
         end
@@ -238,6 +237,40 @@ if strcmp(task,'CO')
         saveas(gcf,[plotDir  session ' ' epochNames{iEpoch} ' bar.png']);
         
     end
+    
+    
+    % Plot trajectories and velocity for each target separately
+    
+    % 1. set up subplot stuff
+    % 3x3 subplot layout, I think.
+    
+    % 2 plot trajectories
+    for iTP = 1:8
+        figure('Name',num2str(iTP),'visible','off','pos',[200,200,800,400]); hold on; set(gcf,'color','w')
+        for iTrial = 1:nSuccess
+            if trials(iTrial).tp == iTP
+                t = trials(iTrial).t; ev = trials(iTrial).events;
+                if max(ev) ~= 0
+                    x = 100*trials(iTrial).x - trgCentersGlobal(1,1); y = 100*trials(iTrial).y - trgCentersGlobal(1,2);
+                    v = trials(iTrial).v;
+
+                    [~,iStart] = min(abs(t-ev(fromEvent)));
+                    [~,iEnd] = min(abs(t-ev(end)));
+
+                    subplot(1,2,1); hold on;
+                    plot(x(iStart:iEnd),y(iStart:iEnd),'color',[dirColors(trials(iTrial).tp,:) 0.4]);
+                    box off
+                    axis([-6 6 -6 6])
+                    subplot(1,2,2); hold on;
+                    plot(smoothdata(v(iStart:iEnd),'gaussian',100),'color',[dirColors(trials(iTrial).tp,:) 0.4]);
+                    box off
+                end
+            end
+        end
+        saveas(gcf,[plotDir  session ' ' epochNames{iEpoch} ' ' num2str(iTP) ' traj and vel.png']);
+
+    end
+    % 3 plot velocities
 elseif strcmp(task,'RTP')
     %EVENTS:
     % 'FIRST_TARGET_ON'     1
@@ -343,14 +376,13 @@ elseif strcmp(task,'RTP')
     
     
     %% plot 2D trajectories
-    fromEvent = 1; toEvent = 7;
     for iTrial = 1:nSuccess
         figure('visible','off'); hold on
         t = trials(iTrial).t; ev = trials(iTrial).events;
         x = 100*trials(iTrial).x - trgCentersGlobal(1,1); y = 100*trials(iTrial).y - trgCentersGlobal(1,2);
         %     v = trials(iTrial).v;
         
-        [~,iStart] = min(abs(t-ev(fromEvent))); [~,iEnd] = min(abs(t-ev(end)));
+        [~,iStart] = min(abs(t-ev(fromEvent))); [~,iEnd] = min(abs(t-ev(toEvent)));
         
         %     plot(x(iStart:iEnd),y(iStart:iEnd),'color',[dirColors(trials(iTrial).tp,:)]);
         plot(x(iStart:iEnd),y(iStart:iEnd))%,'color',[colors_directory(trials(iTrial).tp,:) 0.4]);
