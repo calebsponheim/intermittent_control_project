@@ -44,6 +44,8 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
 
     # Okay now that we have the training trials in its own variable, we need to turn it into the right shape for training, presumably.
 
+    mean_spikecount = []
+
     for iUnit in range(len(trainset)):
         if iUnit == 0:
             bin_sums = trainset[iUnit]
@@ -55,14 +57,16 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
     for iUnit in range(len(selectset)):
         if iUnit == 0:
             bin_sums_select = selectset[iUnit]
+            mean_spikecount.append(sum(selectset[iUnit])/len(selectset[iUnit]))
         else:
             bin_sums_select = np.vstack(
                 (bin_sums_select, selectset[iUnit]))
+            mean_spikecount.append(sum(selectset[iUnit])/len(selectset[iUnit]))
         print(iUnit)
 
     # %% Calculate Maximum Possible Log Likelihood
 
-
+    max_log_likelihood_possible = mean(-mean(bin_sums))
 
     # %% Okay NOW we train
 
