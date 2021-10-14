@@ -1,5 +1,5 @@
 task = 'CO';
-session = '210916';
+session = '210927';
 subject = 'Theseus';
 fromEvent = 4;
 toEvent = 6;

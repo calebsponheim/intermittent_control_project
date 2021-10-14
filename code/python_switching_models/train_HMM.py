@@ -60,6 +60,10 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
                 (bin_sums_select, selectset[iUnit]))
         print(iUnit)
 
+    # %% Calculate Maximum Possible Log Likelihood
+
+
+
     # %% Okay NOW we train
 
     observation_dimensions = bin_sums.shape[0]
