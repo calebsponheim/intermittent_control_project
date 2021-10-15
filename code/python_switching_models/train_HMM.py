@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Feb 22 09:58:02 2021
+Created on Mon Feb 22 09:58:02 2021.
 
 @author: calebsponheim
 """
@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import ssm
 import numpy as np
 import autograd.numpy.random as npr
+import math
 npr.seed(100)
 
 
@@ -65,14 +66,24 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
         print(iUnit)
 
     # %% Calculate Maximum Possible Log Likelihood
+    per_neuron_likelihood = []
+    for iUnit in range(len(selectset)):
+        per_timestep_likelihood = []
+        mean_spikecount_temp = mean_spikecount[iUnit]
+        for iTimestep in range(len(selectset[iUnit])):
+            timestep_temp = selectset[iUnit][iTimestep]
+            per_timestep_likelihood.append((-mean_spikecount_temp) +
+                                           ((timestep_temp) * math.log(mean_spikecount_temp)) -
+                                           (math.log(math.factorial(timestep_temp))))
+        per_neuron_likelihood.append(sum(per_timestep_likelihood))
 
-    max_log_likelihood_possible = mean(-mean(bin_sums))
+    max_log_likelihood_possible = sum(per_neuron_likelihood)
 
     # %% Okay NOW we train
 
     observation_dimensions = bin_sums.shape[0]
-    N_iters = 50
-    state_range = np.arange(2, max_state_range, 5)
+    N_iters = 10
+    state_range = np.arange(1, max_state_range, 5)
     bin_sums = bin_sums.astype(np.int64)
 
     hmm_storage = []
@@ -90,15 +101,16 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
         hmm_lls_max.append(max(hmm_lls))
 
         # model selection decode
-        select_ll_temp = hmm.log_likelihood(np.transpose(bin_sums_select))/len(trind_select)
+        select_ll_temp = hmm.log_likelihood(np.transpose(bin_sums_select))
         select_ll.append(select_ll_temp)
 
         # trainset decode
-        train_ll_temp = hmm.log_likelihood(np.transpose(bin_sums))/len(trind_train)
+        train_ll_temp = hmm.log_likelihood(np.transpose(bin_sums))
         train_ll.append(train_ll_temp)
         print(f'Created Model For {iState} States.')
 
-    plt.plot(state_range,np.transpose(select_ll))
+    plt.plot(state_range, np.transpose(select_ll))
+    plt.axhline(y=max_log_likelihood_possible, color='r', linestyle='-')
     plt.xlabel("state number")
     plt.title("Model-Select Log Likelihood over state number")
     plt.ylabel("Log Probability")
@@ -109,4 +121,4 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
     optimal_state_number = 0
 
     #%% Return variables
-    return hmm_storage,optimal_state_number
+    return hmm_storage, optimal_state_number
