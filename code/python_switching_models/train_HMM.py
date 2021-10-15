@@ -43,7 +43,8 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
                 else:
                     selectset[iUnit].extend(temp_binned)
 
-    # Okay now that we have the training trials in its own variable, we need to turn it into the right shape for training, presumably.
+    # Okay now that we have the training trials in its own variable, we need
+    # to turn it into the right shape for training, presumably.
 
     mean_spikecount = []
 
@@ -70,11 +71,19 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
     for iUnit in range(len(selectset)):
         per_timestep_likelihood = []
         mean_spikecount_temp = mean_spikecount[iUnit]
+        first_term = mean_spikecount_temp
+        second_term = []
+        third_term = []
+
         for iTimestep in range(len(selectset[iUnit])):
             timestep_temp = selectset[iUnit][iTimestep]
-            per_timestep_likelihood.append((-mean_spikecount_temp) +
-                                           ((timestep_temp) * math.log(mean_spikecount_temp)) -
-                                           (math.log(math.factorial(timestep_temp))))
+            second_term.append((timestep_temp) *
+                               math.log(mean_spikecount_temp))
+            third_term.append(math.log(math.factorial(timestep_temp)))
+
+        per_timestep_likelihood.append(- first_term +
+                                       sum(second_term) - sum(third_term))
+
         per_neuron_likelihood.append(sum(per_timestep_likelihood))
 
     max_log_likelihood_possible = sum(per_neuron_likelihood)
@@ -83,7 +92,8 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
 
     observation_dimensions = bin_sums.shape[0]
     N_iters = 10
-    state_range = np.arange(1, max_state_range, 5)
+    state_range = [1, 500]
+    # state_range = np.arange(1, max_state_range, 10)
     bin_sums = bin_sums.astype(np.int64)
 
     hmm_storage = []
@@ -109,7 +119,7 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
         train_ll.append(train_ll_temp)
         print(f'Created Model For {iState} States.')
 
-    plt.plot(state_range, np.transpose(select_ll))
+    plt.plot(state_range, np.transpose(select_ll), linestyle='-', marker='o')
     plt.axhline(y=max_log_likelihood_possible, color='r', linestyle='-')
     plt.xlabel("state number")
     plt.title("Model-Select Log Likelihood over state number")
@@ -120,5 +130,5 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
 
     optimal_state_number = 0
 
-    #%% Return variables
+    # %% Return variables
     return hmm_storage, optimal_state_number

@@ -41,14 +41,15 @@ trial_classification = assign_trials_to_HMM_group(data, meta)
 
 # %% Running HMM to find optimal number of states using LL saturation
 
-optimal_state_number = train_HMM(data,trial_classification,meta,bin_size,is_it_breaux, max_state_range)
+optimal_state_number = train_HMM(
+    data, trial_classification, meta, bin_size, is_it_breaux, max_state_range)
 
 
 # %% Running PCA-based estimate of # of latent dimensions
 
 # %% Running RSLDS
 rslds_lem, xhat_lem, y = train_rslds(data, trial_classification,
-                           meta, bin_size, is_it_breaux)
+                                     meta, bin_size, is_it_breaux)
 
 # %% Decoding Test Data using Optimal States
 decoded_data = rslds_lem.most_likely_states(xhat_lem, y)
