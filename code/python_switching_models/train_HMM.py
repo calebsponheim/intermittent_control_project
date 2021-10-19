@@ -9,16 +9,19 @@ import ssm
 import numpy as np
 import autograd.numpy.random as npr
 import math
+
 npr.seed(100)
 
 
-def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_state_range):
+def train_HMM(
+    data, trial_classification, meta, bin_size, is_it_breaux, max_state_range
+):
 
     # %%
-    trind_train = [i for i, x in enumerate(
-        trial_classification) if x == "train"]
-    trind_select = [i for i, x in enumerate(
-        trial_classification) if x == "model_select"]
+    trind_train = [i for i, x in enumerate(trial_classification) if x == "train"]
+    trind_select = [
+        i for i, x in enumerate(trial_classification) if x == "model_select"
+    ]
     trainset = []
     selectset = []
     # S = []
@@ -52,18 +55,16 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
         if iUnit == 0:
             bin_sums = trainset[iUnit]
         else:
-            bin_sums = np.vstack(
-                (bin_sums, trainset[iUnit]))
+            bin_sums = np.vstack((bin_sums, trainset[iUnit]))
         print(iUnit)
 
     for iUnit in range(len(selectset)):
         if iUnit == 0:
             bin_sums_select = selectset[iUnit]
-            mean_spikecount.append(sum(selectset[iUnit])/len(selectset[iUnit]))
+            mean_spikecount.append(sum(selectset[iUnit]) / len(selectset[iUnit]))
         else:
-            bin_sums_select = np.vstack(
-                (bin_sums_select, selectset[iUnit]))
-            mean_spikecount.append(sum(selectset[iUnit])/len(selectset[iUnit]))
+            bin_sums_select = np.vstack((bin_sums_select, selectset[iUnit]))
+            mean_spikecount.append(sum(selectset[iUnit]) / len(selectset[iUnit]))
         print(iUnit)
 
     # %% Calculate Maximum Possible Log Likelihood
@@ -77,22 +78,21 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
 
         for iTimestep in range(len(selectset[iUnit])):
             timestep_temp = selectset[iUnit][iTimestep]
-            second_term.append((timestep_temp) *
-                               math.log(mean_spikecount_temp))
+            second_term.append((timestep_temp) * math.log(mean_spikecount_temp))
             third_term.append(math.log(math.factorial(timestep_temp)))
 
-        per_timestep_likelihood.append(- first_term +
-                                       sum(second_term) - sum(third_term))
+        per_timestep_likelihood.append(-first_term + sum(second_term) - sum(third_term))
 
         per_neuron_likelihood.append(sum(per_timestep_likelihood))
 
     max_log_likelihood_possible = sum(per_neuron_likelihood)
+    ninety_percent_threshold = max_log_likelihood_possible + (max_log_likelihood_possible*.1)
 
     # %% Okay NOW we train
 
     observation_dimensions = bin_sums.shape[0]
     N_iters = 10
-    state_range = [1, 500]
+    state_range = [1, 100]
     # state_range = np.arange(1, max_state_range, 10)
     bin_sums = bin_sums.astype(np.int64)
 
@@ -101,26 +101,28 @@ def train_HMM(data, trial_classification, meta, bin_size, is_it_breaux, max_stat
     hmm_lls_max = []
     select_ll = []
     train_ll = []
-
+    select_likelihood = []
     for iState in state_range:
         hmm = ssm.HMM(iState, observation_dimensions, observations="poisson")
-        hmm_storage.append(hmm)
-        hmm_lls = hmm.fit(np.transpose(bin_sums), method="em",
-                          num_iters=N_iters, init_method="kmeans")
-        hmm_lls_storage.append(hmm_lls)
-        hmm_lls_max.append(max(hmm_lls))
+        # hmm_storage.append(hmm)
+        hmm.fit(
+            np.transpose(bin_sums), method="em", num_iters=N_iters, init_method="kmeans"
+        )
+        # hmm_lls_storage.append(hmm_lls)
+        # hmm_lls_max.append(max(hmm_lls))
 
         # model selection decode
         select_ll_temp = hmm.log_likelihood(np.transpose(bin_sums_select))
         select_ll.append(select_ll_temp)
-
+        select_likelihood.append(math.exp(select_ll_temp))
         # trainset decode
         train_ll_temp = hmm.log_likelihood(np.transpose(bin_sums))
         train_ll.append(train_ll_temp)
-        print(f'Created Model For {iState} States.')
+        print(f"Created Model For {iState} States.")
 
-    plt.plot(state_range, np.transpose(select_ll), linestyle='-', marker='o')
-    plt.axhline(y=max_log_likelihood_possible, color='r', linestyle='-')
+    plt.plot(state_range, np.transpose(select_ll), linestyle="-", marker="o")
+    plt.axhline(y=max_log_likelihood_possible, color="r", linestyle="-")
+    plt.axhline(y=ninety_percent_threshold, color="b", linestyle="-")
     plt.xlabel("state number")
     plt.title("Model-Select Log Likelihood over state number")
     plt.ylabel("Log Probability")
