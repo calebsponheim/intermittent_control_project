@@ -1,16 +1,17 @@
 %% Analyze RS Data
-
+% RS center-out - rs1050225_clean_SNRgt4 located in W:\nicho\ANALYSIS\rs1050225_MI
+% RS RTP - rs1050211_clean_spikes_SNRgt4 located in W:\nicho\ANALYSIS\rs1050211
 subject = 'RS';
-if ispc
-    subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
-elseif ismac
-    subject_filepath = '/Volumes/nicho-lab/nicho/ANALYSIS/rs1050211/rs1050211_clean_spikes_SNRgt4';
-end
+subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050225_MI\rs1050225_clean_SNRgt4';
 num_states_subject = 8;
-task = 'CO';
+if contains(subject_filepath,'1050225')
+    task = 'CO';
+elseif contains(subject_filepath,'1050211')
+    task = 'RTP';
+end
 bin_size = .050; %s
-bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
-
+% bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
+bad_trials = [];
 % Scripts to run:
 
 %% Structure Spiking Data

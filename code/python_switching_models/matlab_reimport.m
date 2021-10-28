@@ -1,15 +1,20 @@
 %% Import Data from Python and integrate into matlab struct.
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05_sBins_move_window_only\';
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05sBins\';
-filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out_and_RTP1902280.05sBins\';
-move_window = 0;
-state_num = 8;
+% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out_and_RTP1902280.05sBins\';
+filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSCO0.05sBins\';
+% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTP0.05sBins\';
+% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins\';
 
+move_window = 0;
+state_num = 9;
+num_states_subject = state_num;
 
 decoded_data = readmatrix(...
     [filepath 'decoded_test_data.csv']...
     );
 
+[decoded_data] = censor_and_threshold_HMM_states(decoded_data);
 % Each row is a different state number (going from 2 to 25, I guess). each
 % column is a 50ms bin. every 90 bins is a new trial
 
@@ -32,7 +37,7 @@ if contains(filepath,'190228')
         load([filepath '\Bxcenter_out190228CT0.mat'])
     end
     meta.optimal_number_of_states = state_num;
-    if size(decoded_data,1) == 1
+%     if size(decoded_data,1) == 1
         for iTrial = 1:size(trial_classification,1)
             data(iTrial).trial_classification = trial_classification{iTrial};
             if move_window == 1
@@ -54,9 +59,9 @@ if contains(filepath,'190228')
                 length_of_original_data(iTrial) = round(length_of_original_resampled_data/(meta.bin_size*1000));
                 
                 if iTrial == 1
-                    decoded_trial_temp = decoded_data(1,1:length_of_original_data(iTrial)) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
+                    decoded_trial_temp = decoded_data(state_num,1:length_of_original_data(iTrial)) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
                 else
-                    decoded_trial_temp = decoded_data(1,((sum(length_of_original_data(1:iTrial-1)):(sum(length_of_original_data(1:iTrial)))))) + 1;
+                    decoded_trial_temp = decoded_data(state_num,((sum(length_of_original_data(1:iTrial-1)):(sum(length_of_original_data(1:iTrial)))))) + 1;
                     %                     decoded_trial_temp = [zeros(1,length_of_original_prewindow(iTrial)) actual_states zeros(1,length_of_original_postwindow(iTrial))];
                 end
                 
@@ -145,53 +150,76 @@ if contains(filepath,'190228')
             
         end
         
-    else
-        for iTrial = 1:size(trial_classification,1)
-            data(iTrial).trial_classification = trial_classification{iTrial};
-            if iTrial == 1
-                decoded_trial_temp = decoded_data(state_num-1,1:90) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
-            else
-                decoded_trial_temp = decoded_data(state_num-1,(((iTrial-1)*90):((iTrial*90)-1))) + 1;
-            end
-            
-            for iBin = 1:(length(decoded_trial_temp))
-                if iBin == 1
-                    resamp_range = 1:(meta.bin_size*1000);
-                else
-                    resamp_range = ((iBin-1)*(meta.bin_size*1000)+1) : ((iBin)*(meta.bin_size*1000));
-                end
-                
-                data(iTrial).states_resamp(resamp_range) = decoded_trial_temp(iBin);
-            end
-        end
+%     else
+%         for iTrial = 1:size(trial_classification,1)
+%             data(iTrial).trial_classification = trial_classification{iTrial};
+%             if iTrial == 1
+%                 decoded_trial_temp = decoded_data(state_num-1,1:90) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
+%             else
+%                 decoded_trial_temp = decoded_data(state_num-1,(((iTrial-1)*90):((iTrial*90)-1))) + 1;
+%             end
+%             
+%             for iBin = 1:(length(decoded_trial_temp))
+%                 if iBin == 1
+%                     resamp_range = 1:(meta.bin_size*1000);
+%                 else
+%                     resamp_range = ((iBin-1)*(meta.bin_size*1000)+1) : ((iBin)*(meta.bin_size*1000));
+%                 end
+%                 
+%                 data(iTrial).states_resamp(resamp_range) = decoded_trial_temp(iBin);
+%             end
+%         end
+%     end
+elseif contains(filepath,'RS') || contains(filepath,'RJ')
+    if contains(filepath,'RS') && strcmp(task,'RTP')
+        load([filepath '\RS_RTP.mat'])
+        meta.subject = 'RS';
+        meta.task = 'RTP';
+    elseif contains(filepath,'RS') && strcmp(task,'CO')
+        load([filepath '\RSCO.mat'])
+        meta.subject = 'RS';
+        meta.task = 'CO';
+    elseif contains(filepath,'RJ')
+        load([filepath '\RJRTP.mat'])
+        meta.subject = 'RJ';
+
     end
-elseif contains(filepath,'RS')
-    load([filepath '\RS_HMM_analysis_for_python8_states_22-Apr-2021.mat'])
-    num_states_subject = 11;
-    state_num = num_states_subject;
-    test_trial_count = 1;
+
+    num_states_subject = state_num;
+    meta.optimal_number_of_states = num_states_subject;
+    meta.trials_to_plot = 1:10;
+
+    meta.crosstrain = 0;
+    trial_bin_range = zeros(size(data(iTrial),2),2);
     for iTrial = 1:size(data,2)
         if iTrial == 1
             trial_bin_range(1,1:2) = [1,size(data(iTrial).spikecount,2)];
         else
-            trial_bin_range(iTrial,1:2) = [trial_bin_range(iTrial-1,2)+1, (trial_bin_range(iTrial-1,1)+1)+size(data(iTrial).spikecount,2)];
+            trial_bin_range(iTrial,1:2) = [trial_bin_range(iTrial-1,2)+1, (trial_bin_range(iTrial-1,2))+size(data(iTrial).spikecount,2)];
         end
     end
     
     for iTrial = 1:size(trial_classification,1)
         data(iTrial).trial_classification = trial_classification{iTrial};
-        decoded_trial_temp = decoded_data(state_num-1,trial_bin_range(iTrial)) + 1;
-        
+        data(iTrial).ms_relative_to_trial_start = 1:length(data(iTrial).x_smoothed);
+        decoded_trial_temp = decoded_data(state_num-1,trial_bin_range(iTrial,1):trial_bin_range(iTrial,2)) + 1;
+        decoded_trial_temp_resamp = zeros(1,length(data(iTrial).kinematic_timestamps));
         for iBin = 1:(length(decoded_trial_temp))
             if iBin == 1
                 resamp_range = 1:(bin_size*1000);
             else
-                resamp_range = ((iBin-1)*(bin_size*1000)+1) : ((iBin)*(9*1000));
+                resamp_range = ((iBin-1)*(bin_size*1000)+1) : ((iBin)*(bin_size*1000));
             end
             
-            data(iTrial).states_resamp(resamp_range) = decoded_trial_temp(iBin);
+            decoded_trial_temp_resamp(resamp_range) = decoded_trial_temp(iBin);
         end
+        if length(data(iTrial).kinematic_timestamps) < length(decoded_trial_temp_resamp)
+            decoded_trial_temp_resamp = decoded_trial_temp_resamp(1:length(data(iTrial).kinematic_timestamps));
+        elseif length(data(iTrial).kinematic_timestamps) > length(decoded_trial_temp_resamp)
+            decoded_trial_temp_resamp = [decoded_trial_temp_resamp repmat(decoded_trial_temp_resamp(end),1,(length(data(iTrial).kinematic_timestamps) - length(decoded_trial_temp_resamp)))];
+        end
+        data(iTrial).states_resamp = decoded_trial_temp_resamp;
+        
     end
-    
 elseif contains(filepath,'180323')
 end

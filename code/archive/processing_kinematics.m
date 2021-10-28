@@ -42,6 +42,16 @@ for iTrial = 1:size(cpl_st_trial_rew,1)
         %longer than the x. Idk why this is; it's the same code.
     %data(iTrial).y_smoothed = filt_lowpass_y(y(:,1) >= (cpl_st_trial_rew(iTrial,1)) & y(:,1) <= (cpl_st_trial_rew(iTrial,2)));
     data(iTrial).y_smoothed = filt_lowpass_y(x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2)));
-    data(iTrial).speed = velocity(y(:,1) >= (cpl_st_trial_rew(iTrial,1)) & y(:,1) <= (cpl_st_trial_rew(iTrial,2)));
-    data(iTrial).kinematic_timestamps = x((y(:,1) >= (cpl_st_trial_rew(iTrial,1)) & y(:,1) <= (cpl_st_trial_rew(iTrial,2))),1);
+    data(iTrial).speed = velocity(x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2)));
+    data(iTrial).kinematic_timestamps = x((x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2))),1);
 end 
+
+
+% resample from 500hz to 1000hz
+for iTrial = 1:size(cpl_st_trial_rew,1)
+    data(iTrial).x_smoothed = repelem(data(iTrial).x_smoothed,2);
+    data(iTrial).y_smoothed = repelem(data(iTrial).y_smoothed,2);
+    data(iTrial).speed = repelem(data(iTrial).speed,2);
+    data(iTrial).kinematic_timestamps = repelem(data(iTrial).kinematic_timestamps,2);
+end 
+

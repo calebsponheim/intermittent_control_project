@@ -1,7 +1,7 @@
 function  [data,cpl_st_trial_rew,bin_timestamps] = nicho_data_to_organized_spiketimes_for_HMM(subject_filepath,bad_trials,task,bin_size)
 
 % load and import unsorted spiketimes for each channel
-if max(strfind(subject_filepath,'1051013')) > 0
+if contains(subject_filepath,'1051013') || contains(subject_filepath,'1050225')
     if strcmp(task,'RTP')        
         load(subject_filepath,'spikes','st_trial_SRT','reward_SRT','MIchans');
         

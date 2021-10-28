@@ -60,6 +60,8 @@ try strcmp(data.meta.subject,'Bx')
     end
     writestruct(data.meta,[save_folder 'meta'],"FileType",'xml')
 catch
+    % There's something going on with RS timestamps and their format and
+    % scaling.
     mkdir(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task num2str(data.bin_size) 'sBins\'])
     for iTrial = 1:size(data.data,2)
         if iTrial < 10

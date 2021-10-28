@@ -17,8 +17,13 @@ for iState = 1:size(snippet_data,2)
             scatter(data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet}(end)),data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}(end)),7,'r','filled');
         end
     end
-    xlim([min([data.x_smoothed]) max([data.x_smoothed])])
-    ylim([min([data.y_smoothed]) max([data.y_smoothed])])
+    if strcmp(meta.subject,'RS') || strcmp(meta.subject,'RJ')
+        xlim([min(vertcat(data.x_smoothed)) max(vertcat(data.x_smoothed))])
+        ylim([min(vertcat(data.y_smoothed)) max(vertcat(data.y_smoothed))])
+    else
+        xlim([min([data.x_smoothed]) max([data.x_smoothed])])
+        ylim([min([data.y_smoothed]) max([data.y_smoothed])])
+    end
     title([meta.subject,'  ',strrep(meta.task,'_',' '),' state ',num2str(iState),' snippets']);
     box off
     hold off
