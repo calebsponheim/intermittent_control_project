@@ -32,8 +32,8 @@ if contains(subject_filepath,'1051013') || contains(subject_filepath,'1050225')
                 % then it's a successful trial. put it in the list.
                 
                 trial_start = st_trial(iTrial);
-                trial_go = go(go > trial_start & go < st_trial(iTrial+1)); trial_go = trial_go(1);
-                trial_move = move(move > trial_go & move < st_trial(iTrial+1)); trial_move = trial_move(1);
+                
+                
                 
                 if iTrial == length(endmv)
                     if reward(reward > st_trial(iTrial))

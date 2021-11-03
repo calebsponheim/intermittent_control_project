@@ -3,7 +3,7 @@ function data_export(filepath)
 data = load(filepath);
 
 
-move_window = 0;
+move_window = 1;
 
 %% Main Loop
 
@@ -62,7 +62,11 @@ try strcmp(data.meta.subject,'Bx')
 catch
     % There's something going on with RS timestamps and their format and
     % scaling.
-    mkdir(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task num2str(data.bin_size) 'sBins\'])
+    if move_window == 1
+        mkdir(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\'])
+    else
+        mkdir(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task num2str(data.bin_size) 'sBins\'])
+    end
     for iTrial = 1:size(data.data,2)
         if iTrial < 10
             iTrial_string = ['000' num2str(iTrial)];
@@ -73,20 +77,31 @@ catch
         end
         
         spikecount = data.data(iTrial).spikecount;
+    if move_window == 1
+        filename = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\trial' iTrial_string '_spikes.csv'];
+    else
         filename = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_spikes.csv'];
+    end
         writematrix(spikecount,filename)
         
         % Kinematics
         x_smoothed = data.data(iTrial).x_smoothed;
         y_smoothed = data.data(iTrial).y_smoothed;
         speed = data.data(iTrial).speed;
+    if move_window == 1
+        filename = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
+    else
         filename = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
-        writematrix(vertcat(x_smoothed,y_smoothed,speed),filename)
+    end
+    writematrix(vertcat(x_smoothed,y_smoothed,speed),filename)
         
         disp(iTrial)
     end
     % write an additional csv with the meta struct to the same folder.
-    writematrix(data.subject,['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task num2str(data.bin_size) 'sBins\meta.csv'])
-    
+    if move_window == 1
+        writematrix(data.subject,['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\meta.csv'])
+    else
+        writematrix(data.subject,['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task num2str(data.bin_size) 'sBins\meta.csv'])
+    end
 end
 end

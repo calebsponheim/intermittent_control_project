@@ -21,19 +21,20 @@ import numpy as np
 # folderpath = 'C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/Bxcenter_out1803230.05sBins/'
 # folderpath = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/RSRTP0.05sBins/"
 # folderpath = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/RJRTP0.05sBins/"
-folderpath = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/RSCO0.05sBins/"
+# folderpath = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/RSCO0.05sBins/"
+folderpath = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/RSCO_move_window0.05sBins/"
 
 
 class meta:
     def __init__(self, train_portion, model_select_portion, test_portion):
-        self.train_portion = 0.8
+        self.train_portion = 0.5
         self.model_select_portion = 0.1
-        self.test_portion = 0.1
+        self.test_portion = 0.4
 
 
-train_portion = 0.8
+train_portion = 0.5
 model_select_portion = 0.1
-test_portion = 0.1
+test_portion = 0.4
 bin_size = 50  # in milliseconds
 meta = meta(train_portion, model_select_portion, test_portion)
 max_state_range = 10

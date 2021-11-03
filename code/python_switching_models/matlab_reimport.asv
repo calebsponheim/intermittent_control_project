@@ -3,11 +3,10 @@
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05sBins\';
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out_and_RTP1902280.05sBins\';
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSCO0.05sBins\';
-filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSCO_move_window0.05sBins\';
-% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTP0.05sBins\';
+filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTP0.05sBins\';
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins\';
 
-state_num = 8;
+state_num = 25;
 num_states_subject = state_num;
 
 decoded_data = readmatrix(...
@@ -175,22 +174,14 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
         load([filepath '\RS_RTP.mat'])
         meta.subject = 'RS';
         meta.task = 'RTP';
-        meta.move_only = 0;
     elseif contains(filepath,'RS') && contains(filepath,'CO')
-        if contains(filepath,'move')
-            load([filepath '\RSCO_move_window.mat'])
-            meta.move_only = 1;
-        else
-            load([filepath '\RSCO.mat'])
-        end
+        load([filepath '\RSCO.mat'])
         meta.subject = 'RS';
         meta.task = 'CO';
     elseif contains(filepath,'RJ')
         load([filepath '\RJRTP.mat'])
         meta.subject = 'RJ';
         meta.task = 'RTP';
-        meta.move_only = 0;
-
     end
 
     num_states_subject = state_num;

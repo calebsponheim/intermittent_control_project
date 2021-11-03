@@ -43,7 +43,7 @@ num_segments_to_plot = 25;
 
 %% Save Result
 if move_only == 1
-    save('RSCO_move_window')
+    save(strcat(subject,'_HMM_analysis_',num2str(num_states_subject),'_states_',date))
 else   
     save(strcat(subject,'_HMM_analysis_',num2str(num_states_subject),'_states_',date))
 end
