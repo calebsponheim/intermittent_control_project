@@ -24,29 +24,28 @@ if contains(subject_filepath,'1051013') || contains(subject_filepath,'1050225')
         cpl_st_trial_rew(:,2) = reward_SRT;
     elseif strcmp(task,'CO')
         if move_only == 1
-            load(subject_filepath,'spikes','go_cue','endmv','reward','st_trial','MIchans');
+            load(subject_filepath,'spikes','go_cue','stmv','endmv','reward','st_trial','MIchans');
             
             success_trial_count = 1;
             for iTrial = 1:length(endmv)
                 % if a reward time exists between this and the next start time,
                 % then it's a successful trial. put it in the list.
-                
-                trial_start = st_trial(iTrial);
-                trial_go = go(go > trial_start & go < st_trial(iTrial+1)); trial_go = trial_go(1);
-                trial_move = move(move > trial_go & move < st_trial(iTrial+1)); trial_move = trial_move(1);
-                
-                if iTrial == length(endmv)
-                    if reward(reward > st_trial(iTrial))
-                        go_cue_success(success_trial_count) = go_cue(iTrial);
-                        end_mv_success(success_trial_count) = endmv(iTrial);
-                        success_trial_count = success_trial_count + 1;
-                    end
-                elseif reward(reward > st_trial(iTrial) & reward < st_trial(iTrial+1))
-                    if endmv(endmv > go_cue(iTrial) & endmv < go_cue(iTrial+1))
-                        go_cue_success(success_trial_count) = go_cue(iTrial);
-                        end_mv_success(success_trial_count) = endmv(iTrial);
-                        success_trial_count = success_trial_count + 1;
-                    end
+                try
+                    trial_start = st_trial(iTrial);
+                    trial_go = go_cue(go_cue > trial_start & go_cue < st_trial(iTrial+1)); 
+                    trial_go = trial_go(1);
+                    trial_move = stmv(stmv > trial_go & stmv < st_trial(iTrial+1)); 
+                    trial_move = trial_move(1);
+                    trial_move_end = endmv(endmv > trial_move & endmv < st_trial(iTrial+1)); 
+                    trial_move_end = trial_move_end(1);
+                    trial_reward = reward(reward > trial_move_end & reward < st_trial(iTrial+1)); 
+                    trial_reward = trial_reward(1);
+                    
+                    go_cue_success(success_trial_count) = trial_go;
+                    end_mv_success(success_trial_count) = trial_move_end;
+                                        
+                    success_trial_count = success_trial_count + 1;
+                catch
                 end
             end
             
