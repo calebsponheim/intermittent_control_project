@@ -14,15 +14,18 @@ from assign_trials_to_HMM_group import assign_trials_to_HMM_group
 from train_HMM import train_HMM
 import numpy as np
 
-# folderpath = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/Bxcenter_out1902280.05sBins/"
-# folderpath = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/Bxcenter_out1902280.05_sBins_move_window_only/"
-# folderpath = 'C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/RSCO0.05sBins/'
-# folderpath = 'C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/Bxcenter_out_and_RTP1902280.05sBins/'
-# folderpath = 'C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/Bxcenter_out1803230.05sBins/'
-# folderpath = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/RSRTP0.05sBins/"
-# folderpath = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/RJRTP0.05sBins/"
-# folderpath = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/RSCO0.05sBins/"
-folderpath = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/RSCO_move_window0.05sBins/"
+# folderpath_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/"
+folderpath_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/data/python_switching_models/"
+
+# folderpath = folderpath_base + "Bxcenter_out1902280.05sBins/"
+# folderpath = folderpath_base + "Bxcenter_out1902280.05_sBins_move_window_only/"
+# folderpath = folderpath_base + "RSCO0.05sBins/"
+# folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
+# folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/'
+# folderpath = folderpath_base + "RSRTP0.05sBins/"
+# folderpath = folderpath_base + "RJRTP0.05sBins/"
+# folderpath = folderpath_base + "RSCO0.05sBins/"
+folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
 
 
 class meta:

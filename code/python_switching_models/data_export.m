@@ -1,8 +1,11 @@
 function data_export(filepath)
 
 data = load(filepath);
-
-
+if contains(filepath,'(Work)')
+    filepath_base = 'C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\';
+else
+    filepath_base = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\';
+end
 move_window = 1;
 
 %% Main Loop
@@ -10,9 +13,9 @@ move_window = 1;
 try strcmp(data.meta.subject,'Bx')
     % for each trial, write a csv that is UNITSxTIMESTEPS
     if move_window == 1
-        save_folder = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.meta.subject data.meta.task data.meta.session num2str(data.meta.bin_size) '_sBins_move_window_only\'];
+        save_folder = [filepath_base data.meta.subject data.meta.task data.meta.session num2str(data.meta.bin_size) '_sBins_move_window_only\'];
     else
-        save_folder = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.meta.subject data.meta.task data.meta.session num2str(data.meta.bin_size) 'sBins\'];
+        save_folder = [filepath_base data.meta.subject data.meta.task data.meta.session num2str(data.meta.bin_size) 'sBins\'];
     end
     mkdir(save_folder)
     for iTrial = 1:size(data.data,2)
@@ -63,9 +66,9 @@ catch
     % There's something going on with RS timestamps and their format and
     % scaling.
     if move_window == 1
-        mkdir(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\'])
+        mkdir([filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\'])
     else
-        mkdir(['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task num2str(data.bin_size) 'sBins\'])
+        mkdir([filepath_base data.subject data.task num2str(data.bin_size) 'sBins\'])
     end
     for iTrial = 1:size(data.data,2)
         if iTrial < 10
@@ -78,9 +81,9 @@ catch
         
         spikecount = data.data(iTrial).spikecount;
     if move_window == 1
-        filename = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\trial' iTrial_string '_spikes.csv'];
+        filename = [filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\trial' iTrial_string '_spikes.csv'];
     else
-        filename = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_spikes.csv'];
+        filename = [filepath_base data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_spikes.csv'];
     end
         writematrix(spikecount,filename)
         
@@ -89,9 +92,9 @@ catch
         y_smoothed = data.data(iTrial).y_smoothed;
         speed = data.data(iTrial).speed;
     if move_window == 1
-        filename = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
+        filename = [filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
     else
-        filename = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
+        filename = [filepath_base data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
     end
     writematrix(vertcat(x_smoothed,y_smoothed,speed),filename)
         
@@ -99,9 +102,9 @@ catch
     end
     % write an additional csv with the meta struct to the same folder.
     if move_window == 1
-        writematrix(data.subject,['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\meta.csv'])
+        writematrix(data.subject,[filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\meta.csv'])
     else
-        writematrix(data.subject,['C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\' data.subject data.task num2str(data.bin_size) 'sBins\meta.csv'])
+        writematrix(data.subject,[filepath_base data.subject data.task num2str(data.bin_size) 'sBins\meta.csv'])
     end
 end
 end

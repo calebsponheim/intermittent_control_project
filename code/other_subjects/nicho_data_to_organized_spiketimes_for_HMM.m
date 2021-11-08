@@ -103,9 +103,6 @@ for iUnit = 1:size(units,2)
     end
 end
 
-units = units_temp;
-clear units_temp
-
 %   data should be a struct array, with field 'spikecount'
 %   s.t., for each i trial, data(i).spikecount is an N x T matrix,
 %   where N is the number of recorded units and T is the number of time
