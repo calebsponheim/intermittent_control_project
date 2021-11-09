@@ -4,6 +4,9 @@ colors = hsv(meta.optimal_number_of_states);
 
 available_test_trials = find(ismember([data.trial_classification],'test'));
 % available_test_trials = find(ismember([data.tp],2));
+if meta.analyze_all_trials == 1
+    available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'train') | ismember({data.trial_classification},'model_select'));
+end
 
 for iState = 1:size(snippet_data,2)
     [~,~,allowed_snippets] = intersect(available_test_trials,snippet_data(iState).snippet_trial);

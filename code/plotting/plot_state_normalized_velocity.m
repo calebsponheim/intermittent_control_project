@@ -5,6 +5,10 @@ colors = hsv(meta.optimal_number_of_states);
 
 available_test_trials = find(ismember([data.trial_classification],'test'));
 % available_test_trials = find(ismember([data.tp],2));
+if meta.analyze_all_trials == 1
+    available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'train') | ismember({data.trial_classification},'model_select'));
+end
+
 normspeed = [];
 interpnormspeed = {};
 interpnormspeedmean = cell(size(snippet_data,2),1);
@@ -16,12 +20,16 @@ for iState = 1:size(snippet_data,2)
     if ~isempty(state_snippets)
         max_snippet_length = max(cellfun(@(x) length(x),state_snippets));
         max_res = (1/max_snippet_length):(1/max_snippet_length):1;
+        snip_num = 1;
         for iSnippet = 1:size(state_snippets,2)
             % Normalize Speed
-            normspeed{iSnippet,iState} = normalize(data(state_snippet_trials(iSnippet)).speed(state_snippets{iSnippet}),'range');
-            native_res = (1/length(normspeed{iSnippet,iState})):(1/length(normspeed{iSnippet,iState})):1;
-            % Interpolate that normalized speed
-            interpnormspeed{iState}(iSnippet,:) = interp1(native_res,normspeed{iSnippet,iState},max_res);
+            if length(data(state_snippet_trials(iSnippet)).speed(state_snippets{iSnippet})) > 1
+                normspeed{snip_num,iState} = normalize(data(state_snippet_trials(iSnippet)).speed(state_snippets{iSnippet}),'range');
+                native_res = (1/length(normspeed{snip_num,iState})):(1/length(normspeed{snip_num,iState})):1;
+                % Interpolate that normalized speed
+                interpnormspeed{iState}(snip_num,:) = interp1(native_res,normspeed{snip_num,iState},max_res);
+                snip_num = snip_num + 1;
+            end
         end %iSnippet
         interpnormspeedmean{iState} = nanmean(interpnormspeed{iState},1);
         interpnormspeedstderr{iState} = nanstd(interpnormspeed{iState},1) / sqrt(size(interpnormspeed{iState},1));

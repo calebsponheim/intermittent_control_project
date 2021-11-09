@@ -8,6 +8,11 @@ if strcmp(meta.subject,'RS')
 else
     available_test_trials = find(ismember({data.trial_classification},'test'));
 end
+
+if meta.analyze_all_trials == 1
+    available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'train') | ismember({data.trial_classification},'model_select'));
+end
+
 for iTrial = available_test_trials(meta.trials_to_plot)
     
     trial_colors = zeros(length(data(iTrial).states_resamp),3);

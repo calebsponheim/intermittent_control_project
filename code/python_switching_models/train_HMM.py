@@ -46,7 +46,6 @@ def train_HMM(
                     selectset.append(temp_binned)
                 else:
                     selectset[iUnit].extend(temp_binned)
-
     # Okay now that we have the training trials in its own variable, we need
     # to turn it into the right shape for training, presumably.
 
@@ -58,7 +57,6 @@ def train_HMM(
         else:
             bin_sums = np.vstack((bin_sums, trainset[iUnit]))
         print(iUnit)
-
     for iUnit in range(len(selectset)):
         if iUnit == 0:
             bin_sums_select = selectset[iUnit]
@@ -67,7 +65,6 @@ def train_HMM(
             bin_sums_select = np.vstack((bin_sums_select, selectset[iUnit]))
             # mean_spikecount.append(sum(selectset[iUnit]) / len(selectset[iUnit]))
         print(iUnit)
-
     # %% Calculate Maximum Possible Log Likelihood
     # per_neuron_likelihood = []
     # for iUnit in range(len(selectset)):
@@ -95,7 +92,7 @@ def train_HMM(
     # %% Okay NOW we train
 
     observation_dimensions = bin_sums.shape[0]
-    N_iters = 50
+    N_iters = 100
     state_range = np.arange(1, max_state_range, 1)
     bin_sums = bin_sums.astype(np.int64)
 
@@ -106,10 +103,18 @@ def train_HMM(
     train_ll = []
     select_likelihood = []
     for iState in state_range:
-        hmm = ssm.HMM(iState, observation_dimensions, observations="poisson")
+        hmm = ssm.HMM(
+            iState,
+            observation_dimensions,
+            observations="poisson",
+            transitions="standard",
+        )
         hmm_storage.append(hmm)
         hmm.fit(
-            np.transpose(bin_sums), method="em", num_iters=N_iters, init_method="kmeans"
+            np.transpose(bin_sums),
+            method="em",
+            num_iters=N_iters,
+            init_method="random",
         )
         # hmm_lls_storage.append(hmm_lls)
         # hmm_lls_max.append(max(hmm_lls))
@@ -121,7 +126,6 @@ def train_HMM(
         # train_ll_temp = hmm.log_likelihood(np.transpose(bin_sums))
         # train_ll.append(train_ll_temp)
         print(f"Created Model For {iState} States.")
-
     # plt.plot(state_range, np.transpose(select_ll), linestyle="-", marker="o")
     # # plt.axhline(y=max_log_likelihood_possible, color="r", linestyle="-")
     # # plt.axhline(y=ninety_percent_threshold, color="b", linestyle="-")

@@ -14,18 +14,17 @@ from assign_trials_to_HMM_group import assign_trials_to_HMM_group
 from train_HMM import train_HMM
 import numpy as np
 
-# folderpath_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/"
-folderpath_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/data/python_switching_models/"
+folderpath_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/"
+# folderpath_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/data/python_switching_models/"
 
 # folderpath = folderpath_base + "Bxcenter_out1902280.05sBins/"
 # folderpath = folderpath_base + "Bxcenter_out1902280.05_sBins_move_window_only/"
-# folderpath = folderpath_base + "RSCO0.05sBins/"
 # folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
 # folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/'
 # folderpath = folderpath_base + "RSRTP0.05sBins/"
-# folderpath = folderpath_base + "RJRTP0.05sBins/"
+folderpath = folderpath_base + "RJRTP0.05sBins/"
 # folderpath = folderpath_base + "RSCO0.05sBins/"
-folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
+# folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
 
 
 class meta:
@@ -66,7 +65,6 @@ hmm_storage = train_HMM(
 
 if is_it_breaux == 0:
     bin_size = 1
-
 export_set = []
 for iTrial in range(len(trial_classification)):
     S_temp = data.spikes[iTrial]
@@ -78,7 +76,6 @@ for iTrial in range(len(trial_classification)):
             export_set.append(temp_binned)
         else:
             export_set[iUnit].extend(temp_binned)
-
 # Okay now that we have the data in the right format, we need to put in an HMM-readable format.
 
 for iUnit in range(len(export_set)):
@@ -86,21 +83,17 @@ for iUnit in range(len(export_set)):
         bin_sums = export_set[iUnit]
     else:
         bin_sums = np.vstack((bin_sums, export_set[iUnit]))
-
-
 # %% Decoding Test Data using Optimal States
 # decoded_data = rslds_lem.most_likely_states(xhat_lem, y)
 decoded_data = []
 for iState in range(len(hmm_storage)):
     decoded_data.append(hmm_storage[iState].most_likely_states(np.transpose(bin_sums)))
-
 # %% write data for matlab
 
 with open(folderpath + "decoded_test_data.csv", "w") as f:
     write = csv.writer(f)
     for iRow in range(len(decoded_data)):
         write.writerow(decoded_data[iRow])
-
 with open(folderpath + "trial_classifiction.csv", "w", newline="") as f:
     # write = csv.writer(f,delimiter=',')
     write = csv.writer(f, delimiter=" ", quotechar="|", quoting=csv.QUOTE_MINIMAL)

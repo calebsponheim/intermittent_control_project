@@ -1,4 +1,4 @@
-function [data] = processing_kinematics(subject_filepath,cpl_st_trial_rew,data)
+function [data] = processing_kinematics(subject_filepath,cpl_st_trial_rew,data,muscle_lag)
 
 % process Kinematics for HMM comparison
 
@@ -34,7 +34,7 @@ velocity = sqrt(x_speed.^2 + y_speed.^2);
 acceleration = diff(velocity);
 
 %% segment position and speed vectors into trials
-
+cpl_st_trial_rew = cpl_st_trial_rew + muscle_lag;
 % for each trial
 for iTrial = 1:size(cpl_st_trial_rew,1)
     data(iTrial).x_smoothed = filt_lowpass_x(x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2)));

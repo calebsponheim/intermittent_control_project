@@ -3,12 +3,13 @@
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05sBins\';
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out_and_RTP1902280.05sBins\';
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSCO0.05sBins\';
-filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSCO_move_window0.05sBins\';
+% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSCO_move_window0.05sBins\';
 % filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTP0.05sBins\';
-% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins\';
+filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins\';
 
-state_num = 8;
+state_num = 6;
 num_states_subject = state_num;
+meta.analyze_all_trials = 1;
 
 decoded_data = readmatrix(...
     [filepath 'decoded_test_data.csv']...
@@ -195,7 +196,7 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
 
     num_states_subject = state_num;
     meta.optimal_number_of_states = num_states_subject;
-    meta.trials_to_plot = 1:10;
+    meta.trials_to_plot = 1:100;
 
     meta.crosstrain = 0;
     trial_bin_range = zeros(size(data(iTrial),2),2);
