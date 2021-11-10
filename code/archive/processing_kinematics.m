@@ -43,12 +43,14 @@ for iTrial = 1:size(cpl_st_trial_rew,1)
     %data(iTrial).y_smoothed = filt_lowpass_y(y(:,1) >= (cpl_st_trial_rew(iTrial,1)) & y(:,1) <= (cpl_st_trial_rew(iTrial,2)));
     data(iTrial).y_smoothed = filt_lowpass_y(x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2)));
     data(iTrial).speed = velocity(x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2)));
+    data(iTrial).acceleration = acceleration(x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2)));
     data(iTrial).kinematic_timestamps = x((x(:,1) >= (cpl_st_trial_rew(iTrial,1)) & x(:,1) <= (cpl_st_trial_rew(iTrial,2))),1);
 end 
 
 
 % resample from 500hz to 1000hz
 for iTrial = 1:size(cpl_st_trial_rew,1)
+    data(iTrial).acceleration = repelem(data(iTrial).acceleration,2);
     data(iTrial).x_smoothed = repelem(data(iTrial).x_smoothed,2);
     data(iTrial).y_smoothed = repelem(data(iTrial).y_smoothed,2);
     data(iTrial).speed = repelem(data(iTrial).speed,2);

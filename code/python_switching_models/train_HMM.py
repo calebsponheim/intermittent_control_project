@@ -92,7 +92,7 @@ def train_HMM(
     # %% Okay NOW we train
 
     observation_dimensions = bin_sums.shape[0]
-    N_iters = 100
+    N_iters = 50
     state_range = np.arange(1, max_state_range, 1)
     bin_sums = bin_sums.astype(np.int64)
 
@@ -107,7 +107,7 @@ def train_HMM(
             iState,
             observation_dimensions,
             observations="poisson",
-            transitions="standard",
+            transitions="sticky",
         )
         hmm_storage.append(hmm)
         hmm.fit(

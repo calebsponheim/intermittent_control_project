@@ -22,9 +22,9 @@ folderpath_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_pro
 # folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
 # folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/'
 # folderpath = folderpath_base + "RSRTP0.05sBins/"
-folderpath = folderpath_base + "RJRTP0.05sBins/"
+# folderpath = folderpath_base + "RJRTP0.05sBins/"
 # folderpath = folderpath_base + "RSCO0.05sBins/"
-# folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
+folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
 
 
 class meta:

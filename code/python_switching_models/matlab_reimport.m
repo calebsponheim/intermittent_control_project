@@ -1,13 +1,15 @@
 %% Import Data from Python and integrate into matlab struct.
-% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05_sBins_move_window_only\';
-% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out1902280.05sBins\';
-% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\Bxcenter_out_and_RTP1902280.05sBins\';
-% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSCO0.05sBins\';
-% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSCO_move_window0.05sBins\';
-% filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTP0.05sBins\';
-filepath = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins\';
 
-state_num = 6;
+filepath_base = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\';
+% filepath = [filepath_base 'Bxcenter_out1902280.05_sBins_move_window_only\'];
+% filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
+% filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
+% filepath = [filepath_base 'RSCO0.05sBins\'];
+filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
+% filepath = [filepath_base 'RSRTP0.05sBins\'];
+% filepath = [filepath_base 'RJRTP0.05sBins\'];
+
+state_num = 9;
 num_states_subject = state_num;
 meta.analyze_all_trials = 1;
 
