@@ -27,16 +27,15 @@ muscle_lag = .100; %seconds
 % save(strcat(subject,'_HMM_classified_test_data_and_output_',num2str(num_states_subject),date))
 %% Prepare Kinematic Data
 [data] = processing_kinematics(subject_filepath,cpl_st_trial_rew,data,muscle_lag);
-
 %% Process HMM output
 % [dc_thresholded] = censor_and_threshold_HMM_output(dc);
 
 %% Create Snippets and Plot **everything**
 % [trialwise_states] = segment_analysis(num_states_subject,trInd_test,dc_thresholded,bin_timestamps,data,subject);
-% 
+%
 % trials_to_plot = 1:5;
 % plot_single_trials(trialwise_states,num_states_subject,subject,trials_to_plot,task)
-% 
+%
 % num_segments_to_plot = 25;
 % [segmentwise_analysis] = plot_segments(trialwise_states,num_states_subject,trInd_test,subject,num_segments_to_plot,task);
 %% normalized segments
@@ -44,7 +43,7 @@ muscle_lag = .100; %seconds
 % [segmentwise_analysis] = normalize_state_segments(segmentwise_analysis,subject,task,num_states_subject);
 
 %% Save Result
-if move_only == 1 
+if move_only == 1
     save('RSCO_move_window')
 elseif strcmp(task,'RTP')
     save('RS_RTP')

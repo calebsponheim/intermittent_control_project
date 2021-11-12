@@ -39,7 +39,7 @@ model_select_portion = 0.1
 test_portion = 0.4
 bin_size = 50  # in milliseconds
 meta = meta(train_portion, model_select_portion, test_portion)
-max_state_range = 10
+max_state_range = 20
 
 data, is_it_breaux = import_matlab_data(folderpath)
 

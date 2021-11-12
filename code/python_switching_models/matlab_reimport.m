@@ -9,7 +9,7 @@ filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'RJRTP0.05sBins\'];
 
-state_num = 9;
+state_num = 10;
 num_states_subject = state_num;
 meta.analyze_all_trials = 1;
 
@@ -198,7 +198,7 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
 
     num_states_subject = state_num;
     meta.optimal_number_of_states = num_states_subject;
-    meta.trials_to_plot = 1:100;
+    meta.trials_to_plot = 1:25;
 
     meta.crosstrain = 0;
     trial_bin_range = zeros(size(data(iTrial),2),2);

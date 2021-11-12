@@ -24,26 +24,72 @@ if contains(subject_filepath,'1051013') || contains(subject_filepath,'1050225')
         cpl_st_trial_rew(:,2) = reward_SRT;
     elseif strcmp(task,'CO')
         if move_only == 1
-            load(subject_filepath,'spikes','go_cue','stmv','endmv','reward','st_trial','MIchans');
+            load(subject_filepath,'spikes','go_cue','stmv','endmv','reward','st_trial','MIchans','x','y');
             
+            %% Doing Kinematics
+            sampling_rate = 500;  
+ 
+            dt=1/sampling_rate; % defining timestep size
+            fN=sampling_rate/2;
+            
+            fc = 6;
+            fs = sampling_rate;
+            
+            [b,a] = butter(6,fc/(fs/2));
+            
+            filt_lowpass_x = filtfilt(b,a,x(:,2)); % running lowpass filter.
+            filt_lowpass_y = filtfilt(b,a,y(:,2)); % running lowpass filter.
+            
+            %% calculate speed/velocity/acceleration
+            
+            x_speed = diff(filt_lowpass_x);
+            y_speed = diff(filt_lowpass_y);
+            
+            % velocity
+            velocity = sqrt(x_speed.^2 + y_speed.^2);
+                        
             success_trial_count = 1;
             for iTrial = 1:length(endmv)
                 % if a reward time exists between this and the next start time,
                 % then it's a successful trial. put it in the list.
                 try
                     trial_start = st_trial(iTrial);
-                    trial_go = go_cue(go_cue > trial_start & go_cue < st_trial(iTrial+1)); 
+                    trial_go = go_cue(go_cue >= trial_start & go_cue <= st_trial(iTrial+1)); 
                     trial_go = trial_go(1);
-                    trial_move = stmv(stmv > trial_go & stmv < st_trial(iTrial+1)); 
+                    trial_move = stmv(stmv >= trial_go & stmv <= st_trial(iTrial+1)); 
                     trial_move = trial_move(1);
-                    trial_move_end = endmv(endmv > trial_move & endmv < st_trial(iTrial+1)); 
+                    trial_move_end = endmv(endmv >= trial_move & endmv <= st_trial(iTrial+1)); 
                     trial_move_end = trial_move_end(1);
-                    trial_reward = reward(reward > trial_move_end & reward < st_trial(iTrial+1)); 
+                    trial_reward = reward(reward >= trial_move_end & reward <= st_trial(iTrial+1)); 
                     trial_reward = trial_reward(1);
                     
-                    go_cue_success(success_trial_count) = trial_go + .150;
-                    end_mv_success(success_trial_count) = trial_move_end;
-                                        
+                    go_relative_to_start = trial_go - trial_start;
+                    move_relative_to_start =  trial_move - trial_start;
+                    move_end_relative_to_start =  trial_move_end - trial_start;
+                    reward_relative_to_start =  trial_reward - trial_start;
+                    time_relative_to_start_ms = [0:reward_relative_to_start*1000]';
+                    
+                    timestamps_with_muscle_lag = x(:,1) - muscle_lag;
+                    
+                    speed = velocity(timestamps_with_muscle_lag > (trial_start) & timestamps_with_muscle_lag < (trial_reward));
+
+                    % resample from 500hz to 1000hz
+                    speed = repelem(speed,2);
+
+                    
+                    speed_max = find(speed == max(speed));
+                    speed_max_time = speed_max(1);
+                    
+                    speed_thresh = mean(speed(1:round(go_relative_to_start*1000))) + 6*std(speed(1:round(go_relative_to_start*1000)));
+                    kin_move_time_temp = find((speed > speed_thresh) & (time_relative_to_start_ms > go_relative_to_start));
+                    kin_move_time = kin_move_time_temp(1)-.1;
+                 
+                    times_of_speed_under_thresh_after_max = time_relative_to_start_ms((speed < speed_thresh*4) & (time_relative_to_start_ms > speed_max_time));
+                    kin_end_time = times_of_speed_under_thresh_after_max(1)+.250;
+                    
+                    go_cue_success(success_trial_count) = trial_start + kin_move_time/1000;
+                    end_mv_success(success_trial_count) = trial_start + kin_end_time/1000;
+                    
                     success_trial_count = success_trial_count + 1;
                 catch
                 end

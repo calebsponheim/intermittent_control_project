@@ -107,7 +107,7 @@ def train_HMM(
             iState,
             observation_dimensions,
             observations="poisson",
-            transitions="sticky",
+            transitions="standard",
         )
         hmm_storage.append(hmm)
         hmm.fit(
