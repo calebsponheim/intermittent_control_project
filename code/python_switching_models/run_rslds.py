@@ -12,7 +12,10 @@ from assign_trials_to_HMM_group import assign_trials_to_HMM_group
 
 # from train_rslds import train_rslds
 from train_HMM import train_HMM
+from LL_curve_fitting import LL_curve_fitting
 import numpy as np
+
+from state_prob_over_time import state_prob_over_time
 
 folderpath_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/"
 # folderpath_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/data/python_switching_models/"
@@ -22,9 +25,9 @@ folderpath_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_pro
 # folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
 # folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/'
 # folderpath = folderpath_base + "RSRTP0.05sBins/"
-# folderpath = folderpath_base + "RJRTP0.05sBins/"
+folderpath = folderpath_base + "RJRTP0.05sBins/"
 # folderpath = folderpath_base + "RSCO0.05sBins/"
-folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
+# folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
 
 
 class meta:
@@ -34,12 +37,13 @@ class meta:
         self.test_portion = 0.4
 
 
-train_portion = 0.5
+train_portion = 0.8
 model_select_portion = 0.1
-test_portion = 0.4
+test_portion = 0.1
 bin_size = 50  # in milliseconds
 meta = meta(train_portion, model_select_portion, test_portion)
-max_state_range = 20
+max_state_range = 6
+state_skip = 2
 
 data, is_it_breaux = import_matlab_data(folderpath)
 
@@ -49,10 +53,20 @@ trial_classification = assign_trials_to_HMM_group(data, meta)
 
 # %% Running HMM to find optimal number of states using LL saturation
 
-hmm_storage = train_HMM(
-    data, trial_classification, meta, bin_size, is_it_breaux, max_state_range
+hmm_storage, select_ll, state_range, num_states = train_HMM(
+    data,
+    trial_classification,
+    meta,
+    bin_size,
+    is_it_breaux,
+    max_state_range,
+    state_skip,
 )
 
+
+# %% Finding 90% cutoff
+
+LL_curve_fitting(select_ll, state_range)
 
 # %% Running PCA-based estimate of # of latent dimensions
 
@@ -88,6 +102,10 @@ for iUnit in range(len(export_set)):
 decoded_data = []
 for iState in range(len(hmm_storage)):
     decoded_data.append(hmm_storage[iState].most_likely_states(np.transpose(bin_sums)))
+# %% Plot State Probabilities
+
+state_prob_over_time(hmm_storage, bin_sums, num_states)
+
 # %% write data for matlab
 
 with open(folderpath + "decoded_test_data.csv", "w") as f:
@@ -95,7 +113,10 @@ with open(folderpath + "decoded_test_data.csv", "w") as f:
     for iRow in range(len(decoded_data)):
         write.writerow(decoded_data[iRow])
 with open(folderpath + "trial_classifiction.csv", "w", newline="") as f:
-    # write = csv.writer(f,delimiter=',')
     write = csv.writer(f, delimiter=" ", quotechar="|", quoting=csv.QUOTE_MINIMAL)
     for iTrial in range(len(trial_classification)):
         write.writerow(trial_classification[iTrial])
+with open(folderpath + "num_states.csv", "w", newline="") as f:
+    write = csv.writer(f)
+    for iTrial in range(len(num_states)):
+        write.writerow(num_states[iTrial])
