@@ -34,4 +34,8 @@ plot_extrema_vs_transitions(meta,data)
 % Plot normalized velocity
 plot_state_normalized_velocity(meta,data,snippet_data)
 
+% Plot Mean Snippet Lengths
+
+plot_state_lengths(meta,snippet_data)
+
 end

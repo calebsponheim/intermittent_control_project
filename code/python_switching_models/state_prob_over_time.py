@@ -28,6 +28,7 @@ def state_prob_over_time(hmm_storage, bin_sums, num_states):
     for iState in range(len(hmm_storage)):
         state_probs = hmm_storage[iState].expected_states(np.transpose(bin_sums))
         state_probs = state_probs[0]
+        plt.figure(figsize=(20, 5), dpi=80)
         plt.plot((state_probs[0:200, :]))
         plt.xlabel("time (bins)")
         plt.title("State Probability")

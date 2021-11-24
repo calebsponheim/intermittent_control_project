@@ -25,7 +25,7 @@ def train_HMM(
     # %%
     trind_train = [i for i, x in enumerate(trial_classification) if x == "train"]
     trind_select = [
-        i for i, x in enumerate(trial_classification) if x == "model_select"
+        i for i, x in enumerate(trial_classification) if x == "model_select" or "test"
     ]
     trainset = []
     selectset = []
@@ -68,13 +68,11 @@ def train_HMM(
     # %% Okay NOW we train
 
     observation_dimensions = bin_sums.shape[0]
-    N_iters = 25
+    N_iters = 20
     state_range = np.arange(1, max_state_range, state_skip)
     bin_sums = bin_sums.astype(np.int64)
-
     hmm_storage = []
     select_ll = []
-    num_states = []
     for iState in state_range:
         hmm = ssm.HMM(
             iState,
@@ -82,6 +80,7 @@ def train_HMM(
             observations="poisson",
             transitions="standard",
         )
+
         hmm.fit(
             np.transpose(bin_sums),
             method="em",
@@ -91,9 +90,9 @@ def train_HMM(
         hmm_storage.append(hmm)
 
         # model selection decode
-        select_ll_temp = hmm.log_likelihood(np.transpose(bin_sums_select))
-        select_ll.append(select_ll_temp)
-        num_states.append(hmm.K)
+        select_ll.append(hmm.log_likelihood(np.transpose(bin_sums_select)))
+
         print(f"Created Model For {iState} States.")
+    state_range = state_range.tolist()
     # %% Return variables
-    return hmm_storage, select_ll, state_range, num_states
+    return hmm_storage, select_ll, state_range
