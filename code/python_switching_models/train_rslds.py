@@ -131,6 +131,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
 
     cumulative_variance = np.cumsum(explained_variance)
     num_latent_dims = sum(cumulative_variance < .5)
+    # num_latent_dims = 2
 
     # %% Train
     # Set the parameters of the HMM
@@ -140,14 +141,14 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
 
     # Fit with Laplace EM
     rslds_lem = ssm.SLDS(D_obs, K, D_latent,
-                         transitions="standard",
+                         transitions="recurrent_only",
                          dynamics="diagonal_gaussian",
                          emissions="poisson",
-                         single_subspace=False)
+                         single_subspace=True)
     rslds_lem.initialize(y)
     q_elbos_lem, q_lem = rslds_lem.fit(y, method="bbvi",
                                        variational_posterior="tridiag",
-                                       initialize=True, num_iters=1000)
+                                       initialize=False, num_iters=1000)
     xhat_lem = q_lem.mean[0]
     zhat_lem = rslds_lem.most_likely_states(xhat_lem, y)
 
