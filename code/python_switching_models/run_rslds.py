@@ -11,7 +11,7 @@ from import_matlab_data import import_matlab_data
 from assign_trials_to_HMM_group import assign_trials_to_HMM_group
 import pandas as pd
 
-# from train_rslds import train_rslds
+from train_rslds import train_rslds
 from train_HMM import train_HMM
 from LL_curve_fitting import LL_curve_fitting
 import numpy as np
@@ -27,6 +27,7 @@ def run_rslds(
     test_portion,
     max_state_range,
     state_skip,
+    num_state_override
 ):
     """
     Is this a summary line?
@@ -92,15 +93,15 @@ def run_rslds(
 
     # %% Running HMM to find optimal number of states using LL saturation
 
-    hmm_storage, select_ll, state_range = train_HMM(
-        data,
-        trial_classification,
-        meta,
-        bin_size,
-        is_it_breaux,
-        max_state_range,
-        state_skip,
-    )
+    # hmm_storage, select_ll, state_range = train_HMM(
+    #     data,
+    #     trial_classification,
+    #     meta,
+    #     bin_size,
+    #     is_it_breaux,
+    #     max_state_range,
+    #     state_skip,
+    # )
 
     # %% Finding 90% cutoff
 
@@ -109,9 +110,9 @@ def run_rslds(
     # %% Running PCA-based estimate of # of latent dimensions
 
     # %% Running RSLDS
-    # rslds_lem, xhat_lem, y = train_rslds(
-    #     data, trial_classification, meta, bin_size, is_it_breaux
-    # )
+    rslds_lem, xhat_lem, y = train_rslds(
+        data, trial_classification, meta, bin_size, is_it_breaux, num_state_override
+    )
 
     # %% literally making bin_sums for all trials for HMM decode
 
@@ -140,7 +141,8 @@ def run_rslds(
     decoded_data = []
     for iState in range(len(hmm_storage)):
         decoded_data.append(
-            hmm_storage[iState].most_likely_states(np.transpose(np.intc(bin_sums)))
+            hmm_storage[iState].most_likely_states(
+                np.transpose(np.intc(bin_sums)))
         )
     # %% Plot State Probabilities
 
@@ -153,7 +155,8 @@ def run_rslds(
         for iRow in range(len(decoded_data)):
             write.writerow(decoded_data[iRow])
     with open(folderpath + "trial_classifiction.csv", "w", newline="") as f:
-        write = csv.writer(f, delimiter=" ", quotechar="|", quoting=csv.QUOTE_MINIMAL)
+        write = csv.writer(f, delimiter=" ", quotechar="|",
+                           quoting=csv.QUOTE_MINIMAL)
         for iTrial in range(len(trial_classification)):
             write.writerow(trial_classification[iTrial])
     state_range = pd.DataFrame(state_range)
