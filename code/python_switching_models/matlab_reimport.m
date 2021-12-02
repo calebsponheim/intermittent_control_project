@@ -242,13 +242,26 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
         saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'_LL_curve_fit.png'));
     else
         state_range_for_fit = repmat(state_range,[size(select_ll,1) 1]);
-        select_ll_for_fit = reshape(select_ll',[size(select_ll,1)*size(select_ll,2) 1]);
-        curve_exp = fit(state_range_for_fit,select_ll_for_fit,'exp2');
+%         select_ll_for_fit = reshape(select_ll',[size(select_ll,1)*size(select_ll,2) 1]);
+        
+        % Plotting LL curves according to Baseline
+        select_ll_for_plotting = [];
+        for iState = 1:size(select_ll,1)
+            select_ll_for_plotting(iState,:) = select_ll(iState,:) - select_ll(iState,1);
+        end
+        select_ll_for_plotting = reshape(select_ll_for_plotting',[size(select_ll_for_plotting,1)*size(select_ll_for_plotting,2) 1]);
+        curve_exp = fit(state_range_for_fit,select_ll_for_plotting,'exp2');
+
         figure('visible','on'); hold on
         plot(state_range,curve_exp(state_range))
-        plot(state_range_for_fit,select_ll_for_fit,'k.')
+        plot(state_range_for_fit,select_ll_for_plotting,'k.')
         title([meta.subject,meta.task,' LL curve fit'])
         legend('Location','southeast')
+        xlabel('Hidden State Number')
+        ylabel('likelihood minus baseline')
+        box off
+        set(gcf,'color','white')
+        
         if meta.move_only == 1
             meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0_move_only\'];
         else

@@ -6,7 +6,7 @@ filepath_base = 'C:\Users\calebsponheim\Documents\git\intermittent_control_proje
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
 % filepath = [filepath_base 'RSCO0.05sBins\'];
 % filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
-% filepath = [filepath_base 'RSRTP0.05sBins\'];
+filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'RJRTP0.05sBins\'];
 
 state_num = 16;
@@ -27,7 +27,7 @@ if length(ll_files) == 1
     select_ll_temp = readmatrix(...
         [filepath ll_files{1}]...
         );
-    select_ll(file_count,:) = select_ll_temp(2:end);
+    select_ll = select_ll_temp(2:end);
     
 else
     for iFile = 1:length(ll_files)
@@ -226,24 +226,44 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
     end
     
     % Plotting LL
-    state_range_for_fit = repmat(state_range,[size(select_ll,1) 1]);
-    select_ll_for_fit = reshape(select_ll',[size(select_ll,1)*size(select_ll,2) 1]);
-    curve_exp = fit(state_range_for_fit,select_ll_for_fit,'exp2');
-    figure('visible','on'); hold on
-    plot(state_range,curve_exp(state_range))
-    plot(state_range_for_fit,select_ll_for_fit,'k.')
-    title([meta.subject,meta.task,' LL curve fit'])
-    legend('Location','southeast')
-    if meta.move_only == 1
-        meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0_move_only\'];
+    if length(ll_files) == 1
+        figure('visible','on'); hold on
+        curve_exp = fit(state_range,select_ll,'exp2');
+        figure('visible','on'); hold on
+        plot(state_range,curve_exp(state_range))
+        plot(state_range,select_ll,'k.')
+        title([meta.subject,meta.task,' LL curve fit'])
+        legend('Location','southeast')
+        if meta.move_only == 1
+            meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0_move_only\'];
+        else
+            meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0\'];
+        end
+        saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'_LL_curve_fit.png'));
     else
-        meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0\'];
+        state_range_for_fit = repmat(state_range,[size(select_ll,1) 1]);
+        select_ll_for_fit = reshape(select_ll',[size(select_ll,1)*size(select_ll,2) 1]);
+        curve_exp = fit(state_range_for_fit,select_ll_for_fit,'exp2');
+        
+        % Plotting LL curves according to Baseline
+        for iState = 1:size(select_ll
+        select_ll_for_plotting = 
+        
+        figure('visible','on'); hold on
+        plot(state_range,curve_exp(state_range))
+        plot(state_range_for_fit,select_ll_for_fit,'k.')
+        title([meta.subject,meta.task,' LL curve fit'])
+        legend('Location','southeast')
+        if meta.move_only == 1
+            meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0_move_only\'];
+        else
+            meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0\'];
+        end
+        saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'_LL_curve_fit.png'));
+    
+        LL_curve = curve_exp(state_range);
+        LL_max = find(LL_curve == max(LL_curve));
     end
-    saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'_LL_curve_fit.png'));
-    
-    LL_curve = curve_exp(state_range);
-    LL_max = find(LL_curve == max(LL_curve));
-    
     num_states_subject = state_num;
     meta.optimal_number_of_states = num_states_subject;
     meta.trials_to_plot = 1:25;

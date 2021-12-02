@@ -146,8 +146,8 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
                          emissions="poisson",
                          single_subspace=True)
     rslds_lem.initialize(y)
-    q_elbos_lem, q_lem = rslds_lem.fit(y, method="bbvi",
-                                       variational_posterior="tridiag",
+    q_elbos_lem, q_lem = rslds_lem.fit(y, method="laplace_em",
+                                       variational_posterior="structured_meanfield",
                                        initialize=False, num_iters=1000)
     xhat_lem = q_lem.mean[0]
     zhat_lem = rslds_lem.most_likely_states(xhat_lem, y)
