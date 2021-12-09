@@ -1,13 +1,16 @@
 %% Import Data from Python and integrate into matlab struct.
 
-filepath_base = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\';
+% file_base_base = 'C:\Users\calebsponheim';
+file_base_base = 'C:\Users\Caleb (Work)';
+filepath_base = [file_base_base '\Documents\git\intermittent_control_project\data\python_switching_models\'];
+figure_base = [file_base_base '\Documents\git\intermittent_control_project\figures\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05_sBins_move_window_only\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
 % filepath = [filepath_base 'RSCO0.05sBins\'];
 % filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
-filepath = [filepath_base 'RSRTP0.05sBins\'];
-% filepath = [filepath_base 'RJRTP0.05sBins\'];
+% filepath = [filepath_base 'RSRTP0.05sBins\'];
+filepath = [filepath_base 'RJRTP0.05sBins\'];
 
 state_num = 16;
 num_states_subject = state_num;
@@ -227,17 +230,17 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
     
     % Plotting LL
     if length(ll_files) == 1
-        figure('visible','on'); hold on
+        figure('visible','off'); hold on
         curve_exp = fit(state_range,select_ll,'exp2');
-        figure('visible','on'); hold on
+        figure('visible','off'); hold on
         plot(state_range,curve_exp(state_range))
         plot(state_range,select_ll,'k.')
         title([meta.subject,meta.task,' LL curve fit'])
         legend('Location','southeast')
         if meta.move_only == 1
-            meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0_move_only\'];
+            meta.figure_folder_filepath = [figure_base meta.subject '\' meta.task '_CT0_move_only\'];
         else
-            meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0\'];
+            meta.figure_folder_filepath = [figure_base meta.subject '\' meta.task '_CT0\'];
         end
         saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'_LL_curve_fit.png'));
     else
@@ -256,46 +259,51 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
         end
         
         select_ll_for_plotting = reshape(select_ll_for_plotting',[size(select_ll_for_plotting,1)*size(select_ll_for_plotting,2) 1]);
-        select_ll_diff_for_plotting = reshape(select_ll_diff_for_plotting',[size(select_ll_diff_for_plotting,1)*size(select_ll_diff_for_plotting,2) 1]);
+        select_ll_diff_for_plotting_reshaped = reshape(select_ll_diff_for_plotting',[size(select_ll_diff_for_plotting,1)*size(select_ll_diff_for_plotting,2) 1]);
         curve_exp = fit(state_range_for_fit,select_ll_for_plotting,'exp2');
-        curve_exp_diff = fit(state_range_for_diff_fit,select_ll_diff_for_plotting,'exp1');
+        curve_exp_diff = fit(state_range_for_diff_fit,zscore(select_ll_diff_for_plotting_reshaped),'exp2');
+
+%         figure('visible','off'); hold on
+%         plot(state_range,curve_exp(state_range))
+%         plot(state_range_for_fit,select_ll_for_plotting,'k.')
+%         title([meta.subject,meta.task,' LL curve fit'])
+%         legend('Location','southeast')
+%         xlabel('Hidden State Number')
+%         ylabel('likelihood minus baseline')
+%         box off
+%         set(gcf,'color','white')
+%         
+%         if meta.move_only == 1
+%             meta.figure_folder_filepath = [figure_base meta.subject '\' meta.task '_CT0_move_only\'];
+%         else
+%             meta.figure_folder_filepath = [figure_base meta.subject '\' meta.task '_CT0\'];
+%         end
+%         saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'_LL_curve_fit.png'));
 
         figure('visible','off'); hold on
-        plot(state_range,curve_exp(state_range))
-        plot(state_range_for_fit,select_ll_for_plotting,'k.')
-        title([meta.subject,meta.task,' LL curve fit'])
-        legend('Location','southeast')
-        xlabel('Hidden State Number')
-        ylabel('likelihood minus baseline')
-        box off
-        set(gcf,'color','white')
+%         plot(state_range_for_diff_fit,zscore(select_ll_diff_for_plotting_reshaped),'k.')
+        plot(state_range(2:end),zscore(mean(select_ll_diff_for_plotting)),'bo')
+        plot(state_range(2:end),zscore(select_ll_diff_for_plotting'),'k.')
         
-        if meta.move_only == 1
-            meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0_move_only\'];
-        else
-            meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0\'];
-        end
-        saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'_LL_curve_fit.png'));
-
-        figure('visible','off'); hold on
-        plot(state_range_for_diff_fit,select_ll_diff_for_plotting,'k.')
+        state_range_for_optimal = state_range(2:end);
+        zscore_above_zero = state_range_for_optimal(zscore(mean(select_ll_diff_for_plotting)) > 0);
+        optimal_state_number = zscore_above_zero(end);
+        xline(optimal_state_number);
         plot(state_range_for_diff_fit,curve_exp_diff(state_range_for_diff_fit),'r.','markersize',10)
         title([meta.subject,meta.task,' LL curve fit diff'])
-        legend('Location','northeast')
+%         legend('Location','northeast')
         xlabel('Hidden State Number')
         ylabel('Log Likelihood Difference')
         box off
         set(gcf,'color','white')
 
         if meta.move_only == 1
-            meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0_move_only\'];
+            meta.figure_folder_filepath = [figure_base meta.subject '\' meta.task '_CT0_move_only\'];
         else
-            meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0\'];
+            meta.figure_folder_filepath = [figure_base meta.subject '\' meta.task '_CT0\'];
         end
         saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'_LL_curve_fit_diff.png'));
         
-        LL_curve = curve_exp(state_range);
-        LL_max = find(LL_curve == max(LL_curve));
     end
     num_states_subject = state_num;
     meta.optimal_number_of_states = num_states_subject;
