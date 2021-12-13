@@ -11,9 +11,7 @@ else
     meta.figure_folder_filepath = ['C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\' meta.subject '\CT' num2str(meta.crosstrain) '\'];
 end
 
-if meta.use_rslds == 1
-    meta.figure_folder_filepath = [meta.figure_folder_filepath 'rslds\'];
-end
+if
 %% Create Snippet Timing
 
 % Segment Analysis

@@ -93,15 +93,16 @@ def run_rslds(
 
     # %% Running HMM to find optimal number of states using LL saturation
 
-    # hmm_storage, select_ll, state_range = train_HMM(
-    #     data,
-    #     trial_classification,
-    #     meta,
-    #     bin_size,
-    #     is_it_breaux,
-    #     max_state_range,
-    #     state_skip,
-    # )
+    hmm_storage, select_ll, state_range = train_HMM(
+        data,
+        trial_classification,
+        meta,
+        bin_size,
+        is_it_breaux,
+        max_state_range,
+        state_skip,
+        num_state_override
+    )
 
     # %% Finding 90% cutoff
 
@@ -137,13 +138,14 @@ def run_rslds(
         else:
             bin_sums = np.vstack((bin_sums, export_set[iUnit]))
     # %% Decoding Test Data using Optimal States
-    decoded_data = rslds_lem.most_likely_states(xhat_lem, y)
-    # decoded_data = []
-    # for iState in range(len(hmm_storage)):
-    #     decoded_data.append(
-    #         hmm_storage[iState].most_likely_states(
-    #             np.transpose(np.intc(bin_sums)))
-    #     )
+    decoded_data_rslds = rslds_lem.most_likely_states(xhat_lem, y)
+    
+    decoded_data_hmm = []
+    for iState in range(len(hmm_storage)):
+        decoded_data_hmm.append(
+            hmm_storage[iState].most_likely_states(
+                np.transpose(np.intc(bin_sums)))
+        )
     # %% Plot State Probabilities
 
     # state_prob_over_time(hmm_storage, bin_sums, state_range)

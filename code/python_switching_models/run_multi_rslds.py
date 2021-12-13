@@ -13,7 +13,7 @@ from run_rslds import run_rslds
 train_portion = 0.9
 model_select_portion = 0.05
 test_portion = 0.05
-max_state_range = 50
+max_state_range = 12
 state_skip = 1
 
 

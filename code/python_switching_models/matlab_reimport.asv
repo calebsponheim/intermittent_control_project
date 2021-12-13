@@ -16,11 +16,10 @@ state_num = 11;
 num_states_subject = state_num;
 meta.analyze_all_trials = 1;
 plot_ll = 0;
-use_rslds = 1;
 
 decoded_data = readmatrix(...
     [filepath 'decoded_test_data.csv']...
-    ) + 1;
+    );
 
 files_in_filepath = dir(filepath);
 files_in_filepath = {files_in_filepath.name}';
@@ -32,7 +31,7 @@ rslds_check = files_in_filepath(cellfun(@(x) contains(x,'rslds'),files_in_filepa
 if contains(rslds_check{1},'rslds')
     decoded_data_rslds = readmatrix(...
         [filepath 'decoded_test_data_rslds.csv']...
-        )' + 1;
+        ) + 1';
 end
 [decoded_data_rslds] = censor_and_threshold_HMM_states(decoded_data_rslds);
 
@@ -234,7 +233,7 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
     meta.optimal_number_of_states = state_num;
     meta.trials_to_plot = 1:25;
     meta.crosstrain = 0;
-    meta.use_rslds = use_rslds;
+    
     if plot_ll == 1
         % Plotting LL
         if length(ll_files) == 1
@@ -305,20 +304,10 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
         end
     end
     
-    
-    if use_rslds == 1
-        decoded_data = decoded_data_rslds;
-        decoded_data_selected_state_num = decoded_data;
-    else
-        decoded_data_selected_state_num = decoded_data(state_range  == state_num,:);
-    end
-    
-
-    
     for iTrial = 1:size(trial_classification,1)
         data(iTrial).trial_classification = trial_classification{iTrial};
         data(iTrial).ms_relative_to_trial_start = 1:length(data(iTrial).x_smoothed);
-        decoded_trial_temp = decoded_data_selected_state_num(1,trial_bin_range(iTrial,1):trial_bin_range(iTrial,2));
+        decoded_trial_temp = decoded_data(state_range  == state_num,trial_bin_range(iTrial,1):trial_bin_range(iTrial,2)) + 1;
         decoded_trial_temp_resamp = zeros(1,length(data(iTrial).kinematic_timestamps));
         for iBin = 1:(length(decoded_trial_temp))
             if iBin == 1
@@ -336,6 +325,7 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
         end
         data(iTrial).states_resamp = decoded_trial_temp_resamp;
         
-    end   
+    end
+    
 elseif contains(filepath,'180323')
-end % subject selection and dataset filtering
+end

@@ -20,6 +20,7 @@ def train_HMM(
     is_it_breaux,
     max_state_range,
     state_skip,
+    num_state_override
 ):
 
     # %%
@@ -68,8 +69,12 @@ def train_HMM(
     # %% Okay NOW we train
 
     observation_dimensions = bin_sums.shape[0]
-    N_iters = 20
-    state_range = np.arange(1, max_state_range, state_skip)
+    if num_state_override > 0:
+        N_iters = 100
+        state_range = num_state_override  
+    else:
+        N_iters = 20
+        state_range = np.arange(1, max_state_range, state_skip)
     bin_sums = bin_sums.astype(np.int64)
     hmm_storage = []
     select_ll = []
