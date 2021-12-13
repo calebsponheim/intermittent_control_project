@@ -148,8 +148,8 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
     rslds_lem.initialize(y)
     q_elbos_lem, q_lem = rslds_lem.fit(y, method="laplace_em",
                                        variational_posterior="structured_meanfield",
-                                       initialize=False, num_iters=100)
-    xhat_lem = q_lem.mean[0]
+                                       initialize=False, num_iters=10)
+    xhat_lem = q_lem.mean_continuous_states[0]
     zhat_lem = rslds_lem.most_likely_states(xhat_lem, y)
 
     # %% Plot some results
@@ -165,13 +165,13 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
     plt.title("Inferred, Laplace-EM")
     plt.tight_layout()
 
-    # plt.figure(figsize=(6,6))
-    # ax = plt.subplot(111)
-    # lim = abs(xhat_lem).max(axis=0) + 1
-    # plot_most_likely_dynamics(rslds_lem, xlim=(-lim[0], lim[0]), ylim=(-lim[1], lim[1]), ax=ax)
-    # plt.title("Most Likely Dynamics, Laplace-EM")
+    plt.figure(figsize=(6,6))
+    ax = plt.subplot(111)
+    lim = abs(xhat_lem).max(axis=0) + 1
+    plot_most_likely_dynamics(rslds_lem, xlim=(-lim[0], lim[0]), ylim=(-lim[1], lim[1]), ax=ax)
+    plt.title("Most Likely Dynamics, Laplace-EM")
 
-    # plt.show()
+    plt.show()
 
     # %%
     return rslds_lem, xhat_lem, y

@@ -54,8 +54,8 @@ def run_rslds(
     None. Writes out data to files.
 
     """
-    folderpath_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/"
-    # folderpath_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/data/python_switching_models/"
+    # folderpath_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/"
+    folderpath_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/data/python_switching_models/"
 
     if subject == "bx":
         if task == "CO":
@@ -137,13 +137,13 @@ def run_rslds(
         else:
             bin_sums = np.vstack((bin_sums, export_set[iUnit]))
     # %% Decoding Test Data using Optimal States
-    # decoded_data = rslds_lem.most_likely_states(xhat_lem, y)
-    decoded_data = []
-    for iState in range(len(hmm_storage)):
-        decoded_data.append(
-            hmm_storage[iState].most_likely_states(
-                np.transpose(np.intc(bin_sums)))
-        )
+    decoded_data = rslds_lem.most_likely_states(xhat_lem, y)
+    # decoded_data = []
+    # for iState in range(len(hmm_storage)):
+    #     decoded_data.append(
+    #         hmm_storage[iState].most_likely_states(
+    #             np.transpose(np.intc(bin_sums)))
+    #     )
     # %% Plot State Probabilities
 
     # state_prob_over_time(hmm_storage, bin_sums, state_range)
