@@ -69,18 +69,15 @@ def train_HMM(
     # %% Okay NOW we train
 
     observation_dimensions = bin_sums.shape[0]
-    if num_state_override > 0:
-        N_iters = 100
-        state_range = num_state_override  
-    else:
-        N_iters = 20
-        state_range = np.arange(1, max_state_range, state_skip)
     bin_sums = bin_sums.astype(np.int64)
     hmm_storage = []
     select_ll = []
-    for iState in state_range:
+
+    if num_state_override > 0:
+        N_iters = 100
+        state_range = num_state_override  
         hmm = ssm.HMM(
-            iState,
+            num_state_override,
             observation_dimensions,
             observations="poisson",
             transitions="standard",
@@ -97,7 +94,31 @@ def train_HMM(
         # model selection decode
         select_ll.append(hmm.log_likelihood(np.transpose(bin_sums_select)))
 
-        print(f"Created Model For {iState} States.")
-    state_range = state_range.tolist()
+        print(f"Created Model For {num_state_override} States.")
+    else:
+        N_iters = 20
+        state_range = np.arange(1, max_state_range, state_skip)
+        for iState in state_range:
+            hmm = ssm.HMM(
+                iState,
+                observation_dimensions,
+                observations="poisson",
+                transitions="standard",
+            )
+    
+            hmm.fit(
+                np.transpose(bin_sums),
+                method="em",
+                num_iters=N_iters,
+                init_method="random",
+            )
+            hmm_storage.append(hmm)
+    
+            # model selection decode
+            select_ll.append(hmm.log_likelihood(np.transpose(bin_sums_select)))
+    
+            print(f"Created Model For {iState} States.")
+        state_range = state_range.tolist()
+
     # %% Return variables
     return hmm_storage, select_ll, state_range

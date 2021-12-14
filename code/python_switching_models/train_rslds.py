@@ -11,7 +11,7 @@ import autograd.numpy.random as npr
 import seaborn as sns
 # import matplotlib.gridspec as gridspec
 # from matplotlib.font_manager import FontProperties
-from sklearn.decomposition import PCA as PCA_sk
+# from sklearn.decomposition import PCA as PCA_sk
 
 npr.seed(100)
 
@@ -44,7 +44,7 @@ def plot_most_likely_dynamics(model,
                               xlim=(-4, 4), ylim=(-3, 3), nxpts=30, nypts=30,
                               alpha=0.8, ax=None, figsize=(3, 3)):
 
-    K = model.K
+    # K = model.K
     assert model.D == 2
     x = np.linspace(*xlim, nxpts)
     y = np.linspace(*ylim, nypts)
@@ -125,13 +125,13 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
     sns.set_context("talk")
     # %% Define number of latent dimensions using PCA
 
-    pca_latent = PCA_sk()
-    pca_for_latent_state = pca_latent.fit(y)
-    explained_variance = pca_for_latent_state.explained_variance_ratio_
+    # pca_latent = PCA_sk()
+    # pca_for_latent_state = pca_latent.fit(y)
+    # explained_variance = pca_for_latent_state.explained_variance_ratio_
 
-    cumulative_variance = np.cumsum(explained_variance)
-    num_latent_dims = sum(cumulative_variance < .5)
-    # num_latent_dims = 2
+    # cumulative_variance = np.cumsum(explained_variance)
+    # num_latent_dims = sum(cumulative_variance < .5)
+    num_latent_dims = 8
 
     # %% Train
     # Set the parameters of the HMM
@@ -148,30 +148,30 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
     rslds_lem.initialize(y)
     q_elbos_lem, q_lem = rslds_lem.fit(y, method="laplace_em",
                                        variational_posterior="structured_meanfield",
-                                       initialize=False, num_iters=10)
+                                       initialize=False, num_iters=25)
     xhat_lem = q_lem.mean_continuous_states[0]
-    zhat_lem = rslds_lem.most_likely_states(xhat_lem, y)
+    # zhat_lem = rslds_lem.most_likely_states(xhat_lem, y)
 
     # %% Plot some results
-    plt.figure()
-    plt.plot(q_elbos_lem[1:], label="Laplace-EM")
-    plt.legend()
-    plt.xlabel("Iteration")
-    plt.ylabel("ELBO")
-    plt.tight_layout()
+    # plt.figure()
+    # plt.plot(q_elbos_lem[1:], label="Laplace-EM")
+    # plt.legend()
+    # plt.xlabel("Iteration")
+    # plt.ylabel("ELBO")
+    # plt.tight_layout()
 
-    plt.figure()
-    plot_trajectory(zhat_lem, xhat_lem)
-    plt.title("Inferred, Laplace-EM")
-    plt.tight_layout()
+    # plt.figure()
+    # plot_trajectory(zhat_lem, xhat_lem)
+    # plt.title("Inferred, Laplace-EM")
+    # plt.tight_layout()
 
-    plt.figure(figsize=(6,6))
-    ax = plt.subplot(111)
-    lim = abs(xhat_lem).max(axis=0) + 1
-    plot_most_likely_dynamics(rslds_lem, xlim=(-lim[0], lim[0]), ylim=(-lim[1], lim[1]), ax=ax)
-    plt.title("Most Likely Dynamics, Laplace-EM")
+    # plt.figure(figsize=(6,6))
+    # ax = plt.subplot(111)
+    # lim = abs(xhat_lem).max(axis=0) + 1
+    # plot_most_likely_dynamics(rslds_lem, xlim=(-lim[0], lim[0]), ylim=(-lim[1], lim[1]), ax=ax)
+    # plt.title("Most Likely Dynamics, Laplace-EM")
 
-    plt.show()
+    # plt.show()
 
     # %%
     return rslds_lem, xhat_lem, y

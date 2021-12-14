@@ -13,10 +13,10 @@ import pandas as pd
 
 from train_rslds import train_rslds
 from train_HMM import train_HMM
-from LL_curve_fitting import LL_curve_fitting
+# from LL_curve_fitting import LL_curve_fitting
 import numpy as np
 
-from state_prob_over_time import state_prob_over_time
+# from state_prob_over_time import state_prob_over_time
 
 
 def run_rslds(
@@ -54,8 +54,8 @@ def run_rslds(
     None. Writes out data to files.
 
     """
-    # folderpath_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/"
-    folderpath_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/data/python_switching_models/"
+    folderpath_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/"
+    # folderpath_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/data/python_switching_models/"
 
     if subject == "bx":
         if task == "CO":
@@ -152,15 +152,22 @@ def run_rslds(
 
     # %% write data for matlab
 
-    with open(folderpath + "decoded_test_data.csv", "w") as f:
-        write = csv.writer(f)
-        for iRow in range(len(decoded_data)):
-            write.writerow(decoded_data[iRow])
+    decoded_data_hmm = pd.DataFrame(decoded_data_hmm)
+    decoded_data_hmm.to_csv(folderpath + "decoded_data_hmm.csv", index=False)
+
+    decoded_data_rslds = pd.DataFrame(decoded_data_rslds)
+    decoded_data_rslds.to_csv(folderpath + "decoded_data_rslds.csv", index=False)
+
+    # with open(folderpath + "decoded_test_data.csv", "w") as f:
+    #     write = csv.writer(f)
+    #     for iRow in range(len(decoded_data)):
+    #         write.writerow(decoded_data[iRow])
     with open(folderpath + "trial_classifiction.csv", "w", newline="") as f:
         write = csv.writer(f, delimiter=" ", quotechar="|",
                            quoting=csv.QUOTE_MINIMAL)
         for iTrial in range(len(trial_classification)):
             write.writerow(trial_classification[iTrial])
+            
     state_range = pd.DataFrame(state_range)
     state_range.to_csv(folderpath + "num_states.csv", index=False)
 

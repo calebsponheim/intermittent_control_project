@@ -16,10 +16,10 @@ state_num = 11;
 num_states_subject = state_num;
 meta.analyze_all_trials = 1;
 plot_ll = 0;
-use_rslds = 1;
+use_rslds = 0;
 
 decoded_data = readmatrix(...
-    [filepath 'decoded_test_data.csv']...
+    [filepath 'decoded_data_hmm.csv']...
     ) + 1;
 
 files_in_filepath = dir(filepath);
@@ -31,7 +31,7 @@ rslds_check = files_in_filepath(cellfun(@(x) contains(x,'rslds'),files_in_filepa
 
 if contains(rslds_check{1},'rslds')
     decoded_data_rslds = readmatrix(...
-        [filepath 'decoded_test_data_rslds.csv']...
+        [filepath 'decoded_data_rslds.csv']...
         )' + 1;
 end
 [decoded_data_rslds] = censor_and_threshold_HMM_states(decoded_data_rslds);
@@ -310,7 +310,7 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
         decoded_data = decoded_data_rslds;
         decoded_data_selected_state_num = decoded_data;
     else
-        decoded_data_selected_state_num = decoded_data(state_range  == state_num,:);
+        decoded_data_selected_state_num = decoded_data(end,:);
     end
     
 
