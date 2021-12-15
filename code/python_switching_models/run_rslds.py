@@ -67,7 +67,7 @@ def run_rslds(
             # folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/'
     elif subject == "rs":
         if task == "CO":
-            folderpath = folderpath_base + "RSCO0.05sBins/"
+            # folderpath = folderpath_base + "RSCO0.05sBins/"
             folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
         elif task == "RTP":
             folderpath = folderpath_base + "RSRTP0.05sBins/"

@@ -29,7 +29,7 @@ state_skip = 1
 # )
 
 subject = 'rs'
-task = 'RTP'
+task = 'CO'
 num_state_override = 11
 
 # run_rslds_LL_comprehensive(
