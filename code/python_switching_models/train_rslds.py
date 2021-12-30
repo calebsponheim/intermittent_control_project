@@ -16,7 +16,8 @@ import seaborn as sns
 npr.seed(100)
 
 
-color_names = ["windows blue", "red", "amber", "faded green"]
+color_names = ["windows blue", "red", "amber", "faded green", "deep aqua", "fresh green",
+               "indian red", "orangeish", "old rose"]
 colors = sns.xkcd_palette(color_names)
 sns.set_style("white")
 sns.set_context("talk")
@@ -25,17 +26,19 @@ sns.set_context("talk")
 # Helper functions for plotting results
 
 
-def plot_trajectory(z, x, ax=None, ls="-"):
+def plot_trajectory(z, x, ax=None, ls=":"):
     zcps = np.concatenate(([0], np.where(np.diff(z))[0] + 1, [z.size]))
     if ax is None:
-        fig = plt.figure(figsize=(4, 4))
+        fig = plt.figure(figsize=(10, 10))
+        ax = fig.add_subplot(projection='3d')
         ax = fig.gca()
     for start, stop in zip(zcps[:-1], zcps[1:]):
-        ax.plot(x[start:stop + 1, 0],
-                x[start:stop + 1, 1],
-                lw=1, ls=ls,
-                color=colors[z[start] % len(colors)],
-                alpha=1.0)
+        ax.scatter(x[start:stop + 1, 0],
+                   x[start:stop + 1, 1],
+                   x[start:stop + 1, 2],
+                   lw=1, ls=ls,
+                   color=colors[z[start] % len(colors)],
+                   alpha=.6)
 
     return ax
 
@@ -131,7 +134,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
 
     # cumulative_variance = np.cumsum(explained_variance)
     # num_latent_dims = sum(cumulative_variance < .5)
-    num_latent_dims = 8
+    num_latent_dims = 10
 
     # %% Train
     # Set the parameters of the HMM
@@ -148,22 +151,22 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
     rslds_lem.initialize(y)
     q_elbos_lem, q_lem = rslds_lem.fit(y, method="laplace_em",
                                        variational_posterior="structured_meanfield",
-                                       initialize=False, num_iters=25)
+                                       initialize=False, num_iters=50)
     xhat_lem = q_lem.mean_continuous_states[0]
-    # zhat_lem = rslds_lem.most_likely_states(xhat_lem, y)
-
+    zhat_lem = rslds_lem.most_likely_states(xhat_lem, y)
+    model_params = rslds_lem.params
     # %% Plot some results
-    # plt.figure()
-    # plt.plot(q_elbos_lem[1:], label="Laplace-EM")
-    # plt.legend()
-    # plt.xlabel("Iteration")
-    # plt.ylabel("ELBO")
-    # plt.tight_layout()
+    plt.figure()
+    plt.plot(q_elbos_lem[1:], label="Laplace-EM")
+    plt.legend()
+    plt.xlabel("Iteration")
+    plt.ylabel("ELBO")
+    plt.tight_layout()
 
-    # plt.figure()
-    # plot_trajectory(zhat_lem, xhat_lem)
-    # plt.title("Inferred, Laplace-EM")
-    # plt.tight_layout()
+    plt.figure()
+    plot_trajectory(zhat_lem, xhat_lem, ls=":")
+    plt.title("Inferred, Laplace-EM")
+    plt.tight_layout()
 
     # plt.figure(figsize=(6,6))
     # ax = plt.subplot(111)
@@ -171,7 +174,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
     # plot_most_likely_dynamics(rslds_lem, xlim=(-lim[0], lim[0]), ylim=(-lim[1], lim[1]), ax=ax)
     # plt.title("Most Likely Dynamics, Laplace-EM")
 
-    # plt.show()
+    plt.show()
 
     # %%
-    return rslds_lem, xhat_lem, y
+    return rslds_lem, xhat_lem, y, model_params

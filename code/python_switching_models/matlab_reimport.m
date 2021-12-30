@@ -1,7 +1,7 @@
 %% Import Data from Python and integrate into matlab struct.
 
-file_base_base = 'C:\Users\calebsponheim';
-% file_base_base = 'C:\Users\Caleb (Work)';
+% file_base_base = 'C:\Users\calebsponheim';
+file_base_base = 'C:\Users\Caleb (Work)';
 filepath_base = [file_base_base '\Documents\git\intermittent_control_project\data\python_switching_models\'];
 figure_base = [file_base_base '\Documents\git\intermittent_control_project\figures\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05_sBins_move_window_only\'];
@@ -16,11 +16,11 @@ state_num = 11;
 num_states_subject = state_num;
 meta.analyze_all_trials = 1;
 plot_ll = 0;
-use_rslds = 0;
-
-decoded_data = readmatrix(...
-    [filepath 'decoded_data_hmm.csv']...
-    ) + 1;
+use_rslds = 1;
+% 
+% decoded_data = readmatrix(...
+%     [filepath 'decoded_data_hmm.csv']...
+%     ) + 1;
 
 files_in_filepath = dir(filepath);
 files_in_filepath = {files_in_filepath.name}';
