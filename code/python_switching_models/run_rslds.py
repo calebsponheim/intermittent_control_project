@@ -13,7 +13,7 @@ import pandas as pd
 
 from train_rslds import train_rslds
 from analyze_params import analyze_params
-# from train_HMM import train_HMM
+from train_HMM import train_HMM
 # from LL_curve_fitting import LL_curve_fitting
 import numpy as np
 
@@ -96,15 +96,15 @@ def run_rslds(
 
     # %% Running HMM to find optimal number of states using LL saturation
 
-    # hmm_storage, select_ll, state_range = train_HMM(
-    #     data,
-    #     trial_classification,
-    #     meta,
-    #     bin_size,
-    #     is_it_breaux,
-    #     max_state_range,
-    #     state_skip,
-    # )
+    hmm_storage, select_ll, state_range = train_HMM(
+        data,
+        trial_classification,
+        meta,
+        bin_size,
+        is_it_breaux,
+        max_state_range,
+        state_skip,
+    )
 
     # %% Finding 90% cutoff
 
@@ -123,43 +123,47 @@ def run_rslds(
 
     # %% literally making bin_sums for all trials for HMM decode
 
-    # if is_it_breaux == 0:
-    #     bin_size = 1
-    # export_set = []
-    # for iTrial in range(len(trial_classification)):
-    #     S_temp = data.spikes[iTrial]
-    #     for iUnit in range(len(S_temp)):
-    #         temp = S_temp[iUnit]
-    #         temp_indices = np.arange(0, len(temp), bin_size)
-    #         temp_binned = [temp[i] for i in temp_indices]
-    #         if len(export_set) <= iUnit:
-    #             export_set.append(temp_binned)
-    #         else:
-    #             export_set[iUnit].extend(temp_binned)
-    # # Okay now that we have the data in the right format,
-    # # we need to put it in an HMM-readable format.
+    if is_it_breaux == 0:
+        bin_size = 1
+    export_set = []
+    for iTrial in range(len(trial_classification)):
+        S_temp = data.spikes[iTrial]
+        for iUnit in range(len(S_temp)):
+            temp = S_temp[iUnit]
+            temp_indices = np.arange(0, len(temp), bin_size)
+            temp_binned = [temp[i] for i in temp_indices]
+            if len(export_set) <= iUnit:
+                export_set.append(temp_binned)
+            else:
+                export_set[iUnit].extend(temp_binned)
+    # Okay now that we have the data in the right format, we need to put in an HMM-readable format.
 
-    # for iUnit in range(len(export_set)):
-    #     if iUnit == 0:
-    #         bin_sums = export_set[iUnit]
-    #     else:
-    #         bin_sums = np.vstack((bin_sums, export_set[iUnit]))
+    for iUnit in range(len(export_set)):
+        if iUnit == 0:
+            bin_sums = export_set[iUnit]
+        else:
+            bin_sums = np.vstack((bin_sums, export_set[iUnit]))
     # %% Decoding Test Data using Optimal States
-    decoded_data = np.int32(rslds_lem.most_likely_states(xhat_lem, y))
-    # decoded_data = []
-    # for iState in range(len(hmm_storage)):
-    #     decoded_data.append(
-    #         hmm_storage[iState].most_likely_states(
-    #             np.transpose(np.intc(bin_sums)))
-    #     )
+    decoded_data_rslds = rslds_lem.most_likely_states(xhat_lem, y)
+
+    decoded_data_hmm = []
+    for iState in range(len(hmm_storage)):
+        decoded_data_hmm.append(
+            hmm_storage[iState].most_likely_states(
+                np.transpose(np.intc(bin_sums)))
+        )
     # %% Plot State Probabilities
 
     # state_prob_over_time(hmm_storage, bin_sums, state_range)
 
     # %% write data for matlab
 
-    decoded_data_to_export = pd.DataFrame(decoded_data)
-    decoded_data_to_export.to_csv(folderpath + "decoded_test_data.csv", index=False)
+    decoded_data_hmm = pd.DataFrame(decoded_data_hmm)
+    decoded_data_hmm.to_csv(folderpath + "decoded_data_hmm.csv", index=False)
+
+    decoded_data_rslds = pd.DataFrame(decoded_data_rslds)
+    decoded_data_rslds.to_csv(
+        folderpath + "decoded_data_rslds.csv", index=False)
 
     # with open(folderpath + "decoded_test_data.csv", "w") as f:
     #     write = csv.writer(f)
@@ -170,6 +174,7 @@ def run_rslds(
                            quoting=csv.QUOTE_MINIMAL)
         for iTrial in range(len(trial_classification)):
             write.writerow(trial_classification[iTrial])
+
     state_range = pd.DataFrame(state_range)
     state_range.to_csv(folderpath + "num_states.csv", index=False)
 
