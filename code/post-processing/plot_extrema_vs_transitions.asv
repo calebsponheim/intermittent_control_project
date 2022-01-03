@@ -6,7 +6,7 @@ num_speed_extrema = zeros(size(data,2),1);
 
 for iTrial = 1:size(data,2)
     num_transitions(iTestTrials) = length(nonzeros(diff(data(iTrial).states_resamp)));
-    num_speed_extrema(iTestTrials) = length(vertcat(nonzeros(islocalmax(data(iTrial).speed,'MinProminence',.1)),nonzeros(islocalmin(data(iTrial).speed,'MinProminence',.1))));
+    num_speed_extrema(iTestTrials) = length(vertcat(nonzeros(islocalmax(data(iTrial).speed,'MinProminence',)),nonzeros(islocalmin(data(iTrial).speed))));
     iTestTrials = iTestTrials + 1;
 end
 

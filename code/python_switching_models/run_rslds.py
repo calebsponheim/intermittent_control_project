@@ -104,6 +104,7 @@ def run_rslds(
         is_it_breaux,
         max_state_range,
         state_skip,
+        num_state_override
     )
 
     # %% Finding 90% cutoff
@@ -165,18 +166,15 @@ def run_rslds(
     decoded_data_rslds.to_csv(
         folderpath + "decoded_data_rslds.csv", index=False)
 
-    # with open(folderpath + "decoded_test_data.csv", "w") as f:
-    #     write = csv.writer(f)
-    #     for iRow in range(len(decoded_data)):
-    #         write.writerow(decoded_data[iRow])
     with open(folderpath + "trial_classifiction.csv", "w", newline="") as f:
         write = csv.writer(f, delimiter=" ", quotechar="|",
                            quoting=csv.QUOTE_MINIMAL)
         for iTrial in range(len(trial_classification)):
             write.writerow(trial_classification[iTrial])
 
-    state_range = pd.DataFrame(state_range)
-    state_range.to_csv(folderpath + "num_states.csv", index=False)
+    with open(folderpath + "num_states.csv", "w") as f:
+        write = csv.writer(f)
+        write.writerow(state_range)
 
     select_ll = pd.DataFrame(select_ll)
     select_ll.to_csv(folderpath + "select_ll.csv", index=False)
