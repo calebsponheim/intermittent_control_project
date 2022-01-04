@@ -46,4 +46,8 @@ plot_state_normalized_velocity(meta,data,snippet_data)
 
 plot_state_lengths(meta,snippet_data)
 
+% Compare Extrema Timing to Transition Timing
+
+extrema_vs_transition_timing(data,meta)
+
 end
