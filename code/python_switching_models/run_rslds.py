@@ -17,7 +17,7 @@ from train_HMM import train_HMM
 # from LL_curve_fitting import LL_curve_fitting
 import numpy as np
 
-# from state_prob_over_time import state_prob_over_time
+from state_prob_over_time import state_prob_over_time
 
 
 def run_rslds(
@@ -155,7 +155,7 @@ def run_rslds(
         )
     # %% Plot State Probabilities
 
-    # state_prob_over_time(hmm_storage, bin_sums, state_range)
+    state_prob_over_time(rslds_lem, xhat_lem, y, num_state_override)
 
     # %% write data for matlab
 
