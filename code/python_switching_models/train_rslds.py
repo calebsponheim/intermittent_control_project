@@ -13,7 +13,7 @@ import seaborn as sns
 # from matplotlib.font_manager import FontProperties
 # from sklearn.decomposition import PCA as PCA_sk
 
-npr.seed(100)
+# npr.seed(100)
 
 
 color_names = ["windows blue", "red", "amber", "faded green", "deep aqua", "fresh green",
@@ -102,7 +102,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
                 trainset.append(temp_binned)
             else:
                 trainset[iUnit].extend(temp_binned)
-        print(iTrial)
+        # print(iTrial)
 
     # Okay now that we have the training trials in its own variable, we need
     # to turn it into the right shape for training, presumably.
@@ -113,7 +113,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
         else:
             bin_sums = np.vstack(
                 (bin_sums, trainset[iUnit]))
-        print(iUnit)
+        # print(iUnit)
 
     # %% Okay NOW we train
 
@@ -144,7 +144,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
 
     # Fit with Laplace EM
     rslds_lem = ssm.SLDS(D_obs, K, D_latent,
-                         transitions="recurrent_only",
+                         transitions="recurrent",
                          dynamics="diagonal_gaussian",
                          emissions="poisson",
                          single_subspace=True)
