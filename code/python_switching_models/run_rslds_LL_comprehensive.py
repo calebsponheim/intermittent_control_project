@@ -12,13 +12,11 @@ from assign_trials_to_HMM_group_comprehensive import (
     assign_trials_to_HMM_group_comprehensive,
 )
 import pandas as pd
-
-# from train_rslds import train_rslds
+from train_rslds import train_rslds
 from train_HMM import train_HMM
-from LL_curve_fitting import LL_curve_fitting
 import numpy as np
-
 from state_prob_over_time import state_prob_over_time
+from analyze_params import analyze_params
 
 
 def run_rslds_LL_comprehensive(
@@ -29,6 +27,7 @@ def run_rslds_LL_comprehensive(
     test_portion,
     max_state_range,
     state_skip,
+    num_state_override
 ):
     """
     Is this a summary line?
@@ -101,9 +100,8 @@ def run_rslds_LL_comprehensive(
             data, meta, iMix, shuffled_indices
         )
 
-        # %% Running HMM to find optimal number of states using LL saturation
-
-        hmm_storage, select_ll, state_range = train_HMM(
+        # %%
+        hmm_storage, select_ll_hmm, state_range = train_HMM(
             data,
             trial_classification,
             meta,
@@ -111,6 +109,7 @@ def run_rslds_LL_comprehensive(
             is_it_breaux,
             max_state_range,
             state_skip,
+            num_state_override
         )
 
         # %% Finding 90% cutoff
@@ -120,9 +119,13 @@ def run_rslds_LL_comprehensive(
         # %% Running PCA-based estimate of # of latent dimensions
 
         # %% Running RSLDS
-        # rslds_lem, xhat_lem, y = train_rslds(
-        #     data, trial_classification, meta, bin_size, is_it_breaux
-        # )
+        rslds_lem, xhat_lem, y, model_params = train_rslds(
+            data, trial_classification, meta, bin_size, is_it_breaux, num_state_override
+        )
+
+        # %% Trying to Plot/Cluster Model/State Parameters
+
+        analyze_params(model_params)
 
         # %% literally making bin_sums for all trials for HMM decode
 
@@ -139,7 +142,8 @@ def run_rslds_LL_comprehensive(
                     export_set.append(temp_binned)
                 else:
                     export_set[iUnit].extend(temp_binned)
-        # Okay now that we have the data in the right format, we need to put in an HMM-readable format.
+        # Okay now that we have the data in the right format,
+        # we need to put it in an HMM-readable format.
 
         for iUnit in range(len(export_set)):
             if iUnit == 0:
@@ -147,33 +151,38 @@ def run_rslds_LL_comprehensive(
             else:
                 bin_sums = np.vstack((bin_sums, export_set[iUnit]))
         # %% Decoding Test Data using Optimal States
-        # decoded_data = rslds_lem.most_likely_states(xhat_lem, y)
-        decoded_data = []
+        decoded_data_rslds = rslds_lem.most_likely_states(xhat_lem, y)
+
+        decoded_data_hmm = []
         for iState in range(len(hmm_storage)):
-            decoded_data.append(
+            decoded_data_hmm.append(
                 hmm_storage[iState].most_likely_states(
                     np.transpose(np.intc(bin_sums)))
             )
         # %% Plot State Probabilities
 
-        # state_prob_over_time(hmm_storage, bin_sums, state_range)
+        state_prob_over_time(rslds_lem, xhat_lem, y, num_state_override)
 
         # %% write data for matlab
 
-        with open(folderpath + "decoded_test_data" + str(iMix) + ".csv", "w") as f:
-            write = csv.writer(f)
-            for iRow in range(len(decoded_data)):
-                write.writerow(decoded_data[iRow])
+        decoded_data_hmm = pd.DataFrame(decoded_data_hmm)
+        decoded_data_hmm.to_csv(folderpath + "decoded_data_hmm" + str(iMix) + ".csv", index=False)
+
+        decoded_data_rslds = pd.DataFrame(decoded_data_rslds)
+        decoded_data_rslds.to_csv(
+            folderpath + "decoded_data_rslds" + str(iMix) + ".csv", index=False)
+
         with open(folderpath + "trial_classifiction" + str(iMix) + ".csv", "w", newline="") as f:
-            write = csv.writer(
-                f, delimiter=" ", quotechar="|", quoting=csv.QUOTE_MINIMAL
-            )
+            write = csv.writer(f, delimiter=" ", quotechar="|",
+                               quoting=csv.QUOTE_MINIMAL)
             for iTrial in range(len(trial_classification)):
                 write.writerow(trial_classification[iTrial])
-        state_range = pd.DataFrame(state_range)
-        state_range.to_csv(folderpath + "num_states" +
-                           str(iMix) + ".csv", index=False)
 
-        select_ll = pd.DataFrame(select_ll)
-        select_ll.to_csv(folderpath + "select_ll" +
-                         str(iMix) + ".csv", index=False)
+        with open(folderpath + "num_states" + str(iMix) + ".csv", "w") as f:
+            write = csv.writer(f)
+            write.writerow(state_range)
+
+        select_ll_hmm = pd.DataFrame(select_ll_hmm)
+        select_ll_hmm.to_csv(folderpath + "select_ll_hmm" + str(iMix) + ".csv", index=False)
+        select_ll_rslds = pd.DataFrame(select_ll_rslds)
+        select_ll_rslds.to_csv(folderpath + "select_ll_rslds" + str(iMix) + ".csv", index=False)

@@ -57,8 +57,10 @@ def run_rslds(
     """
     # %%
 
-    # folderpath_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/data/python_switching_models/"
-    folderpath_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/data/python_switching_models/"
+    # folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
+    folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
+    folderpath_base = folderpath_base_base + "data/python_switching_models/"
+    figurepath_base = folderpath_base_base + "figures/"
 
     if subject == "bx":
         if task == "CO":
@@ -66,16 +68,21 @@ def run_rslds(
             folderpath = (
                 folderpath_base + "Bxcenter_out1902280.05_sBins_move_window_only/"
             )
+            figurepath = figurepath_base + "Bx/CO/"
             # folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
             # folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/'
     elif subject == "rs":
         if task == "CO":
             folderpath = folderpath_base + "RSCO0.05sBins/"
             folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
+            figurepath = figurepath_base + "RS/CO_CT0_move_only/"
+
         elif task == "RTP":
             folderpath = folderpath_base + "RSRTP0.05sBins/"
+            figurepath = figurepath_base + "RS/RTP_CT0/"
     elif subject == "rj":
         folderpath = folderpath_base + "RJRTP0.05sBins/"
+        figurepath = figurepath_base + "RJ/RTP_CT0/"
     else:
         print("BAD, NO")
 
@@ -115,12 +122,13 @@ def run_rslds(
 
     # %% Running RSLDS
     rslds_lem, xhat_lem, y, model_params = train_rslds(
-        data, trial_classification, meta, bin_size, is_it_breaux, num_state_override
+        data, trial_classification, meta, bin_size,
+        is_it_breaux, num_state_override, figurepath
     )
 
     # %% Trying to Plot/Cluster Model/State Parameters
 
-    analyze_params(model_params)
+    # analyze_params(model_params)
 
     # %% literally making bin_sums for all trials for HMM decode
 
@@ -155,7 +163,7 @@ def run_rslds(
         )
     # %% Plot State Probabilities
 
-    state_prob_over_time(rslds_lem, xhat_lem, y, num_state_override)
+    state_prob_over_time(rslds_lem, xhat_lem, y, num_state_override, figurepath)
 
     # %% write data for matlab
 

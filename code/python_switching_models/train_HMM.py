@@ -75,7 +75,7 @@ def train_HMM(
 
     if num_state_override > 0:
         N_iters = 100
-        state_range = num_state_override  
+        state_range = num_state_override
         hmm = ssm.HMM(
             num_state_override,
             observation_dimensions,
@@ -105,7 +105,7 @@ def train_HMM(
                 observations="poisson",
                 transitions="standard",
             )
-    
+
             hmm.fit(
                 np.transpose(bin_sums),
                 method="em",
@@ -113,10 +113,10 @@ def train_HMM(
                 init_method="random",
             )
             hmm_storage.append(hmm)
-    
+
             # model selection decode
             select_ll.append(hmm.log_likelihood(np.transpose(bin_sums_select)))
-    
+
             print(f"Created Model For {iState} States.")
         state_range = state_range.tolist()
 

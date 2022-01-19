@@ -7,7 +7,7 @@ Created on Tue Nov 16 15:02:56 2021.
 import matplotlib.pyplot as plt
 
 
-def state_prob_over_time(rslds_lem, xhat_lem, y, nun_state_override):
+def state_prob_over_time(rslds_lem, xhat_lem, y, nun_state_override, figurepath):
     """ Look I dont know if this is okay.
 
     Parameters.
@@ -31,4 +31,5 @@ def state_prob_over_time(rslds_lem, xhat_lem, y, nun_state_override):
     plt.xlabel("time (bins)")
     plt.title("State Probability")
     plt.ylabel("Probability")
+    plt.savefig(figurepath + "/rslds/state_prob.png")
     plt.show()

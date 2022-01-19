@@ -1,8 +1,8 @@
-function plot_state_snippets(meta,data,snippet_data)
+function plot_state_snippets(meta,data,snippet_data,colors)
 
-colors = hsv(meta.optimal_number_of_states);
+% colors = hsv(meta.optimal_number_of_states);
 
-available_test_trials = find(ismember([data.trial_classification],'test'));
+available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'model_select'));
 % available_test_trials = find(ismember([data.tp],2));
 if meta.analyze_all_trials == 1
     available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'train') | ismember({data.trial_classification},'model_select'));

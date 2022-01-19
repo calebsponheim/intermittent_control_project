@@ -6,12 +6,12 @@ num_speed_extrema = zeros(size(data,2),1);
 
 for iTrial = 1:size(data,2)
     num_transitions(iTestTrials) = length(nonzeros(diff(data(iTrial).states_resamp)));
-    num_speed_extrema(iTestTrials) = length(vertcat(nonzeros(islocalmax(data(iTrial).speed,'MinProminence',.1)),nonzeros(islocalmin(data(iTrial).speed,'MinProminence',.1))));
+    num_speed_extrema(iTestTrials) = length(vertcat(nonzeros(islocalmax(data(iTrial).speed,'MinProminence',.05)),nonzeros(islocalmin(data(iTrial).speed,'MinProminence',.05))));
     iTestTrials = iTestTrials + 1;
 end
 
 figure('visible','off','color','white'); hold on
-plot(num_transitions,num_speed_extrema,'k.')
+plot(jitter(num_transitions),jitter(num_speed_extrema),'k.')
 line([0 100],[0 100],'Color','black')
 xlabel('Number of State Transitions')
 ylabel('Number of Local Extrema')

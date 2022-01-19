@@ -9,6 +9,8 @@ import ssm
 import numpy as np
 import autograd.numpy.random as npr
 import seaborn as sns
+from ssm import LDS
+
 # import matplotlib.gridspec as gridspec
 # from matplotlib.font_manager import FontProperties
 # from sklearn.decomposition import PCA as PCA_sk
@@ -17,7 +19,7 @@ import seaborn as sns
 
 
 color_names = ["windows blue", "red", "amber", "faded green", "deep aqua", "fresh green",
-               "indian red", "orangeish", "old rose"]
+               "indian red", "orangeish", "old rose", "azul", "barney", "blood orange", "cerise"]
 colors = sns.xkcd_palette(color_names)
 sns.set_style("white")
 sns.set_context("talk")
@@ -82,7 +84,8 @@ def plot_most_likely_dynamics(model,
 # %%
 
 
-def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_state_override):
+def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
+                num_state_override, figurepath):
     """Train a Switching Linear Dynamical System."""
     # %% Making a bin_sums that's all trials, because idk how to do cross
     # validation with this method yet
@@ -142,19 +145,44 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
     D_latent = num_latent_dims       # number of latent dimensions
     D_obs = observation_dimensions      # number of observed dimensions
 
+    # %% rSLDS
     # Fit with Laplace EM
-    rslds_lem = ssm.SLDS(D_obs, K, D_latent,
-                         transitions="recurrent",
-                         dynamics="diagonal_gaussian",
-                         emissions="poisson",
-                         single_subspace=True)
-    rslds_lem.initialize(y)
-    q_elbos_lem, q_lem = rslds_lem.fit(y, method="laplace_em",
-                                       variational_posterior="structured_meanfield",
-                                       initialize=False, num_iters=50)
+    model = ssm.SLDS(D_obs, K, D_latent,
+                     transitions="recurrent_only",
+                     dynamics="diagonal_gaussian",
+                     emissions="poisson",
+                     single_subspace=True)
+    model.initialize(y)
+    q_elbos_lem, q_lem = model.fit(y, method="laplace_em",
+                                   variational_posterior="structured_meanfield",
+                                   initialize=False, num_iters=50)
     xhat_lem = q_lem.mean_continuous_states[0]
-    zhat_lem = rslds_lem.most_likely_states(xhat_lem, y)
-    model_params = rslds_lem.params
+    zhat_lem = model.most_likely_states(xhat_lem, y)
+    model_params = model.params
+
+    # %% lds
+    # model = LDS(D_obs, D_latent, emissions="poisson")
+    # model.initialize(y)
+    # q_elbos_lem, q_lem = model.fit(
+    #     y, method="laplace_em", variational_posterior="structured_meanfield",
+    #     num_iters=100, initialize=False)
+
+    # xhat_lem = q_lem.mean_continuous_states[0]
+    # # zhat_lem = model.most_likely_states(xhat_lem, y)
+    # model_params = model.params
+
+    # %% slds
+
+    # model = ssm.SLDS(D_obs, K, D_latent, emissions="poisson")
+    # model.initialize(y)
+    # q_elbos_lem, q_lem = model.fit(y, method="laplace_em",
+    #                                variational_posterior="structured_meanfield",
+    #                                initialize=False, num_iters=50)
+
+    # xhat_lem = q_lem.mean_continuous_states[0]
+    # zhat_lem = model.most_likely_states(xhat_lem, y)
+    # model_params = model.params
+
     # %% Plot some results
     plt.figure()
     plt.plot(q_elbos_lem[1:], label="Laplace-EM")
@@ -162,19 +190,20 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux, num_st
     plt.xlabel("Iteration")
     plt.ylabel("ELBO")
     plt.tight_layout()
+    plt.savefig(figurepath + "/rslds/training.png")
 
     plt.figure()
     plot_trajectory(zhat_lem, xhat_lem, ls=":")
     plt.title("Inferred, Laplace-EM")
     plt.tight_layout()
+    plt.savefig(figurepath + "/rslds/three_PCs.png")
 
-    # plt.figure(figsize=(6,6))
+    # plt.figure(figsize=(6, 6))
     # ax = plt.subplot(111)
     # lim = abs(xhat_lem).max(axis=0) + 1
-    # plot_most_likely_dynamics(rslds_lem, xlim=(-lim[0], lim[0]), ylim=(-lim[1], lim[1]), ax=ax)
+    # plot_most_likely_dynamics(model, xlim=(-lim[0], lim[0]), ylim=(-lim[1], lim[1]), ax=ax)
     # plt.title("Most Likely Dynamics, Laplace-EM")
-
-    plt.show()
+    # plt.savefig(figurepath + "/rslds/2D_flowfield.png")
 
     # %%
-    return rslds_lem, xhat_lem, y, model_params
+    return model, xhat_lem, y, model_params

@@ -2,6 +2,7 @@ function rs_postmodel_analysis(meta,data)
 
 file_base_base = 'C:\Users\Caleb (Work)';
 
+[~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', 'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', 'barney', 'blood orange', 'cerise');
 
 %% Create Plot Figure Results Folder
 if meta.crosstrain == 0
@@ -27,25 +28,25 @@ end
 %% Plot Everything
 
 % Plot Single Trials
-plot_single_trials_v2(meta,data)
+plot_single_trials_v2(meta,data,colors)
 % Plot Segments
-plot_state_snippets(meta,data,snippet_data)
+plot_state_snippets(meta,data,snippet_data,colors)
 % Plot State Direction
-plot_state_direction(meta,data,snippet_data)
+plot_state_direction(meta,data,snippet_data,colors)
 
 % Plot all Trials
-plot_all_trials_v2(meta,data);
+plot_all_trials_v2(meta,data,colors);
 
 % Plot num extrema versus num transitions
 plot_extrema_vs_transitions(meta,data)
 
 % Plot normalized velocity
-plot_state_normalized_velocity(meta,data,snippet_data)
+plot_state_normalized_velocity(meta,data,snippet_data,colors)
 
 % Plot Mean Snippet Lengths
 
 plot_state_lengths(meta,snippet_data)
-
+    
 % Compare Extrema Timing to Transition Timing
 
 extrema_vs_transition_timing(data,meta)

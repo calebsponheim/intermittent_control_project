@@ -1,7 +1,7 @@
-function [] = plot_all_trials_v2(meta,data)
+function [] = plot_all_trials_v2(meta,data,colors)
 
 %%
-colors = hsv(meta.optimal_number_of_states);
+% colors = hsv(meta.optimal_number_of_states);
 colors = vertcat(colors,[0 0 0]);
 figure('visible','off','color','white'); hold on
 box off
