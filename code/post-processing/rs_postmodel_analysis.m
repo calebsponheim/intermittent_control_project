@@ -51,4 +51,8 @@ plot_state_lengths(meta,snippet_data)
 
 extrema_vs_transition_timing(data,meta)
 
+if meta.use_rslds == 1
+    plot_rslds_ll(data,meta)
+end
+
 end

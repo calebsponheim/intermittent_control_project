@@ -325,9 +325,6 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
         data(iTrial).ms_relative_to_trial_start = 1:length(data(iTrial).x_smoothed);
         decoded_trial_temp = decoded_data_selected_state_num(1,trial_bin_range(iTrial,1):trial_bin_range(iTrial,2));
         decoded_trial_temp_resamp = zeros(1,length(data(iTrial).kinematic_timestamps));
-        if plot_ll_rslds == 1
-            data(iTrial).rslds_ll_noresamp = ll_rslds(:,trial_bin_range(iTrial,1):trial_bin_range(iTrial,2));           
-        end
         for iBin = 1:(length(decoded_trial_temp))
             if iBin == 1
                 resamp_range = 1:(bin_size*1000);
@@ -337,6 +334,9 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
             
             decoded_trial_temp_resamp(resamp_range) = decoded_trial_temp(iBin);
             
+            if plot_ll_rslds == 1
+                data(iTrial).rslds_ll_nore
+            end
 
         end
         if length(data(iTrial).kinematic_timestamps) < length(decoded_trial_temp_resamp)

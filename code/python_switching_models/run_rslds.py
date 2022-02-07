@@ -57,8 +57,8 @@ def run_rslds(
     """
     # %%
 
-    # folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
-    folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
+    folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
+    # folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
     folderpath_base = folderpath_base_base + "data/python_switching_models/"
     figurepath_base = folderpath_base_base + "figures/"
 
@@ -154,6 +154,8 @@ def run_rslds(
             bin_sums = np.vstack((bin_sums, export_set[iUnit]))
     # %% Decoding Test Data using Optimal States
     decoded_data_rslds = rslds_lem.most_likely_states(xhat_lem, y)
+    rslds_likelihood = rslds_lem.emissions.log_likelihoods(
+        data=y, input=np.zeros([y.shape[0], 0]), mask=None, tag=[], x=xhat_lem)
 
     decoded_data_hmm = []
     for iState in range(len(hmm_storage)):
@@ -174,15 +176,19 @@ def run_rslds(
     decoded_data_rslds.to_csv(
         folderpath + "decoded_data_rslds.csv", index=False)
 
+    rslds_likelihood = pd.DataFrame(rslds_likelihood)
+    rslds_likelihood.to_csv(
+        folderpath + "rslds_likelihood.csv", index=False)
+
     with open(folderpath + "trial_classifiction.csv", "w", newline="") as f:
         write = csv.writer(f, delimiter=" ", quotechar="|",
                            quoting=csv.QUOTE_MINIMAL)
         for iTrial in range(len(trial_classification)):
             write.writerow(trial_classification[iTrial])
 
+    select_ll = pd.DataFrame(select_ll)
+    select_ll.to_csv(folderpath + "select_ll.csv", index=False)
+
     with open(folderpath + "num_states.csv", "w") as f:
         write = csv.writer(f)
         write.writerow(state_range)
-
-    select_ll = pd.DataFrame(select_ll)
-    select_ll.to_csv(folderpath + "select_ll.csv", index=False)

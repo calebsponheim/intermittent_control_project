@@ -158,8 +158,6 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
                                    initialize=False, num_iters=50)
     xhat_lem = q_lem.mean_continuous_states[0]
     zhat_lem = model.most_likely_states(xhat_lem, y)
-    likelihood = model.emissions.log_likelihoods(
-        data=y, input=np.zeros([5507, 0]), mask=None, tag=[], x=xhat_lem)
     model_params = model.params
 
     # %% lds
