@@ -46,11 +46,11 @@ def plot_trajectory(z, x, ax=None, ls=":"):
 
 
 def plot_most_likely_dynamics(model,
-                              xlim=(-4, 4), ylim=(-3, 3), nxpts=30, nypts=30,
-                              alpha=0.8, ax=None, figsize=(3, 3)):
+                              xlim=(-10, 10), ylim=(-10, 10), nxpts=30, nypts=30,
+                              alpha=0.8, ax=None, figsize=(10, 10)):
 
     # K = model.K
-    assert model.D == 2
+    # assert model.D == 2
     x = np.linspace(*xlim, nxpts)
     y = np.linspace(*ylim, nypts)
     X, Y = np.meshgrid(x, y)
@@ -85,13 +85,16 @@ def plot_most_likely_dynamics(model,
 
 
 def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
-                num_state_override, figurepath):
+                num_hidden_state_override, figurepath, rslds_ll_analysis, latent_dim_state_range):
     """Train a Switching Linear Dynamical System."""
     # %% Making a bin_sums that's all trials, because idk how to do cross
     # validation with this method yet
-
+    # %%
+    trind_train = [i for i, x in enumerate(
+        trial_classification) if x == "train" or "model_select" or "test"]
     trainset = []
-
+    # S = []
+    # trial_count = 1
     for iTrial in range(len(trial_classification)):
         S_temp = data.spikes[iTrial]
         for iUnit in range(len(S_temp)):
@@ -101,12 +104,11 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
             else:
                 temp_indices = np.arange(0, len(temp), 1)
             temp_binned = [temp[i] for i in temp_indices]
-            if len(trainset) <= iUnit:
-                trainset.append(temp_binned)
-            else:
-                trainset[iUnit].extend(temp_binned)
-        # print(iTrial)
-
+            if iTrial in trind_train:
+                if len(trainset) <= iUnit:
+                    trainset.append(temp_binned)
+                else:
+                    trainset[iUnit].extend(temp_binned)
     # Okay now that we have the training trials in its own variable, we need
     # to turn it into the right shape for training, presumably.
 
@@ -114,15 +116,42 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
         if iUnit == 0:
             bin_sums = trainset[iUnit]
         else:
-            bin_sums = np.vstack(
-                (bin_sums, trainset[iUnit]))
+            bin_sums = np.vstack((bin_sums, trainset[iUnit]))
+        # print(iUnit)
+
+    # trainset = []
+
+    # for iTrial in range(len(trial_classification)):
+    #     S_temp = data.spikes[iTrial]
+    #     for iUnit in range(len(S_temp)):
+    #         temp = S_temp[iUnit]
+    #         if is_it_breaux == 1:
+    #             temp_indices = np.arange(0, len(temp), bin_size)
+    #         else:
+    #             temp_indices = np.arange(0, len(temp), 1)
+    #         temp_binned = [temp[i] for i in temp_indices]
+    #         if len(trainset) <= iUnit:
+    #             trainset.append(temp_binned)
+    #         else:
+    #             trainset[iUnit].extend(temp_binned)
+    #     # print(iTrial)
+
+    # # Okay now that we have the training trials in its own variable, we need
+    # # to turn it into the right shape for training, presumably.
+
+    # for iUnit in range(len(trainset)):
+    #     if iUnit == 0:
+    #         bin_sums = trainset[iUnit]
+    #     else:
+    #         bin_sums = np.vstack(
+    #             (bin_sums, trainset[iUnit]))
         # print(iUnit)
 
     # %% Okay NOW we train
 
     # time_bins = bin_sums.shape[1]
     observation_dimensions = bin_sums.shape[0]
-    number_of_states = num_state_override
+    number_of_states = num_hidden_state_override
     bin_sums = bin_sums.astype(int)
 
     y = np.transpose(bin_sums)
@@ -137,29 +166,60 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
 
     # cumulative_variance = np.cumsum(explained_variance)
     # num_latent_dims = sum(cumulative_variance < .5)
-    num_latent_dims = 10
+
+    if rslds_ll_analysis == 1:
+        num_latent_dims = latent_dim_state_range
+    elif rslds_ll_analysis == 0:
+        num_latent_dims = 10
 
     # %% Train
-    # Set the parameters of the HMM
-    K = number_of_states       # number of discrete states
-    D_latent = num_latent_dims       # number of latent dimensions
-    D_obs = observation_dimensions      # number of observed dimensions
 
-    # %% rSLDS
-    # Fit with Laplace EM
-    model = ssm.SLDS(D_obs, K, D_latent,
-                     transitions="recurrent_only",
-                     dynamics="diagonal_gaussian",
-                     emissions="poisson",
-                     single_subspace=True)
-    model.initialize(y)
-    q_elbos_lem, q_lem = model.fit(y, method="laplace_em",
-                                   variational_posterior="structured_meanfield",
-                                   initialize=False, num_iters=50)
-    xhat_lem = q_lem.mean_continuous_states[0]
-    zhat_lem = model.most_likely_states(xhat_lem, y)
-    model_params = model.params
+    if rslds_ll_analysis == 0:
+        # Set the parameters of the HMM
+        K = number_of_states       # number of discrete states
+        D_latent = num_latent_dims       # number of latent dimensions
+        D_obs = observation_dimensions      # number of observed dimensions
 
+        # %% rSLDS
+        # Fit with Laplace EM
+        model = ssm.SLDS(D_obs, K, D_latent,
+                         transitions="recurrent",
+                         dynamics="diagonal_gaussian",
+                         emissions="poisson",
+                         single_subspace=True)
+        model.initialize(y)
+        q_elbos_lem, q_lem = model.fit(y, method="laplace_em",
+                                       variational_posterior="structured_meanfield",
+                                       initialize=False, num_iters=25)
+        xhat_lem = q_lem.mean_continuous_states[0]
+        zhat_lem = model.most_likely_states(xhat_lem, y)
+        model_params = model.params
+    elif rslds_ll_analysis == 1:
+        model = []
+        model_params = []
+        xhat_lem = []
+        for iLatentDim in num_latent_dims:
+            K = number_of_states       # number of discrete states
+            D_latent = iLatentDim     # number of latent dimensions
+            D_obs = observation_dimensions      # number of observed dimensions
+
+            # %% rSLDS
+            # Fit with Laplace EM
+            model_temp = ssm.SLDS(D_obs, K, D_latent,
+                                  transitions="recurrent",
+                                  dynamics="diagonal_gaussian",
+                                  emissions="poisson",
+                                  single_subspace=True)
+            model_temp.initialize(y)
+            q_elbos_lem, q_lem = model_temp.fit(y, method="laplace_em",
+                                                variational_posterior="structured_meanfield",
+                                                initialize=False, num_iters=50)
+            xhat_lem_temp = q_lem.mean_continuous_states[0]
+            zhat_lem = model_temp.most_likely_states(xhat_lem_temp, y)
+
+            xhat_lem.append(xhat_lem_temp)
+            model_params.append(model_temp.params)
+            model.append(model_temp)
     # %% lds
     # model = LDS(D_obs, D_latent, emissions="poisson")
     # model.initialize(y)
@@ -192,11 +252,12 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     plt.tight_layout()
     plt.savefig(figurepath + "/rslds/training.png")
 
-    plt.figure()
-    plot_trajectory(zhat_lem, xhat_lem, ls=":")
-    plt.title("Inferred, Laplace-EM")
-    plt.tight_layout()
-    plt.savefig(figurepath + "/rslds/three_PCs.png")
+    if rslds_ll_analysis == 0:
+        plt.figure()
+        plot_trajectory(zhat_lem, xhat_lem, ls=":")
+        plt.title("Inferred, Laplace-EM")
+        plt.tight_layout()
+        plt.savefig(figurepath + "/rslds/three_PCs.png")
 
     # plt.figure(figsize=(6, 6))
     # ax = plt.subplot(111)

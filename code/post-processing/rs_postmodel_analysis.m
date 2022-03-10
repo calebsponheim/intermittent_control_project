@@ -1,6 +1,7 @@
 function rs_postmodel_analysis(meta,data)
 
-file_base_base = 'C:\Users\Caleb (Work)';
+% file_base_base = 'C:\Users\Caleb (Work)';
+file_base_base = 'C:\Users\calebsponheim';
 
 [~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', 'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', 'barney', 'blood orange', 'cerise');
 
@@ -51,8 +52,13 @@ plot_state_lengths(meta,snippet_data)
 
 extrema_vs_transition_timing(data,meta)
 
-if meta.use_rslds == 1
+if meta.plot_ll_rslds == 1
     plot_rslds_ll(data,meta)
 end
+if meta.use_rslds == 1
+    plot_eigs(meta,colors)
+
+end
+
 
 end

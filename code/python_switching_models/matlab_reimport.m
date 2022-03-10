@@ -12,13 +12,13 @@ filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'RJRTP0.05sBins\'];
 
-state_num = 11;
+state_num = 16;
 num_states_subject = state_num;
-meta.analyze_all_trials = 0; 
+meta.analyze_all_trials = 1; 
 plot_ll_hmm = 0;
-plot_ll_rslds = 1;
-use_rslds = 0;
-
+plot_ll_rslds = 0;
+use_rslds = 1;
+meta.filepath = filepath;
 decoded_data = readmatrix(...
     [filepath 'decoded_data_hmm.csv']...
     ) + 1;
@@ -33,11 +33,12 @@ rslds_check = files_in_filepath(cellfun(@(x) contains(x,'rslds'),files_in_filepa
 if contains(rslds_check{1},'rslds')
     decoded_data_rslds = readmatrix(...
         [filepath 'decoded_data_rslds.csv']...
-        )' + 1;
+        ) + 1;
 
     ll_rslds = readmatrix(...
         [filepath 'rslds_likelihood.csv']...
-        )';
+        );
+    ll_rslds = ll_rslds(2:end,:);
 end
 [decoded_data_rslds] = censor_and_threshold_HMM_states(decoded_data_rslds);
 
@@ -237,9 +238,10 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
         state_range = state_num;
     end
     meta.optimal_number_of_states = state_num;
-    meta.trials_to_plot = 1:25;
+    meta.trials_to_plot = 1:100;
     meta.crosstrain = 0;
     meta.use_rslds = use_rslds;
+    meta.plot_ll_rslds = plot_ll_rslds;
     if plot_ll_hmm == 1
         % Plotting LL
         if length(ll_files) == 1
@@ -312,8 +314,12 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
     
     
     if use_rslds == 1
-        decoded_data = decoded_data_rslds;
-        decoded_data_selected_state_num = decoded_data;
+        if plot_ll_rslds == 1
+            decoded_data = decoded_data_rslds;
+            decoded_data_selected_state_num = decoded_data(state_num,:);
+        else
+            decoded_data_selected_state_num = decoded_data_rslds';
+        end
     else
         decoded_data_selected_state_num = decoded_data(end,:);
     end
