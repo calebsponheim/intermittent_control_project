@@ -1,4 +1,4 @@
-function plot_state_normalized_velocity(meta,data,snippet_data,colors)
+function meta = plot_state_normalized_velocity(meta,data,snippet_data,colors)
 %%
 
 % colors = hsv(meta.optimal_number_of_states);
@@ -32,6 +32,9 @@ for iState = 1:size(snippet_data,2)
             end
         end %iSnippet
         interpnormspeedmean{iState} = nanmean(interpnormspeed{iState},1);
+        line_fit_temp = polyfit(1:size(interpnormspeedmean{iState},2),interpnormspeedmean{iState},1);
+        line_slope_temp = line_fit_temp(1);
+        meta.acc_classification(iState) = (line_slope_temp >= 0);
         interpnormspeedstderr{iState} = nanstd(interpnormspeed{iState},1) / sqrt(size(interpnormspeed{iState},1));
         % plot the normalized speed
         figure('Visible','of','color','white'); hold on;

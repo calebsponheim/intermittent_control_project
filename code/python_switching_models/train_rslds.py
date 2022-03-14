@@ -19,7 +19,8 @@ from ssm import LDS
 
 
 color_names = ["windows blue", "red", "amber", "faded green", "deep aqua", "fresh green",
-               "indian red", "orangeish", "old rose", "azul", "barney", "blood orange", "cerise"]
+               "indian red", "orangeish", "old rose", "azul", "barney", "blood orange",
+               "cerise", "orange", "red", "salmon", "lilac"]
 colors = sns.xkcd_palette(color_names)
 sns.set_style("white")
 sns.set_context("talk")
@@ -170,7 +171,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     if rslds_ll_analysis == 1:
         num_latent_dims = latent_dim_state_range
     elif rslds_ll_analysis == 0:
-        num_latent_dims = 10
+        num_latent_dims = 25
 
     # %% Train
 

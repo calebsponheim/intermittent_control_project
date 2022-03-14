@@ -12,8 +12,18 @@ ax = gca;
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
 for iState = 1:size(real_eigenvalues,1)
-    plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color',colors(iState,:));
+    if meta.acc_classification(iState) == 1
+        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color',colors(1,:));
+    elseif meta.acc_classification(iState) == 0
+        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color',colors(2,:));
+    end
 end
 xlabel('Real Component')
 ylabel('Imaginary Component')
+title('Blue = Accelerative | Red = Decelerative')
+
+hold off
+saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_eigs.png']);
+close gcf
+
 end

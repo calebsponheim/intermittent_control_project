@@ -1,9 +1,9 @@
-function rs_postmodel_analysis(meta,data)
+function [meta, snippet_data] = rs_postmodel_analysis(meta,data)
 
 % file_base_base = 'C:\Users\Caleb (Work)';
 file_base_base = 'C:\Users\calebsponheim';
 
-[~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', 'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', 'barney', 'blood orange', 'cerise');
+[~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', 'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', 'barney', 'blood orange', 'cerise', 'orange', 'red', 'salmon', 'lilac');
 
 %% Create Plot Figure Results Folder
 if meta.crosstrain == 0
@@ -42,7 +42,7 @@ plot_all_trials_v2(meta,data,colors);
 plot_extrema_vs_transitions(meta,data)
 
 % Plot normalized velocity
-plot_state_normalized_velocity(meta,data,snippet_data,colors)
+meta = plot_state_normalized_velocity(meta,data,snippet_data,colors);
 
 % Plot Mean Snippet Lengths
 
@@ -57,7 +57,6 @@ if meta.plot_ll_rslds == 1
 end
 if meta.use_rslds == 1
     plot_eigs(meta,colors)
-
 end
 
 
