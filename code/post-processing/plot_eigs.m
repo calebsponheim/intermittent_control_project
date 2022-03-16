@@ -23,7 +23,7 @@ ylabel('Imaginary Component')
 title('Blue = Accelerative | Red = Decelerative')
 
 hold off
-saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_eigs.png']);
+saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs.png']);
 close gcf
 
 end

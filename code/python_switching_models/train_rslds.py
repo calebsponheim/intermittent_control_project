@@ -171,7 +171,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     if rslds_ll_analysis == 1:
         num_latent_dims = latent_dim_state_range
     elif rslds_ll_analysis == 0:
-        num_latent_dims = 25
+        num_latent_dims = 8
 
     # %% Train
 
@@ -191,7 +191,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
         model.initialize(y)
         q_elbos_lem, q_lem = model.fit(y, method="laplace_em",
                                        variational_posterior="structured_meanfield",
-                                       initialize=False, num_iters=25)
+                                       initialize=False, num_iters=50)
         xhat_lem = q_lem.mean_continuous_states[0]
         zhat_lem = model.most_likely_states(xhat_lem, y)
         model_params = model.params

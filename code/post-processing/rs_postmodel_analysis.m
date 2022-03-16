@@ -57,6 +57,7 @@ if meta.plot_ll_rslds == 1
 end
 if meta.use_rslds == 1
     plot_eigs(meta,colors)
+    eig_angles(meta,colors)
 end
 
 
