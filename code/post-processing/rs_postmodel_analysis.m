@@ -33,7 +33,7 @@ plot_single_trials_v2(meta,data,colors)
 % Plot Segments
 plot_state_snippets(meta,data,snippet_data,colors)
 % Plot State Direction
-plot_state_direction(meta,data,snippet_data,colors)
+snippet_direction = plot_state_direction(meta,data,snippet_data,colors);
 
 % Plot all Trials
 plot_all_trials_v2(meta,data,colors);
@@ -57,7 +57,7 @@ if meta.plot_ll_rslds == 1
 end
 if meta.use_rslds == 1
     plot_eigs(meta,colors)
-    eig_angles(meta,colors)
+    eig_angles(meta,snippet_direction,colors)
 end
 
 

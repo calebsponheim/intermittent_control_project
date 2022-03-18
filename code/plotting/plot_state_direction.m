@@ -1,4 +1,4 @@
-function plot_state_direction(meta,data,snippet_data,colors)
+function [snippet_direction] = plot_state_direction(meta,data,snippet_data,colors)
 %%
 % colors = hsv(meta.optimal_number_of_states);
 

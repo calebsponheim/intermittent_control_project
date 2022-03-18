@@ -20,8 +20,8 @@ rslds_ll_analysis = 0
 latent_dim_state_range = np.arange(4, 6)
 
 subject = 'rs'
-task = 'CO'
-num_hidden_state_override = 16
+task = 'RTP'
+num_hidden_state_override = 11
 
 # %% Running it
 model, xhat_lem, y, model_params, real_eigenvalues_out, imaginary_eigenvalues_out = run_rslds(

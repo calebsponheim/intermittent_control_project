@@ -32,12 +32,18 @@ for iState = 1:size(snippet_data,2)
             end
         end %iSnippet
         interpnormspeedmean{iState} = nanmean(interpnormspeed{iState},1);
-        line_fit_temp = polyfit(1:size(interpnormspeedmean{iState},2),interpnormspeedmean{iState},1);
+        line_fit_temp = polyfit(max_res,interpnormspeedmean{iState},1);
         line_slope_temp = line_fit_temp(1);
-        meta.acc_classification(iState) = (line_slope_temp >= 0);
+        if line_slope_temp > .2
+            meta.acc_classification(iState) = 1;
+        elseif line_slope_temp < -.2
+            meta.acc_classification(iState) = 0;
+        else
+            meta.acc_classification(iState) = 2;
+        end
         interpnormspeedstderr{iState} = nanstd(interpnormspeed{iState},1) / sqrt(size(interpnormspeed{iState},1));
         % plot the normalized speed
-        figure('Visible','of','color','white'); hold on;
+        figure('Visible','off','color','white'); hold on;
         patch([max_res fliplr(max_res)],[(interpnormspeedmean{iState}+interpnormspeedstderr{iState})...
             fliplr((interpnormspeedmean{iState}-interpnormspeedstderr{iState}))],colors(iState,:),'edgecolor','none')
         alpha(0.4)
