@@ -43,14 +43,14 @@ for iState = 1:size(real_eigenvalues,2)
         dec_states_imag = [acc_states_imag imaginary_eigenvalues{iState}];
     end
 end
-edges = -2:.25:2;
+edges = -2:.1:2;
 [acc_states_real_counts,acc_states_real_edges] = histcounts(reshape(acc_states_real,[1,size(acc_states_real,1)*size(acc_states_real,2)]),edges);
 [dec_states_real_counts,dec_states_real_edges] = histcounts(reshape(dec_states_real,[1,size(dec_states_real,1)*size(dec_states_real,2)]),edges);
 
 figure('color','w','visible','off');
 hold on;
-bar(acc_states_real_edges(2:end)-.125,acc_states_real_counts,'facecolor',colors(1,:),'FaceAlpha',0.2)
-bar(dec_states_real_edges(2:end)-.125,dec_states_real_counts,'facecolor',colors(2,:),'FaceAlpha',0.2)
+bar(acc_states_real_edges(2:end)-.05,acc_states_real_counts,'facecolor',colors(1,:),'FaceAlpha',0.2)
+bar(dec_states_real_edges(2:end)-.05,dec_states_real_counts,'facecolor',colors(2,:),'FaceAlpha',0.2)
 box off;
 text(1,50,{'Blue = Accelerative ','Red = Decelerative','Purple = Overlap'})
 title('Real Components of Eigenvalues')
