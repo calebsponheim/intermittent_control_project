@@ -10,8 +10,8 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'RJRTP0.05sBins\'];
 
 % filepath = [filepath_base 'RSCO0.05sBins\'];
-% filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
-filepath = [filepath_base 'RSRTP0.05sBins\'];
+filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
+% filepath = [filepath_base 'RSRTP0.05sBins\'];
 
 state_num = 11;
 num_states_subject = state_num;

@@ -97,10 +97,12 @@ for iCombo = 1:size(state_combos,1)
 end
 
 % Step 7: plot
-figure;
-plot(real(complex_eigenvector_angles(:,3)),kinematic_direction_angles,'o')
+figure('Visible','off');
+% scatter3(real(complex_eigenvector_angles(:,3)),imag(complex_eigenvector_angles(:,3)), kinematic_direction_angles,'o')
+plot(real(complex_eigenvector_angles(:,3)),imag(complex_eigenvector_angles(:,3)),'o')
 xlabel('real component of angles between eigenvectors')
-ylabel('angles between kinematic directions of movement')
+ylabel('imaginary component of angles between eigenvectors')
+% zlabel('kinematic angle differences')
 hold off
 saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles.png']);
 close gcf

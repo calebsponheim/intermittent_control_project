@@ -82,6 +82,47 @@ def plot_most_likely_dynamics(model,
     plt.tight_layout()
 
     return ax
+
+
+def plot_most_likely_dynamics_3(model,
+                                xlim=(-10, 10), ylim=(-10, 10), zlim=(-10, 10), nxpts=15, nypts=15,
+                                nzpts=15, alpha=0.3, ax=None, figsize=(20, 20)):
+
+    # K = model.K
+    # assert model.D == 2
+    x = np.linspace(*xlim, nxpts)
+    y = np.linspace(*ylim, nypts)
+    z = np.linspace(*zlim, nzpts)
+    X, Y, Z = np.meshgrid(x, y, z)
+    xyz = np.column_stack((X.ravel(), Y.ravel(), Z.ravel()))
+
+    # Get the probability of each state at each xy location
+    log_Ps = model.transitions.log_transition_matrices(
+        xyz, np.zeros((nxpts * nypts * nzpts, 0)), np.ones_like(xyz, dtype=bool), None)
+    z_mod = np.argmax(log_Ps[:, 0, :], axis=-1)
+    z_mod = np.concatenate([[z_mod[0]], z_mod])
+
+    if ax is None:
+        fig = plt.figure(figsize=figsize)
+        ax = fig.add_subplot(111, projection='3d')
+
+    for k, (A, b) in enumerate(zip(model.dynamics.As, model.dynamics.bs)):
+        dxyzdt_m = xyz.dot(A.T) + b - xyz
+
+        zk = z_mod == k
+        if zk.sum(0) > 0:
+            ax.quiver(xyz[zk, 0], xyz[zk, 1], xyz[zk, 2],
+                      dxyzdt_m[zk, 0]*.2, dxyzdt_m[zk, 1]*.2,  dxyzdt_m[zk, 2]*.2,
+                      color=colors[k % len(colors)], alpha=alpha)
+
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+    ax.set_zlabel('$x_3$')
+
+    plt.tight_layout()
+
+    return ax
+
 # %%
 
 
@@ -171,7 +212,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     if rslds_ll_analysis == 1:
         num_latent_dims = latent_dim_state_range
     elif rslds_ll_analysis == 0:
-        num_latent_dims = 8
+        num_latent_dims = 3
 
     # %% Train
 
@@ -181,7 +222,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
         D_latent = num_latent_dims       # number of latent dimensions
         D_obs = observation_dimensions      # number of observed dimensions
 
-        # %% rSLDS
+        # % rSLDS
         # Fit with Laplace EM
         model = ssm.SLDS(D_obs, K, D_latent,
                          transitions="recurrent",
@@ -204,7 +245,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
             D_latent = iLatentDim     # number of latent dimensions
             D_obs = observation_dimensions      # number of observed dimensions
 
-            # %% rSLDS
+            # rSLDS
             # Fit with Laplace EM
             model_temp = ssm.SLDS(D_obs, K, D_latent,
                                   transitions="recurrent",
@@ -260,12 +301,11 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
         plt.tight_layout()
         plt.savefig(figurepath + "/rslds/three_PCs.png")
 
+    # %%
     # plt.figure(figsize=(6, 6))
-    # ax = plt.subplot(111)
-    # lim = abs(xhat_lem).max(axis=0) + 1
-    # plot_most_likely_dynamics(model, xlim=(-lim[0], lim[0]), ylim=(-lim[1], lim[1]), ax=ax)
-    # plt.title("Most Likely Dynamics, Laplace-EM")
-    # plt.savefig(figurepath + "/rslds/2D_flowfield.png")
+    plot_most_likely_dynamics_3(model)
+    plt.title("Most Likely Dynamics, Laplace-EM")
+    plt.savefig(figurepath + "/rslds/3D_flowfield.png")
 
     # %%
     return model, xhat_lem, y, model_params
