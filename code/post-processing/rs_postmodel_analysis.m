@@ -56,8 +56,8 @@ if meta.plot_ll_rslds == 1
     plot_rslds_ll(data,meta)
 end
 if meta.use_rslds == 1
-    plot_eigs(meta,colors)
-    eig_angles(meta,snippet_direction,colors)
+%     plot_eigs(meta,colors)
+%     eig_angles(meta,snippet_direction,colors)
 end
 
 

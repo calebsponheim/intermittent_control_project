@@ -123,6 +123,46 @@ def plot_most_likely_dynamics_3(model,
 
     return ax
 
+
+def plot_most_likely_dynamics_ind(model, figurepath, xlim=(-10, 10),
+                                  ylim=(-10, 10), zlim=(-10, 10),
+                                  nxpts=15, nypts=15, nzpts=15, alpha=0.7,
+                                  ax=None, figsize=(20, 20)):
+
+    # K = model.K
+    # assert model.D == 2
+    x = np.linspace(*xlim, nxpts)
+    y = np.linspace(*ylim, nypts)
+    z = np.linspace(*zlim, nzpts)
+    X, Y, Z = np.meshgrid(x, y, z)
+    xyz = np.column_stack((X.ravel(), Y.ravel(), Z.ravel()))
+
+    # Get the probability of each state at each xy location
+    log_Ps = model.transitions.log_transition_matrices(
+        xyz, np.zeros((nxpts * nypts * nzpts, 0)), np.ones_like(xyz, dtype=bool), None)
+    z_mod = np.argmax(log_Ps[:, 0, :], axis=-1)
+    z_mod = np.concatenate([[z_mod[0]], z_mod])
+
+    for k, (A, b) in enumerate(zip(model.dynamics.As, model.dynamics.bs)):
+        dxyzdt_m = xyz.dot(A.T) + b - xyz
+
+        zk = z_mod == k
+        if zk.sum(0) > 0:
+            fig = plt.figure(figsize=figsize)
+            ax = fig.add_subplot(111, projection='3d')
+            ax.quiver(xyz[zk, 0], xyz[zk, 1], xyz[zk, 2],
+                      dxyzdt_m[zk, 0]*.5, dxyzdt_m[zk, 1]*.5,  dxyzdt_m[zk, 2]*.5,
+                      color=colors[k % len(colors)], alpha=alpha)
+            ax.set_xlim([-10, 10])
+            ax.set_ylim([-10, 10])
+            ax.set_zlim([-10, 10])
+            ax.set_xlabel('$x_1$')
+            ax.set_ylabel('$x_2$')
+            ax.set_zlabel('$x_3$')
+
+            plt.title("Most Likely Dynamics, State " + str(k+1))
+            plt.savefig(figurepath + "/rslds/3D_flowfield" + str(k) + ".png")
+            plt.close()
 # %%
 
 
@@ -303,9 +343,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
 
     # %%
     # plt.figure(figsize=(6, 6))
-    plot_most_likely_dynamics_3(model)
-    plt.title("Most Likely Dynamics, Laplace-EM")
-    plt.savefig(figurepath + "/rslds/3D_flowfield.png")
+    plot_most_likely_dynamics_ind(model, figurepath)
 
     # %%
     return model, xhat_lem, y, model_params
