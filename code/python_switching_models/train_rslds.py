@@ -46,6 +46,29 @@ def plot_trajectory(z, x, ax=None, ls=":"):
     return ax
 
 
+def plot_trajectory_ind(z, x, figurepath):
+    for iState in np.unique(z):
+        fig = plt.figure(figsize=(10, 10))
+        ax = plt.axes(projection='3d')
+        ax = fig.gca()
+        ax.plot3D(x[z == iState, 0],
+                  x[z == iState, 1],
+                  x[z == iState, 2],
+                  lw=1, ls="-",
+                  color=colors[iState % len(colors)],
+                  alpha=.8)
+        ax.set_xlim([-10, 10])
+        ax.set_ylim([-10, 10])
+        ax.set_zlim([-10, 10])
+        ax.set_xlabel('$x_1$')
+        ax.set_ylabel('$x_2$')
+        ax.set_zlabel('$x_3$')
+
+        plt.title("Trajectories, State " + str(iState+1))
+        plt.savefig(figurepath + "/rslds/low-d_trajectories_" + str(iState+1) + ".png")
+        plt.close()
+
+
 def plot_most_likely_dynamics(model,
                               xlim=(-10, 10), ylim=(-10, 10), nxpts=30, nypts=30,
                               alpha=0.8, ax=None, figsize=(10, 10)):
@@ -147,22 +170,21 @@ def plot_most_likely_dynamics_ind(model, figurepath, xlim=(-10, 10),
         dxyzdt_m = xyz.dot(A.T) + b - xyz
 
         zk = z_mod == k
-        if zk.sum(0) > 0:
-            fig = plt.figure(figsize=figsize)
-            ax = fig.add_subplot(111, projection='3d')
-            ax.quiver(xyz[zk, 0], xyz[zk, 1], xyz[zk, 2],
-                      dxyzdt_m[zk, 0]*.5, dxyzdt_m[zk, 1]*.5,  dxyzdt_m[zk, 2]*.5,
-                      color=colors[k % len(colors)], alpha=alpha)
-            ax.set_xlim([-10, 10])
-            ax.set_ylim([-10, 10])
-            ax.set_zlim([-10, 10])
-            ax.set_xlabel('$x_1$')
-            ax.set_ylabel('$x_2$')
-            ax.set_zlabel('$x_3$')
+        fig = plt.figure(figsize=figsize)
+        ax = fig.add_subplot(111, projection='3d')
+        ax.quiver(xyz[zk, 0], xyz[zk, 1], xyz[zk, 2],
+                  dxyzdt_m[zk, 0]*.5, dxyzdt_m[zk, 1]*.5,  dxyzdt_m[zk, 2]*.5,
+                  color=colors[k % len(colors)], alpha=alpha)
+        ax.set_xlim([-10, 10])
+        ax.set_ylim([-10, 10])
+        ax.set_zlim([-10, 10])
+        ax.set_xlabel('$x_1$')
+        ax.set_ylabel('$x_2$')
+        ax.set_zlabel('$x_3$')
 
-            plt.title("Most Likely Dynamics, State " + str(k+1))
-            plt.savefig(figurepath + "/rslds/3D_flowfield" + str(k) + ".png")
-            plt.close()
+        plt.title("Most Likely Dynamics, State " + str(k+1))
+        plt.savefig(figurepath + "/rslds/3D_flowfield" + str(k+1) + ".png")
+        plt.close()
 # %%
 
 
@@ -341,9 +363,13 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
         plt.tight_layout()
         plt.savefig(figurepath + "/rslds/three_PCs.png")
 
+    if
+    plot_most_likely_dynamics_ind(model, figurepath)
+
+    plot_trajectory_ind(zhat_lem, xhat_lem, figurepath)
+
     # %%
     # plt.figure(figsize=(6, 6))
-    plot_most_likely_dynamics_ind(model, figurepath)
 
     # %%
     return model, xhat_lem, y, model_params

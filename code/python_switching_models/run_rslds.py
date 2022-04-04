@@ -43,8 +43,8 @@ def run_rslds(
     """
     # %%
 
-    folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
-    # folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
+    # folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
+    folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
     folderpath_base = folderpath_base_base + "data/python_switching_models/"
     figurepath_base = folderpath_base_base + "figures/"
 

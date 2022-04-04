@@ -1,7 +1,7 @@
 function [meta, snippet_data] = rs_postmodel_analysis(meta,data)
 
-% file_base_base = 'C:\Users\Caleb (Work)';
-file_base_base = 'C:\Users\calebsponheim';
+file_base_base = 'C:\Users\Caleb (Work)';
+% file_base_base = 'C:\Users\calebsponheim';
 
 [~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', 'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', 'barney', 'blood orange', 'cerise', 'orange', 'red', 'salmon', 'lilac');
 
