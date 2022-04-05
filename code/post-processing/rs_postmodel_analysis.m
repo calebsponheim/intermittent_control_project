@@ -1,7 +1,7 @@
 function [meta, snippet_data] = rs_postmodel_analysis(meta,data)
 
-file_base_base = 'C:\Users\Caleb (Work)';
-% file_base_base = 'C:\Users\calebsponheim';
+% file_base_base = 'C:\Users\Caleb (Work)';
+file_base_base = 'C:\Users\calebsponheim';
 
 [~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', 'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', 'barney', 'blood orange', 'cerise', 'orange', 'red', 'salmon', 'lilac');
 
@@ -56,8 +56,8 @@ if meta.plot_ll_rslds == 1
     plot_rslds_ll(data,meta)
 end
 if meta.use_rslds == 1
-%     plot_eigs(meta,colors)
-%     eig_angles(meta,snippet_direction,colors)
+    plot_eigs(meta,colors)
+    eig_angles(meta,snippet_direction,colors)
 end
 
 

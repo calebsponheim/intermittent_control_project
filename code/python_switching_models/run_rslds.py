@@ -43,8 +43,8 @@ def run_rslds(
     """
     # %%
 
-    # folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
-    folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
+    folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
+    # folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
     folderpath_base = folderpath_base_base + "data/python_switching_models/"
     figurepath_base = folderpath_base_base + "figures/"
 
@@ -213,7 +213,7 @@ def run_rslds(
         real_eigenvectors = []
         imaginary_eigenvectors = []
         for iLatentDim in np.arange(model.dynamics.As.shape[0]):
-            eigenvectors_temp, eigenvalues_temp = eig(model.dynamics.As[iLatentDim, :, :])
+            eigenvalues_temp, eigenvectors_temp = eig(model.dynamics.As[iLatentDim, :, :])
 
             real_eigenvalues.append(np.around(eigenvalues_temp.real, 3))
             imaginary_eigenvalues.append(np.around(eigenvalues_temp.imag, 3))
@@ -268,18 +268,18 @@ def run_rslds(
     #     write.writerow(state_range)
 
     if rslds_ll_analysis == 0:
-        real_eigenvectors_out = pd.DataFrame(real_eigenvectors)
-        real_eigenvectors_out.to_csv(folderpath + "real_eigenvectors.csv", index=False)
-        imaginary_eigenvectors_out = pd.DataFrame(imaginary_eigenvectors)
-        imaginary_eigenvectors_out.to_csv(folderpath + "imaginary_eigenvectors.csv", index=False)
+        real_eigenvalues_out = pd.DataFrame(real_eigenvalues)
+        real_eigenvalues_out.to_csv(folderpath + "real_eigenvalues.csv", index=False)
+        imaginary_eigenvalues_out = pd.DataFrame(imaginary_eigenvalues)
+        imaginary_eigenvalues_out.to_csv(folderpath + "imaginary_eigenvalues.csv", index=False)
 
-        for iState in range(len(real_eigenvalues)):
-            real_eigenvalues_out = pd.DataFrame(real_eigenvalues[iState])
-            real_eigenvalues_out.to_csv(folderpath + "real_eigenvalues_state_" +
-                                        str(iState+1) + ".csv", index=False)
-            imaginary_eigenvalues_out = pd.DataFrame(imaginary_eigenvalues[iState])
-            imaginary_eigenvalues_out.to_csv(folderpath + "imaginary_eigenvalues_state_" +
-                                             str(iState+1) + ".csv", index=False)
+        for iState in range(len(real_eigenvectors)):
+            real_eigenvectors_out = pd.DataFrame(real_eigenvectors[iState])
+            real_eigenvectors_out.to_csv(folderpath + "real_eigenvectors_state_" +
+                                         str(iState+1) + ".csv", index=False)
+            imaginary_eigenvectors_out = pd.DataFrame(imaginary_eigenvectors[iState])
+            imaginary_eigenvectors_out.to_csv(folderpath + "imaginary_eigenvectors_state_" +
+                                              str(iState+1) + ".csv", index=False)
 
     # %%
-    return model, xhat_lem, y, model_params, real_eigenvectors_out, imaginary_eigenvectors_out
+    return model, xhat_lem, y, model_params, real_eigenvalues_out, imaginary_eigenvectors_out

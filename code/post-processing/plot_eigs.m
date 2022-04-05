@@ -1,11 +1,11 @@
 function plot_eigs(meta,colors)
 %%
-for iState = 1:meta.optimal_number_of_states
-    real_eigenvalues_temp = readmatrix([meta.filepath 'real_eigenvalues_state_' num2str(iState) '.csv']);
-    real_eigenvalues{iState} = real_eigenvalues_temp(2:end,:);
-    imaginary_eigenvalues_temp = readmatrix([meta.filepath 'imaginary_eigenvalues_state_' num2str(iState) '.csv']);
-    imaginary_eigenvalues{iState} = imaginary_eigenvalues_temp(2:end,:);
-end
+real_eigenvalues = readmatrix([meta.filepath 'real_eigenvalues.csv']);
+real_eigenvalues = real_eigenvalues(2:end,:);
+imaginary_eigenvalues = readmatrix([meta.filepath 'imaginary_eigenvalues.csv']);
+imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
+
+
 %% Scatter
 figure('color','w','visible','off');
 hold on;
@@ -15,11 +15,11 @@ ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
 for iState = 1:size(real_eigenvalues,2)
     if meta.acc_classification(iState) == 1
-        plot(real_eigenvalues{iState},imaginary_eigenvalues{iState},'o','color',colors(1,:));
+        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color',colors(1,:));
     elseif meta.acc_classification(iState) == 0
-        plot(real_eigenvalues{iState},imaginary_eigenvalues{iState},'o','color',colors(2,:));
+        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color',colors(2,:));
     elseif meta.acc_classification(iState) == 2
-        plot(real_eigenvalues{iState},imaginary_eigenvalues{iState},'o','color','black');
+        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color','black');
     end
 end
 xlabel('Real Component')
@@ -36,21 +36,22 @@ acc_states_real = [];
 acc_states_imag = [];
 for iState = 1:size(real_eigenvalues,2)
     if meta.acc_classification(iState) == 1
-        acc_states_real = [acc_states_real real_eigenvalues{iState}];
-        acc_states_imag = [acc_states_imag imaginary_eigenvalues{iState}];
+        acc_states_real = [acc_states_real real_eigenvalues(iState,:)];
+        acc_states_imag = [acc_states_imag imaginary_eigenvalues(iState,:)];
     elseif meta.acc_classification(iState) == 0
-        dec_states_real = [acc_states_real real_eigenvalues{iState}];
-        dec_states_imag = [acc_states_imag imaginary_eigenvalues{iState}];
+        dec_states_real = [acc_states_real real_eigenvalues(iState,:)];
+        dec_states_imag = [acc_states_imag imaginary_eigenvalues(iState,:)];
     end
 end
-edges = -2:.1:2;
+bin_size = 0.25;
+edges = -2:bin_size:2;
 [acc_states_real_counts,acc_states_real_edges] = histcounts(reshape(acc_states_real,[1,size(acc_states_real,1)*size(acc_states_real,2)]),edges);
 [dec_states_real_counts,dec_states_real_edges] = histcounts(reshape(dec_states_real,[1,size(dec_states_real,1)*size(dec_states_real,2)]),edges);
 
 figure('color','w','visible','off');
 hold on;
-bar(acc_states_real_edges(2:end)-.05,acc_states_real_counts,'facecolor',colors(1,:),'FaceAlpha',0.2)
-bar(dec_states_real_edges(2:end)-.05,dec_states_real_counts,'facecolor',colors(2,:),'FaceAlpha',0.2)
+bar(acc_states_real_edges(2:end)-(bin_size/2),acc_states_real_counts,'facecolor',colors(1,:),'FaceAlpha',0.2)
+bar(dec_states_real_edges(2:end)-(bin_size/2),dec_states_real_counts,'facecolor',colors(2,:),'FaceAlpha',0.2)
 box off;
 text(1,50,{'Blue = Accelerative ','Red = Decelerative','Purple = Overlap'})
 title('Real Components of Eigenvalues')
@@ -63,8 +64,8 @@ close gcf
 
 figure('color','w','visible','off');
 hold on;
-bar(acc_states_imag_edges(2:end)-.125,acc_states_imag_counts,'facecolor',colors(1,:),'FaceAlpha',0.2)
-bar(dec_states_imag_edges(2:end)-.125,dec_states_imag_counts,'facecolor',colors(2,:),'FaceAlpha',0.2)
+bar(acc_states_imag_edges(2:end)-(bin_size/2),acc_states_imag_counts,'facecolor',colors(1,:),'FaceAlpha',0.2)
+bar(dec_states_imag_edges(2:end)-(bin_size/2),dec_states_imag_counts,'facecolor',colors(2,:),'FaceAlpha',0.2)
 box off;
 text(1,50,{'Blue = Accelerative ','Red = Decelerative','Purple = Overlap'})
 title('Imaginary Components of Eigenvalues')

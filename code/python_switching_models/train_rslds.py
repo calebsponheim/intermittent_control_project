@@ -274,7 +274,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     if rslds_ll_analysis == 1:
         num_latent_dims = latent_dim_state_range
     elif rslds_ll_analysis == 0:
-        num_latent_dims = 3
+        num_latent_dims = 8
 
     # %% Train
 
@@ -363,10 +363,10 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
         plt.tight_layout()
         plt.savefig(figurepath + "/rslds/three_PCs.png")
 
-    if
-    plot_most_likely_dynamics_ind(model, figurepath)
+    if num_latent_dims == 3:
+        plot_most_likely_dynamics_ind(model, figurepath)
 
-    plot_trajectory_ind(zhat_lem, xhat_lem, figurepath)
+        plot_trajectory_ind(zhat_lem, xhat_lem, figurepath)
 
     # %%
     # plt.figure(figsize=(6, 6))

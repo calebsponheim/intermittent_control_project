@@ -1,7 +1,7 @@
 %% Import Data from Python and integrate into matlab struct.
 
-% file_base_base = 'C:\Users\calebsponheim';
-file_base_base = 'C:\Users\Caleb (Work)';
+file_base_base = 'C:\Users\calebsponheim';
+% file_base_base = 'C:\Users\Caleb (Work)';
 filepath_base = [file_base_base '\Documents\git\intermittent_control_project\data\python_switching_models\'];
 figure_base = [file_base_base '\Documents\git\intermittent_control_project\figures\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05_sBins_move_window_only\'];
