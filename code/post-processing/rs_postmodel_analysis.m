@@ -3,7 +3,9 @@ function [meta, snippet_data] = rs_postmodel_analysis(meta,data)
 % file_base_base = 'C:\Users\Caleb (Work)';
 file_base_base = 'C:\Users\calebsponheim';
 
-[~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', 'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', 'barney', 'blood orange', 'cerise', 'orange', 'red', 'salmon', 'lilac');
+[~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', ...
+    'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', ...
+    'barney', 'blood orange', 'cerise', 'orange', 'red', 'salmon', 'lilac');
 
 %% Create Plot Figure Results Folder
 if meta.crosstrain == 0
@@ -47,7 +49,7 @@ meta = plot_state_normalized_velocity(meta,data,snippet_data,colors);
 % Plot Mean Snippet Lengths
 
 plot_state_lengths(meta,snippet_data)
-    
+
 % Compare Extrema Timing to Transition Timing
 
 extrema_vs_transition_timing(data,meta)

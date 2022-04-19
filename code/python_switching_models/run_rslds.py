@@ -74,9 +74,9 @@ def run_rslds(
 
     class meta:
         def __init__(self, train_portion, model_select_portion, test_portion):
-            self.train_portion = 0.5
-            self.model_select_portion = 0.1
-            self.test_portion = 0.4
+            self.train_portion = train_portion
+            self.model_select_portion = model_select_portion
+            self.test_portion = test_portion
 
     bin_size = 50  # in milliseconds
     meta = meta(train_portion, model_select_portion, test_portion)
@@ -142,93 +142,26 @@ def run_rslds(
     # %% Getting test_and_train data
 
     # %%
-    # trind_test = [
-    #     i for i, x in enumerate(trial_classification) if x == "model_select" or "test"
-    # ]
-    # testset = []
-    # # S = []
-    # # trial_count = 1
-    # for iTrial in range(len(trial_classification)):
-    #     S_temp = data.spikes[iTrial]
-    #     for iUnit in range(len(S_temp)):
-    #         temp = S_temp[iUnit]
-    #         if is_it_breaux == 1:
-    #             temp_indices = np.arange(0, len(temp), bin_size)
-    #         else:
-    #             temp_indices = np.arange(0, len(temp), 1)
-    #         temp_binned = [temp[i] for i in temp_indices]
-    #         if iTrial in trind_test:
-    #             if len(testset) <= iUnit:
-    #                 testset.append(temp_binned)
-    #             else:
-    #                 testset[iUnit].extend(temp_binned)
-    # # Okay now that we have the training trials in its own variable, we need
-    # # to turn it into the right shape for training, presumably.
 
-    # for iUnit in range(len(testset)):
-    #     if iUnit == 0:
-    #         test_data = testset[iUnit]
-    #     else:
-    #         test_data = np.vstack((test_data, testset[iUnit]))
+    decoded_data_rslds = []
 
-    # trainset = []
+    for iTrial in range(len(y)):
+        decoded_data_rslds.append(model.most_likely_states(xhat_lem[iTrial], y[iTrial]))
 
-    # for iTrial in range(len(trial_classification)):
-    #     S_temp = data.spikes[iTrial]
-    #     for iUnit in range(len(S_temp)):
-    #         temp = S_temp[iUnit]
-    #         if is_it_breaux == 1:
-    #             temp_indices = np.arange(0, len(temp), bin_size)
-    #         else:
-    #             temp_indices = np.arange(0, len(temp), 1)
-    #         temp_binned = [temp[i] for i in temp_indices]
-    #         if len(trainset) <= iUnit:
-    #             trainset.append(temp_binned)
-    #         else:
-    #             trainset[iUnit].extend(temp_binned)
-    #     # print(iTrial)
+    # rslds_likelihood = model.emissions.log_likelihoods(
+    #     data=y, input=np.zeros([y[0].shape[0], 0]), mask=None, tag=[], x=xhat_lem)
 
-    # # Okay now that we have the training trials in its own variable, we need
-    # # to turn it into the right shape for training, presumably.
+    real_eigenvalues = []
+    imaginary_eigenvalues = []
+    real_eigenvectors = []
+    imaginary_eigenvectors = []
+    for iLatentDim in np.arange(model.dynamics.As.shape[0]):
+        eigenvalues_temp, eigenvectors_temp = eig(model.dynamics.As[iLatentDim, :, :])
 
-    # for iUnit in range(len(trainset)):
-    #     if iUnit == 0:
-    #         bin_sums = trainset[iUnit]
-    #     else:
-    #         bin_sums = np.vstack(
-    #             (bin_sums, trainset[iUnit]))
-
-    # # %% rSLDS likelihood calculation and state decoding
-    # bin_sums = bin_sums.astype(int)
-
-    # y = np.transpose(bin_sums)
-
-    if rslds_ll_analysis == 0:
-        decoded_data_rslds = model.most_likely_states(xhat_lem, y)
-        rslds_likelihood = model.emissions.log_likelihoods(
-            data=y, input=np.zeros([y.shape[0], 0]), mask=None, tag=[], x=xhat_lem)
-
-        real_eigenvalues = []
-        imaginary_eigenvalues = []
-        real_eigenvectors = []
-        imaginary_eigenvectors = []
-        for iLatentDim in np.arange(model.dynamics.As.shape[0]):
-            eigenvalues_temp, eigenvectors_temp = eig(model.dynamics.As[iLatentDim, :, :])
-
-            real_eigenvalues.append(np.around(eigenvalues_temp.real, 3))
-            imaginary_eigenvalues.append(np.around(eigenvalues_temp.imag, 3))
-            real_eigenvectors.append(np.around(eigenvectors_temp.real, 3))
-            imaginary_eigenvectors.append(np.around(eigenvectors_temp.imag, 3))
-    elif rslds_ll_analysis == 1:
-        decoded_data_rslds = []
-        rslds_likelihood = []
-        for iLatentDim in np.arange(0, latent_dim_state_range.shape[0], 1):
-            decoded_data_rslds.append(model[iLatentDim].most_likely_states(
-                xhat_lem[iLatentDim], y))
-
-            likelihood_temp = model[iLatentDim].emissions.log_likelihoods(
-                data=y, input=np.zeros([y.shape[0], 0]), mask=None, tag=[], x=xhat_lem[iLatentDim])
-            rslds_likelihood.append(likelihood_temp[:, 0])
+        real_eigenvalues.append(np.around(eigenvalues_temp.real, 3))
+        imaginary_eigenvalues.append(np.around(eigenvalues_temp.imag, 3))
+        real_eigenvectors.append(np.around(eigenvectors_temp.real, 3))
+        imaginary_eigenvectors.append(np.around(eigenvectors_temp.imag, 3))
     # %% HMM state decoding
     decoded_data_hmm = []
     for iState in range(len(hmm_storage)):
@@ -250,9 +183,9 @@ def run_rslds(
     decoded_data_rslds_out.to_csv(
         folderpath + "decoded_data_rslds.csv", index=False)
 
-    rslds_likelihood_out = pd.DataFrame(rslds_likelihood)
-    rslds_likelihood_out.to_csv(
-        folderpath + "rslds_likelihood.csv", index=False)
+    # rslds_likelihood_out = pd.DataFrame(rslds_likelihood)
+    # rslds_likelihood_out.to_csv(
+    #     folderpath + "rslds_likelihood.csv", index=False)
 
     with open(folderpath + "trial_classifiction.csv", "w", newline="") as f:
         write = csv.writer(f, delimiter=" ", quotechar="|",
