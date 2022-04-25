@@ -117,30 +117,6 @@ def run_rslds(
 
     # analyze_params(model_params)
 
-    # %% literally making bin_sums for all trials for HMM decode
-
-    if is_it_breaux == 0:
-        bin_size = 1
-    export_set = []
-    for iTrial in range(len(trial_classification)):
-        S_temp = data.spikes[iTrial]
-        for iUnit in range(len(S_temp)):
-            temp = S_temp[iUnit]
-            temp_indices = np.arange(0, len(temp), bin_size)
-            temp_binned = [temp[i] for i in temp_indices]
-            if len(export_set) <= iUnit:
-                export_set.append(temp_binned)
-            else:
-                export_set[iUnit].extend(temp_binned)
-    # Okay now that we have the data in the right format, we need to put in an HMM-readable format.
-
-    for iUnit in range(len(export_set)):
-        if iUnit == 0:
-            bin_sums = export_set[iUnit]
-        else:
-            bin_sums = np.vstack((bin_sums, export_set[iUnit]))
-    # %% Getting test_and_train data
-
     # %%
 
     decoded_data_rslds = []
@@ -164,11 +140,8 @@ def run_rslds(
         imaginary_eigenvectors.append(np.around(eigenvectors_temp.imag, 3))
     # %% HMM state decoding
     decoded_data_hmm = []
-    for iState in range(len(hmm_storage)):
-        decoded_data_hmm.append(
-            hmm_storage[iState].most_likely_states(
-                np.transpose(np.intc(bin_sums)))
-        )
+    for iTrial in range(len(y)):
+        decoded_data_hmm.append(hmm_storage[0].most_likely_states(y[iTrial]))
 
     # %% Plot State Probabilities
 

@@ -10,10 +10,14 @@ for iTrial = 1:size(data,2)
     % Get all transition times across trials
     transition_timestamps = unique(data(iTrial).ms_relative_to_trial_start(diff(data(iTrial).states_resamp) ~= 0));
     % Get all extrema times across trials
-    speed_extrema_timestamps = unique(data(iTrial).ms_relative_to_trial_start(data(iTrial).speed == max(data(iTrial).speed)));
-    speed_extrema_timestamps = speed_extrema_timestamps(1);
+%     speed_extrema_timestamps = unique(data(iTrial).ms_relative_to_trial_start(data(iTrial).speed == max(data(iTrial).speed)));
+%     speed_extrema_timestamps = speed_extrema_timestamps(1);
 
-    for iExtrema = 1:size(speed_extrema_timestamps,1)
+    speed_extrema_timestamps = data(iTrial).ms_relative_to_trial_start(islocalmax(data(iTrial).speed,'MinProminence',.08));
+    speed_extrema_timestamps = [speed_extrema_timestamps data(iTrial).ms_relative_to_trial_start(islocalmin(data(iTrial).speed,'MinProminence',.08))];
+
+
+    for iExtrema = 1:size(speed_extrema_timestamps,2)
         % Find the closest transition time to each extrema time
         closest_transition_time_ahead = transition_timestamps(transition_timestamps > speed_extrema_timestamps(iExtrema));
         if sum(closest_transition_time_ahead) ~= 0
@@ -47,7 +51,7 @@ end
 figure('visible','off','color','w'); hold on
 bar(x(2:end),y)
 box off
-xlabel('Distance of Hidden State Transition from Speed Peak (ms)')
+xlabel('Distance of Hidden State Transition from Speed Extrema (ms)')
 ylabel('Number of Hidden State Transitions')
 
 % Save the plot

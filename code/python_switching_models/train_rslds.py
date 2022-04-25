@@ -196,7 +196,6 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     trind_train = [i for i, x in enumerate(
         trial_classification) if x == "train" or "model_select" or "test"]
     trainset = []
-    trainset = []
 
     for iTrial in range(len(trial_classification)):
         if iTrial in trind_train:

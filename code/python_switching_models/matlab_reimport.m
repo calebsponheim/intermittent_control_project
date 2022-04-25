@@ -8,21 +8,22 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
 % filepath = [filepath_base 'RJRTP0.05sBins\'];
-
 % filepath = [filepath_base 'RSCO0.05sBins\'];
+
 % filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 filepath = [filepath_base 'RSRTP0.05sBins\'];
 
-state_num = 8;
+state_num = 16;
 num_states_subject = state_num;
 meta.analyze_all_trials = 1;
 plot_ll_hmm = 0;
 plot_ll_rslds = 0;
-use_rslds = 1;
+use_rslds = 0;
 meta.filepath = filepath;
-decoded_data = readmatrix(...
+decoded_data_hmm = readmatrix(...
     [filepath 'decoded_data_hmm.csv']...
     ) + 1;
+decoded_data_hmm = decoded_data_hmm(2:end,:);
 
 files_in_filepath = dir(filepath);
 files_in_filepath = {files_in_filepath.name}';
@@ -42,7 +43,6 @@ if contains(rslds_check{1},'rslds')
     %     ll_rslds = ll_rslds(2:end,:);
 end
 [decoded_data_rslds] = censor_and_threshold_HMM_states(decoded_data_rslds);
-
 
 %%
 ll_files = files_in_filepath(cellfun(@(x) contains(x,'select_ll'),files_in_filepath));
@@ -71,7 +71,7 @@ state_range = readmatrix(...
     );
 state_range = state_range(2:end);
 
-[decoded_data] = censor_and_threshold_HMM_states(decoded_data);
+[decoded_data_hmm] = censor_and_threshold_HMM_states(decoded_data_hmm);
 % Each row is a different state number (going from 2 to 25, I guess). each
 % column is a 50ms bin. every 90 bins is a new trial
 
@@ -115,9 +115,9 @@ if contains(filepath,'190228')
             length_of_original_data(iTrial) = round(length_of_original_resampled_data/(meta.bin_size*1000));
 
             if iTrial == 1
-                decoded_trial_temp = decoded_data(state_range == state_num,1:length_of_original_data(iTrial)) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
+                decoded_trial_temp = decoded_data_hmm(state_range == state_num,1:length_of_original_data(iTrial)) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
             else
-                decoded_trial_temp = decoded_data(state_range == state_num,((sum(length_of_original_data(1:iTrial-1)):(sum(length_of_original_data(1:iTrial)))))) + 1;
+                decoded_trial_temp = decoded_data_hmm(state_range == state_num,((sum(length_of_original_data(1:iTrial-1)):(sum(length_of_original_data(1:iTrial)))))) + 1;
                 %                     decoded_trial_temp = [zeros(1,length_of_original_prewindow(iTrial)) actual_states zeros(1,length_of_original_postwindow(iTrial))];
             end
 
@@ -143,9 +143,9 @@ if contains(filepath,'190228')
         else
             if contains(filepath,'Bxcenter_out1902280')
                 if iTrial == 1
-                    decoded_trial_temp = decoded_data(1,1:90) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
+                    decoded_trial_temp = decoded_data_hmm(1,1:90) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
                 else
-                    decoded_trial_temp = decoded_data(1,(((iTrial-1)*90):((iTrial*90)-1))) + 1;
+                    decoded_trial_temp = decoded_data_hmm(1,(((iTrial-1)*90):((iTrial*90)-1))) + 1;
                 end
 
                 for iBin = 1:(length(decoded_trial_temp))
@@ -166,9 +166,9 @@ if contains(filepath,'190228')
                 length_of_original_data(iTrial) = round(length_of_original_resampled_data/(meta.bin_size*1000));
 
                 if iTrial == 1
-                    decoded_trial_temp = decoded_data(1,1:length_of_original_data(iTrial)) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
+                    decoded_trial_temp = decoded_data_hmm(1,1:length_of_original_data(iTrial)) + 1; %adding 1 because python data is zero indexed, so state "0" in python is really state "1" in matlab
                 else
-                    decoded_trial_temp = decoded_data(1,((sum(length_of_original_data(1:iTrial-1)):(sum(length_of_original_data(1:iTrial)))))) + 1;
+                    decoded_trial_temp = decoded_data_hmm(1,((sum(length_of_original_data(1:iTrial-1)):(sum(length_of_original_data(1:iTrial)))))) + 1;
                 end
                 decoded_trial_temp_resamp = zeros(1,length(length_of_original_resampled_data));
 
@@ -214,7 +214,7 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
         meta.move_only = 0;
     end
 
-    if size(decoded_data,2) == 1
+    if size(decoded_data_hmm,2) == 1
         state_range = state_num;
     end
     meta.optimal_number_of_states = state_num;
@@ -301,7 +301,7 @@ elseif contains(filepath,'RS') || contains(filepath,'RJ')
         decoded_data_selected_state_num = decoded_data_rslds;
         %         end
     else
-        decoded_data_selected_state_num = decoded_data(end,:);
+        decoded_data_selected_state_num = decoded_data_hmm;
     end
 
     for iTrial = 1:size(trial_classification,1)
