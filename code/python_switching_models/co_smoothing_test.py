@@ -8,7 +8,8 @@ Created on Wed Apr 27 12:26:55 2022
 from nlb_tools.nwb_interface import NWBDataset
 from nlb_tools.make_tensors import make_train_input_tensors, make_eval_input_tensors, make_eval_target_tensors, save_to_h5
 from nlb_tools.evaluation import evaluate
-
+from pynwb import NWBHDF5IO
+from nwbwidgets import nwb2widget
 import ssm
 import numpy as np
 import h5py
@@ -20,6 +21,16 @@ dataset_name = 'mc_maze_small'
 datapath = 'C:/Users/calebsponheim/Documents/git/nlb_tools/000127/sub-Han'
 dataset = NWBDataset(datapath)
 
+
+# %%
+
+io = NWBHDF5IO(datapath, mode='r')
+nwb = io.read()
+
+nwb2widget(nwb)
+
+
+# %%
 # Choose the phase here, either 'val' or 'test'
 phase = 'val'
 
@@ -85,12 +96,12 @@ num_eval = len(eval_datas)
 
 # Set parameters
 T = train_datas[0].shape[0]  # trial length
-K = 2  # number of discrete states
+K = 1  # number of discrete states
 D = 3  # dimensionality of latent states
 N = train_datas[0].shape[1]  # input dimensionality
 
 slds = ssm.SLDS(N, K, D,
-                transitions='recurrent',
+                transitions='standard',
                 emissions='poisson',
                 emission_kwargs=dict(link="log"),
                 dynamics_kwargs={
