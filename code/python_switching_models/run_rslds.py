@@ -17,6 +17,7 @@ from train_HMM import train_HMM
 # from LL_curve_fitting import LL_curve_fitting
 import numpy as np
 from numpy.linalg import eig
+from rslds_cosmoothing import rslds_cosmoothing
 
 # from state_prob_over_time import state_prob_over_time
 
@@ -104,7 +105,18 @@ def run_rslds(
 
     # LL_curve_fitting(select_ll, state_range)
 
-    # %% Running PCA-based estimate of # of latent dimensions
+    # %% Trying to Plot/Cluster Model/State Parameters
+
+    # analyze_params(model_params)
+
+    # %% Running Co-Smoothing
+
+    if rslds_ll_analysis == 1:
+        test_bits_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
+                                          is_it_breaux, num_hidden_state_override, figurepath,
+                                          rslds_ll_analysis, latent_dim_state_range)
+        test_bits_sum = pd.DataFrame(test_bits_sum)
+        test_bits_sum.to_csv(folderpath + "test_bits_sum.csv", index=False)
 
     # %% Running RSLDS
     model, xhat_lem, y, model_params = train_rslds(
@@ -112,10 +124,6 @@ def run_rslds(
         is_it_breaux, num_hidden_state_override, figurepath, rslds_ll_analysis,
         latent_dim_state_range
     )
-
-    # %% Trying to Plot/Cluster Model/State Parameters
-
-    # analyze_params(model_params)
 
     # %%
 

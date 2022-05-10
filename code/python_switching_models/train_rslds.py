@@ -221,35 +221,32 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     # cumulative_variance = np.cumsum(explained_variance)
     # num_latent_dims = sum(cumulative_variance < .5)
 
-    if rslds_ll_analysis == 1:
-        num_latent_dims = latent_dim_state_range
-    elif rslds_ll_analysis == 0:
-        num_latent_dims = 8
+    num_latent_dims = 8
 
-    # %% Train
-        # Set the parameters of the HMM
-        K = number_of_states       # number of discrete states
-        D_latent = num_latent_dims       # number of latent dimensions
-        D_obs = observation_dimensions      # number of observed dimensions
+# %% Train
+    # Set the parameters of the HMM
+    K = number_of_states       # number of discrete states
+    D_latent = num_latent_dims       # number of latent dimensions
+    D_obs = observation_dimensions      # number of observed dimensions
 
-        # % rSLDS
-        # Fit with Laplace EM
-        model = ssm.SLDS(D_obs, K, D_latent,
-                         transitions="recurrent",
-                         dynamics="diagonal_gaussian",
-                         emissions="poisson",
-                         single_subspace=True)
-        model.initialize(y)
-        q_elbos_lem, q_lem = model.fit(y, method="laplace_em",
-                                       variational_posterior="structured_meanfield",
-                                       initialize=False, num_iters=25)
-        xhat_lem = []
-        zhat_lem = []
-        for iTrial in range(len(y)):
-            xhat_lem_temp = q_lem.mean_continuous_states[iTrial]
-            xhat_lem.append(xhat_lem_temp)
-            zhat_lem.append(model.most_likely_states(xhat_lem_temp, y[iTrial]))
-        model_params = model.params
+    # % rSLDS
+    # Fit with Laplace EM
+    model = ssm.SLDS(D_obs, K, D_latent,
+                     transitions="recurrent",
+                     dynamics="diagonal_gaussian",
+                     emissions="poisson",
+                     single_subspace=True)
+    model.initialize(y)
+    q_elbos_lem, q_lem = model.fit(y, method="laplace_em",
+                                   variational_posterior="structured_meanfield",
+                                   initialize=False, num_iters=25)
+    xhat_lem = []
+    zhat_lem = []
+    for iTrial in range(len(y)):
+        xhat_lem_temp = q_lem.mean_continuous_states[iTrial]
+        xhat_lem.append(xhat_lem_temp)
+        zhat_lem.append(model.most_likely_states(xhat_lem_temp, y[iTrial]))
+    model_params = model.params
     # %% lds
     # model = LDS(D_obs, D_latent, emissions="poisson")
     # model.initialize(y)
