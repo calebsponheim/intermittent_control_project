@@ -5,7 +5,7 @@ Created on Mon August 8th 2021.
 @author: calebsponheim
 """
 
-
+import os
 import csv
 from import_matlab_data import import_matlab_data
 from assign_trials_to_HMM_group import assign_trials_to_HMM_group
@@ -43,9 +43,13 @@ def run_rslds(
 
     """
     # %%
-
-    folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
-    # folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
+    current_working_directory = os.getcwd()
+    if "calebsponheim" in current_working_directory:
+        folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
+    elif "dali" in current_working_directory:
+        folderpath_base_base = "/dali/nicho/caleb/git/intermittent_control_project/"
+    elif "Caleb (Work)" in current_working_directory:
+        folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
     folderpath_base = folderpath_base_base + "data/python_switching_models/"
     figurepath_base = folderpath_base_base + "figures/"
 
