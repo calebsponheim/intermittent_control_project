@@ -1,0 +1,19 @@
+#
+# Author: Lasse Collin
+#
+# This file has been put into the public domain.
+# You can do whatever you want with this file.
+#
+
+prefix=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment
+exec_prefix=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment
+libdir=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment/lib
+includedir=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment/include
+
+Name: liblzma
+Description: General purpose data compression library
+URL: https://tukaani.org/xz/
+Version: 5.2.5
+Cflags: -I${includedir}
+Libs: -L${libdir} -llzma
+Libs.private: -pthread -lpthread

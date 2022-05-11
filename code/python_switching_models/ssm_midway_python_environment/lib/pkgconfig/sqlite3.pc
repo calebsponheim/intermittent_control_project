@@ -1,0 +1,13 @@
+# Package Information for pkg-config
+
+prefix=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: SQLite
+Description: SQL database engine
+Version: 3.38.3
+Libs: -L${libdir} -lsqlite3
+Libs.private: -lz -lm -ldl -lpthread 
+Cflags: -I${includedir}

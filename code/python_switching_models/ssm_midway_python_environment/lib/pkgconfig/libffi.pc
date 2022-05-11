@@ -1,0 +1,11 @@
+prefix=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+toolexeclibdir=${libdir}
+includedir=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment/include
+
+Name: libffi
+Description: Library supporting Foreign Function Interfaces
+Version: 3.3
+Libs: -L${toolexeclibdir} -lffi
+Cflags: -I${includedir}

@@ -1,0 +1,13 @@
+prefix=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment
+exec_prefix=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment
+libdir=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment/lib
+sharedlibdir=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment/lib
+includedir=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.12
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
