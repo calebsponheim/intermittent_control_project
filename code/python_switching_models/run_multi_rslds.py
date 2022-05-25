@@ -16,10 +16,10 @@ test_portion = 0.2
 hidden_max_state_range = 120
 hidden_state_skip = 1
 rslds_ll_analysis = 1
-latent_dim_state_range = np.arange(2, 30)
+latent_dim_state_range = np.arange(1, 30)
 
 subject = 'rs'
-task = 'CO'
+task = 'RTP'
 num_hidden_state_override = 11
 
 # %% Running it

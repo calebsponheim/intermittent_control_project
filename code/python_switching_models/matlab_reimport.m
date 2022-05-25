@@ -18,7 +18,7 @@ num_states_subject = state_num;
 meta.analyze_all_trials = 1;
 plot_ll_hmm = 0;
 plot_ll_rslds = 0;
-use_rslds = 0;
+use_rslds = 1;
 meta.filepath = filepath;
 decoded_data_hmm = readmatrix(...
     [filepath 'decoded_data_hmm.csv']...

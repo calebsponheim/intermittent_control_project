@@ -194,21 +194,24 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     # validation with this method yet
     # %%
     trind_train = [i for i, x in enumerate(
-        trial_classification) if x == "train" or "model_select" or "test"]
+        trial_classification) if x == "train"]
+    trind_test = [i for i, x in enumerate(
+        trial_classification) if x == "test"]
     trainset = []
-
+    testset = []
+    # S = []a
+    # trial_count = 1
     for iTrial in range(len(trial_classification)):
         if iTrial in trind_train:
             trainset.append(np.transpose(np.array(data.spikes[iTrial])))
+        elif iTrial in trind_test:
+            testset.append(np.transpose(np.array(data.spikes[iTrial])))
 
-    bin_sums = trainset
     # %% Okay NOW we train
 
     # time_bins = bin_sums.shape[1]
-    observation_dimensions = bin_sums[0].shape[1]
+    observation_dimensions = trainset[0].shape[1]
     number_of_states = num_hidden_state_override
-
-    y = bin_sums
 
     sns.set_style("white")
     sns.set_context("talk")
@@ -221,7 +224,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     # cumulative_variance = np.cumsum(explained_variance)
     # num_latent_dims = sum(cumulative_variance < .5)
 
-    num_latent_dims = 8
+    num_latent_dims = 30
 
 # %% Train
     # Set the parameters of the HMM
@@ -236,39 +239,29 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
                      dynamics="diagonal_gaussian",
                      emissions="poisson",
                      single_subspace=True)
-    model.initialize(y)
-    q_elbos_lem, q_lem = model.fit(y, method="laplace_em",
+    model.initialize(trainset)
+    q_elbos_lem, q_lem = model.fit(trainset, method="laplace_em",
                                    variational_posterior="structured_meanfield",
                                    initialize=False, num_iters=25)
     xhat_lem = []
-    zhat_lem = []
-    for iTrial in range(len(y)):
+    # zhat_lem = []
+    for iTrial in range(len(trainset)):
         xhat_lem_temp = q_lem.mean_continuous_states[iTrial]
         xhat_lem.append(xhat_lem_temp)
-        zhat_lem.append(model.most_likely_states(xhat_lem_temp, y[iTrial]))
+        # zhat_lem.append(model.most_likely_states(xhat_lem_temp, trainset[iTrial]))
     model_params = model.params
-    # %% lds
-    # model = LDS(D_obs, D_latent, emissions="poisson")
-    # model.initialize(y)
-    # q_elbos_lem, q_lem = model.fit(
-    #     y, method="laplace_em", variational_posterior="structured_meanfield",
-    #     num_iters=100, initialize=False)
 
-    # xhat_lem = q_lem.mean_continuous_states[0]
-    # # zhat_lem = model.most_likely_states(xhat_lem, y)
-    # model_params = model.params
+# %% Testset
 
-    # %% slds
-
-    # model = ssm.SLDS(D_obs, K, D_latent, emissions="poisson")
-    # model.initialize(y)
-    # q_elbos_lem, q_lem = model.fit(y, method="laplace_em",
-    #                                variational_posterior="structured_meanfield",
-    #                                initialize=False, num_iters=50)
-
-    # xhat_lem = q_lem.mean_continuous_states[0]
-    # zhat_lem = model.most_likely_states(xhat_lem, y)
-    # model_params = model.params
+    q_elbos_lem_test, q_lem_test = model.approximate_posterior(
+        datas=testset,
+        method="laplace_em",
+        variational_posterior="structured_meanfield",
+        num_iters=25)
+    test_states = []
+    for iTrial in range(len(testset)):
+        test_states.append(model.most_likely_states(
+            q_lem_test.mean_continuous_states[iTrial], testset[iTrial]))
 
     # %% Plot some results
     plt.figure()
@@ -292,4 +285,4 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     #     plot_trajectory_ind(zhat_lem, xhat_lem, figurepath)
 
     # %%
-    return model, xhat_lem, y, model_params
+    return model, xhat_lem, trainset, model_params

@@ -116,9 +116,9 @@ def run_rslds(
     # %% Running Co-Smoothing
 
     if rslds_ll_analysis == 1:
-        test_bits_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-                                          is_it_breaux, num_hidden_state_override, figurepath,
-                                          rslds_ll_analysis, latent_dim_state_range)
+        test_bits_sum, test_states = rslds_cosmoothing(data, trial_classification, meta, bin_size,
+                                                       is_it_breaux, num_hidden_state_override, figurepath,
+                                                       rslds_ll_analysis, latent_dim_state_range)
         test_bits_sum = pd.DataFrame(test_bits_sum)
         test_bits_sum.to_csv(folderpath + "test_bits_sum.csv", index=False)
 

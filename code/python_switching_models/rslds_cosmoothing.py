@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 def neg_log_likelihood(rates, spikes, zero_warning=True):
+    # %%
     """Calculate Poisson negative log likelihood given rates and spikes.
 
     formula: -log(e^(-r) / n! * r^n)
@@ -106,7 +107,11 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
 
         # %% Getting bits_per_spike
         test_bits = []
+        test_states = []
         for iTrial in range(len(testset)):
+            test_states.append(model.most_likely_states(
+                q_lem_test.mean_continuous_states[iTrial], testset[iTrial]))
+
             nll_model = neg_log_likelihood(test_rates[iTrial], testset[iTrial])
             nll_null = neg_log_likelihood(
                 np.tile(
@@ -118,4 +123,4 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
             test_bits.append((nll_null - nll_model) / np.nansum(testset[iTrial]) / np.log(2))
 
         test_bits_sum.append(sum(test_bits))
-    return test_bits_sum
+    return test_bits_sum, test_states

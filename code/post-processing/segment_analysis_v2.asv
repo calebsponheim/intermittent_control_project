@@ -42,5 +42,5 @@ for iTrial = 1:size(data,2)
 end
 
 % Count up occurences of transitions
-[M,F] = mode(state_transitions_combined);
+[M,F,C] = countcats(categorical(state_transitions_combined));
 end % end of function
