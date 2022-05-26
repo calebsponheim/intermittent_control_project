@@ -226,7 +226,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     # cumulative_variance = np.cumsum(explained_variance)
     # num_latent_dims = sum(cumulative_variance < .5)
 
-    num_latent_dims = 3
+    num_latent_dims = 7
 
 # %% Train
     # Set the parameters of the HMM
