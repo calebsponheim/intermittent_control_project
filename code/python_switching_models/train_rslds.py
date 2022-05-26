@@ -199,9 +199,11 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
         trial_classification) if x == "test"]
     trainset = []
     testset = []
+    fullset = []
     # S = []a
     # trial_count = 1
     for iTrial in range(len(trial_classification)):
+        fullset.append(np.transpose(np.array(data.spikes[iTrial])))
         if iTrial in trind_train:
             trainset.append(np.transpose(np.array(data.spikes[iTrial])))
         elif iTrial in trind_test:
@@ -224,7 +226,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     # cumulative_variance = np.cumsum(explained_variance)
     # num_latent_dims = sum(cumulative_variance < .5)
 
-    num_latent_dims = 30
+    num_latent_dims = 3
 
 # %% Train
     # Set the parameters of the HMM
@@ -245,10 +247,10 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
                                    initialize=False, num_iters=25)
     xhat_lem = []
     # zhat_lem = []
-    for iTrial in range(len(trainset)):
-        xhat_lem_temp = q_lem.mean_continuous_states[iTrial]
-        xhat_lem.append(xhat_lem_temp)
-        # zhat_lem.append(model.most_likely_states(xhat_lem_temp, trainset[iTrial]))
+    # for iTrial in range(len(trainset)):
+    #     xhat_lem_temp = q_lem.mean_continuous_states[iTrial]
+    #     xhat_lem.append(xhat_lem_temp)
+    #     zhat_lem.append(model.most_likely_states(xhat_lem_temp, trainset[iTrial]))
     model_params = model.params
 
 # %% Testset
@@ -258,10 +260,15 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
         method="laplace_em",
         variational_posterior="structured_meanfield",
         num_iters=25)
-    test_states = []
-    for iTrial in range(len(testset)):
-        test_states.append(model.most_likely_states(
-            q_lem_test.mean_continuous_states[iTrial], testset[iTrial]))
+    # test_states = []
+    # for iTrial in range(len(testset)):
+    #     test_states.append(model.most_likely_states(
+    #         q_lem_test.mean_continuous_states[iTrial], testset[iTrial]))
+
+    for iTrial in range(len(trind_train)):
+        xhat_lem.insert(trind_train[iTrial], q_lem.mean_continuous_states[iTrial])
+    for iTrial in range(len(trind_test)):
+        xhat_lem.insert(trind_test[iTrial], q_lem_test.mean_continuous_states[iTrial])
 
     # %% Plot some results
     plt.figure()
@@ -285,4 +292,4 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     #     plot_trajectory_ind(zhat_lem, xhat_lem, figurepath)
 
     # %%
-    return model, xhat_lem, trainset, model_params
+    return model, xhat_lem, fullset, model_params

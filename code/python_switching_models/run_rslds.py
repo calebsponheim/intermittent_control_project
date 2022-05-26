@@ -123,7 +123,7 @@ def run_rslds(
         test_bits_sum.to_csv(folderpath + "test_bits_sum.csv", index=False)
 
     # %% Running RSLDS
-    model, xhat_lem, y, model_params = train_rslds(
+    model, xhat_lem, fullset, model_params = train_rslds(
         data, trial_classification, meta, bin_size,
         is_it_breaux, num_hidden_state_override, figurepath, rslds_ll_analysis,
         latent_dim_state_range
@@ -133,8 +133,8 @@ def run_rslds(
 
     decoded_data_rslds = []
 
-    for iTrial in range(len(y)):
-        decoded_data_rslds.append(model.most_likely_states(xhat_lem[iTrial], y[iTrial]))
+    for iTrial in range(len(fullset)):
+        decoded_data_rslds.append(model.most_likely_states(xhat_lem[iTrial], fullset[iTrial]))
 
     # rslds_likelihood = model.emissions.log_likelihoods(
     #     data=y, input=np.zeros([y[0].shape[0], 0]), mask=None, tag=[], x=xhat_lem)
@@ -152,8 +152,8 @@ def run_rslds(
         imaginary_eigenvectors.append(np.around(eigenvectors_temp.imag, 3))
     # %% HMM state decoding
     decoded_data_hmm = []
-    for iTrial in range(len(y)):
-        decoded_data_hmm.append(hmm_storage[0].most_likely_states(y[iTrial]))
+    for iTrial in range(len(fullset)):
+        decoded_data_hmm.append(hmm_storage[0].most_likely_states(fullset[iTrial]))
 
     # %% Plot State Probabilities
 
@@ -200,4 +200,4 @@ def run_rslds(
                                               str(iState+1) + ".csv", index=False)
 
     # %%
-    return model, xhat_lem, y, model_params, real_eigenvalues_out, imaginary_eigenvectors_out
+    return model, xhat_lem, fullset, model_params, real_eigenvalues_out, imaginary_eigenvectors_out

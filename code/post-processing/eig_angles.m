@@ -1,6 +1,6 @@
-function eig_angles(meta,snippet_direction,colors)
+function eig_angles(meta,snippet_direction,colors,sorted_state_transitions)
 
-for iState = 1:meta.optimal_number_of_states
+for iState = 1:meta.optimal_number_of_statesz
     real_eigenvectors_temp = readmatrix([meta.filepath 'real_eigenvectors_state_' num2str(iState) '.csv']);
     real_eigenvectors{iState} = real_eigenvectors_temp(2:end,:);
     imaginary_eigenvectors_temp = readmatrix ([meta.filepath 'imaginary_eigenvectors_state_' num2str(iState) '.csv']);
@@ -23,26 +23,23 @@ end
 for iState = 1:size(snippet_direction,2)
     avg_direction(iState) = circ_mean(snippet_direction(snippet_direction(:,iState) ~= 0,iState));
 end
-% Step 3: figure out combinatorics of different state combinations
-
-state_combos = nchoosek(1:size(snippet_direction,2),2);
 
 % All combo loop
 complex_eigenvector_angles = [];
-for iCombo = 1:size(state_combos,1)
-    %%%%%%%%%%%%%%%%% Real
-    normalized_complex_eigenvector_temp_one = complex_eigenvectors{state_combos(iCombo,1)}/norm(complex_eigenvectors{state_combos(iCombo,1)});
-    normalized_complex_eigenvector_temp_two = complex_eigenvectors{state_combos(iCombo,2)}/norm(complex_eigenvectors{state_combos(iCombo,2)});
+for iCombo = 1:size(sorted_state_transitions,1)
+
+    normalized_complex_eigenvector_temp_one = complex_eigenvectors{sorted_state_transitions(iCombo,1)}/norm(complex_eigenvectors{sorted_state_transitions(iCombo,1)});
+    normalized_complex_eigenvector_temp_two = complex_eigenvectors{sorted_state_transitions(iCombo,2)}/norm(complex_eigenvectors{sorted_state_transitions(iCombo,2)});
     
     % Step 4: calculate dot products between all state eigenvector combos
     complex_dot_product_temp = dot(normalized_complex_eigenvector_temp_one,normalized_complex_eigenvector_temp_two);
     
     % Step 5: calculate product of vector length combos
-    complex_vector_length_product_temp = complex_eigenvector_lengths(state_combos(iCombo,1))*complex_eigenvector_lengths(state_combos(iCombo,2));
+    complex_vector_length_product_temp = complex_eigenvector_lengths(sorted_state_transitions(iCombo,1))*complex_eigenvector_lengths(sorted_state_transitions(iCombo,2));
     
     % Step 6: calculate arcosine((X.Y)/(|X||Y|)) = theta
     complex_eigenvector_angles(iCombo,:) = acos(complex_dot_product_temp ./ complex_vector_length_product_temp);
-    kinematic_direction_angles(iCombo) = circ_dist(avg_direction(state_combos(iCombo,1)),avg_direction(state_combos(iCombo,2)));
+    kinematic_direction_angles(iCombo) = circ_dist(avg_direction(sorted_state_transitions(iCombo,1)),avg_direction(sorted_state_transitions(iCombo,2)));
 end
 
 % Step 7: plot

@@ -1,4 +1,4 @@
-function [meta,data,snippet_data] = segment_analysis_v2(meta,data)
+function [meta,data,snippet_data,sorted_state_transitions] = segment_analysis_v2(meta,data)
 % a segment is a snippet is a segment is a snippet
 
 snippet_count_per_state = ones(meta.optimal_number_of_states,1);
@@ -33,7 +33,7 @@ for iTrial = 1:size(data,2)
             snippet_data(iState).snippet_trial(snippet_count_per_state(iState)) = iTrial;
             if iSnippet == 1
                 snippet_data(iState).snippet_timestamps{snippet_count_per_state(iState)} = (snippet_boundaries(iSnippet)):(snippet_boundaries(iSnippet+1));
-            else    
+            else
                 snippet_data(iState).snippet_timestamps{snippet_count_per_state(iState)} = (snippet_boundaries(iSnippet)+1):(snippet_boundaries(iSnippet+1));
             end
             snippet_count_per_state(iState) = snippet_count_per_state(iState) + 1;
@@ -42,5 +42,12 @@ for iTrial = 1:size(data,2)
 end
 
 % Count up occurences of transitions
-[M,F] = mode(state_transitions_combined);
+[N,X] = histc(state_transitions_combined',unique(state_transitions_combined));
+M = [state_transitions(:,1),state_transitions(:,2),N(X)];
+[~, I] = sort(N(X),'descend');
+sorted_state_transitions = M(I, :);
+sorted_state_transitions = unique(sorted_state_transitions,'rows');
+[~, I] = sort(sorted_state_transitions(:,3),'descend');
+sorted_state_transitions = sorted_state_transitions(I, :);
+
 end % end of function
