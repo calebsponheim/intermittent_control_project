@@ -11,3 +11,5 @@
 module load python
 
 source activate /dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/ssm_midway_python_environment/
+
+python run_multi_rslds.py
