@@ -20,7 +20,7 @@ multiple_folds = 1
 latent_dim_state_range = np.arange(1, 102, 5)
 
 subject = 'rs'
-task = 'RTP'
+task = 'CO'
 num_hidden_state_override = 11
 
 # %% Running it
