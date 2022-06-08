@@ -117,22 +117,22 @@ def run_rslds(
     # %% Running Co-Smoothing
 
     if rslds_ll_analysis == 1:
-        test_bits_sum, test_states = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-                                                       is_it_breaux, num_hidden_state_override, figurepath,
-                                                       rslds_ll_analysis, latent_dim_state_range)
+        lls = rslds_cosmoothing(data, trial_classification, meta, bin_size,
+                                is_it_breaux, num_hidden_state_override, figurepath,
+                                rslds_ll_analysis, latent_dim_state_range)
         if multiple_folds == 1:
             num_prev_files = 0
             for file in os.listdir(folderpath):
-                if file.startswith("test_bits_sum"):
+                if file.startswith("lls"):
                     num_prev_files = num_prev_files + 1
 
-            test_bits_sum = pd.DataFrame(test_bits_sum)
-            test_bits_sum.to_csv(folderpath + "test_bits_sum_" +
-                                 str(num_prev_files + 1) + ".csv", index=False)
+            lls = pd.DataFrame(lls)
+            lls.to_csv(folderpath + "lls_" +
+                       str(num_prev_files + 1) + ".csv", index=False)
 
         else:
-            test_bits_sum = pd.DataFrame(test_bits_sum)
-            test_bits_sum.to_csv(folderpath + "test_bits_sum.csv", index=False)
+            lls = pd.DataFrame(lls)
+            lls.to_csv(folderpath + "lls.csv", index=False)
 
     # %% Running RSLDS
     model, xhat_lem, fullset, model_params = train_rslds(

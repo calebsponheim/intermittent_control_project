@@ -10,9 +10,10 @@ import numpy as np
 import autograd.numpy.random as npr
 import seaborn as sns
 
-# import matplotlib.gridspec as gridspec
-# from matplotlib.font_manager import FontProperties
-# from sklearn.decomposition import PCA as PCA_sk
+import matplotlib
+import matplotlib.gridspec as gridspec
+from matplotlib.font_manager import FontProperties
+from sklearn.decomposition import PCA as PCA_sk
 
 # npr.seed(100)
 
@@ -190,8 +191,6 @@ def plot_most_likely_dynamics_ind(model, figurepath, xlim=(-10, 10),
 def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
                 num_hidden_state_override, figurepath, rslds_ll_analysis, latent_dim_state_range):
     """Train a Switching Linear Dynamical System."""
-    # %% Making a bin_sums that's all trials, because idk how to do cross
-    # validation with this method yet
     # %%
     trind_train = [i for i, x in enumerate(
         trial_classification) if x == "train"]
@@ -219,14 +218,23 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     sns.set_context("talk")
     # %% Define number of latent dimensions using PCA
 
-    # pca_latent = PCA_sk()
-    # pca_for_latent_state = pca_latent.fit(y)
-    # explained_variance = pca_for_latent_state.explained_variance_ratio_
+    pca_input = fullset[0]
 
-    # cumulative_variance = np.cumsum(explained_variance)
-    # num_latent_dims = sum(cumulative_variance < .5)
+    for iTrial in range(len(fullset)):
+        pca_input = np.vstack([pca_input, fullset[iTrial]])
 
-    num_latent_dims = 7
+    pca_input = pca_input[1:, :]
+    pca_latent = PCA_sk()
+    pca_for_latent_state = pca_latent.fit(pca_input)
+    explained_variance = pca_for_latent_state.explained_variance_ratio_
+
+    cumulative_variance = np.cumsum(explained_variance)
+
+    # plot(explained_variance)
+    # plot(cumulative_variance)
+    num_latent_dims = sum(cumulative_variance < .9)
+
+    num_latent_dims = 8
 
 # %% Train
     # Set the parameters of the HMM
