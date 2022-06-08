@@ -26,7 +26,6 @@ for iState = 1:size(snippet_direction,2)
     avg_direction(iState) = circ_mean(snippet_direction(snippet_direction(:,iState) ~= 0,iState));
 end
 %% Okay now we calculate angles between all the other combinations of things.
-figure('Visible','on'); hold on;
 [m,n] = ndgrid(1:meta.optimal_number_of_states,1:meta.optimal_number_of_states);
 all_state_combos = [m(:),n(:)];
 
@@ -62,9 +61,9 @@ for iCombo = 1:size(all_state_combos,1)
     % Step 5: calculate product of vector length combos
 
     % Step 6: calculate arcosine((X.Y)/(|X||Y|)) = theta
-    complex_eigenvector_angles_all_combos(iCombo,:) = acos(complex_dot_product_temp./ complex_vector_length_product_temp);
+    complex_eigenvector_angles_all_combos(iCombo,:) = (complex_dot_product_temp./ complex_vector_length_product_temp);
     %     kinematic_direction_angles(iCombo) = circ_dist(avg_direction(sorted_state_transitions(iCombo,1)),avg_direction(sorted_state_transitions(iCombo,2)));
-    plot(real(complex_eigenvector_angles_all_combos(iCombo,3)),imag(complex_eigenvector_angles_all_combos(iCombo,3)),'o',"Color",'k')
+%     plot(real(complex_eigenvector_angles_all_combos(iCombo,3)),imag(complex_eigenvector_angles_all_combos(iCombo,3)),'.',"Color",'k','MarkerSize',7)
 end
 %%
 colors = cool(size(sorted_state_transitions,1));
@@ -86,20 +85,32 @@ for iCombo = 1:size(sorted_state_transitions,1)
     % Step 5: calculate product of vector length combos
 
     % Step 6: calculate arcosine((X.Y)/(|X||Y|)) = theta
-    complex_eigenvector_angles(iCombo,:) = acos(complex_dot_product_temp./ complex_vector_length_product_temp);
+    complex_eigenvector_angles(iCombo,:) = (complex_dot_product_temp./ complex_vector_length_product_temp);
     %     kinematic_direction_angles(iCombo) = circ_dist(avg_direction(sorted_state_transitions(iCombo,1)),avg_direction(sorted_state_transitions(iCombo,2)));
-    plot(real(complex_eigenvector_angles(iCombo,:)),imag(complex_eigenvector_angles(iCombo,:)),'o',"Color",colors(iCombo,:))
+%     plot(real(complex_eigenvector_angles(iCombo,:)),imag(complex_eigenvector_angles(iCombo,:)),'.',"Color",colors(iCombo,:),'MarkerSize',7)
 end
 
 
 %%
 % Step 7: plot
+figure('Visible','on'); hold on;
+for iCombo = 1:size(all_state_combos,1)
+    plot(real(complex_eigenvector_angles_all_combos(iCombo,:)),imag(complex_eigenvector_angles_all_combos(iCombo,:)),'.',"Color",'k','MarkerSize',7)
+end
+for iCombo = 1:size(sorted_state_transitions,1)
+    plot(real(complex_eigenvector_angles(iCombo,:)),imag(complex_eigenvector_angles(iCombo,:)),'.',"Color",colors(iCombo,:),'MarkerSize',7)
+end
+
+
 % scatter3(real(complex_eigenvector_angles(:,3)),imag(complex_eigenvector_angles(:,3)), kinematic_direction_angles,'o')
 xlabel('real component of angles between eigenvectors')
 ylabel('imaginary component of angles between eigenvectors')
 % zlabel('kinematic angle differences')
 hold off
+box off
+set(gcf,"Color",'White')
 saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles.png']);
+
 close gcf
 
 %% violin plot
@@ -126,6 +137,7 @@ subplot(1,2,1); hold on
 % bar([1,2],[mean(reshaped_all_combos_real) mean(reshaped_angles_real)])
 errorbar([mean(reshaped_all_combos_real) mean(reshaped_angles_real)],err_bars_real,'o')
 xlim([0 3])
+ylim([-.02 .02])
 xticklabels({'','all combo','top transitions',''})
 title('real eigenvector angles')
 
@@ -133,6 +145,7 @@ subplot(1,2,2); hold on
 % bar([3,4],[mean(reshaped_all_combos_imag) mean(reshaped_angles_imag)])
 errorbar([mean(reshaped_all_combos_imag) mean(reshaped_angles_imag)],err_bars_imag,'o')
 xlim([0 3])
+ylim([-.02 .02])
 xticklabels({'','all combo','top transitions',''})
 title('imaginary eigenvector angles')
 box off
