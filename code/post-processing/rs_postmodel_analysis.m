@@ -1,7 +1,10 @@
 function [meta, snippet_data] = rs_postmodel_analysis(meta,data)
 
-% file_base_base = 'C:\Users\Caleb (Work)';
-file_base_base = 'C:\Users\calebsponheim';
+if strcmp(getenv('USERNAME'),'calebsponheim')
+    file_base_base = 'C:\Users\calebsponheim';
+elseif strcmp(getenv('USERNAME'),'caleb_work')
+     file_base_base = 'C:\Users\Caleb (Work)';
+end
 
 [~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', ...
     'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', ...

@@ -15,12 +15,12 @@ model_select_portion = 0.0
 test_portion = 0.2
 hidden_max_state_range = 120
 hidden_state_skip = 1
-rslds_ll_analysis = 1
+rslds_ll_analysis = 0
 multiple_folds = 0
 latent_dim_state_range = np.arange(7, 8, 1)
 
 subject = 'rs'
-task = 'CO'
+task = 'RTP'
 num_hidden_state_override = 11
 
 # %% Running it

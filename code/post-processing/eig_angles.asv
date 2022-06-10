@@ -46,8 +46,8 @@ all_state_combos(ia,:) = [];
 complex_eigenvector_angles_all_combos = [];
 for iCombo = 1:size(all_state_combos,1)
 
-    normalized_complex_eigenvector_temp_one = complex_eigenvectors{all_state_combos(iCombo,1)}/norm(complex_eigenvectors{all_state_combos(iCombo,1)});
-    normalized_complex_eigenvector_temp_two = complex_eigenvectors{all_state_combos(iCombo,2)}/norm(complex_eigenvectors{all_state_combos(iCombo,2)});
+    normalized_complex_eigenvector_temp_one = complex_eigenvectors{all_state_combos(iCombo,1)};%/norm(complex_eigenvectors{all_state_combos(iCombo,1)});
+    normalized_complex_eigenvector_temp_two = complex_eigenvectors{all_state_combos(iCombo,2)};%/norm(complex_eigenvectors{all_state_combos(iCombo,2)});
 
     % Step 4: calculate dot products between all state eigenvector combos
     % of the two selected combos
@@ -70,8 +70,8 @@ colors = cool(size(sorted_state_transitions,1));
 complex_eigenvector_angles = [];
 for iCombo = 1:size(sorted_state_transitions,1)
 
-    normalized_complex_eigenvector_temp_one = complex_eigenvectors{sorted_state_transitions(iCombo,1)}/norm(complex_eigenvectors{sorted_state_transitions(iCombo,1)});
-    normalized_complex_eigenvector_temp_two = complex_eigenvectors{sorted_state_transitions(iCombo,2)}/norm(complex_eigenvectors{sorted_state_transitions(iCombo,2)});
+    normalized_complex_eigenvector_temp_one = complex_eigenvectors{sorted_state_transitions(iCombo,1)}%/norm(complex_eigenvectors{sorted_state_transitions(iCombo,1)});
+    normalized_complex_eigenvector_temp_two = complex_eigenvectors{sorted_state_transitions(iCombo,2)}%/norm(complex_eigenvectors{sorted_state_transitions(iCombo,2)});
 
     % Step 4: calculate dot products between all state eigenvector combos
     % of the two selected combos
@@ -111,7 +111,7 @@ box off
 set(gcf,"Color",'White')
 saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles.png']);
 
-% close gcf
+close gcf
 
 %% violin plot
 reshaped_all_combos_real = reshape(real(complex_eigenvector_angles_all_combos),[],1);
@@ -151,6 +151,6 @@ title('imaginary eigenvector angles')
 box off
 set(gcf,"Color","w")
 saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles_comparison.png']);
-% close gcf
+close gcf
 
 end
