@@ -212,4 +212,4 @@ def run_rslds(
                                               str(iState+1) + ".csv", index=False)
 
     # %%
-    return model, xhat_lem, fullset, model_params, real_eigenvalues_out, imaginary_eigenvectors_out
+    return model, xhat_lem, fullset, model_params, real_eigenvectors_out, imaginary_eigenvectors_out, real_eigenvalues_out, imaginary_eigenvalues_out

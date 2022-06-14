@@ -16,17 +16,20 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
 
-state_num = 11;
-num_states_subject = state_num;
+% OPTIONS
 meta.analyze_all_trials = 0;
 plot_ll_hmm = 0;
 plot_ll_rslds = 0;
 use_rslds = 1;
+%
+
 meta.filepath = filepath;
 decoded_data_hmm = readmatrix(...
     [filepath 'decoded_data_hmm.csv']...
     ) + 1;
 decoded_data_hmm = decoded_data_hmm(2:end,:);
+state_num = max(unique(decoded_data_hmm));
+num_states_subject = state_num;
 
 files_in_filepath = dir(filepath);
 files_in_filepath = {files_in_filepath.name}';
