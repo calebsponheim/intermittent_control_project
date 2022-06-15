@@ -45,7 +45,7 @@ def train_HMM(
     select_ll = []
 
     if num_hidden_state_override > 0:
-        N_iters = 100
+        N_iters = 25
         state_range = num_hidden_state_override
         hmm = ssm.HMM(
             num_hidden_state_override,

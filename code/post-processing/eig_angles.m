@@ -7,6 +7,13 @@ for iState = 1:meta.optimal_number_of_states
     imaginary_eigenvectors{iState} = imaginary_eigenvectors_temp(2:end,:);
 end
 
+
+real_eigenvalues = readmatrix([meta.filepath 'real_eigenvalues.csv']);
+real_eigenvalues = real_eigenvalues(2:end,:);
+imaginary_eigenvalues = readmatrix([meta.filepath 'imaginary_eigenvalues.csv']);
+imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
+
+
 %% Calculating the complex vectors
 
 for iState = 1:size(real_eigenvectors, 2)
@@ -105,6 +112,8 @@ end
 % scatter3(real(complex_eigenvector_angles(:,3)),imag(complex_eigenvector_angles(:,3)), kinematic_direction_angles,'o')
 xlabel('real component of angles between eigenvectors')
 ylabel('imaginary component of angles between eigenvectors')
+ylim([-1 1])
+xlim([-1 1])
 % zlabel('kinematic angle differences')
 hold off
 box off
@@ -137,7 +146,7 @@ subplot(1,2,1); hold on
 % bar([1,2],[mean(reshaped_all_combos_real) mean(reshaped_angles_real)])
 errorbar([mean(reshaped_all_combos_real) mean(reshaped_angles_real)],err_bars_real,'o')
 xlim([0 3])
-ylim([-.02 .02])
+% ylim([-.02 .02])
 xticklabels({'','all combo','top transitions',''})
 title('real eigenvector angles')
 
@@ -145,7 +154,7 @@ subplot(1,2,2); hold on
 % bar([3,4],[mean(reshaped_all_combos_imag) mean(reshaped_angles_imag)])
 errorbar([mean(reshaped_all_combos_imag) mean(reshaped_angles_imag)],err_bars_imag,'o')
 xlim([0 3])
-ylim([-.02 .02])
+% ylim([-.02 .02])
 xticklabels({'','all combo','top transitions',''})
 title('imaginary eigenvector angles')
 box off

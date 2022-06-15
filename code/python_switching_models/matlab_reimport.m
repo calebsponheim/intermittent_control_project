@@ -17,7 +17,7 @@ filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
 
 % OPTIONS
-meta.analyze_all_trials = 0;
+meta.analyze_all_trials = 1;
 plot_ll_hmm = 0;
 plot_ll_rslds = 0;
 use_rslds = 1;
