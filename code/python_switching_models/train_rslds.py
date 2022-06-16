@@ -234,7 +234,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     # plot(cumulative_variance)
     num_latent_dims = sum(cumulative_variance < .9)
 
-    num_latent_dims = 3
+    num_latent_dims = 2
 
 # %% Train
     # Set the parameters of the HMM
@@ -293,11 +293,16 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     #     plt.title("Inferred, Laplace-EM")
     #     plt.tight_layout()
     #     plt.savefig(figurepath + "/rslds/three_PCs.png")
+    if num_latent_dims == 2:
+        plot_most_likely_dynamics(model)
+        plt.title("Most Likely Dynamics, All States")
+        plt.savefig(figurepath + "/rslds/2D_flowfield.png")
+        plt.close()
 
     if num_latent_dims == 3:
         plot_most_likely_dynamics_ind(model, figurepath)
 
-        plot_trajectory_ind(model.most_likely_states(xhat_lem, fullset), xhat_lem, figurepath)
+        # plot_trajectory_ind(model.most_likely_states(xhat_lem, fullset), xhat_lem, figurepath)
 
     # %%
     return model, xhat_lem, fullset, model_params

@@ -1,4 +1,5 @@
 %% Import Data from Python and integrate into matlab struct.
+clear
 
 if strcmp(getenv('USERNAME'),'calebsponheim')
     file_base_base = 'C:\Users\calebsponheim';

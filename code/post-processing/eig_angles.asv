@@ -1,5 +1,5 @@
-function eig_angles(meta,sorted_state_transitions)
-sorted_state_transitions_for_function = sorted_state_transitions(1:5,:);
+function eig_angles(meta,snippet_direction,sorted_state_transitions)
+% sorted_state_transitions = sorted_state_transitions(1:5,:);
 for iState = 1:meta.optimal_number_of_states
     real_eigenvectors_temp = readmatrix([meta.filepath 'real_eigenvectors_state_' num2str(iState) '.csv']);
     real_eigenvectors{iState} = real_eigenvectors_temp(2:end,:);
@@ -19,11 +19,20 @@ imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
 for iState = 1:size(real_eigenvectors, 2)
     complex_eigenvectors{iState} = complex(real_eigenvectors{iState},imaginary_eigenvectors{iState});
 end
+% Step 1: calculate the lengths of each eigenvector.
 
-% % Step 2: identify the kinematic directionality of each state
-% for iState = 1:size(snippet_direction,2)
-%     avg_direction(iState) = circ_mean(snippet_direction(snippet_direction(:,iState) ~= 0,iState));
-% end
+% Square root of the sum of the squares of each vector's elements.
+for iState = 1:size(complex_eigenvectors,2)
+    for iVector = 1:size(complex_eigenvectors{iState},2)
+%         complex_eigenvector_lengths(iState,iVector) = (sqrt(sum(complex_eigenvectors{iState}(:,iVector).^2,'all')));
+        complex_eigenvector_lengths(iState,iVector) = abs(complex_eigenvectors{iState}(:,iVector));
+    end
+end
+
+% Step 2: identify the kinematic directionality of each state
+for iState = 1:size(snippet_direction,2)
+    avg_direction(iState) = circ_mean(snippet_direction(snippet_direction(:,iState) ~= 0,iState));
+end
 %% Okay now we calculate angles between all the other combinations of things.
 [m,n] = ndgrid(1:meta.optimal_number_of_states,1:meta.optimal_number_of_states);
 all_state_combos = [m(:),n(:)];
@@ -33,20 +42,20 @@ all_state_combos = [m(:),n(:)];
 for iRow = 1:length(all_state_combos)
     all_combo_for_intersect(iRow) = str2double(strrep([num2str(all_state_combos(iRow,1)) num2str(all_state_combos(iRow,2))],' ',''));
 end
-for iRow = 1:size(sorted_state_transitions_for_function,1)
-    sorted_transitions_for_intersect(iRow) = str2double(strrep([num2str(sorted_state_transitions_for_function(iRow,1)) num2str(sorted_state_transitions_for_function(iRow,2))],' ',''));
+for iRow = 1:size(sorted_state_transitions,1)
+    sorted_transitions_for_intersect(iRow) = str2double(strrep([num2str(sorted_state_transitions(iRow,1)) num2str(sorted_state_transitions(iRow,2))],' ',''));
 end
 
 
 [~, ia, ~] = intersect(all_combo_for_intersect,sorted_transitions_for_intersect);
 
 all_state_combos(ia,:) = [];
-all_state_combos(all_state_combos(:,1) == all_state_combos(:,2),:) = [];
+
 complex_eigenvector_angles_all_combos = [];
 for iCombo = 1:size(all_state_combos,1)
 
-    complex_eigenvector_temp_one = complex_eigenvectors{all_state_combos(iCombo,1)};
-    complex_eigenvector_temp_two = complex_eigenvectors{all_state_combos(iCombo,2)};
+    complex_eigenvector_temp_one = complex_eigenvectors{all_state_combos(iCombo,1)};%/norm(complex_eigenvectors{all_state_combos(iCombo,1)});
+    complex_eigenvector_temp_two = complex_eigenvectors{all_state_combos(iCombo,2)};%/norm(complex_eigenvectors{all_state_combos(iCombo,2)});
 
     % Step 4: calculate dot products between all state eigenvector combos
     % of the two selected combos
@@ -54,10 +63,8 @@ for iCombo = 1:size(all_state_combos,1)
     eigenvector_combos = [m(:),n(:)];
 
     for iIntraCombo = 1:size(eigenvector_combos,1)
-        input_one = complex_eigenvector_temp_one(:,eigenvector_combos(iIntraCombo,1));
-        input_two = complex_eigenvector_temp_two(:,eigenvector_combos(iIntraCombo,2));
-        complex_dot_product_temp(iIntraCombo) = dot(input_one,input_two);
-        complex_vector_length_product_temp(iIntraCombo) = norm(input_one) * norm(input_two);
+        complex_dot_product_temp(iIntraCombo) = dot(complex_eigenvector_temp_one(eigenvector_combos(iIntraCombo,1)),complex_eigenvector_temp_two(eigenvector_combos(iIntraCombo,2)));
+        complex_vector_length_product_temp(iIntraCombo) = complex_eigenvector_lengths(all_state_combos(iCombo,1),eigenvector_combos(iIntraCombo,1))*complex_eigenvector_lengths(all_state_combos(iCombo,2),eigenvector_combos(iIntraCombo,2));
     end
     % Step 5: calculate product of vector length combos
 
@@ -65,23 +72,23 @@ for iCombo = 1:size(all_state_combos,1)
     complex_eigenvector_angles_all_combos(iCombo,:) = arrayfun(@(x,y) x/y,complex_dot_product_temp,complex_vector_length_product_temp);
 end
 %%
-colors = cool(size(sorted_state_transitions_for_function,1));
+colors = cool(size(sorted_state_transitions,1));
 complex_eigenvector_angles = [];
-for iCombo = 1:size(sorted_state_transitions_for_function,1)
+for iCombo = 1:size(sorted_state_transitions,1)
 
-    complex_eigenvector_temp_one = complex_eigenvectors{sorted_state_transitions_for_function(iCombo,1)};
-    complex_eigenvector_temp_two = complex_eigenvectors{sorted_state_transitions_for_function(iCombo,2)};
+    complex_eigenvector_temp_one = complex_eigenvectors{sorted_state_transitions(iCombo,1)}/norm(complex_eigenvectors{sorted_state_transitions(iCombo,1)});
+    complex_eigenvector_temp_two = complex_eigenvectors{sorted_state_transitions(iCombo,2)}/norm(complex_eigenvectors{sorted_state_transitions(iCombo,2)});
 
     [m,n] = ndgrid(1:size(complex_eigenvector_temp_one,2),1:size(complex_eigenvector_temp_two,2));
     eigenvector_combos = [m(:),n(:)];
-    eigenvector_combos(eigenvector_combos(:,1) == eigenvector_combos(:,2),:) = [];
-
 
     for iIntraCombo = 1:size(eigenvector_combos,1)
-        input_one = complex_eigenvector_temp_one(:,eigenvector_combos(iIntraCombo,1));
-        input_two = complex_eigenvector_temp_two(:,eigenvector_combos(iIntraCombo,2));
-        complex_dot_product_temp(iIntraCombo) = dot(input_one,input_two);
-        complex_vector_length_product_temp(iIntraCombo) = norm(input_one) * norm(input_two);
+        % Step 4: calculate dot products between all state eigenvector combos
+        % of the two selected combos
+        complex_dot_product_temp(iIntraCombo) = dot(complex_eigenvector_temp_one(eigenvector_combos(iIntraCombo,1)),complex_eigenvector_temp_two(eigenvector_combos(iIntraCombo,2)));
+        
+        % Step 5: calculate product of vector length combos
+        complex_vector_length_product_temp(iIntraCombo) = complex_eigenvector_lengths(sorted_state_transitions(iCombo,1),eigenvector_combos(iIntraCombo,1))*complex_eigenvector_lengths(sorted_state_transitions(iCombo,2),eigenvector_combos(iIntraCombo,2));
     end
 
     % Step 6: calculate ((X.Y)/(|X||Y|)) = cosine
@@ -95,7 +102,7 @@ figure('Visible','on'); hold on;
 for iCombo = 1:size(all_state_combos,1)
     plot(real(complex_eigenvector_angles_all_combos(iCombo,:)),imag(complex_eigenvector_angles_all_combos(iCombo,:)),'.',"Color",'k','MarkerSize',7)
 end
-for iCombo = 1:size(sorted_state_transitions_for_function,1)
+for iCombo = 1:size(sorted_state_transitions,1)
     plot(real(complex_eigenvector_angles(iCombo,:)),imag(complex_eigenvector_angles(iCombo,:)),'.',"Color",colors(iCombo,:),'MarkerSize',7)
 end
 
