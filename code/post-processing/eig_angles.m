@@ -1,5 +1,5 @@
 function eig_angles(meta,sorted_state_transitions)
-sorted_state_transitions_for_function = sorted_state_transitions(1:5,:);
+sorted_state_transitions_for_function = sorted_state_transitions(:,:);
 for iState = 1:meta.optimal_number_of_states
     real_eigenvectors_temp = readmatrix([meta.filepath 'real_eigenvectors_state_' num2str(iState) '.csv']);
     real_eigenvectors{iState} = real_eigenvectors_temp(2:end,:);
@@ -20,10 +20,6 @@ for iState = 1:size(real_eigenvectors, 2)
     complex_eigenvectors{iState} = complex(real_eigenvectors{iState},imaginary_eigenvectors{iState});
 end
 
-% % Step 2: identify the kinematic directionality of each state
-% for iState = 1:size(snippet_direction,2)
-%     avg_direction(iState) = circ_mean(snippet_direction(snippet_direction(:,iState) ~= 0,iState));
-% end
 %% Okay now we calculate angles between all the other combinations of things.
 [m,n] = ndgrid(1:meta.optimal_number_of_states,1:meta.optimal_number_of_states);
 all_state_combos = [m(:),n(:)];
@@ -93,19 +89,15 @@ end
 % Step 7: plot
 figure('Visible','on'); hold on;
 for iCombo = 1:size(all_state_combos,1)
-    plot(real(complex_eigenvector_angles_all_combos(iCombo,:)),imag(complex_eigenvector_angles_all_combos(iCombo,:)),'.',"Color",'k','MarkerSize',7)
+    plot(real(complex_eigenvector_angles_all_combos(iCombo,:)),imag(complex_eigenvector_angles_all_combos(iCombo,:)),'.',"Color",'k','MarkerSize',10)
 end
 for iCombo = 1:size(sorted_state_transitions_for_function,1)
-    plot(real(complex_eigenvector_angles(iCombo,:)),imag(complex_eigenvector_angles(iCombo,:)),'.',"Color",colors(iCombo,:),'MarkerSize',7)
+    plot(real(complex_eigenvector_angles(iCombo,:)),imag(complex_eigenvector_angles(iCombo,:)),'.',"Color",colors(iCombo,:),'MarkerSize',10)
 end
 
 
-% scatter3(real(complex_eigenvector_angles(:,3)),imag(complex_eigenvector_angles(:,3)), kinematic_direction_angles,'o')
-xlabel('real component of angles between eigenvectors')
-ylabel('imaginary component of angles between eigenvectors')
-% ylim([-1 1])
-% xlim([-1 1])
-% zlabel('kinematic angle differences')
+xlabel('real component of cosine between eigenvectors')
+ylabel('imaginary component of cosine between eigenvectors')
 hold off
 box off
 set(gcf,"Color",'White')
@@ -134,18 +126,14 @@ err_bars_imag = [
 
 figure; hold on
 subplot(1,2,1); hold on
-% bar([1,2],[mean(reshaped_all_combos_real) mean(reshaped_angles_real)])
 errorbar([mean(reshaped_all_combos_real) mean(reshaped_angles_real)],err_bars_real,'o')
 xlim([0 3])
-% ylim([-.02 .02])
 xticklabels({'','all combo','top transitions',''})
 title('real eigenvector angles')
 
 subplot(1,2,2); hold on
-% bar([3,4],[mean(reshaped_all_combos_imag) mean(reshaped_angles_imag)])
 errorbar([mean(reshaped_all_combos_imag) mean(reshaped_angles_imag)],err_bars_imag,'o')
 xlim([0 3])
-% ylim([-.02 .02])
 xticklabels({'','all combo','top transitions',''})
 title('imaginary eigenvector angles')
 box off

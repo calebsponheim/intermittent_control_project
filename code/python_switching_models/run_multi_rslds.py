@@ -20,8 +20,8 @@ multiple_folds = 0
 latent_dim_state_range = np.arange(7, 8, 1)
 
 subject = 'rs'
-task = 'CO'
-num_hidden_state_override = 8
+task = 'RTP'
+num_hidden_state_override = 16
 
 # %% Running it
 model, xhat_lem, fullset, model_params, real_eigenvectors_out, imaginary_eigenvectors_out, real_eigenvalues_out, imaginary_eigenvalues_out = run_rslds(
