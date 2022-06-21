@@ -234,7 +234,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     # plot(cumulative_variance)
     num_latent_dims = sum(cumulative_variance < .9)
 
-    num_latent_dims = 11
+    num_latent_dims = 2
 
 # %% Train
     # Set the parameters of the HMM
@@ -285,7 +285,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     plt.xlabel("Iteration")
     plt.ylabel("ELBO")
     plt.tight_layout()
-    plt.savefig(figurepath + "/rslds/training.png")
+    plt.savefig(figurepath + "rslds/training.png")
 
     # if rslds_ll_analysis == 0:
     #     plt.figure()

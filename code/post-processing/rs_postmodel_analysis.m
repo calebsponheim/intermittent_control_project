@@ -11,7 +11,7 @@ end
     'barney', 'blood orange', 'cerise', 'orange', 'red', 'salmon', 'lilac');
 
 %% Create Plot Figure Results Folder
-if meta.crosstrain == 0
+if meta.crosstrain == 0 
     if meta.move_only == 1
         meta.figure_folder_filepath = [file_base_base '\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0_move_only\'];
     else
@@ -61,8 +61,8 @@ if meta.plot_ll_rslds == 1
     plot_rslds_ll(data,meta)
 end
 if meta.use_rslds == 1
-    plot_eigs(meta,colors)
     eig_angles(meta,sorted_state_transitions)
+    plot_eigs(meta,colors)
 end
 
 

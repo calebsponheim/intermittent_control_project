@@ -56,16 +56,18 @@ def run_rslds(
 
     if subject == "bx":
         if task == "CO":
-            # folderpath = folderpath_base + "Bxcenter_out1902280.05sBins/"
-            folderpath = (
-                folderpath_base + "Bxcenter_out1902280.05_sBins_move_window_only/"
-            )
+            folderpath = folderpath_base + "Bxcenter_out1902280.05sBins/"
+            # folderpath = (
+            #     folderpath_base + "Bxcenter_out1902280.05_sBins_move_window_only/"
+            # )
             figurepath = figurepath_base + "Bx/CO/"
-            # folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
+        elif task == "CO+RTP":
+            folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
+            figurepath = figurepath_base + "Bx/CO+RTP/"
             # folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/'
     elif subject == "rs":
         if task == "CO":
-            folderpath = folderpath_base + "RSCO0.05sBins/"
+            # folderpath = folderpath_base + "RSCO0.05sBins/"
             folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
             figurepath = figurepath_base + "RS/CO_CT0_move_only/"
 
