@@ -15,10 +15,11 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
-filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
+% filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
+filepath = [filepath_base 'Bxcenter_out1803230.05sBins\'];
 
 % OPTIONS
-meta.analyze_all_trials = 1;
+meta.analyze_all_trials = 0;
 plot_ll_hmm = 0;
 plot_ll_rslds = 0;
 use_rslds = 1;
@@ -230,7 +231,7 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         bin_size = meta.bin_size;
     elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
         if contains(filepath,'180323')
-            load([filepath '\bx180323_CO_for_python.mat'])
+            load([filepath '\Bxcenter_out_HMM_struct_22-Jun-2022.mat'])
         elseif contains(filepath,'190228')
             load([filepath '\Bxcenter_out190228CT0.mat'])
         end

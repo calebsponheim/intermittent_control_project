@@ -4,16 +4,16 @@
 
 meta.subject = 'Bx'; % Subject
 meta.arrays = {'M1m';'M1l'}; % Which M1 Arrays to analyze
-meta.session = '190228'; % Whi ch day of data
-% meta.task = 'center_out';       % Choose one of the three options here
+meta.session = '180323'; % Which day of data
+meta.task = 'center_out';       % Choose one of the three options here
 % meta.task = 'RTP';              % Choose one of the three options here
-meta.task = 'center_out_and_RTP'; % Choose one of the three options here
+% meta.task = 'center_out_and_RTP'; % Choose one of the three options here
 
 meta.include_EMG_analysis = 0; % Process EMG data along with kinematics?
 
 meta.bin_size = .050; %seconds
 meta.muscle_lag = .1; %seconds
-meta.center_out_trial_window = 'move'; % If center-out, what event to bound analysis window? (can be 'go' or 'move' or ' ')
+meta.center_out_trial_window = ''; % If center-out, what event to bound analysis window? (can be 'go' or 'move' or ' ')
 
 % in "events" ; this is the window that the HMM will actually analyze, inside of the bigger center-out window.
 meta.CO_HMM_analysis_window = {'move','reward'}; % TIMING IS RELATIVE TO "TRIAL START". THIS IS USUALLY -1000ms FROM PERION

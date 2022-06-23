@@ -18,13 +18,23 @@ hidden_state_skip = 1
 rslds_ll_analysis = 0
 multiple_folds = 0
 latent_dim_state_range = np.arange(7, 8, 1)
+midway_run = 1
 
-subject = 'bx'
-task = 'CO+RTP'
-num_hidden_state_override = 5
+subject = 'bx18'
+task = 'CO'
+num_hidden_state_override = 16
 
 # %% Running it
-model, xhat_lem, fullset, model_params, real_eigenvectors_out, imaginary_eigenvectors_out, real_eigenvalues_out, imaginary_eigenvalues_out = run_rslds(
-    subject, task, train_portion, model_select_portion, test_portion,
-    hidden_max_state_range, hidden_state_skip, num_hidden_state_override,
-    rslds_ll_analysis, latent_dim_state_range, multiple_folds)
+model, xhat_lem, fullset, model_params, real_eigenvectors_out, imaginary_eigenvectors_out, real_eigenvalues_out, imaginary_eigenvalues_out, midway_run = run_rslds(
+    subject,
+    task,
+    train_portion,
+    model_select_portion,
+    test_portion,
+    hidden_max_state_range,
+    hidden_state_skip,
+    num_hidden_state_override,
+    rslds_ll_analysis,
+    latent_dim_state_range,
+    multiple_folds
+)

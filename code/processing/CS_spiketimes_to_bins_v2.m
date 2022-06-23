@@ -74,6 +74,7 @@ elseif strcmp(task,'center_out')
     if max(strfind(subject_filepath{1},'180323')) > 0
         %         trial_start_relative_to_periOn = events(:,1);
         trial_end_relative_to_periOn = events(:,6);
+        trial_move_relative_to_periOn = events(:,5);
         trial_go_relative_to_periOn = events(:,2);
     else
         %         trial_start_relative_to_periOn = events(:,1);

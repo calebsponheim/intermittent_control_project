@@ -33,7 +33,8 @@ def run_rslds(
     num_hidden_state_override,
     rslds_ll_analysis,
     latent_dim_state_range,
-    multiple_folds
+    multiple_folds,
+    midway_run
 ):
     """
     Summary: Function is the main script for running rslds analysis.
@@ -64,7 +65,9 @@ def run_rslds(
         elif task == "CO+RTP":
             folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
             figurepath = figurepath_base + "Bx/CO+RTP/"
-            # folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/'
+    elif subject == "bx18":
+        folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/"
+        figurepath = figurepath_base + "Bx/CO18_CT0/"
     elif subject == "rs":
         if task == "CO":
             # folderpath = folderpath_base + "RSCO0.05sBins/"
@@ -144,74 +147,75 @@ def run_rslds(
     )
 
     # %%
+    if midway_run == 0:
+        decoded_data_rslds = []
 
-    decoded_data_rslds = []
+        for iTrial in range(len(fullset)):
+            decoded_data_rslds.append(model.most_likely_states(xhat_lem[iTrial], fullset[iTrial]))
 
-    for iTrial in range(len(fullset)):
-        decoded_data_rslds.append(model.most_likely_states(xhat_lem[iTrial], fullset[iTrial]))
+        # rslds_likelihood = model.emissions.log_likelihoods(
+        #     data=y, input=np.zeros([y[0].shape[0], 0]), mask=None, tag=[], x=xhat_lem)
 
-    # rslds_likelihood = model.emissions.log_likelihoods(
-    #     data=y, input=np.zeros([y[0].shape[0], 0]), mask=None, tag=[], x=xhat_lem)
+        real_eigenvalues = []
+        imaginary_eigenvalues = []
+        real_eigenvectors = []
+        imaginary_eigenvectors = []
+        for iLatentDim in np.arange(model.dynamics.As.shape[0]):
+            eigenvalues_temp, eigenvectors_temp = eig(model.dynamics.As[iLatentDim, :, :])
 
-    real_eigenvalues = []
-    imaginary_eigenvalues = []
-    real_eigenvectors = []
-    imaginary_eigenvectors = []
-    for iLatentDim in np.arange(model.dynamics.As.shape[0]):
-        eigenvalues_temp, eigenvectors_temp = eig(model.dynamics.As[iLatentDim, :, :])
+            real_eigenvalues.append(np.around(eigenvalues_temp.real, 3))
+            imaginary_eigenvalues.append(np.around(eigenvalues_temp.imag, 3))
+            real_eigenvectors.append(np.around(eigenvectors_temp.real, 3))
+            imaginary_eigenvectors.append(np.around(eigenvectors_temp.imag, 3))
+        # %% HMM state decoding
 
-        real_eigenvalues.append(np.around(eigenvalues_temp.real, 3))
-        imaginary_eigenvalues.append(np.around(eigenvalues_temp.imag, 3))
-        real_eigenvectors.append(np.around(eigenvectors_temp.real, 3))
-        imaginary_eigenvectors.append(np.around(eigenvectors_temp.imag, 3))
-    # %% HMM state decoding
-    decoded_data_hmm = []
-    for iTrial in range(len(fullset)):
-        decoded_data_hmm.append(hmm_storage[0].most_likely_states(fullset[iTrial]))
+        decoded_data_hmm = []
+        for iTrial in range(len(fullset)):
+            decoded_data_hmm.append(hmm_storage[0].most_likely_states(fullset[iTrial]))
 
-    # %% Plot State Probabilities
+        # %% Plot State Probabilities
 
-    # state_prob_over_time(model, xhat_lem, y, num_hidden_state_override, figurepath)
+        # state_prob_over_time(model, xhat_lem, y, num_hidden_state_override, figurepath)
 
-    # %% write data for matlab
+        # %% write data for matlab
 
-    decoded_data_hmm_out = pd.DataFrame(decoded_data_hmm)
-    decoded_data_hmm_out.to_csv(folderpath + "decoded_data_hmm.csv", index=False)
+        decoded_data_hmm_out = pd.DataFrame(decoded_data_hmm)
+        decoded_data_hmm_out.to_csv(folderpath + "decoded_data_hmm.csv", index=False)
 
-    decoded_data_rslds_out = pd.DataFrame(decoded_data_rslds)
-    decoded_data_rslds_out.to_csv(
-        folderpath + "decoded_data_rslds.csv", index=False)
+        decoded_data_rslds_out = pd.DataFrame(decoded_data_rslds)
+        decoded_data_rslds_out.to_csv(
+            folderpath + "decoded_data_rslds.csv", index=False)
 
-    # rslds_likelihood_out = pd.DataFrame(rslds_likelihood)
-    # rslds_likelihood_out.to_csv(
-    #     folderpath + "rslds_likelihood.csv", index=False)
+        # rslds_likelihood_out = pd.DataFrame(rslds_likelihood)
+        # rslds_likelihood_out.to_csv(
+        #     folderpath + "rslds_likelihood.csv", index=False)
 
-    with open(folderpath + "trial_classifiction.csv", "w", newline="") as f:
-        write = csv.writer(f, delimiter=" ", quotechar="|",
-                           quoting=csv.QUOTE_MINIMAL)
-        for iTrial in range(len(trial_classification)):
-            write.writerow(trial_classification[iTrial])
+        with open(folderpath + "trial_classifiction.csv", "w", newline="") as f:
+            write = csv.writer(f, delimiter=" ", quotechar="|",
+                               quoting=csv.QUOTE_MINIMAL)
+            for iTrial in range(len(trial_classification)):
+                write.writerow(trial_classification[iTrial])
 
-    select_ll = pd.DataFrame(select_ll)
-    select_ll.to_csv(folderpath + "select_ll.csv", index=False)
+        select_ll = pd.DataFrame(select_ll)
+        select_ll.to_csv(folderpath + "select_ll.csv", index=False)
 
-    # with open(folderpath + "num_states.csv", "w") as f:
-    #     write = csv.writer(f)
-    #     write.writerow(state_range)
+        # with open(folderpath + "num_states.csv", "w") as f:
+        #     write = csv.writer(f)
+        #     write.writerow(state_range)
 
-    if rslds_ll_analysis == 0:
-        real_eigenvalues_out = pd.DataFrame(real_eigenvalues)
-        real_eigenvalues_out.to_csv(folderpath + "real_eigenvalues.csv", index=False)
-        imaginary_eigenvalues_out = pd.DataFrame(imaginary_eigenvalues)
-        imaginary_eigenvalues_out.to_csv(folderpath + "imaginary_eigenvalues.csv", index=False)
+        if rslds_ll_analysis == 0:
+            real_eigenvalues_out = pd.DataFrame(real_eigenvalues)
+            real_eigenvalues_out.to_csv(folderpath + "real_eigenvalues.csv", index=False)
+            imaginary_eigenvalues_out = pd.DataFrame(imaginary_eigenvalues)
+            imaginary_eigenvalues_out.to_csv(folderpath + "imaginary_eigenvalues.csv", index=False)
 
-        for iState in range(len(real_eigenvectors)):
-            real_eigenvectors_out = pd.DataFrame(real_eigenvectors[iState])
-            real_eigenvectors_out.to_csv(folderpath + "real_eigenvectors_state_" +
-                                         str(iState+1) + ".csv", index=False)
-            imaginary_eigenvectors_out = pd.DataFrame(imaginary_eigenvectors[iState])
-            imaginary_eigenvectors_out.to_csv(folderpath + "imaginary_eigenvectors_state_" +
-                                              str(iState+1) + ".csv", index=False)
+            for iState in range(len(real_eigenvectors)):
+                real_eigenvectors_out = pd.DataFrame(real_eigenvectors[iState])
+                real_eigenvectors_out.to_csv(folderpath + "real_eigenvectors_state_" +
+                                             str(iState+1) + ".csv", index=False)
+                imaginary_eigenvectors_out = pd.DataFrame(imaginary_eigenvectors[iState])
+                imaginary_eigenvectors_out.to_csv(folderpath + "imaginary_eigenvectors_state_" +
+                                                  str(iState+1) + ".csv", index=False)
 
-    # %%
-    return model, xhat_lem, fullset, model_params, real_eigenvectors_out, imaginary_eigenvectors_out, real_eigenvalues_out, imaginary_eigenvalues_out
+        # %%
+        return model, xhat_lem, fullset, model_params, real_eigenvectors_out, imaginary_eigenvectors_out, real_eigenvalues_out, imaginary_eigenvalues_out

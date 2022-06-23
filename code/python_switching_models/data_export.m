@@ -29,24 +29,26 @@ try strcmp(data.meta.subject,'Bx')
             iTrial_string = ['00' num2str(iTrial)];
         elseif iTrial < 1000
             iTrial_string = ['0' num2str(iTrial)];
+        elseif iTrial >= 1000
+            iTrial_string = num2str(iTrial);
         end
 
-        if contains(filepath,'180323')
-            if move_window == 1
-                disp('Bx 180323 does not currently support move window.');
-            else
-                spikecount = data.data(iTrial).spikecount;
-            end
-            filename = [save_folder 'trial' iTrial_string '_spikes.csv'];
-            writematrix(spikecount,filename)
-            
-            % Kinematics
-            x_smoothed = data.data(iTrial).x_smoothed;
-            y_smoothed = data.data(iTrial).y_smoothed;
-            speed = data.data(iTrial).speed;
-            filename = [save_folder 'trial' iTrial_string '_kinematics.csv'];
-            writematrix(vertcat(x_smoothed,y_smoothed,speed),filename)
-        else
+%         if contains(filepath,'180323')
+%             if move_window == 1
+%                 disp('Bx 180323 does not currently support move window.');
+%             else
+%                 spikecount = data.data(iTrial).spikecount;
+%             end
+%             filename = [save_folder 'trial' iTrial_string '_spikes.csv'];
+%             writematrix(spikecount,filename)
+%             
+%             % Kinematics
+%             x_smoothed = data.data(iTrial).x_smoothed;
+%             y_smoothed = data.data(iTrial).y_smoothed;
+%             speed = data.data(iTrial).speed;
+%             filename = [save_folder 'trial' iTrial_string '_kinematics.csv'];
+%             writematrix(vertcat(x_smoothed,y_smoothed,speed),filename)
+%         else
             % Spikes
             if move_window == 1
                 spikecountresamp = data.data(iTrial).spikecountresamp(:,int64(data.data(iTrial).move_relative_to_trial_start):int64(data.data(iTrial).target_reach_relative_to_trial_start));
@@ -76,7 +78,7 @@ try strcmp(data.meta.subject,'Bx')
             else
                 writematrix(vertcat(trial_start_ms),filename)
             end
-        end
+%         end
         disp(iTrial)
     end
     % write an additional csv with the meta struct to the same folder.
