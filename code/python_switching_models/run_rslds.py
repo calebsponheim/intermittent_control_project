@@ -137,7 +137,7 @@ def run_rslds(
 
         else:
             lls = pd.DataFrame(lls)
-            lls.to_csv(folderpath + str(latent_dim_state_range) "_dims_lls.csv", index=False)
+            lls.to_csv(folderpath + str(latent_dim_state_range) + "_dims_lls.csv", index=False)
 
     # %% Running RSLDS
     if midway_run == 0:
