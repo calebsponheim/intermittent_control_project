@@ -137,17 +137,18 @@ def run_rslds(
 
         else:
             lls = pd.DataFrame(lls)
-            lls.to_csv(folderpath + "lls.csv", index=False)
+            lls.to_csv(folderpath + str(latent_dim_state_range) "_dims_lls.csv", index=False)
 
     # %% Running RSLDS
-    model, xhat_lem, fullset, model_params = train_rslds(
-        data, trial_classification, meta, bin_size,
-        is_it_breaux, num_hidden_state_override, figurepath, rslds_ll_analysis,
-        latent_dim_state_range
-    )
+    if midway_run == 0:
+        model, xhat_lem, fullset, model_params = train_rslds(
+            data, trial_classification, meta, bin_size,
+            is_it_breaux, num_hidden_state_override, figurepath, rslds_ll_analysis,
+            latent_dim_state_range
+        )
 
     # %%
-    if midway_run == 0:
+
         decoded_data_rslds = []
 
         for iTrial in range(len(fullset)):
