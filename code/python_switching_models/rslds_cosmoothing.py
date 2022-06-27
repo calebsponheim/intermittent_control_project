@@ -130,12 +130,12 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
         elif iTrial in trind_test:
             testset.append(np.transpose(np.array(data.spikes[iTrial])))
 
-    cosmoothing_input = trainset[0]
+    # cosmoothing_input = trainset[0]
 
-    for iTrial in range(len(trainset)):
-        cosmoothing_input = np.vstack([cosmoothing_input, trainset[iTrial]])
+    # for iTrial in range(len(trainset)):
+    #     cosmoothing_input = np.vstack([cosmoothing_input, trainset[iTrial]])
 
-    cosmoothing_input = cosmoothing_input[1:, :]
+    # cosmoothing_input = cosmoothing_input[1:, :]
 
     # %%
     observation_dimensions = trainset[0].shape[1]
