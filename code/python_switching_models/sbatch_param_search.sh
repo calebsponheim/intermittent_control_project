@@ -6,10 +6,11 @@
 #SBATCH --time=36:00:00
 #SBATCH --partition=broadwl
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=8
-#SBATCH --mem-per-cpu=6G
+#SBATCH --ntasks-per-node=2
+#SBATCH --mem-per-cpu=8G
 
 echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
+echo "My SLURM_ARRAY_JOB_ID: " $SLURM_ARRAY_JOB_ID
 
 module load python
 

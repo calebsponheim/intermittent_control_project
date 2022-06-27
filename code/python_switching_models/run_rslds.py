@@ -99,18 +99,17 @@ def run_rslds(
     trial_classification = assign_trials_to_HMM_group(data, meta)
 
     # %% Running HMM to find optimal number of states using LL saturation
-
-    hmm_storage, select_ll, state_range = train_HMM(
-        data,
-        trial_classification,
-        meta,
-        bin_size,
-        is_it_breaux,
-        hidden_max_state_range,
-        hidden_state_skip,
-        num_hidden_state_override
-    )
-
+    if midway_run == 0:
+        hmm_storage, select_ll, state_range = train_HMM(
+            data,
+            trial_classification,
+            meta,
+            bin_size,
+            is_it_breaux,
+            hidden_max_state_range,
+            hidden_state_skip,
+            num_hidden_state_override
+        )
     # %% Finding 90% cutoff
 
     # LL_curve_fitting(select_ll, state_range)
@@ -147,7 +146,7 @@ def run_rslds(
             latent_dim_state_range
         )
 
-    # %%
+        # %%
 
         decoded_data_rslds = []
 
