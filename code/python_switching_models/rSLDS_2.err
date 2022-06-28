@@ -1,0 +1,30 @@
+TypeError: expected dtype object, got 'numpy.dtype[float64]'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "run_param_search.py", line 33, in <module>
+    midway_run
+  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 126, in run_rslds
+    rslds_ll_analysis, latent_dim_state_range)
+  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 156, in rslds_cosmoothing
+    initialize=False, num_iters=25)
+  File "/dali/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
+    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
+  File "/dali/nicho/caleb/git/ssm/ssm/lds.py", line 789, in fit
+    variational_posterior, datas, inputs, masks, tags, method, **variational_posterior_kwargs)
+  File "/dali/nicho/caleb/git/ssm/ssm/lds.py", line 725, in _make_variational_posterior
+    posterior = _var_posteriors[variational_posterior](self, datas, inputs, masks, tags, **variational_posterior_kwargs)
+  File "/dali/nicho/caleb/git/ssm/ssm/util.py", line 144, in wrapper
+    return f(self, arg0, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
+  File "/dali/nicho/caleb/git/ssm/ssm/variational.py", line 278, in __init__
+    for data, input, mask, tag in zip(datas, inputs, masks, tags)]
+  File "/dali/nicho/caleb/git/ssm/ssm/variational.py", line 321, in continuous_state_params
+    for prms in self._continuous_state_params]
+  File "/dali/nicho/caleb/git/ssm/ssm/variational.py", line 321, in <listcomp>
+    for prms in self._continuous_state_params]
+  File "/dali/nicho/caleb/git/ssm/ssm/messages.py", line 1219, in wrapper
+    J_obs, h_obs, log_Z_obs, **kwargs)
+  File "/dali/nicho/caleb/git/ssm/ssm/messages.py", line 1270, in kalman_info_smoother
+    J_obs, h_obs, log_Z_obs)
+SystemError: CPUDispatcher(<function _kalman_info_smoother at 0x7fefcc2dfb00>) returned a result with an error set
