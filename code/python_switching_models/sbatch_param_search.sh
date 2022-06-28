@@ -12,7 +12,7 @@
 echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 echo "My SLURM_ARRAY_JOB_ID: " $SLURM_ARRAY_JOB_ID
 
-module load python
+module load python/anaconda-2021.05
 
 source activate /dali/nicho/caleb/git/intermittent_control_project/data/ssm_midway_python_environment/
 
