@@ -18,7 +18,7 @@ from train_HMM import train_HMM
 import numpy as np
 from numpy.linalg import eig
 from rslds_cosmoothing import rslds_cosmoothing
-
+from plot_continuous_states import plot_continuous_states
 # from state_prob_over_time import state_prob_over_time
 
 
@@ -173,6 +173,9 @@ def run_rslds(
         for iTrial in range(len(fullset)):
             decoded_data_hmm.append(hmm_storage[0].most_likely_states(fullset[iTrial]))
 
+        # %%
+
+        plot_continuous_states(xhat_lem, latent_dim_state_range, decoded_data_rslds)
         # %% Plot State Probabilities
 
         # state_prob_over_time(model, xhat_lem, y, num_hidden_state_override, figurepath)
@@ -196,8 +199,8 @@ def run_rslds(
             for iTrial in range(len(trial_classification)):
                 write.writerow(trial_classification[iTrial])
 
-        select_ll = pd.DataFrame(select_ll)
-        select_ll.to_csv(folderpath + "select_ll.csv", index=False)
+        # select_ll = pd.DataFrame(select_ll)
+        # select_ll.to_csv(folderpath + "select_ll.csv", index=False)
 
         # with open(folderpath + "num_states.csv", "w") as f:
         #     write = csv.writer(f)
