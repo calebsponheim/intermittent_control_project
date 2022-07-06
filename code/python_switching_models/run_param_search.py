@@ -8,15 +8,8 @@ hidden_max_state_range = 120
 hidden_state_skip = 1
 rslds_ll_analysis = 1
 multiple_folds = 0
-<<<<<<< HEAD
 latent_dim_state_range = int(sys.argv[1])
-# latent_dim_state_range = int(2)
 midway_run = 1
-=======
-# latent_dim_state_range = int(sys.argv[1])
-latent_dim_state_range = 6
-midway_run = 0
->>>>>>> 330f4ff2 (continuous state programming)
 
 subject = 'rs'
 task = 'CO'
