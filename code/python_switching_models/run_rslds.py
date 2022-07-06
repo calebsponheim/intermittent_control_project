@@ -136,8 +136,23 @@ def run_rslds(
 
         else:
             lls = pd.DataFrame(lls)
-            lls.to_csv(folderpath + str(num_hidden_state_override) + "_states_"+ str(latent_dim_state_range) + "_dims_lls.csv", index=False)
+            latent_dims = pd.DataFrame(latent_dim_state_range)
+            frames = [lls, latent_dims]
+            lls = pd.concat(frames,axis=1)
+            for file in os.listdir(folderpath):
+                if file.startswith(str(num_hidden_state_override) + "_states_lls.csv"):
+                    first_file = 0
+            else :
+                first_file = 1
 
+            if first_file == 1:
+                lls.to_csv(folderpath + str(num_hidden_state_override) + "_states_lls.csv", index=False, header=False)            
+            elif first_file == 0:
+                lls.to_csv(folderpath + str(num_hidden_state_override) + "_states_lls.csv", mode='a', index=False, header=False)
+
+
+
+           
     # %% Running RSLDS
     if midway_run == 0:
         model, xhat_lem, fullset, model_params = train_rslds(
@@ -221,4 +236,5 @@ def run_rslds(
                                                   str(iState+1) + ".csv", index=False)
 
         # %%
+    if midway_run == 0:
         return model, xhat_lem, fullset, model_params, real_eigenvectors_out, imaginary_eigenvectors_out, real_eigenvalues_out, imaginary_eigenvalues_out
