@@ -1,0 +1,42 @@
+%%
+
+if strcmp(getenv('USERNAME'),'calebsponheim')
+    file_base_base = 'C:\Users\calebsponheim';
+elseif strcmp(getenv('USERNAME'),'caleb_work')
+     file_base_base = 'C:\Users\Caleb (Work)';
+end
+
+[~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', ...
+    'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', ...
+    'barney', 'blood orange', 'cerise', 'orange', 'red', 'salmon', 'lilac');
+
+%% Create Plot Figure Results Folder
+if meta.crosstrain == 0 
+    if meta.move_only == 1
+        meta.figure_folder_filepath = [file_base_base '\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0_move_only\'];
+    elseif contains(meta.session,'180323')
+        meta.figure_folder_filepath = [file_base_base '\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '18_CT0\'];
+    else
+        meta.figure_folder_filepath = [file_base_base '\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0\'];
+    end
+else
+    meta.figure_folder_filepath = [file_base_base '\Documents\git\intermittent_control_project\figures\' meta.subject '\CT' num2str(meta.crosstrain) '\'];
+end
+
+if meta.use_rslds == 1
+    meta.figure_folder_filepath = [meta.figure_folder_filepath 'rslds\'];
+elseif meta.use_rslds == 0
+    meta.figure_folder_filepath = [meta.figure_folder_filepath 'hmm\'];
+end
+
+%%
+
+
+ll_files_list = dir(filepath);
+ll_files_list = {ll_files_list.name}';
+ll_files_list = ll_files_list(cellfun(@(x) contains(x,'_dims_ll'),ll_files_list));
+for iFile = 1:length(ll_files_list)
+    temp = readmatrix([filepath ll_files_list{iFile}]);
+    bits_per_spike(str2double(extractBefore(ll_files_list{iFile},'_dims_ll')),1) = temp(temp > 0);
+    bits_per_spike(str2double(extractBefore(ll_files_list{iFile},'_dims_ll')),2) = str2double(extractBefore(ll_files_list{iFile},'_dims_ll'));
+end
