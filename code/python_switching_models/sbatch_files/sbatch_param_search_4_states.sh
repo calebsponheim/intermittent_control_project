@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=%a_4
+#SBATCH --job-name=%A_4
 #SBATCH --array=2-80
 #SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rSLDS_%a_4.out
 #SBATCH --error=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rSLDS_%a_4.err

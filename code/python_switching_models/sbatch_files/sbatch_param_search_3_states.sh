@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=CS_rSLDS_%A
+#SBATCH --job-name=%A_3
 #SBATCH --array=2-80
-#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rSLDS_%a.out
-#SBATCH --error=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rSLDS_%a.err
+#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rSLDS_%a_3.out
+#SBATCH --error=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rSLDS_%a_3.err
 #SBATCH --time=36:00:00
 #SBATCH --partition=broadwl
 #SBATCH --nodes=1
