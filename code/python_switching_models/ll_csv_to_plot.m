@@ -41,3 +41,10 @@ for iFile = 1:length(ll_files_list)
         bits_per_spike(temp(iRow,2),str2double(extractBefore(ll_files_list{iFile},'_states_ll'))) = temp(iRow,1);
     end
 end
+
+[surf_dims,surf_states] = meshgrid(2:(size(bits_per_spike,1)),2:(size(bits_per_spike,2)));
+
+bits_per_spike(bits_per_spike == 0) = NaN;
+
+figure; hold on;
+surf(surf_dims,surf_states,bits_per_spike(2:end,2:end)')
