@@ -42,7 +42,9 @@ for iFile = 1:length(ll_files_list)
     end
 end
 
+[surf_dims,surf_states] = meshgrid(2:(size(bits_per_spike,1)),2:(size(bits_per_spike,2)));
 
-figure; hold on; 
-plot(find(bits_per_spike(:,2) > 0),bits_per_spike(bits_per_spike(:,2) > 0,2))
-plot(find(bits_per_spike(:,3) > 0),bits_per_spike(bits_per_spike(:,3) > 0,3))
+bits_per_spike(bits_per_spike == 0) = NaN;
+
+figure; hold on;
+surf(surf_dims,surf_states,bits_per_spike(2:end,2:end)')
