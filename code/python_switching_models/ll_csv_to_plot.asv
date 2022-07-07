@@ -38,6 +38,6 @@ ll_files_list = ll_files_list(cellfun(@(x) contains(x,'_states_ll'),ll_files_lis
 for iFile = 1:length(ll_files_list)
     temp = readmatrix([filepath ll_files_list{iFile}]);
     for iRow = 1:size(temp,1)
-        bits_per_spike(temp(iRow,2),str2double(extractBefore(ll_files_list{iFile},'_states_ll'))) = temp(iRow,1);
+        bits_per_spike(temp(iRow,2),str2double(extractBefore(ll_files_list{iFile},'_dims_ll'))) = temp(iRow,1);
     end
 end
