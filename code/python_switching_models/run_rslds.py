@@ -139,11 +139,10 @@ def run_rslds(
             latent_dims = pd.DataFrame([latent_dim_state_range])
             frames = [lls, latent_dims]
             lls = pd.concat(frames, axis=1)
+            first_file = 1
             for file in os.listdir(folderpath):
-                if file.startswith(str(num_hidden_state_override) + "_states_lls.csv"):
+                if file.endswith(str(num_hidden_state_override) + "_states_lls.csv"):
                     first_file = 0
-            else:
-                first_file = 1
 
             if first_file == 1:
                 lls.to_csv(folderpath + str(num_hidden_state_override) +
