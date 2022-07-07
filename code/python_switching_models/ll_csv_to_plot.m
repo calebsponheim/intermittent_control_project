@@ -41,3 +41,8 @@ for iFile = 1:length(ll_files_list)
         bits_per_spike(temp(iRow,2),str2double(extractBefore(ll_files_list{iFile},'_states_ll'))) = temp(iRow,1);
     end
 end
+
+
+figure; hold on; 
+plot(find(bits_per_spike(:,2) > 0),bits_per_spike(bits_per_spike(:,2) > 0,2))
+plot(find(bits_per_spike(:,3) > 0),bits_per_spike(bits_per_spike(:,3) > 0,3))
