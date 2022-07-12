@@ -48,3 +48,15 @@ bits_per_spike(bits_per_spike == 0) = NaN;
 
 figure; hold on;
 surf(surf_dims,surf_states,bits_per_spike(2:end,2:end)')
+view(-45,45) 
+hold off
+saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trial_',num2str(iTrial),'_param_search_surf.png']);
+close gcf
+
+figure; hold on;
+for iState = 2:size(bits_per_spike,2)
+    plot(find(bits_per_spike(:,iState)>0),bits_per_spike(bits_per_spike(:,iState)>0,iState),'LineWidth',2)
+end
+hold off
+saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trial_',num2str(iTrial),'_param_search_2D.png']);
+close gcf
