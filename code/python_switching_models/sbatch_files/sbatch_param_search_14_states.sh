@@ -1,13 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=14_states
-#SBATCH --array=2-80
+#SBATCH --array=2-80:5
 #SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rSLDS_%a_14.out
 #SBATCH --error=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rSLDS_%a_14.err
 #SBATCH --time=36:00:00
 #SBATCH --partition=broadwl
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --mem-per-cpu=32G
+#SBATCH --mem-per-cpu=48G
 
 echo "My SLURM_ARRAY_TASK_ID: " $SLURM_ARRAY_TASK_ID
 echo "My SLURM_ARRAY_JOB_ID: " $SLURM_ARRAY_JOB_ID
