@@ -7,15 +7,12 @@ Created on Mon July 26th 09:58:02 2021.
 import matplotlib.pyplot as plt
 import ssm
 import numpy as np
-import autograd.numpy.random as npr
 import seaborn as sns
 
 import matplotlib
 import matplotlib.gridspec as gridspec
 from matplotlib.font_manager import FontProperties
 from sklearn.decomposition import PCA as PCA_sk
-
-# npr.seed(100)
 
 
 color_names = ["windows blue", "red", "amber", "faded green", "deep aqua", "fresh green",

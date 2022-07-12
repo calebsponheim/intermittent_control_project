@@ -20,6 +20,7 @@ from numpy.linalg import eig
 from rslds_cosmoothing import rslds_cosmoothing
 from plot_continuous_states import plot_continuous_states
 # from state_prob_over_time import state_prob_over_time
+import autograd.numpy.random as npr
 
 
 def run_rslds(
@@ -95,9 +96,17 @@ def run_rslds(
     data, is_it_breaux = import_matlab_data(folderpath)
 
     # %%
+    if midway_run == 0:
+        trial_classification = assign_trials_to_HMM_group(data, meta)
+    elif midway_run == 1:
+        npr.seed(100)
+        trial_classification = assign_trials_to_HMM_group(data, meta)
 
-    trial_classification = assign_trials_to_HMM_group(data, meta)
-
+        # trial_classification = []
+        # with open(folderpath + "trial_classifiction.csv", newline="") as csvfile:
+        #     spamreader = csv.reader(csvfile)
+        #     for row in spamreader:
+        #         trial_classification.append(row)
     # %% Running HMM to find optimal number of states using LL saturation
     if midway_run == 0:
         hmm_storage, select_ll, state_range = train_HMM(
