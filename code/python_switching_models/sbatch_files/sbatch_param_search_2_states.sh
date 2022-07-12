@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=%A_2
-#SBATCH --array=2-80
+#SBATCH --job-name=2_RSLDS
+#SBATCH --array=2-80:5
 #SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rSLDS_%a_2.out
 #SBATCH --error=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rSLDS_%a_2.err
 #SBATCH --time=36:00:00
