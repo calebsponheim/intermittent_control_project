@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=26_rSLDS
 #SBATCH --array=[2-80:5]
-#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rSLDS_%a_22.out
-#SBATCH --error=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rSLDS_%a_22.err
+#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rSLDS_%a_26.out
+#SBATCH --error=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rSLDS_%a_26.err
 #SBATCH --time=36:00:00
 #SBATCH --partition=broadwl
 #SBATCH --nodes=1
@@ -16,4 +16,4 @@ module load python/anaconda-2021.05
 
 source activate /dali/nicho/caleb/git/intermittent_control_project/data/ssm_midway_python_environment/
 
-python /dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py $SLURM_ARRAY_TASK_ID 22
+python /dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py $SLURM_ARRAY_TASK_ID 26
