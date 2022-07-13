@@ -32,14 +32,14 @@ end
 %%
 dim_skip = 5;
 state_skip = 2;
-
+bits_per_spike = [];
 ll_files_list = dir(filepath);
 ll_files_list = {ll_files_list.name}';
-ll_files_list = ll_files_list(cellfun(@(x) contains(x,'_states_ll'),ll_files_list));
+ll_files_list = ll_files_list(cellfun(@(x) contains(x,'_states_lls'),ll_files_list));
 for iFile = 1:length(ll_files_list)
     temp = readmatrix([filepath ll_files_list{iFile}]);
     for iRow = 1:size(temp,1)
-        bits_per_spike(temp(iRow,2),str2double(extractBefore(ll_files_list{iFile},'_states_ll'))) = temp(iRow,1);
+        bits_per_spike(temp(iRow,2),str2double(extractBefore(ll_files_list{iFile},'_states_lls'))) = temp(iRow,1);
     end
 end
 
@@ -62,11 +62,7 @@ end
 bits_per_spike_for_plot_filled = fillmissing(bits_per_spike_for_plot,'linear',2,'EndValues','nearest');
 
 
-for iRow = 1:size(bits_per_spike_for_plot_filled,1)
-    for iColumn = 2:size(bits_per_spike_for_plot_filled,2)
-        marginal_bits_per_spike_for_plot_filled(iRow,iColumn-1) = bits_per_spike_for_plot_filled(iRow,iColumn) - bits_per_spike_for_plot_filled(iRow,iColumn-1);
-    end
-end
+marginal_bits_per_spike_for_plot_filled = diff(bits_per_spike_for_plot_filled')';
 
 [surf_dims,surf_states] = meshgrid(rows_for_plot,columns_for_plot(2:end));
 
