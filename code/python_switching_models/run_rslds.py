@@ -119,13 +119,6 @@ def run_rslds(
             hidden_state_skip,
             num_hidden_state_override
         )
-    # %% Finding 90% cutoff
-
-    # LL_curve_fitting(select_ll, state_range)
-
-    # %% Trying to Plot/Cluster Model/State Parameters
-
-    # analyze_params(model_params)
 
     # %% Running Co-Smoothing
 
@@ -211,36 +204,29 @@ def run_rslds(
         decoded_data_rslds_out.to_csv(
             folderpath + "decoded_data_rslds.csv", index=False)
 
-        # rslds_likelihood_out = pd.DataFrame(rslds_likelihood)
-        # rslds_likelihood_out.to_csv(
-        #     folderpath + "rslds_likelihood.csv", index=False)
-
         with open(folderpath + "trial_classifiction.csv", "w", newline="") as f:
             write = csv.writer(f, delimiter=" ", quotechar="|",
                                quoting=csv.QUOTE_MINIMAL)
             for iTrial in range(len(trial_classification)):
                 write.writerow(trial_classification[iTrial])
 
-        # select_ll = pd.DataFrame(select_ll)
-        # select_ll.to_csv(folderpath + "select_ll.csv", index=False)
+        for iTrial in range(len(xhat_lem)):
+            continuous_states_temp = pd.DataFrame(xhat_lem[iTrial])
+            continuous_states_temp.to_csv(folderpath + "continuous_states_trial_" +
+                                          str(iTrial+1) + ".csv", index=False, header=False)
 
-        # with open(folderpath + "num_states.csv", "w") as f:
-        #     write = csv.writer(f)
-        #     write.writerow(state_range)
+        real_eigenvalues_out = pd.DataFrame(real_eigenvalues)
+        real_eigenvalues_out.to_csv(folderpath + "real_eigenvalues.csv", index=False)
+        imaginary_eigenvalues_out = pd.DataFrame(imaginary_eigenvalues)
+        imaginary_eigenvalues_out.to_csv(folderpath + "imaginary_eigenvalues.csv", index=False)
 
-        if rslds_ll_analysis == 0:
-            real_eigenvalues_out = pd.DataFrame(real_eigenvalues)
-            real_eigenvalues_out.to_csv(folderpath + "real_eigenvalues.csv", index=False)
-            imaginary_eigenvalues_out = pd.DataFrame(imaginary_eigenvalues)
-            imaginary_eigenvalues_out.to_csv(folderpath + "imaginary_eigenvalues.csv", index=False)
-
-            for iState in range(len(real_eigenvectors)):
-                real_eigenvectors_out = pd.DataFrame(real_eigenvectors[iState])
-                real_eigenvectors_out.to_csv(folderpath + "real_eigenvectors_state_" +
-                                             str(iState+1) + ".csv", index=False)
-                imaginary_eigenvectors_out = pd.DataFrame(imaginary_eigenvectors[iState])
-                imaginary_eigenvectors_out.to_csv(folderpath + "imaginary_eigenvectors_state_" +
-                                                  str(iState+1) + ".csv", index=False)
+        for iState in range(len(real_eigenvectors)):
+            real_eigenvectors_out = pd.DataFrame(real_eigenvectors[iState])
+            real_eigenvectors_out.to_csv(folderpath + "real_eigenvectors_state_" +
+                                         str(iState+1) + ".csv", index=False)
+            imaginary_eigenvectors_out = pd.DataFrame(imaginary_eigenvectors[iState])
+            imaginary_eigenvectors_out.to_csv(folderpath + "imaginary_eigenvectors_state_" +
+                                              str(iState+1) + ".csv", index=False)
 
         # %%
     if midway_run == 0:

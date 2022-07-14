@@ -102,6 +102,41 @@ if contains(subject_filepath,'1051013') || contains(subject_filepath,'1050225')
             cpl_st_trial_rew(:,1) = cpl_st_trial;
             cpl_st_trial_rew(:,2) = reward;
         end
+        % Establishing Center-Out Trial Direction
+        load(subject_filepath,'cpl_0deg','cpl_45deg','cpl_90deg','cpl_135deg','cpl_180deg','cpl_225deg','cpl_270deg','cpl_315deg','cpl_st_trial')
+        target_dir = nan(size(cpl_st_trial,1),1);
+        for iTrial = 1:size(cpl_0deg,1)
+            [~,closestIndex] = min(abs(cpl_st_trial - cpl_0deg(iTrial)));
+            target_dir(closestIndex) = 0;
+        end
+        for iTrial = 1:size(cpl_45deg,1)
+            [~,closestIndex] = min(abs(cpl_st_trial - cpl_45deg(iTrial)));
+            target_dir(closestIndex) = 45;
+        end
+        for iTrial = 1:size(cpl_90deg,1)
+            [~,closestIndex] = min(abs(cpl_st_trial - cpl_90deg(iTrial)));
+            target_dir(closestIndex) = 90;
+        end
+        for iTrial = 1:size(cpl_135deg,1)
+            [~,closestIndex] = min(abs(cpl_st_trial - cpl_135deg(iTrial)));
+            target_dir(closestIndex) = 135;
+        end
+        for iTrial = 1:size(cpl_180deg,1)
+            [~,closestIndex] = min(abs(cpl_st_trial - cpl_180deg(iTrial)));
+            target_dir(closestIndex) = 180;
+        end
+        for iTrial = 1:size(cpl_225deg,1)
+            [~,closestIndex] = min(abs(cpl_st_trial - cpl_225deg(iTrial)));
+            target_dir(closestIndex) = 225;
+        end
+        for iTrial = 1:size(cpl_270deg,1)
+            [~,closestIndex] = min(abs(cpl_st_trial - cpl_270deg(iTrial)));
+            target_dir(closestIndex) = 270;
+        end
+        for iTrial = 1:size(cpl_315deg,1)
+            [~,closestIndex] = min(abs(cpl_st_trial - cpl_315deg(iTrial)));
+            target_dir(closestIndex) = 315;
+        end
     else
         load(subject_filepath,'spikes','cpl_st_trial','reward','st_trial_SRT','reward_SRT','MIchans');
         
@@ -167,6 +202,7 @@ clear bin_timestamps
 trials = 1:size(cpl_st_trial_rew,1);
 trials(bad_trials) = [];
 cpl_st_trial_rew(bad_trials,:) = [];
+target_dir(bad_trials) = [];
 num_trials = size(trials,2);
 
 for iTrial = 1:num_trials
@@ -193,4 +229,5 @@ for iTrial = 1:num_trials
             data(iTrial).spikecount(iUnit,iBin) = sum(units{iUnit} >  bin_edges(iTrial,iBin,1) & units{iUnit} <  bin_edges(iTrial,iBin,2));
         end
     end
+    data(iTrial).target_direction = target_dir(iTrial);
 end
