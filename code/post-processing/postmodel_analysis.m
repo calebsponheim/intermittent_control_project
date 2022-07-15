@@ -1,4 +1,4 @@
-function [meta, snippet_data] = rs_postmodel_analysis(meta,data)
+function [meta, snippet_data] = postmodel_analysis(meta,data)
 
 if strcmp(getenv('USERNAME'),'calebsponheim')
     file_base_base = 'C:\Users\calebsponheim';
@@ -67,5 +67,6 @@ if meta.use_rslds == 1
     plot_eigs(meta,colors)
 end
 
+plot_continuous_states(meta,data)
 
 end
