@@ -12,7 +12,7 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'RSCO0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05_sBins_move_window_only\'];
 
-filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
+% filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
@@ -102,6 +102,7 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         load([filepath '\RS_RTP.mat'])
         meta.subject = 'RS';
         meta.task = 'RTP';
+        meta.session = '1050211';
         meta.move_only = 0;
     elseif contains(filepath,'RS') && contains(filepath,'CO')
         if contains(filepath,'move')
@@ -194,5 +195,5 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         end
     end
 
-elseif contains(filepath,'180323')
+% elseif contains(filepath,'180323')
 end % subject selection and dataset filtering

@@ -67,6 +67,7 @@ if meta.use_rslds == 1
     plot_eigs(meta,colors)
 end
 
-plot_continuous_states(meta,data)
-
+if contains(meta.task,'CO')
+    plot_continuous_states(meta,data)
+end 
 end
