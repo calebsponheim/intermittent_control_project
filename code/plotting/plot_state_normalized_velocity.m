@@ -34,9 +34,9 @@ for iState = 1:size(snippet_data,2)
         interpnormspeedmean{iState} = mean(interpnormspeed{iState},1,'omitnan');
         line_fit_temp = polyfit(max_res,interpnormspeedmean{iState},1);
         line_slope_temp = line_fit_temp(1);
-        if line_slope_temp > .2
+        if line_slope_temp > .3
             meta.acc_classification(iState) = 1;
-        elseif line_slope_temp < -.2
+        elseif line_slope_temp < -.3
             meta.acc_classification(iState) = 0;
         else
             meta.acc_classification(iState) = 2;
