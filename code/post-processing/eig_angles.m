@@ -13,7 +13,14 @@ real_eigenvalues = real_eigenvalues(2:end,:);
 imaginary_eigenvalues = readmatrix([meta.filepath 'imaginary_eigenvalues.csv']);
 imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
 
-
+%% Eigenvalue Magnitude Mapping
+% eigenvalue_magnitude = sqrt(real_eigenvalues.^2 + imaginary_eigenvalues.^2);
+eigenvalue_magnitude = real_eigenvalues;
+figure; hold on
+for iState = 1:size(eigenvalue_magnitude,1)
+    temp_eigenvalue_magnitude = eigenvalue_magnitude(iState,:);
+ plot(fliplr(cumsum(sort(temp_eigenvalue_magnitude)))/sum(temp_eigenvalue_magnitude))
+end
 %% Calculating the complex vectors
 
 for iState = 1:size(real_eigenvectors, 2)
@@ -43,13 +50,14 @@ for iCombo = 1:size(all_state_combos,1)
 
     complex_eigenvector_temp_one = complex_eigenvectors{all_state_combos(iCombo,1)};
     complex_eigenvector_temp_two = complex_eigenvectors{all_state_combos(iCombo,2)};
-
+    eigenvalue_magnitude_temp_one = eigenvalue_magnitude(all_state_combos(iCombo,1),:);
+    eigenvalue_magnitude_temp_two = eigenvalue_magnitude(all_state_combos(iCombo,2),:);
     % Step 4: calculate dot products between all state eigenvector combos
     % of the two selected combos
-    [m,n] = ndgrid(1:size(complex_eigenvector_temp_one,2),1:size(complex_eigenvector_temp_two,2));
+    [m,n] = ndgrid(find(eigenvalue_magnitude_temp_one > .75),find(eigenvalue_magnitude_temp_two > .75));
     eigenvector_combos = [m(:),n(:)];
 
-    for iIntraCombo = 1:size(eigenvector_combos,1)
+    for iIntraCombo = 1:size(eigenvector_combos,1)  
         input_one = complex_eigenvector_temp_one(:,eigenvector_combos(iIntraCombo,1));
         input_two = complex_eigenvector_temp_two(:,eigenvector_combos(iIntraCombo,2));
         complex_dot_product_temp(iIntraCombo) = dot(input_one,input_two);
@@ -58,7 +66,7 @@ for iCombo = 1:size(all_state_combos,1)
     % Step 5: calculate product of vector length combos
 
     % Step 6: calculate ((X.Y)/(|X||Y|)) = theta
-    complex_eigenvector_angles_all_combos(iCombo,:) = arrayfun(@(x,y) x/y,complex_dot_product_temp,complex_vector_length_product_temp);
+    complex_eigenvector_angles_all_combos{iCombo} = arrayfun(@(x,y) x/y,complex_dot_product_temp,complex_vector_length_product_temp);
 end
 %%
 colors = cool(size(sorted_state_transitions_for_function,1));
@@ -67,8 +75,10 @@ for iCombo = 1:size(sorted_state_transitions_for_function,1)
 
     complex_eigenvector_temp_one = complex_eigenvectors{sorted_state_transitions_for_function(iCombo,1)};
     complex_eigenvector_temp_two = complex_eigenvectors{sorted_state_transitions_for_function(iCombo,2)};
+    eigenvalue_magnitude_temp_one = eigenvalue_magnitude(sorted_state_transitions_for_function(iCombo,1),:);
+    eigenvalue_magnitude_temp_two = eigenvalue_magnitude(sorted_state_transitions_for_function(iCombo,2),:);
 
-    [m,n] = ndgrid(1:size(complex_eigenvector_temp_one,2),1:size(complex_eigenvector_temp_two,2));
+    [m,n] = ndgrid(find(eigenvalue_magnitude_temp_one > .75),find(eigenvalue_magnitude_temp_two > .75));
     eigenvector_combos = [m(:),n(:)];
     eigenvector_combos(eigenvector_combos(:,1) == eigenvector_combos(:,2),:) = [];
 
@@ -81,18 +91,18 @@ for iCombo = 1:size(sorted_state_transitions_for_function,1)
     end
 
     % Step 6: calculate ((X.Y)/(|X||Y|)) = cosine
-    complex_eigenvector_angles(iCombo,:) = arrayfun(@(x,y) x/y,complex_dot_product_temp,complex_vector_length_product_temp);
+    complex_eigenvector_angles{iCombo} = arrayfun(@(x,y) x/y,complex_dot_product_temp,complex_vector_length_product_temp);
 end
 
 
 %%
 % Step 7: plot
-figure('Visible','on'); hold on;
+figure('Visible','off'); hold on;
 for iCombo = 1:size(all_state_combos,1)
-    plot(real(complex_eigenvector_angles_all_combos(iCombo,:)),imag(complex_eigenvector_angles_all_combos(iCombo,:)),'.',"Color",'k','MarkerSize',10)
+    plot(real(complex_eigenvector_angles_all_combos{iCombo}),imag(complex_eigenvector_angles_all_combos{iCombo}),'.',"Color",'k','MarkerSize',10)
 end
 for iCombo = 1:size(sorted_state_transitions_for_function,1)
-    plot(real(complex_eigenvector_angles(iCombo,:)),imag(complex_eigenvector_angles(iCombo,:)),'.',"Color",colors(iCombo,:),'MarkerSize',10)
+    plot(real(complex_eigenvector_angles{iCombo}),imag(complex_eigenvector_angles{iCombo}),'.',"Color",colors(iCombo,:),'MarkerSize',10)
 end
 
 
@@ -103,16 +113,16 @@ box off
 set(gcf,"Color",'White')
 saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles.png']);
 
-% close gcf
+close gcf
 
-%% violin plot
-reshaped_all_combos_real = reshape(real(complex_eigenvector_angles_all_combos),[],1);
+%% plot
+reshaped_all_combos_real = reshape(real([complex_eigenvector_angles_all_combos{:}]),[],1);
 reshaped_all_combos_real_err = std(reshaped_all_combos_real)/sqrt(length(reshaped_all_combos_real));
-reshaped_all_combos_imag = reshape(imag(complex_eigenvector_angles_all_combos),[],1);
+reshaped_all_combos_imag = reshape(imag([complex_eigenvector_angles_all_combos{:}]),[],1);
 reshaped_all_combos_imag_err = std(reshaped_all_combos_imag)/sqrt(length(reshaped_all_combos_imag));
-reshaped_angles_real = reshape(real(complex_eigenvector_angles),[],1);
+reshaped_angles_real = reshape(real([complex_eigenvector_angles{:}]),[],1);
 reshaped_angles_real_err = std(reshaped_angles_real)/sqrt(length(reshaped_angles_real));
-reshaped_angles_imag = reshape(imag(complex_eigenvector_angles),[],1);
+reshaped_angles_imag = reshape(imag([complex_eigenvector_angles{:}]),[],1);
 reshaped_angles_imag_err = std(reshaped_angles_imag)/sqrt(length(reshaped_angles_imag));
 
 err_bars_real = [
@@ -124,7 +134,7 @@ err_bars_imag = [
     reshaped_angles_imag_err
     ];
 
-figure; hold on
+figure('visible','off'); hold on
 subplot(1,2,1); hold on
 errorbar([mean(reshaped_all_combos_real) mean(reshaped_angles_real)],err_bars_real,'o')
 xlim([0 3])
@@ -139,6 +149,6 @@ title('imaginary eigenvector angles')
 box off
 set(gcf,"Color","w")
 saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles_comparison.png']);
-% close gcf
+close gcf
 
 end

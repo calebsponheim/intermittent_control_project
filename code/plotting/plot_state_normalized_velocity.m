@@ -33,13 +33,14 @@ for iState = 1:size(snippet_data,2)
         end %iSnippet
         interpnormspeedmean{iState} = mean(interpnormspeed{iState},1,'omitnan');
         line_fit_temp = polyfit(max_res,interpnormspeedmean{iState},1);
+        y_for_line_plot = polyval(line_fit_temp,max_res);
         line_slope_temp = line_fit_temp(1);
         if line_slope_temp > .3
-            meta.acc_classification(iState) = 1;
+            meta.acc_classification(iState) = 1; % ACCELERATIVE
         elseif line_slope_temp < -.3
-            meta.acc_classification(iState) = 0;
+            meta.acc_classification(iState) = 0; % DECELRATIVE
         else
-            meta.acc_classification(iState) = 2;
+            meta.acc_classification(iState) = 2; % FLAT
         end
         interpnormspeedstderr{iState} = std(interpnormspeed{iState},1,'omitnan') / sqrt(size(interpnormspeed{iState},1));
         % plot the normalized speed
@@ -48,6 +49,8 @@ for iState = 1:size(snippet_data,2)
             fliplr((interpnormspeedmean{iState}-interpnormspeedstderr{iState}))],colors(iState,:),'edgecolor','none')
         alpha(0.4)
         plot(max_res,interpnormspeedmean{iState},'Color',colors(iState,:),'linewidth',2)
+        plot(max_res,y_for_line_plot,'b-','LineWidth',2)
+        annotation('textbox',[.5 .1 .1 .1],'String',['Slope: ' num2str(line_slope_temp)],'FitBoxToText','on');
         box off
         xlabel('Time (normalized)')
         ylabel('Speed (normalized)')

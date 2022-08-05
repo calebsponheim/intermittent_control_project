@@ -14,7 +14,7 @@ latent_dim_state_range = 11
 midway_run = 0
 
 subject = 'bx'
-task = 'CO'
+task = 'CO+RTP'
 # num_hidden_state_override = int(sys.argv[2])
 num_hidden_state_override = 16
 

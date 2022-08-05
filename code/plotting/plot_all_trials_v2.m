@@ -10,7 +10,7 @@ for iTrial = 1:size(data,2)
     states_for_plotting(states_for_plotting == 0) = max(states_for_plotting)+1;
     trial_colors = zeros(length(states_for_plotting),3);
     trial_colors(~isnan(states_for_plotting),:) = colors(states_for_plotting(~isnan(states_for_plotting)),:);
-    scatter(data(iTrial).x_smoothed(1:length(trial_colors)),data(iTrial).y_smoothed(1:length(trial_colors)),5,trial_colors,'filled','MarkerFaceAlpha',0.1,'MarkerEdgeAlpha',0.1)
+    scatter(data(iTrial).x_smoothed,data(iTrial).y_smoothed,5,trial_colors(1:length(data(iTrial).x_smoothed),:),'filled','MarkerFaceAlpha',0.1,'MarkerEdgeAlpha',0.1)
 end
 title(strcat(meta.subject,' ',strrep(meta.task,'_',' '),' all trials position'));
 % legend([plots{state_present(2,state_present(1,:)>0)}]);
