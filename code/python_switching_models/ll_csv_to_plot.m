@@ -91,7 +91,7 @@ for iState = 2:size(bits_per_spike,2)
 end
 view(42,24) 
 hold off
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trial_',num2str(iTrial),'_param_search_surf.png']);
+saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf.png']);
 
 
     
@@ -100,8 +100,7 @@ for iState = 2:size(bits_per_spike,2)
     x = find(bits_per_spike(:,iState)>0);
     x = x(2:end);
     y = diff(bits_per_spike(bits_per_spike(:,iState)>0,iState));
-    plot(x,y,'LineWidth',2)
-    hold off
+    plot(x,y,'LineWidth',2,'Color',colors(iState,:))
 end
 hold off
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trial_',num2str(iTrial),'_param_search_2D.png']);
+saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_2D.png']);

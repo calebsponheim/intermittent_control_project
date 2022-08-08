@@ -1,4 +1,7 @@
 function eig_angles(meta,sorted_state_transitions)
+
+eigenvalue_magnitude_threshold = 0.75;
+
 sorted_state_transitions_for_function = sorted_state_transitions(:,:);
 for iState = 1:meta.optimal_number_of_states
     real_eigenvectors_temp = readmatrix([meta.filepath 'real_eigenvectors_state_' num2str(iState) '.csv']);
@@ -14,13 +17,23 @@ imaginary_eigenvalues = readmatrix([meta.filepath 'imaginary_eigenvalues.csv']);
 imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
 
 %% Eigenvalue Magnitude Mapping
-% eigenvalue_magnitude = sqrt(real_eigenvalues.^2 + imaginary_eigenvalues.^2);
-eigenvalue_magnitude = real_eigenvalues;
-figure; hold on
+eigenvalue_magnitude = sqrt(real_eigenvalues.^2 + imaginary_eigenvalues.^2);
+% eigenvalue_magnitude = real_eigenvalues;
+figure('visible','off'); hold on
 for iState = 1:size(eigenvalue_magnitude,1)
     temp_eigenvalue_magnitude = eigenvalue_magnitude(iState,:);
- plot(fliplr(cumsum(sort(temp_eigenvalue_magnitude)))/sum(temp_eigenvalue_magnitude))
+    plot(fliplr(cumsum(sort(temp_eigenvalue_magnitude)))/sum(temp_eigenvalue_magnitude))
+%     plot(fliplr(sort(temp_eigenvalue_magnitude)))
 end
+xlabel('dimension index')
+ylabel('% accounted for')
+hold off
+box off
+set(gcf,"Color",'White')
+saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvalue_magnitudes.png']);
+
+close gcf
+
 %% Calculating the complex vectors
 
 for iState = 1:size(real_eigenvectors, 2)
@@ -54,7 +67,7 @@ for iCombo = 1:size(all_state_combos,1)
     eigenvalue_magnitude_temp_two = eigenvalue_magnitude(all_state_combos(iCombo,2),:);
     % Step 4: calculate dot products between all state eigenvector combos
     % of the two selected combos
-    [m,n] = ndgrid(find(eigenvalue_magnitude_temp_one > .75),find(eigenvalue_magnitude_temp_two > .75));
+    [m,n] = ndgrid(find(eigenvalue_magnitude_temp_one > eigenvalue_magnitude_threshold),find(eigenvalue_magnitude_temp_two > eigenvalue_magnitude_threshold));
     eigenvector_combos = [m(:),n(:)];
 
     for iIntraCombo = 1:size(eigenvector_combos,1)  
@@ -78,7 +91,7 @@ for iCombo = 1:size(sorted_state_transitions_for_function,1)
     eigenvalue_magnitude_temp_one = eigenvalue_magnitude(sorted_state_transitions_for_function(iCombo,1),:);
     eigenvalue_magnitude_temp_two = eigenvalue_magnitude(sorted_state_transitions_for_function(iCombo,2),:);
 
-    [m,n] = ndgrid(find(eigenvalue_magnitude_temp_one > .75),find(eigenvalue_magnitude_temp_two > .75));
+    [m,n] = ndgrid(find(eigenvalue_magnitude_temp_one > eigenvalue_magnitude_threshold),find(eigenvalue_magnitude_temp_two > eigenvalue_magnitude_threshold));
     eigenvector_combos = [m(:),n(:)];
     eigenvector_combos(eigenvector_combos(:,1) == eigenvector_combos(:,2),:) = [];
 

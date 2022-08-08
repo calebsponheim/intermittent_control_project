@@ -15,7 +15,7 @@ ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
 acc_eig_count = 1;
 dec_eig_count = 1;
-for iState = 1:size(real_eigenvalues,2)
+for iState = 1:size(real_eigenvalues,1)
     if meta.acc_classification(iState) == 1
         plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color',colors(1,:));
         acc_eigs_real(acc_eig_count,:) = real_eigenvalues(iState,:);
@@ -79,7 +79,7 @@ close gcf
 
 acc_states_real = [];
 acc_states_imag = [];
-for iState = 1:size(real_eigenvalues,2)
+for iState = 1:size(real_eigenvalues,1)
     if meta.acc_classification(iState) == 1
         acc_states_real = [acc_states_real real_eigenvalues(iState,:)];
         acc_states_imag = [acc_states_imag imaginary_eigenvalues(iState,:)];
