@@ -25,9 +25,11 @@ end
 
 if meta.use_rslds == 1
     meta.figure_folder_filepath = [meta.figure_folder_filepath 'rslds\'];
+    meta.figure_folder_filepath = [meta.figure_folder_filepath num2str(meta.optimal_number_of_states) "_states_" num2str(meta.num_desired_dims) "_dims\"];
 elseif meta.use_rslds == 0
-    meta.figure_folder_filepath = [meta.figure_folder_filepath 'hmm\'];
+    meta.figure_folder_filepath = [meta.figure_folder_filepath 'hmm\' num2str(meta.optimal_number_of_states) "_states\"];
 end
+
 %% Create Snippet Timing
 
 % Segment Analysis

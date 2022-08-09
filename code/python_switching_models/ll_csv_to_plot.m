@@ -61,7 +61,7 @@ end
 % bits_per_spike_for_plot_filled = fillmissing(bits_per_spike_for_plot,'linear',2,'EndValues','nearest');
 % Surf Test%%%%%%%%
 %%%%%%%%%%%%%%%%%%%
-
+surf_test = [];
 state_count = 1;
 for iState = 2:size(bits_per_spike,2)
     temp = diff(bits_per_spike(bits_per_spike(:,iState)>0,iState));
@@ -79,9 +79,22 @@ end
 marginal_bits_per_spike_for_plot = diff(bits_per_spike_for_plot');
 
 
+
+%% STATE-WISE
+colors = hsv(size(bits_per_spike,1));
+figure; hold on;
+for iDim = 2:size(bits_per_spike,1)
+    x = find(bits_per_spike(iDim,:)>0);
+    x = x(2:end);
+    y = diff(bits_per_spike(iDim,bits_per_spike(iDim,:)>0));
+    plot3(x,repmat(iDim,length(x)),y,'LineWidth',2,'Color',colors(iDim,:));
+end
+view(42,24) 
+hold off
+saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_state-wise.png']);
+
+%% 3D
 colors = hsv(size(bits_per_spike,2));
-
-
 figure; hold on;
 for iState = 2:size(bits_per_spike,2)
     x = find(bits_per_spike(:,iState)>0);
@@ -94,7 +107,7 @@ hold off
 saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf.png']);
 
 
-    
+ %%   2D
 figure; hold on;
 for iState = 2:size(bits_per_spike,2)
     x = find(bits_per_spike(:,iState)>0);
@@ -104,3 +117,4 @@ for iState = 2:size(bits_per_spike,2)
 end
 hold off
 saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_2D.png']);
+close all

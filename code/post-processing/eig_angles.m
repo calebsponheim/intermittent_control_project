@@ -79,7 +79,9 @@ for iCombo = 1:size(all_state_combos,1)
     % Step 5: calculate product of vector length combos
 
     % Step 6: calculate ((X.Y)/(|X||Y|)) = theta
+    if size(eigenvector_combos,1) > 0
     complex_eigenvector_angles_all_combos{iCombo} = arrayfun(@(x,y) x/y,complex_dot_product_temp,complex_vector_length_product_temp);
+    end
 end
 %%
 colors = cool(size(sorted_state_transitions_for_function,1));

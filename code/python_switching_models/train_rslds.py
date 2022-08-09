@@ -185,7 +185,7 @@ def plot_most_likely_dynamics_ind(model, figurepath, xlim=(-10, 10),
 # %%
 
 
-def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
+def train_rslds(data, trial_classification, meta, bin_size,
                 num_hidden_state_override, figurepath, rslds_ll_analysis, latent_dim_state_range):
     """Train a Switching Linear Dynamical System."""
     # %%
@@ -282,7 +282,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     plt.xlabel("Iteration")
     plt.ylabel("ELBO")
     plt.tight_layout()
-    plt.savefig(figurepath + "rslds/training.png")
+    plt.savefig(figurepath + "/training.png")
 
     # if rslds_ll_analysis == 0:
     #     plt.figure()
@@ -293,7 +293,7 @@ def train_rslds(data, trial_classification, meta, bin_size, is_it_breaux,
     if num_latent_dims == 2:
         plot_most_likely_dynamics(model)
         plt.title("Most Likely Dynamics, All States")
-        plt.savefig(figurepath + "/rslds/2D_flowfield.png")
+        plt.savefig(figurepath + "/2D_flowfield.png")
         plt.close()
 
     if num_latent_dims == 3:

@@ -34,8 +34,8 @@ def run_rslds(
     num_hidden_state_override,
     rslds_ll_analysis,
     latent_dim_state_range,
-    multiple_folds,
-    midway_run
+    midway_run,
+    fold_number
 ):
     """
     Summary: Function is the main script for running rslds analysis.
@@ -62,27 +62,41 @@ def run_rslds(
             # folderpath = (
             #     folderpath_base + "Bxcenter_out1902280.05_sBins_move_window_only/"
             # )
-            figurepath = figurepath_base + "Bx/CO/"
+            figurepath = figurepath_base + "Bx/CO_CT0/rslds/"
         elif task == "CO+RTP":
             folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
-            figurepath = figurepath_base + "Bx/CO+RTP/"
+            figurepath = figurepath_base + "Bx/CO+RTP_CT0/rslds/"
     elif subject == "bx18":
         folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/"
-        figurepath = figurepath_base + "Bx/CO18_CT0/"
+        figurepath = figurepath_base + "Bx/CO18_CT0/rslds/"
     elif subject == "rs":
         if task == "CO":
             # folderpath = folderpath_base + "RSCO0.05sBins/"
             folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
-            figurepath = figurepath_base + "RS/CO_CT0_move_only/"
+            figurepath = figurepath_base + "RS/CO_CT0_move_only/rslds/"
 
         elif task == "RTP":
             folderpath = folderpath_base + "RSRTP0.05sBins/"
-            figurepath = figurepath_base + "RS/RTP_CT0/"
+            figurepath = figurepath_base + "RS/RTP_CT0/rslds/"
     elif subject == "rj":
         folderpath = folderpath_base + "RJRTP0.05sBins/"
-        figurepath = figurepath_base + "RJ/RTP_CT0/"
+        figurepath = figurepath_base + "RJ/RTP_CT0/rslds/"
     else:
         print("BAD, NO")
+
+    temp_folderlist = os.listdir(folderpath)
+    temp_figurelist = os.listdir(figurepath)
+    if str(num_hidden_state_override) + "_states_" + str(latent_dim_state_range) + "_dims" not in temp_folderlist:
+        os.mkdir(folderpath + str(num_hidden_state_override) +
+                 "_states_" + str(latent_dim_state_range) + "_dims/")
+    if str(num_hidden_state_override) + "_states_" + str(latent_dim_state_range) + "_dims" not in temp_figurelist:
+        os.mkdir(figurepath + str(num_hidden_state_override) +
+                 "_states_" + str(latent_dim_state_range) + "_dims/")
+
+    folderpath_out = folderpath + str(num_hidden_state_override) + \
+        "_states_" + str(latent_dim_state_range) + "_dims/"
+    figurepath = figurepath + str(num_hidden_state_override) + \
+        "_states_" + str(latent_dim_state_range) + "_dims/"
 
     class meta:
         def __init__(self, train_portion, model_select_portion, test_portion):
@@ -93,49 +107,58 @@ def run_rslds(
     bin_size = 50  # in milliseconds
     meta = meta(train_portion, model_select_portion, test_portion)
 
-    data, is_it_breaux = import_matlab_data(folderpath)
+    data = import_matlab_data(folderpath)
 
     # %%
-    if midway_run == 0:
-        trial_classification = assign_trials_to_HMM_group(data, meta)
-    elif midway_run == 1:
-        npr.seed(100)
-        trial_classification = assign_trials_to_HMM_group(data, meta)
 
-        # trial_classification = []
-        # with open(folderpath + "trial_classifiction.csv", newline="") as csvfile:
-        #     spamreader = csv.reader(csvfile)
-        #     for row in spamreader:
-        #         trial_classification.append(row)
-    # %% Running HMM to find optimal number of states using LL saturation
+    trial_classification = assign_trials_to_HMM_group(
+        data, meta, midway_run, fold_number, folderpath_out)
+
+    # %% Running HMM
     if midway_run == 0:
         hmm_storage, select_ll, state_range = train_HMM(
             data,
             trial_classification,
             meta,
             bin_size,
-            is_it_breaux,
             hidden_max_state_range,
             hidden_state_skip,
             num_hidden_state_override
         )
 
     # %% Running Co-Smoothing
+    # 1. Set up file directory and folder structure for given log_likelihood files
+        #  1a. bring in datapath
+        #  1b. see if co-smoothing data folder already exists
+        # 1bi. if doesn't exist, make it
+        # 1c. see if fold number exists
+    # 2. calculate log-likelihood based on held-out test data
 
     if rslds_ll_analysis == 1:
         lls = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-                                is_it_breaux, num_hidden_state_override, figurepath,
+                                num_hidden_state_override, figurepath,
                                 rslds_ll_analysis, latent_dim_state_range)
         if multiple_folds == 1:
             num_prev_files = 0
             for file in os.listdir(folderpath):
-                if file.startswith("lls"):
+                if "lls" in file:
                     num_prev_files = num_prev_files + 1
 
             lls = pd.DataFrame(lls)
-            lls.to_csv(folderpath + "lls_" +
-                       str(num_prev_files + 1) + ".csv", index=False)
+            latent_dims = pd.DataFrame([latent_dim_state_range])
+            frames = [lls, latent_dims]
+            lls = pd.concat(frames, axis=1)
+            first_file = 1
+            for file in os.listdir(folderpath):
+                if file.endswith(str(num_hidden_state_override) + "_states_lls_fold" + str(num_prev_files + 1) + ".csv"):
+                    first_file = 0
 
+            if first_file == 1:
+                lls.to_csv(folderpath + str(num_hidden_state_override) +
+                           "_states_lls_fold" + str(num_prev_files + 1) + ".csv", index=False, header=False)
+            elif first_file == 0:
+                lls.to_csv(folderpath + str(num_hidden_state_override) +
+                           "_states_lls_fold" + str(num_prev_files + 1) + ".csv", mode='a', index=False, header=False)
         else:
             lls = pd.DataFrame(lls)
             latent_dims = pd.DataFrame([latent_dim_state_range])
@@ -157,7 +180,7 @@ def run_rslds(
     if midway_run == 0:
         model, xhat_lem, fullset, model_params = train_rslds(
             data, trial_classification, meta, bin_size,
-            is_it_breaux, num_hidden_state_override, figurepath, rslds_ll_analysis,
+            num_hidden_state_override, figurepath, rslds_ll_analysis,
             latent_dim_state_range
         )
 
@@ -198,13 +221,13 @@ def run_rslds(
         # %% write data for matlab
 
         decoded_data_hmm_out = pd.DataFrame(decoded_data_hmm)
-        decoded_data_hmm_out.to_csv(folderpath + "decoded_data_hmm.csv", index=False)
+        decoded_data_hmm_out.to_csv(folderpath_out + "decoded_data_hmm.csv", index=False)
 
         decoded_data_rslds_out = pd.DataFrame(decoded_data_rslds)
         decoded_data_rslds_out.to_csv(
-            folderpath + "decoded_data_rslds.csv", index=False)
+            folderpath_out + "decoded_data_rslds.csv", index=False)
 
-        with open(folderpath + "trial_classifiction.csv", "w", newline="") as f:
+        with open(folderpath_out + "trial_classifiction.csv", "w", newline="") as f:
             write = csv.writer(f, delimiter=" ", quotechar="|",
                                quoting=csv.QUOTE_MINIMAL)
             for iTrial in range(len(trial_classification)):
@@ -212,20 +235,20 @@ def run_rslds(
 
         for iTrial in range(len(xhat_lem)):
             continuous_states_temp = pd.DataFrame(xhat_lem[iTrial])
-            continuous_states_temp.to_csv(folderpath + "continuous_states_trial_" +
+            continuous_states_temp.to_csv(folderpath_out + "continuous_states_trial_" +
                                           str(iTrial+1) + ".csv", index=False, header=False)
 
         real_eigenvalues_out = pd.DataFrame(real_eigenvalues)
-        real_eigenvalues_out.to_csv(folderpath + "real_eigenvalues.csv", index=False)
+        real_eigenvalues_out.to_csv(folderpath_out + "real_eigenvalues.csv", index=False)
         imaginary_eigenvalues_out = pd.DataFrame(imaginary_eigenvalues)
-        imaginary_eigenvalues_out.to_csv(folderpath + "imaginary_eigenvalues.csv", index=False)
+        imaginary_eigenvalues_out.to_csv(folderpath_out + "imaginary_eigenvalues.csv", index=False)
 
         for iState in range(len(real_eigenvectors)):
             real_eigenvectors_out = pd.DataFrame(real_eigenvectors[iState])
-            real_eigenvectors_out.to_csv(folderpath + "real_eigenvectors_state_" +
+            real_eigenvectors_out.to_csv(folderpath_out + "real_eigenvectors_state_" +
                                          str(iState+1) + ".csv", index=False)
             imaginary_eigenvectors_out = pd.DataFrame(imaginary_eigenvectors[iState])
-            imaginary_eigenvectors_out.to_csv(folderpath + "imaginary_eigenvectors_state_" +
+            imaginary_eigenvectors_out.to_csv(folderpath_out + "imaginary_eigenvectors_state_" +
                                               str(iState+1) + ".csv", index=False)
 
         # %%

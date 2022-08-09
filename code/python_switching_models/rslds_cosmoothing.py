@@ -112,7 +112,7 @@ def neg_log_likelihood(rates, spikes, zero_warning=True):
 
 
 def rslds_cosmoothing(data, trial_classification, meta, bin_size,
-                      is_it_breaux, num_hidden_state_override, figurepath,
+                      num_hidden_state_override, figurepath,
                       rslds_ll_analysis, latent_dim_state_range):
     """Train a Switching Linear Dynamical System."""
     # %%
@@ -171,7 +171,10 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
 
     # %% Getting bits_per_spike
     test_bits = []
+    log_likelihood_sum = []
+    log_likelihood = []
     test_states = []
+
     for iTrial in range(len(testset)):
         test_states.append(model.most_likely_states(
             q_lem_test.mean_continuous_states[iTrial], testset[iTrial]))
@@ -185,6 +188,7 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
             zero_warning=False
         )
         test_bits.append((nll_null - nll_model) / np.nansum(testset[iTrial]) / np.log(2))
-
+        log_likelihood.append(nll_model)
     test_bits_sum.append(sum(test_bits))
-    return test_bits_sum
+    log_likelihood_sum.append(sum(log_likelihood))
+    return test_bits_sum, log_likelihood_sum

@@ -17,7 +17,6 @@ def train_HMM(
     trial_classification,
     meta,
     bin_size,
-    is_it_breaux,
     max_state_range,
     state_skip,
     num_hidden_state_override

@@ -12,13 +12,18 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'RSCO0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05_sBins_move_window_only\'];
 
-% filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
-filepath = [filepath_base 'RSRTP0.05sBins\'];
+filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
+% filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1803230.05sBins\'];
 
 % OPTIONS
+num_desired_states = 16;
+num_desired_dims = 11;
+
+filepath = [filepath num2str(num_desired_states) "_states_" num2str(num_desired_dims) "_dims\"];
+
 meta.analyze_all_trials = 0;
 plot_ll_hmm = 0;
 plot_ll_rslds = 0;
@@ -99,14 +104,14 @@ trial_classification = trial_classification_catted;
 meta.optimal_number_of_states = state_num;
 if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx')
     if contains(filepath,'RS') && contains(filepath,'RTP')
-        load([filepath '\RS_RTP.mat'])
+        load(['..\' filepath '\RS_RTP.mat'])
         meta.subject = 'RS';
         meta.task = 'RTP';
         meta.session = '1050211';
         meta.move_only = 0;
     elseif contains(filepath,'RS') && contains(filepath,'CO')
         if contains(filepath,'move')
-            load([filepath '\RSCO_move_window.mat'])
+            load(['..\' filepath '\RSCO_move_window.mat'])
             meta.move_only = 1;
         else
             load([filepath '\RSCO.mat'])
@@ -114,12 +119,12 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         meta.subject = 'RS';
         meta.task = 'CO';
     elseif contains(filepath,'RJ')
-        load([filepath '\RJRTP.mat'])
+        load(['..\' filepath '\RJRTP.mat'])
         meta.subject = 'RJ';
         meta.task = 'RTP';
         meta.move_only = 0;
     elseif contains(filepath, 'Bxcenter_out_and_RTP1902280.05sBins')
-        load([filepath 'Bxcenter_out_and_RTP190228CT0.mat']);
+        load(['..\' filepath 'Bxcenter_out_and_RTP190228CT0.mat']);
         meta.subject = 'Bx';
         meta.task = 'CO+RTP';
         meta.move_only = 0;
@@ -128,9 +133,9 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         bin_size = meta.bin_size;
     elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
         if contains(filepath,'180323')
-            load([filepath '\Bxcenter_out_HMM_struct_22-Jun-2022.mat'])
+            load(['..\' filepath '\Bxcenter_out_HMM_struct_22-Jun-2022.mat'])
         elseif contains(filepath,'190228')
-            load([filepath '\Bxcenter_out190228CT0.mat'])
+            load(['..\' filepath '\Bxcenter_out190228CT0.mat'])
         end
         meta.filepath = filepath;
         meta.analyze_all_trials = analyze_all_trials;
@@ -150,6 +155,7 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         state_range = state_num;
     end
     meta.optimal_number_of_states = state_num;
+    meta.num_dims = num_desired_dims;
     meta.trials_to_plot = 1:10;
     meta.crosstrain = 0;
     meta.use_rslds = use_rslds;

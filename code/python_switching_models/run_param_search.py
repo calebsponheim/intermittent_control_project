@@ -7,16 +7,17 @@ test_portion = 0.2
 hidden_max_state_range = 120
 hidden_state_skip = 1
 rslds_ll_analysis = 1
-multiple_folds = 0
 # latent_dim_state_range = int(sys.argv[1])
 latent_dim_state_range = 3
 # midway_run = 1
 midway_run = 0
+# fold_number = int(sys.argv[2])
+fold_number = 1
 
 subject = 'rs'
-task = 'RTP'
-# num_hidden_state_override = int(sys.argv[2])
-num_hidden_state_override = 8
+task = 'CO'
+# num_hidden_state_override = int(sys.argv[3])
+num_hidden_state_override = 16
 
 # %% Running it
 run_rslds(
@@ -30,6 +31,6 @@ run_rslds(
     num_hidden_state_override,
     rslds_ll_analysis,
     latent_dim_state_range,
-    multiple_folds,
-    midway_run
+    midway_run,
+    fold_number
 )
