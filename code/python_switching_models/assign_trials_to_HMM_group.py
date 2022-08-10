@@ -13,6 +13,7 @@ import csv
 def assign_trials_to_HMM_group(data, meta, midway_run, fold_number, folderpath_out):
 
     train_portion = meta.train_portion
+    test_portion = meta.test_portion
     model_select_portion = meta.model_select_portion
 
     number_of_trials = len(data.spikes)
@@ -24,7 +25,8 @@ def assign_trials_to_HMM_group(data, meta, midway_run, fold_number, folderpath_o
 
         if 'multifold_trial_classification.csv' in temp_datafolderlist:
             # if it is, then load it
-            pd.read_csv(folderpath_out + 'multifold_trial_classification.csv')
+            multifold_shuffled_order = pd.DataFrame.to_numpy(pd.read_csv(
+                folderpath_out + 'multifold_trial_classification.csv'))
         elif 'multifold_trial_classification.csv' not in temp_datafolderlist:
             # if not, make it
             np.random.shuffle(trial_indices)
@@ -34,9 +36,19 @@ def assign_trials_to_HMM_group(data, meta, midway_run, fold_number, folderpath_o
             multifold_shuffled_order_out.to_csv(
                 folderpath_out + 'multifold_trial_classification.csv', index=False, header=False)
 
-            # bring in which fold it is
-            # take that segment of data
-
+        # bring in which fold it is
+        # take that segment of data
+        fold_test_data_range_start = int((
+            (test_portion*fold_number) - test_portion)*number_of_trials)
+        fold_test_data_range_end = int((test_portion*fold_number)*number_of_trials)
+        fold_test_trials = multifold_shuffled_order[fold_test_data_range_start:fold_test_data_range_end]
+        fold_train_trials = multifold_shuffled_order[multifold_shuffled_order != fold_test_trials]
+        trial_classification = []
+        for iTrial in range(len(multifold_shuffled_order)):
+            if iTrial in fold_test_trials:
+                trial_classification.append('test')
+            elif iTrial in fold_train_trials:
+                trial_classification.append('train')
     else:
         np.random.shuffle(trial_indices)
         shuffled_indices = trial_indices

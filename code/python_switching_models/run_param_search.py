@@ -7,17 +7,16 @@ test_portion = 0.2
 hidden_max_state_range = 120
 hidden_state_skip = 1
 rslds_ll_analysis = 1
-# latent_dim_state_range = int(sys.argv[1])
-latent_dim_state_range = 3
-# midway_run = 1
-midway_run = 0
-# fold_number = int(sys.argv[2])
-fold_number = 1
+latent_dim_state_range = int(sys.argv[1])
+# latent_dim_state_range = 2
+midway_run = 1
+fold_number = int(sys.argv[2])
+# fold_number = 1
 
 subject = 'rs'
 task = 'CO'
-# num_hidden_state_override = int(sys.argv[3])
-num_hidden_state_override = 16
+num_hidden_state_override = int(sys.argv[3])
+# num_hidden_state_override = 2
 
 # %% Running it
 run_rslds(

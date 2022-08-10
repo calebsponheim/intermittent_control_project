@@ -135,46 +135,40 @@ def run_rslds(
     # 2. calculate log-likelihood based on held-out test data
 
     if rslds_ll_analysis == 1:
-        lls = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-                                num_hidden_state_override, figurepath,
-                                rslds_ll_analysis, latent_dim_state_range)
-        if multiple_folds == 1:
-            num_prev_files = 0
-            for file in os.listdir(folderpath):
-                if "lls" in file:
-                    num_prev_files = num_prev_files + 1
+        test_bits_sum, log_likelihood_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
+                                                              num_hidden_state_override, figurepath,
+                                                              rslds_ll_analysis, latent_dim_state_range)
+        test_bits_sum = pd.DataFrame(test_bits_sum)
+        latent_dims = pd.DataFrame([latent_dim_state_range])
+        frames = [test_bits_sum, latent_dims]
+        test_bits_sum = pd.concat(frames, axis=1)
+        first_file = 1
+        for file in os.listdir(folderpath_out):
+            if file.endswith(str(num_hidden_state_override) + "_states_test_bits.csv"):
+                first_file = 0
 
-            lls = pd.DataFrame(lls)
-            latent_dims = pd.DataFrame([latent_dim_state_range])
-            frames = [lls, latent_dims]
-            lls = pd.concat(frames, axis=1)
-            first_file = 1
-            for file in os.listdir(folderpath):
-                if file.endswith(str(num_hidden_state_override) + "_states_lls_fold" + str(num_prev_files + 1) + ".csv"):
-                    first_file = 0
+        if first_file == 1:
+            test_bits_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+                                 "_states_test_bits.csv", index=False, header=False)
+        elif first_file == 0:
+            test_bits_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+                                 "_states_test_bits.csv", mode='a', index=False, header=False)
 
-            if first_file == 1:
-                lls.to_csv(folderpath + str(num_hidden_state_override) +
-                           "_states_lls_fold" + str(num_prev_files + 1) + ".csv", index=False, header=False)
-            elif first_file == 0:
-                lls.to_csv(folderpath + str(num_hidden_state_override) +
-                           "_states_lls_fold" + str(num_prev_files + 1) + ".csv", mode='a', index=False, header=False)
-        else:
-            lls = pd.DataFrame(lls)
-            latent_dims = pd.DataFrame([latent_dim_state_range])
-            frames = [lls, latent_dims]
-            lls = pd.concat(frames, axis=1)
-            first_file = 1
-            for file in os.listdir(folderpath):
-                if file.endswith(str(num_hidden_state_override) + "_states_lls.csv"):
-                    first_file = 0
+        log_likelihood_sum = pd.DataFrame(log_likelihood_sum)
+        latent_dims = pd.DataFrame([latent_dim_state_range])
+        frames = [log_likelihood_sum, latent_dims]
+        log_likelihood_sum = pd.concat(frames, axis=1)
+        first_file = 1
+        for file in os.listdir(folderpath_out):
+            if file.endswith(str(num_hidden_state_override) + "_states_test_ll.csv"):
+                first_file = 0
 
-            if first_file == 1:
-                lls.to_csv(folderpath + str(num_hidden_state_override) +
-                           "_states_lls.csv", index=False, header=False)
-            elif first_file == 0:
-                lls.to_csv(folderpath + str(num_hidden_state_override) +
-                           "_states_lls.csv", mode='a', index=False, header=False)
+        if first_file == 1:
+            log_likelihood_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+                                      "_states_test_ll.csv", index=False, header=False)
+        elif first_file == 0:
+            log_likelihood_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+                                      "_states_test_ll.csv", mode='a', index=False, header=False)
 
     # %% Running RSLDS
     if midway_run == 0:
