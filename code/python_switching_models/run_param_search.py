@@ -13,8 +13,11 @@ midway_run = 1
 fold_number = int(sys.argv[2])
 # fold_number = 1
 
-subject = 'rs'
-task = 'CO'
+# subject = 'rs'
+subject = str(sys.argv[4])
+# task = 'CO'
+task = str(sys.argv[5])
+
 num_hidden_state_override = int(sys.argv[3])
 # num_hidden_state_override = 2
 
