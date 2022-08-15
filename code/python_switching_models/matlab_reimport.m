@@ -22,7 +22,7 @@ filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 num_desired_states = 16;
 num_desired_dims = 11;
 
-filepath = [filepath num2str(num_desired_states) "_states_" num2str(num_desired_dims) "_dims\"];
+filepath = strcat(filepath,num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims\");
 
 meta.analyze_all_trials = 0;
 plot_ll_hmm = 0;
@@ -33,7 +33,7 @@ use_rslds = 1;
 analyze_all_trials = meta.analyze_all_trials;
 meta.filepath = filepath;
 decoded_data_hmm = readmatrix(...
-    [filepath 'decoded_data_hmm.csv']...
+    strcat(filepath,'decoded_data_hmm.csv')...
     ) + 1;
 decoded_data_hmm = decoded_data_hmm(2:end,:);
 state_num = max(unique(decoded_data_hmm));
@@ -48,7 +48,7 @@ rslds_check = files_in_filepath(cellfun(@(x) contains(x,'rslds'),files_in_filepa
 
 if contains(rslds_check{1},'rslds')
     decoded_data_rslds = readmatrix(...
-        [filepath 'decoded_data_rslds.csv']...
+        strcat(filepath,'decoded_data_rslds.csv')...
         ) + 1;
     decoded_data_rslds = decoded_data_rslds(2:end,:);
     %     ll_rslds = readmatrix(...
@@ -90,7 +90,7 @@ end
 % column is a 50ms bin. every 90 bins is a new trial
 
 trial_classification = (readmatrix(...
-    [filepath 'trial_classifiction.csv']...
+    strcat(filepath,'trial_classifiction.csv')...
     ,'FileType','text','OutputType','char','Delimiter',','));
 trial_classification_catted = {};
 for iTrial = 1:size(trial_classification,1)
@@ -104,14 +104,14 @@ trial_classification = trial_classification_catted;
 meta.optimal_number_of_states = state_num;
 if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx')
     if contains(filepath,'RS') && contains(filepath,'RTP')
-        load(['..\' filepath '\RS_RTP.mat'])
+        load(strcat('..\',filepath,'\RS_RTP.mat'))
         meta.subject = 'RS';
         meta.task = 'RTP';
         meta.session = '1050211';
         meta.move_only = 0;
     elseif contains(filepath,'RS') && contains(filepath,'CO')
         if contains(filepath,'move')
-            load(['..\' filepath '\RSCO_move_window.mat'])
+            load(strcat(strrep(filepath,strcat(num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims\"),''),'RSCO_move_window.mat'))
             meta.move_only = 1;
         else
             load([filepath '\RSCO.mat'])
