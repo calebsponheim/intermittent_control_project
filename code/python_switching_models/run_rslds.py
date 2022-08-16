@@ -135,24 +135,24 @@ def run_rslds(
     # 2. calculate log-likelihood based on held-out test data
 
     if rslds_ll_analysis == 1:
-        test_bits_sum, log_likelihood_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-                                                              num_hidden_state_override, figurepath,
-                                                              rslds_ll_analysis, latent_dim_state_range)
-        test_bits_sum = pd.DataFrame(test_bits_sum)
-        latent_dims = pd.DataFrame([latent_dim_state_range])
-        frames = [test_bits_sum, latent_dims]
-        test_bits_sum = pd.concat(frames, axis=1)
-        first_file = 1
-        for file in os.listdir(folderpath_out):
-            if file.endswith(str(num_hidden_state_override) + "_states_test_bits.csv"):
-                first_file = 0
+        log_likelihood_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
+                                               num_hidden_state_override, figurepath,
+                                               rslds_ll_analysis, latent_dim_state_range)
+        # test_bits_sum = pd.DataFrame(test_bits_sum)
+        # latent_dims = pd.DataFrame([latent_dim_state_range])
+        # frames = [test_bits_sum, latent_dims]
+        # test_bits_sum = pd.concat(frames, axis=1)
+        # first_file = 1
+        # for file in os.listdir(folderpath_out):
+        #     if file.endswith(str(num_hidden_state_override) + "_states_test_bits.csv"):
+        #         first_file = 0
 
-        if first_file == 1:
-            test_bits_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
-                                 "_states_test_bits.csv", index=False, header=False)
-        elif first_file == 0:
-            test_bits_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
-                                 "_states_test_bits.csv", mode='a', index=False, header=False)
+        # if first_file == 1:
+        #     test_bits_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+        #                          "_states_test_bits.csv", index=False, header=False)
+        # elif first_file == 0:
+        #     test_bits_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+        #                          "_states_test_bits.csv", mode='a', index=False, header=False)
 
         log_likelihood_sum = pd.DataFrame(log_likelihood_sum)
         latent_dims = pd.DataFrame([latent_dim_state_range])

@@ -1,114 +1,115 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon May  9 14:07:15 2022
+Created on Mon May  9 14:07:15 2022.
 
 @author: calebsponheim
 """
 import ssm
 import numpy as np
-from scipy.special import gammaln
+# from scipy.special import gammaln
 import logging
 logger = logging.getLogger(__name__)
 
 
-def run_cosmoothing(model, ys, inputs=None, cs_frac=0.8):
-    """
-    Evaluate co-smoothing log likelihood on test trials. For each test trial,
-    a random set of neurons are held-out. The latent states are estimated
-    using the held-in neurons, and predictive performance is evaluated
-    based on how well the latent state estimates the held-out neurons.
+# def run_cosmoothing(model, ys, inputs=None, cs_frac=0.8):
+#     """
+#     Evaluate co-smoothing log likelihood on test trials. For each test trial,
+#     a random set of neurons are held-out. The latent states are estimated
+#     using the held-in neurons, and predictive performance is evaluated
+#     based on how well the latent state estimates the held-out neurons.
 
-    Inputs:
-    model   - SSM model
-    ys      - list of observations on test trials
-    inputs  - optional list of inputs
-    cs_frac - fraction of held-out neurons during co-smoothing
-    """
+#     Inputs:
+#     model   - SSM model
+#     ys      - list of observations on test trials
+#     inputs  - optional list of inputs
+#     cs_frac - fraction of held-out neurons during co-smoothing
+#     """
 
-    if inputs is None:
-        inputs = [np.zeros((y.shape[0],)) for y in ys]
+#     if inputs is None:
+#         inputs = [np.zeros((y.shape[0],)) for y in ys]
 
-    # get number of neurons
-    N = ys[0].shape[0]
-    shuff_indices = np.random.permutation(N)
-    # leave out cs_frac fraction of neurons
-    split_idx = int(cs_frac * N)
+#     # get number of neurons
+#     N = ys[0].shape[0]
+#     shuff_indices = np.random.permutation(N)
+#     # leave out cs_frac fraction of neurons
+#     split_idx = int(cs_frac * N)
 
-    train_neur, test_neur = shuff_indices[:split_idx], shuff_indices[split_idx:]
+#     train_neur, test_neur = shuff_indices[:split_idx], shuff_indices[split_idx:]
 
-    # create masks that mask out test neurons
-    masks = []
-    for y in ys:
-        mask = np.ones_like(y)
-        mask[:, test_neur] *= 0
-        mask = mask.astype(bool)
-        masks.append(mask)
+#     # create masks that mask out test neurons
+#     masks = []
+#     for y in ys:
+#         mask = np.ones_like(y)
+#         mask[:, test_neur] *= 0
+#         mask = mask.astype(bool)
+#         masks.append(mask)
 
-    # approximate posterior for
-    # "held-in" or unmasked training neurons
-    # number of iters is set to 25, but feel free to change these optimization params
-    _elbos, _q_model = model.approximate_posterior(
-        ys, inputs=inputs, masks=masks,
-        method="laplace_em",
-        variational_posterior="structured_meanfield",
-        num_iters=25, alpha=0.5)
+#     # approximate posterior for
+#     # "held-in" or unmasked training neurons
+#     # number of iters is set to 25, but feel free to change these optimization params
+#     _elbos, _q_model = model.approximate_posterior(
+#         ys, inputs=inputs, masks=masks,
+#         method="laplace_em",
+#         variational_posterior="structured_meanfield",
+#         num_iters=25, alpha=0.5)
 
-    # compute log likelihood of heldout neurons
-    lls = 0.0
-    for tr in range(len(ys)):
-        ll = np.sum(model.emissions.log_likelihoods(ys[tr],
-                                                    inputs[tr],
-                                                    mask=np.invert(masks[tr]),
-                                                    tag=None,
-                                                    x=_q_model.mean_continuous_states[tr]))
-        lls += ll
-    return lls
-
-
-def neg_log_likelihood(rates, spikes, zero_warning=True):
-    # %%
-    """Calculate Poisson negative log likelihood given rates and spikes.
-
-    formula: -log(e^(-r) / n! * r^n)
-            = r - n*log(r) + log(n!)
+#     # compute log likelihood of heldout neurons
+#     lls = 0.0
+#     for tr in range(len(ys)):
+#         ll = np.sum(model.emissions.log_likelihoods(ys[tr],
+#                                                     inputs[tr],
+#                                                     mask=np.invert(masks[tr]),
+#                                                     tag=None,
+#                                                     x=_q_model.mean_continuous_states[tr]))
+#         lls += ll
+#     return lls
 
 
-    Parameters
-    ----------
-    rates : np.ndarray
-        numpy array containing rate predictions
-    spikes : np.ndarray
-        numpy array containing true spike counts
-    zero_warning : bool, optional
-        Whether to print out warning about 0 rate
-        predictions or not
+# def neg_log_likelihood(rates, spikes, zero_warning=True):
+#     # %%
+#     """Calculate Poisson negative log likelihood given rates and spikes.
 
-    Returns
-    -------
-    float
-        Total negative log-likelihood of the data
-    """
-    assert spikes.shape == rates.shape, \
-        f"neg_log_likelihood: Rates and spikes should be of the same shape. spikes: {spikes.shape}, rates: {rates.shape}"
+#     formula: -log(e^(-r) / n! * r^n)
+#             = r - n*log(r) + log(n!)
 
-    if np.any(np.isnan(spikes)):
-        mask = np.isnan(spikes)
-        rates = rates[~mask]
-        spikes = spikes[~mask]
 
-    assert not np.any(np.isnan(rates)), \
-        "neg_log_likelihood: NaN rate predictions found"
+#     Parameters
+#     ----------
+#     rates : np.ndarray
+#         numpy array containing rate predictions
+#     spikes : np.ndarray
+#         numpy array containing true spike counts
+#     zero_warning : bool, optional
+#         Whether to print out warning about 0 rate
+#         predictions or not
 
-    assert np.all(rates >= 0), \
-        "neg_log_likelihood: Negative rate predictions found"
-    if (np.any(rates == 0)):
-        if zero_warning:
-            logger.warning(
-                "neg_log_likelihood: Zero rate predictions found. Replacing zeros with 1e-9")
-        rates[rates == 0] = 1e-9
+#     Returns
+#     -------
+#     float
+#         Total negative log-likelihood of the data
+#     """
+#     assert spikes.shape == rates.shape, \
+#         f"neg_log_likelihood: Rates and spikes should be of the same shape.\
+#             spikes: {spikes.shape}, rates: {rates.shape}"
 
-    result = rates - spikes * np.log(rates) + gammaln(spikes + 1.0)
-    return np.sum(result)
+#     if np.any(np.isnan(spikes)):
+#         mask = np.isnan(spikes)
+#         rates = rates[~mask]
+#         spikes = spikes[~mask]
+
+#     assert not np.any(np.isnan(rates)), \
+#         "neg_log_likelihood: NaN rate predictions found"
+
+#     assert np.all(rates >= 0), \
+#         "neg_log_likelihood: Negative rate predictions found"
+#     if (np.any(rates == 0)):
+#         if zero_warning:
+#             logger.warning(
+#                 "neg_log_likelihood: Zero rate predictions found. Replacing zeros with 1e-9")
+#         rates[rates == 0] = 1e-9
+
+#     result = rates - spikes * np.log(rates) + gammaln(spikes + 1.0)
+#     return np.sum(result)
 
 
 def rslds_cosmoothing(data, trial_classification, meta, bin_size,
@@ -169,26 +170,43 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
     test_rates = [model.smooth(q_lem_test.mean_continuous_states[i],
                                testset[i]) for i in range(len(testset))]
 
-    # %% Getting bits_per_spike
-    test_bits = []
+
+# %% Getting bits_per_spike
+    # test_bits = []
     log_likelihood_sum = []
-    log_likelihood = []
+    # log_likelihood = []
     test_states = []
 
-    for iTrial in range(len(testset)):
+    for iTrial in range(2):  # range(len(testset)):
         test_states.append(model.most_likely_states(
             q_lem_test.mean_continuous_states[iTrial], testset[iTrial]))
-
-        nll_model = neg_log_likelihood(test_rates[iTrial], testset[iTrial])
-        nll_null = neg_log_likelihood(
-            np.tile(
-                np.nanmean(testset[iTrial], axis=(0, 1), keepdims=True),
-                (testset[iTrial].shape[0], testset[iTrial].shape[1])),
-            testset[iTrial],
-            zero_warning=False
+        # log_likelihood_out = model.emissions.log_likelihoods(
+        #     data=testset[iTrial], input=None, mask=None, tag=None, x=test_states[iTrial])
+        variational_mean = q_lem_test.mean_continuous_states[iTrial]
+        # log_likes_dynamics = model.dynamics.log_likelihoods(
+        #     data=variational_mean,
+        #     input=np.empty((np.shape(variational_mean)[0], 0), dtype=float),
+        #     mask=np.ones_like(variational_mean, dtype=bool),
+        #     tag=None
+        # )
+        log_likes_emissions = model.emissions.log_likelihoods(
+            data=testset[iTrial],
+            input=np.empty((np.shape(testset[iTrial])[0], 0), dtype=float),
+            mask=np.ones_like(testset[iTrial], dtype=bool),
+            tag=None,
+            x=variational_mean
         )
-        test_bits.append((nll_null - nll_model) / np.nansum(testset[iTrial]) / np.log(2))
-        log_likelihood.append(nll_model)
-    test_bits_sum.append(sum(test_bits))
-    log_likelihood_sum.append(sum(log_likelihood))
-    return test_bits_sum, log_likelihood_sum
+
+        #     nll_model = neg_log_likelihood(test_rates[iTrial], testset[iTrial])
+        #     nll_null = neg_log_likelihood(
+        #         np.tile(
+        #             np.nanmean(testset[iTrial], axis=(0, 1), keepdims=True),
+        #             (testset[iTrial].shape[0], testset[iTrial].shape[1])),
+        #         testset[iTrial],
+        #         zero_warning=False
+        #     )
+        #     test_bits.append((nll_null - nll_model) / np.nansum(testset[iTrial]) / np.log(2))
+        #     log_likelihood.append(nll_model)
+        # test_bits_sum.append(sum(test_bits))
+        log_likelihood_sum.append(sum(log_likes_emissions))
+    return log_likelihood_sum

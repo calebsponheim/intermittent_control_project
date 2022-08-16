@@ -32,18 +32,18 @@ end
 dim_skip = 5;
 state_skip = 2;
 bits_per_spike = [];
-ll_files_list = dir(filepath);
+ll_files_list = dir(filepath_for_ll_plot);
 ll_files_list = {ll_files_list.name}';
 ll_files_list = ll_files_list(cellfun(@(x) ~contains(x,'.csv'),ll_files_list));
 ll_files_list = ll_files_list(cellfun(@(x) contains(x,'_states'),ll_files_list));
 ll_files_list = ll_files_list(cellfun(@(x) contains(x,'_dims'),ll_files_list));
 
 for iFolder = 1:length(ll_files_list)
-    temp_bits_files_list = dir(strcat(filepath,ll_files_list{iFolder}));
+    temp_bits_files_list = dir(strcat(filepath_for_ll_plot,ll_files_list{iFolder}));
     temp_bits_filename = {temp_bits_files_list.name}';
     temp_bits_folder = temp_bits_files_list(1).folder;
-    temp_bits_filename = temp_bits_filename(cellfun(@(x) contains(x,'_test_bits'),temp_bits_filename));
-    temp_bits_state_num = str2double(extractAfter(extractBefore(temp_bits_folder,'_states'),filepath));
+    temp_bits_filename = temp_bits_filename(cellfun(@(x) contains(x,'_test_ll'),temp_bits_filename));
+    temp_bits_state_num = str2double(extractAfter(extractBefore(temp_bits_folder,'_states'),filepath_for_ll_plot));
     temp_bits_dim_num = str2double(extractAfter(extractBefore(temp_bits_folder,'_dims'),'_states_'));
     if size(temp_bits_filename,1) > 0
         temp_bits_filepath = strcat(temp_bits_folder,'\',temp_bits_filename{1});
@@ -88,7 +88,7 @@ end
 %%%%%%%%%%%%%
 %%%%%%%%%%%%%
 
-marginal_bits_per_spike_for_plot = diff(bits_per_spike_for_plot');
+% marginal_bits_per_spike_for_plot = diff(bits_per_spike_for_plot');
 
 
 
@@ -123,14 +123,14 @@ colors = hsv(size(bits_per_spike,2));
 figure; hold on;
 for iState = 2:size(bits_per_spike,2)
     x = find(bits_per_spike(:,iState)>0);
-    y = bits_per_spike(bits_per_spike(:,iState)>0,iState);
+    y = -bits_per_spike(bits_per_spike(:,iState)>0,iState);
     plot3(x,repmat(iState,length(y)),y,'LineWidth',2,'Color',colors(iState,:));
 end
 view(-42,24)
 colors = hsv(size(bits_per_spike,1));
 for iDim = 2:size(bits_per_spike,1)
     x = find(bits_per_spike(iDim,:)>0);
-    y = bits_per_spike(iDim,bits_per_spike(iDim,:)>0);
+    y = -bits_per_spike(iDim,bits_per_spike(iDim,:)>0);
     plot3(repmat(iDim,length(y)),x,y,'LineWidth',2,'Color','#808080');
 end
 hold off
@@ -142,7 +142,7 @@ colors = hsv(size(bits_per_spike,2));
 figure; hold on;
 for iState = 2:size(bits_per_spike,2)
     x = find(bits_per_spike(:,iState)>0);
-    y = bits_per_spike(bits_per_spike(:,iState)>0,iState);
+    y = -bits_per_spike(bits_per_spike(:,iState)>0,iState);
     plot(x,y,'LineWidth',2,'Color',colors(iState,:))
 end
 hold off

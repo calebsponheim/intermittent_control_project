@@ -22,6 +22,7 @@ filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 num_desired_states = 16;
 num_desired_dims = 11;
 
+filepath_for_ll_plot = filepath;
 filepath = strcat(filepath,num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims\");
 
 meta.analyze_all_trials = 0;
@@ -196,7 +197,7 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
     if use_rslds == 1
         continuous_state_files = files_in_filepath(cellfun(@(x) contains(x,'continuous_states_trial_'),files_in_filepath));
         for iTrial = 1:size(data,2)
-            file = readmatrix([filepath 'continuous_states_trial_' num2str(iTrial) '.csv']);
+            file = readmatrix(strcat(filepath,'continuous_states_trial_',num2str(iTrial),'.csv'));
             data(iTrial).continuous_states = file;
         end
     end
