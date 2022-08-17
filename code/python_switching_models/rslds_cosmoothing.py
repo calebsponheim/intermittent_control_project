@@ -177,7 +177,7 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
     # log_likelihood = []
     test_states = []
 
-    for iTrial in range(2):  # range(len(testset)):
+    for iTrial in range(len(testset)):
         test_states.append(model.most_likely_states(
             q_lem_test.mean_continuous_states[iTrial], testset[iTrial]))
         # log_likelihood_out = model.emissions.log_likelihoods(

@@ -153,7 +153,7 @@ def run_rslds(
         # elif first_file == 0:
         #     test_bits_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
         #                          "_states_test_bits.csv", mode='a', index=False, header=False)
-
+        log_likelihood_sum = sum(log_likelihood_sum)
         log_likelihood_sum = pd.DataFrame(log_likelihood_sum)
         latent_dims = pd.DataFrame([latent_dim_state_range])
         frames = [log_likelihood_sum, latent_dims]
