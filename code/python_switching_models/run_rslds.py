@@ -158,15 +158,11 @@ def run_rslds(
         latent_dims = pd.DataFrame([latent_dim_state_range])
         frames = [log_likelihood_sum, latent_dims]
         log_likelihood_sum = pd.concat(frames, axis=1)
-        first_file = 1
-        for file in os.listdir(folderpath_out):
-            if file.endswith(str(num_hidden_state_override) + "_states_test_ll.csv"):
-                first_file = 0
 
-        if first_file == 1:
+        if fold_number == 1:
             log_likelihood_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
                                       "_states_test_ll.csv", index=False, header=False)
-        elif first_file == 0:
+        elif fold_number > 1:
             log_likelihood_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
                                       "_states_test_ll.csv", mode='a', index=False, header=False)
 
