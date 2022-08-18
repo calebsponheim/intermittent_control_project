@@ -196,11 +196,13 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
     %% Bringing in Continuous State Values
     if use_rslds == 1
         continuous_state_files = files_in_filepath(cellfun(@(x) contains(x,'continuous_states_trial_'),files_in_filepath));
-        for iTrial = 1:size(data,2)
-            file = readmatrix(strcat(filepath,'continuous_states_trial_',num2str(iTrial),'.csv'));
-            data(iTrial).continuous_states = file;
+        if length(continuous_state_files) > 0
+            for iTrial = 1:size(data,2)
+                file = readmatrix(strcat(filepath,'continuous_states_trial_',num2str(iTrial),'.csv'));
+                data(iTrial).continuous_states = file;
+            end
         end
     end
 
-% elseif contains(filepath,'180323')
+    % elseif contains(filepath,'180323')
 end % subject selection and dataset filtering

@@ -167,8 +167,8 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
         variational_posterior="structured_meanfield",
         num_iters=25)
 
-    test_rates = [model.smooth(q_lem_test.mean_continuous_states[i],
-                               testset[i]) for i in range(len(testset))]
+    # test_rates = [model.smooth(q_lem_test.mean_continuous_states[i],
+    #                            testset[i]) for i in range(len(testset))]
 
 
 # %% Getting bits_per_spike
