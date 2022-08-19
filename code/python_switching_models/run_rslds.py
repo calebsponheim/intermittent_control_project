@@ -135,9 +135,9 @@ def run_rslds(
     # 2. calculate log-likelihood based on held-out test data
 
     if rslds_ll_analysis == 1:
-        log_likelihood_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-                                               num_hidden_state_override, figurepath,
-                                               rslds_ll_analysis, latent_dim_state_range)
+        log_likelihood_emissions_sum, log_likelihood_dynamics_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
+                                                                                      num_hidden_state_override, figurepath,
+                                                                                      rslds_ll_analysis, latent_dim_state_range)
         # test_bits_sum = pd.DataFrame(test_bits_sum)
         # latent_dims = pd.DataFrame([latent_dim_state_range])
         # frames = [test_bits_sum, latent_dims]
@@ -153,18 +153,38 @@ def run_rslds(
         # elif first_file == 0:
         #     test_bits_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
         #                          "_states_test_bits.csv", mode='a', index=False, header=False)
-        log_likelihood_sum = sum(log_likelihood_sum)
-        log_likelihood_sum = pd.DataFrame(log_likelihood_sum)
+
+        #############
+        # Emissions
+        #############
+        log_likelihood_emissions_sum = sum(log_likelihood_emissions_sum)
+        log_likelihood_emissions_sum = pd.DataFrame(log_likelihood_emissions_sum)
         latent_dims = pd.DataFrame([latent_dim_state_range])
-        frames = [log_likelihood_sum, latent_dims]
-        log_likelihood_sum = pd.concat(frames, axis=1)
+        frames = [log_likelihood_emissions_sum, latent_dims]
+        log_likelihood_emissions_sum = pd.concat(frames, axis=1)
 
         if fold_number == 1:
-            log_likelihood_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
-                                      "_states_test_ll.csv", index=False, header=False)
+            log_likelihood_emissions_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+                                                "_states_test_emissions_ll.csv", index=False, header=False)
         elif fold_number > 1:
-            log_likelihood_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
-                                      "_states_test_ll.csv", mode='a', index=False, header=False)
+            log_likelihood_emissions_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+                                                "_states_test_emissions_ll.csv", mode='a', index=False, header=False)
+
+        #############
+        # Dynamics
+        #############
+        log_likelihood_dynamics_sum = sum(log_likelihood_dynamics_sum)
+        log_likelihood_dynamics_sum = pd.DataFrame(log_likelihood_dynamics_sum)
+        latent_dims = pd.DataFrame([latent_dim_state_range])
+        frames = [log_likelihood_dynamics_sum, latent_dims]
+        log_likelihood_dynamics_sum = pd.concat(frames, axis=1)
+
+        if fold_number == 1:
+            log_likelihood_dynamics_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+                                               "_states_test_dynamics_ll.csv", index=False, header=False)
+        elif fold_number > 1:
+            log_likelihood_dynamics_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+                                               "_states_test_dynamics_ll.csv", mode='a', index=False, header=False)
 
     # %% Running RSLDS
     if midway_run == 0:

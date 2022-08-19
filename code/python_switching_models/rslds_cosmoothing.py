@@ -173,7 +173,8 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
 
 # %% Getting bits_per_spike
     # test_bits = []
-    log_likelihood_sum = []
+    log_likelihood_emissions_sum = []
+    log_likelihood_dynamics_sum = []
     # log_likelihood = []
     test_states = []
 
@@ -183,12 +184,12 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
         # log_likelihood_out = model.emissions.log_likelihoods(
         #     data=testset[iTrial], input=None, mask=None, tag=None, x=test_states[iTrial])
         variational_mean = q_lem_test.mean_continuous_states[iTrial]
-        # log_likes_dynamics = model.dynamics.log_likelihoods(
-        #     data=variational_mean,
-        #     input=np.empty((np.shape(variational_mean)[0], 0), dtype=float),
-        #     mask=np.ones_like(variational_mean, dtype=bool),
-        #     tag=None
-        # )
+        log_likes_dynamics = model.dynamics.log_likelihoods(
+            data=variational_mean,
+            input=np.empty((np.shape(variational_mean)[0], 0), dtype=float),
+            mask=np.ones_like(variational_mean, dtype=bool),
+            tag=None
+        )
         log_likes_emissions = model.emissions.log_likelihoods(
             data=testset[iTrial],
             input=np.empty((np.shape(testset[iTrial])[0], 0), dtype=float),
@@ -208,5 +209,7 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
         #     test_bits.append((nll_null - nll_model) / np.nansum(testset[iTrial]) / np.log(2))
         #     log_likelihood.append(nll_model)
         # test_bits_sum.append(sum(test_bits))
-        log_likelihood_sum.append(sum(log_likes_emissions))
-    return log_likelihood_sum
+        log_likelihood_emissions_sum.append(sum(log_likes_emissions))
+        log_likelihood_dynamics_sum.append(sum(log_likes_dynamics))
+
+    return log_likelihood_emissions_sum, log_likelihood_dynamics_sum
