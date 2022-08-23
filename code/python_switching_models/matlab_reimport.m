@@ -196,7 +196,7 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
     %% Bringing in Continuous State Values
     if use_rslds == 1
         continuous_state_files = files_in_filepath(cellfun(@(x) contains(x,'continuous_states_trial_'),files_in_filepath));
-        if length(continuous_state_files) > 0
+        if ~isempty(continuous_state_files)
             for iTrial = 1:size(data,2)
                 file = readmatrix(strcat(filepath,'continuous_states_trial_',num2str(iTrial),'.csv'));
                 data(iTrial).continuous_states = file;

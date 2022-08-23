@@ -122,29 +122,33 @@ end
 colors = hsv(size(bits_per_spike,2));
 figure; hold on;
 for iState = 2:size(bits_per_spike,2)
-    x = find(bits_per_spike(:,iState)>0);
-    y = -bits_per_spike(bits_per_spike(:,iState)>0,iState);
+    x = find(bits_per_spike(:,iState)~=0 & ~isnan(bits_per_spike(:,iState)));
+    y = bits_per_spike(bits_per_spike(:,iState)~=0,iState);
+    y = y(~isnan(y));
     plot3(x,repmat(iState,length(y)),y,'LineWidth',2,'Color',colors(iState,:));
 end
 view(-42,24)
 colors = hsv(size(bits_per_spike,1));
 for iDim = 2:size(bits_per_spike,1)
-    x = find(bits_per_spike(iDim,:)>0);
-    y = -bits_per_spike(iDim,bits_per_spike(iDim,:)>0);
+    x = find(bits_per_spike(iDim,:)~=0 & ~isnan(bits_per_spike(iDim,:)));
+    y = bits_per_spike(iDim,bits_per_spike(iDim,:)~=0);
+    y = y(~isnan(y));
     plot3(repmat(iDim,length(y)),x,y,'LineWidth',2,'Color','#808080');
 end
 hold off
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf.png']);
+% saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf.png']);
 
 
 %%   2D
 colors = hsv(size(bits_per_spike,2));
 figure; hold on;
 for iState = 2:size(bits_per_spike,2)
-    x = find(bits_per_spike(:,iState)>0);
-    y = -bits_per_spike(bits_per_spike(:,iState)>0,iState);
+    x = find(bits_per_spike(:,iState)~=0 & ~isnan(bits_per_spike(:,iState)));
+    y = bits_per_spike(bits_per_spike(:,iState)~=0,iState);
+    y = y(~isnan(y));
     plot(x,y,'LineWidth',2,'Color',colors(iState,:))
 end
 hold off
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_2D.png']);
+% saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_2D.png']);
+%%
 close all
