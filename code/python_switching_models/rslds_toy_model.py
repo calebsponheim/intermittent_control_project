@@ -18,9 +18,9 @@ sns.set_context("talk")
 
 
 # Global parameters
-T = 10000
+T = 1000
 K = 4
-D_obs = 10
+D_obs = 100
 D_latent = 2
 
 # Helper functions for plotting results
@@ -131,7 +131,7 @@ z_test, x_test, y_test = true_rslds.sample(T=int((T/2)))
 
 # Fit a robust rSLDS with its default initialization
 # Fit with Laplace EM
-dim_range = range(1, 10)
+dim_range = range(1, 50)
 state_range = range(1, 5)
 
 log_likes_emissions_sum = np.zeros([len(dim_range), len(state_range)], dtype=float)
