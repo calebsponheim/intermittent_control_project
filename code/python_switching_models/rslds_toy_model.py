@@ -18,9 +18,9 @@ sns.set_context("talk")
 
 
 # Global parameters
-T = 1000
+T = 350
 K = 4
-D_obs = 100
+D_obs = 10
 D_latent = 2
 
 # Helper functions for plotting results
@@ -109,7 +109,7 @@ def make_nascar_model():
     true_rslds = ssm.SLDS(D_obs, K, D_latent,
                           transitions="recurrent_only",
                           dynamics="diagonal_gaussian",
-                          emissions="gaussian_orthog",
+                          emissions="poisson",
                           single_subspace=True)
     true_rslds.dynamics.mu_init = np.tile(np.array([[0, 1]]), (K, 1))
     true_rslds.dynamics.sigmasq_init = 1e-4 * np.ones((K, D_latent))
@@ -131,54 +131,54 @@ z_test, x_test, y_test = true_rslds.sample(T=int((T/2)))
 
 # Fit a robust rSLDS with its default initialization
 # Fit with Laplace EM
-dim_range = range(1, 50)
-state_range = range(1, 5)
+dim_range = range(1, 10)
+state_range = range(1, 25)
 
-log_likes_emissions_sum = np.zeros([len(dim_range), len(state_range)], dtype=float)
-log_likes_dynamics_sum = np.zeros([len(dim_range), len(state_range)], dtype=float)
+log_likes_emissions_sum = np.zeros([len(dim_range)+1, len(state_range)+1], dtype=float)
+log_likes_dynamics_sum = np.zeros([len(dim_range)+1, len(state_range)+1], dtype=float)
 
 for iDim in dim_range:
-    iState = 4
-    # for iState in state_range:
-    rslds_lem = ssm.SLDS(D_obs, iState, iDim,
-                         transitions="recurrent",
-                         dynamics="diagonal_gaussian",
-                         emissions="gaussian_orthog",
-                         single_subspace=True)
-    rslds_lem.initialize(y_train)
-    q_elbos_lem_train, q_lem_train = rslds_lem.fit(y_train, method="laplace_em",
-                                                   variational_posterior="structured_meanfield",
-                                                   initialize=False, num_iters=100, alpha=0.0)
-    xhat_lem_train = q_lem_train.mean_continuous_states[0]
-    zhat_lem_train = rslds_lem.most_likely_states(xhat_lem_train, y_train)
+    # iState = 4
+    for iState in state_range:
+        rslds_lem = ssm.SLDS(D_obs, iState, iDim,
+                             transitions="recurrent",
+                             dynamics="diagonal_gaussian",
+                             emissions="poisson",
+                             single_subspace=True)
+        rslds_lem.initialize(y_train)
+        q_elbos_lem_train, q_lem_train = rslds_lem.fit(y_train, method="laplace_em",
+                                                       variational_posterior="structured_meanfield",
+                                                       initialize=False, num_iters=25, alpha=0.0)
+        xhat_lem_train = q_lem_train.mean_continuous_states[0]
+        zhat_lem_train = rslds_lem.most_likely_states(xhat_lem_train, y_train)
 
-    # Cross Validation ######
-    q_elbos_lem_test, q_lem_test = rslds_lem.approximate_posterior(
-        datas=y_test,
-        method="laplace_em",
-        variational_posterior="structured_meanfield",
-        num_iters=100,
-    )
+        # Cross Validation ######
+        q_elbos_lem_test, q_lem_test = rslds_lem.approximate_posterior(
+            datas=y_test,
+            method="laplace_em",
+            variational_posterior="structured_meanfield",
+            num_iters=25,
+        )
 
-    test_states = rslds_lem.most_likely_states(
-        q_lem_test.mean_continuous_states[0], y_test)
-    variational_mean = q_lem_test.mean_continuous_states[0]
-    log_likes_emissions = rslds_lem.emissions.log_likelihoods(
-        data=y_test,
-        input=np.empty((np.shape(y_test)[0], 0), dtype=float),
-        mask=np.ones_like(y_test, dtype=bool),
-        tag=None,
-        x=variational_mean
-    )
-    log_likes_dynamics = rslds_lem.dynamics.log_likelihoods(
-        data=variational_mean,
-        input=np.empty((np.shape(variational_mean)[0], 0), dtype=float),
-        mask=np.ones_like(variational_mean, dtype=bool),
-        tag=None
-    )
+        test_states = rslds_lem.most_likely_states(
+            q_lem_test.mean_continuous_states[0], y_test)
+        variational_mean = q_lem_test.mean_continuous_states[0]
+        log_likes_emissions = rslds_lem.emissions.log_likelihoods(
+            data=y_test,
+            input=np.empty((np.shape(y_test)[0], 0), dtype=float),
+            mask=np.ones_like(y_test, dtype=bool),
+            tag=None,
+            x=variational_mean
+        )
+        # log_likes_dynamics = rslds_lem.dynamics.log_likelihoods(
+        #     data=variational_mean,
+        #     input=np.empty((np.shape(variational_mean)[0], 0), dtype=float),
+        #     mask=np.ones_like(variational_mean, dtype=bool),
+        #     tag=None
+        # )
 
-    log_likes_emissions_sum[iDim-1, iState-1] = sum(log_likes_emissions)
-    log_likes_dynamics_sum[iDim-1, iState-1] = sum(log_likes_dynamics)
+        log_likes_emissions_sum[iDim, iState] = sum(log_likes_emissions)
+        # log_likes_dynamics_sum[iDim, iState] = sum(log_likes_dynamics)
 
 #########################
 #########################
