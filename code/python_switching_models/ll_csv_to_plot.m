@@ -3,7 +3,7 @@
 if strcmp(getenv('USERNAME'),'calebsponheim')
     file_base_base = 'C:\Users\calebsponheim';
 elseif strcmp(getenv('USERNAME'),'caleb_work')
-     file_base_base = 'C:\Users\Caleb (Work)';
+    file_base_base = 'C:\Users\Caleb (Work)';
 end
 
 % [~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', ...
@@ -42,7 +42,7 @@ for iFolder = 1:length(ll_files_list)
     temp_bits_files_list = dir(strcat(filepath_for_ll_plot,ll_files_list{iFolder}));
     temp_bits_filename = {temp_bits_files_list.name}';
     temp_bits_folder = temp_bits_files_list(1).folder;
-    temp_bits_filename = temp_bits_filename(cellfun(@(x) contains(x,'_test_ll'),temp_bits_filename));
+    temp_bits_filename = temp_bits_filename(cellfun(@(x) contains(x,'_dynamics_ll'),temp_bits_filename));
     temp_bits_state_num = str2double(extractAfter(extractBefore(temp_bits_folder,'_states'),filepath_for_ll_plot));
     temp_bits_dim_num = str2double(extractAfter(extractBefore(temp_bits_folder,'_dims'),'_states_'));
     if size(temp_bits_filename,1) > 0
@@ -50,7 +50,7 @@ for iFolder = 1:length(ll_files_list)
         temp = readmatrix(temp_bits_filepath);
         % put data in correct x,y,and x positions based on state, dim, and
         % folds in this given file and path.
-        bits_per_spike(temp_bits_dim_num,temp_bits_state_num) = mean(temp(:,1));
+        bits_per_spike(temp_bits_dim_num,temp_bits_state_num) = mean(temp((temp(:,2) == temp_bits_dim_num) + 2,1));
     end
 end
 %%
@@ -151,4 +151,4 @@ end
 hold off
 % saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_2D.png']);
 %%
-close all
+% close all
