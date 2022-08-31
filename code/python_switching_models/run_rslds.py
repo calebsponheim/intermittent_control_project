@@ -134,7 +134,7 @@ def run_rslds(
         # 1c. see if fold number exists
     # 2. calculate log-likelihood based on held-out test data
 
-    if rslds_ll_analysis == 1:
+    if midway_run == 1:
         log_likelihood_emissions_sum, log_likelihood_dynamics_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
                                                                                       num_hidden_state_override, figurepath,
                                                                                       rslds_ll_analysis, latent_dim_state_range)

@@ -11,58 +11,58 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-# def run_cosmoothing(model, ys, inputs=None, cs_frac=0.8):
-#     """
-#     Evaluate co-smoothing log likelihood on test trials. For each test trial,
-#     a random set of neurons are held-out. The latent states are estimated
-#     using the held-in neurons, and predictive performance is evaluated
-#     based on how well the latent state estimates the held-out neurons.
+def run_cosmoothing(model, ys, inputs=None, cs_frac=0.8):
+    """
+    Evaluate co-smoothing log likelihood on test trials. For each test trial,
+    a random set of neurons are held-out. The latent states are estimated
+    using the held-in neurons, and predictive performance is evaluated
+    based on how well the latent state estimates the held-out neurons.
 
-#     Inputs:
-#     model   - SSM model
-#     ys      - list of observations on test trials
-#     inputs  - optional list of inputs
-#     cs_frac - fraction of held-out neurons during co-smoothing
-#     """
+    Inputs:
+    model   - SSM model
+    ys      - list of observations on test trials
+    inputs  - optional list of inputs
+    cs_frac - fraction of held-out neurons during co-smoothing
+    """
 
-#     if inputs is None:
-#         inputs = [np.zeros((y.shape[0],)) for y in ys]
+    if inputs is None:
+        inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in ys]
 
-#     # get number of neurons
-#     N = ys[0].shape[0]
-#     shuff_indices = np.random.permutation(N)
-#     # leave out cs_frac fraction of neurons
-#     split_idx = int(cs_frac * N)
+    # get number of neurons
+    N = ys[0].shape[0]
+    shuff_indices = np.random.permutation(N)
+    # leave out cs_frac fraction of neurons
+    split_idx = int(cs_frac * N)
 
-#     train_neur, test_neur = shuff_indices[:split_idx], shuff_indices[split_idx:]
+    train_neur, test_neur = shuff_indices[:split_idx], shuff_indices[split_idx:]
 
-#     # create masks that mask out test neurons
-#     masks = []
-#     for y in ys:
-#         mask = np.ones_like(y)
-#         mask[:, test_neur] *= 0
-#         mask = mask.astype(bool)
-#         masks.append(mask)
+    # create masks that mask out test neurons
+    masks = []
+    for y in ys:
+        mask = np.ones_like(y)
+        mask[:, test_neur] *= 0
+        mask = mask.astype(bool)
+        masks.append(mask)
 
-#     # approximate posterior for
-#     # "held-in" or unmasked training neurons
-#     # number of iters is set to 25, but feel free to change these optimization params
-#     _elbos, _q_model = model.approximate_posterior(
-#         ys, inputs=inputs, masks=masks,
-#         method="laplace_em",
-#         variational_posterior="structured_meanfield",
-#         num_iters=25, alpha=0.5)
+    # approximate posterior for
+    # "held-in" or unmasked training neurons
+    # number of iters is set to 25, but feel free to change these optimization params
+    _elbos, _q_model = model.approximate_posterior(
+        ys, inputs=inputs, masks=masks,
+        method="laplace_em",
+        variational_posterior="structured_meanfield",
+        num_iters=25, alpha=0.5)
 
-#     # compute log likelihood of heldout neurons
-#     lls = 0.0
-#     for tr in range(len(ys)):
-#         ll = np.sum(model.emissions.log_likelihoods(ys[tr],
-#                                                     inputs[tr],
-#                                                     mask=np.invert(masks[tr]),
-#                                                     tag=None,
-#                                                     x=_q_model.mean_continuous_states[tr]))
-#         lls += ll
-#     return lls
+    # compute log likelihood of heldout neurons
+    lls = 0.0
+    for tr in range(len(ys)):
+        ll = np.sum(model.emissions.log_likelihoods(ys[tr],
+                                                    inputs[tr],
+                                                    mask=np.invert(masks[tr]),
+                                                    tag=None,
+                                                    x=_q_model.mean_continuous_states[tr]))
+        lls += ll
+    return lls
 
 
 # def neg_log_likelihood(rates, spikes, zero_warning=True):
@@ -131,12 +131,12 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
         elif iTrial in trind_test:
             testset.append(np.transpose(np.array(data.spikes[iTrial])))
 
-    # cosmoothing_input = trainset[0]
+    cosmoothing_input = trainset[0]
 
-    # for iTrial in range(len(trainset)):
-    #     cosmoothing_input = np.vstack([cosmoothing_input, trainset[iTrial]])
+    for iTrial in range(len(trainset)):
+        cosmoothing_input = np.vstack([cosmoothing_input, trainset[iTrial]])
 
-    # cosmoothing_input = cosmoothing_input[1:, :]
+    cosmoothing_input = cosmoothing_input[1:, :]
 
     # %%
     observation_dimensions = trainset[0].shape[1]
@@ -156,8 +156,8 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
                                                variational_posterior="structured_meanfield",
                                                initialize=False, num_iters=25)
     # %%
-
-    # lls = run_cosmoothing(model, cosmoothing_input, cs_frac=0.8)
+    ys = testset
+    lls = run_cosmoothing(model, ys, cs_frac=0.8)
 
     # %% Generating Rates for Test Trials
 
