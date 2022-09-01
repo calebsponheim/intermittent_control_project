@@ -157,8 +157,8 @@ def run_rslds(
         #############
         # Emissions
         #############
-        log_likelihood_emissions_sum = sum(log_likelihood_emissions_sum)
-        log_likelihood_emissions_sum = pd.DataFrame(log_likelihood_emissions_sum)
+        # log_likelihood_emissions_sum = sum(log_likelihood_emissions_sum)
+        log_likelihood_emissions_sum = pd.DataFrame([log_likelihood_emissions_sum])
         latent_dims = pd.DataFrame([latent_dim_state_range])
         frames = [log_likelihood_emissions_sum, latent_dims]
         log_likelihood_emissions_sum = pd.concat(frames, axis=1)
