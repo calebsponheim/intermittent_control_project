@@ -4,12 +4,12 @@
 subject='rs'
 taskname='CO'
 
-for iState in `seq 2 2 40`
+for iState in `seq 10 2 12`
 do
 	for iFold in `seq 1 5`
 	do
 		echo "$iState $iFold"
-		printf "#!/bin/bash\n#SBATCH --job-name=%i_%i\n#SBATCH --array=2-80:5\n" $iState $iFold > sbatch_dims_2-80_state_${iState}_fold_${iFold}.sh
+		printf "#!/bin/bash\n#SBATCH --job-name=%i_%i\n#SBATCH --array=2-80\n" $iState $iFold > sbatch_dims_2-80_state_${iState}_fold_${iFold}.sh
 		printf "#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/%s_%s/rSLDS_%s_%i.out\n" $subject $taskname  "%a" $iState >> sbatch_dims_2-80_state_${iState}_fold_${iFold}.sh
 		printf "#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/%s_%s/rSLDS_%s_%i.err\n" $subject $taskname  "%a" $iState >> sbatch_dims_2-80_state_${iState}_fold_${iFold}.sh
 		printf "#SBATCH --time=36:00:00\n#SBATCH --partition=broadwl\n#SBATCH --partition=broadwl\n#SBATCH --ntasks-per-node=1\n#SBATCH --mem-per-cpu=48G\n" >> sbatch_dims_2-80_state_${iState}_fold_${iFold}.sh
