@@ -29,8 +29,8 @@ elseif meta.use_rslds == 0
 end
 
 %%
-% dim_skip = 5;
-% state_skip = 2;
+dim_skip = 5;
+state_skip = 2;
 bits_per_spike = [];
 ll_files_list = dir(filepath_for_ll_plot);
 ll_files_list = {ll_files_list.name}';
