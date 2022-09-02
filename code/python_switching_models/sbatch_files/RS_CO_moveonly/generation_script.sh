@@ -4,7 +4,7 @@
 subject='rs'
 taskname='CO'
 
-for iState in `seq 10 2 12`
+for iState in `seq 2 2 40`
 do
 	for iFold in `seq 1 5`
 	do
