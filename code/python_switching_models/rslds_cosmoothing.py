@@ -10,7 +10,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def run_cosmoothing(model, ys, inputs=None, cs_frac=0.8):
+def run_cosmoothing(model, ys, trind_test, inputs=None, cs_frac=0.8):
     """
     Evaluate co-smoothing log likelihood on test trials. For each test trial,
     a random set of neurons are held-out. The latent states are estimated
@@ -29,7 +29,9 @@ def run_cosmoothing(model, ys, inputs=None, cs_frac=0.8):
 
     # get number of neurons
     N = ys[0].shape[1]
-    shuff_indices = np.random.permutation(N)
+
+    rng = np.random.default_rng(sum(trind_test))
+    shuff_indices = rng.permutation(N)
     # leave out cs_frac fraction of neurons
     split_idx = int(cs_frac * N)
 
@@ -100,7 +102,7 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
     ys = testset
 
     # %%
-    lls = run_cosmoothing(model, ys, cs_frac=0.8)
+    lls = run_cosmoothing(model, ys, trind_test, inputs=None, cs_frac=0.8)
     log_likelihood_emissions_sum = lls
     # %% Generating Rates for Test Trials
 

@@ -1,6 +1,3 @@
-#!/bin/bash
-#SBATCH --job-name=6_4
-#SBATCH --array=2-80
 #SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rs_CO/rSLDS_%a_6.out
 #SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_CO/rSLDS_%a_6.err
 #SBATCH --time=36:00:00
