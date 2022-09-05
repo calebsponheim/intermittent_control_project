@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=24_1
 #SBATCH --array=2-80:5
-#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rs_CO/rSLDS_%a_24.out
-#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_CO/rSLDS_%a_24.err
+#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rs_CO/rSLDS_%a_24_1.out
+#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_CO/rSLDS_%a_24_1.err
 #SBATCH --time=36:00:00
 #SBATCH --partition=broadwl
 #SBATCH --partition=broadwl

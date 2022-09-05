@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 19, in <module>
-    run_rslds(
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 95, in run_rslds
-    data, is_it_breaux = import_matlab_data(folderpath)
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/import_matlab_data.py", line 27, in import_matlab_data
-    with open(folderpath + iFile) as csv_file:
-PermissionError: [Errno 13] Permission denied: '/dali/nicho/caleb/git/intermittent_control_project/data/python_switching_models/RSCO_move_window0.05sBins/trial0040_spikes.csv'
