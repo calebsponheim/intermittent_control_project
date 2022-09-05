@@ -10,7 +10,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def run_cosmoothing(model, ys, trind_test, inputs=None, cs_frac=0.8):
+def run_cosmoothing(model, ys, neuron_classification, inputs=None, cs_frac=0.8):
     """
     Evaluate co-smoothing log likelihood on test trials. For each test trial,
     a random set of neurons are held-out. The latent states are estimated
@@ -28,14 +28,16 @@ def run_cosmoothing(model, ys, trind_test, inputs=None, cs_frac=0.8):
         inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in ys]
 
     # get number of neurons
-    N = ys[0].shape[1]
+    # N = ys[0].shape[1]
 
-    rng = np.random.default_rng(sum(trind_test))
-    shuff_indices = rng.permutation(N)
     # leave out cs_frac fraction of neurons
-    split_idx = int(cs_frac * N)
+    # split_idx = int(cs_frac * N)
 
-    train_neur, test_neur = shuff_indices[:split_idx], shuff_indices[split_idx:]
+    neuron_ind_train = [i for i, x in enumerate(
+        neuron_classification) if x == "train"]
+    neuron_ind_test = [i for i, x in enumerate(
+        neuron_classification) if x == "test"]
+    test_neur = neuron_ind_test
 
     # create masks that mask out test neurons
     masks = []
@@ -65,7 +67,7 @@ def run_cosmoothing(model, ys, trind_test, inputs=None, cs_frac=0.8):
 
 def rslds_cosmoothing(data, trial_classification, meta, bin_size,
                       num_hidden_state_override, figurepath,
-                      rslds_ll_analysis, latent_dim_state_range):
+                      rslds_ll_analysis, latent_dim_state_range, neuron_classification):
     """Train a Switching Linear Dynamical System."""
     # %%
     trind_train = [i for i, x in enumerate(
@@ -102,7 +104,7 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
     ys = testset
 
     # %%
-    lls = run_cosmoothing(model, ys, trind_test, inputs=None, cs_frac=0.8)
+    lls = run_cosmoothing(model, ys, neuron_classification, inputs=None, cs_frac=0.8)
     log_likelihood_emissions_sum = lls
     # %% Generating Rates for Test Trials
 

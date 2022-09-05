@@ -111,7 +111,7 @@ def run_rslds(
 
     # %%
 
-    trial_classification = assign_trials_to_HMM_group(
+    trial_classification, neuron_classification = assign_trials_to_HMM_group(
         data, meta, midway_run, fold_number, folderpath_out)
 
     # %% Running HMM
@@ -137,7 +137,8 @@ def run_rslds(
     if midway_run == 1:
         log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
                                                          num_hidden_state_override, figurepath,
-                                                         rslds_ll_analysis, latent_dim_state_range)
+                                                         rslds_ll_analysis, latent_dim_state_range,
+                                                         neuron_classification)
         # test_bits_sum = pd.DataFrame(test_bits_sum)
         # latent_dims = pd.DataFrame([latent_dim_state_range])
         # frames = [test_bits_sum, latent_dims]
