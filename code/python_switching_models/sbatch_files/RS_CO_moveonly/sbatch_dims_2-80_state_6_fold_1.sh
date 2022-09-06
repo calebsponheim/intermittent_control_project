@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=6_1
 #SBATCH --array=2-80:5
-#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rs_CO/rSLDS_%a_6_1.out
-#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_CO/rSLDS_%a_6_1.err
+#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rs_CO/rSLDS_%a_6.out
+#SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_CO/rSLDS_%a_6.err
 #SBATCH --time=36:00:00
 #SBATCH --partition=broadwl
 #SBATCH --ntasks-per-node=1
