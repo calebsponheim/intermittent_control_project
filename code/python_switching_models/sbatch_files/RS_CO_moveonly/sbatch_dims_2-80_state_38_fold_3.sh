@@ -5,7 +5,7 @@
 #SBATCH --output=/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_CO/rSLDS_%a_38.err
 #SBATCH --time=36:00:00
 #SBATCH --partition=broadwl
-#SBATCH --ntasks-per-node=1
+#SBATCH --ntasks=1
 #SBATCH --mem-per-cpu=48G
 module load python/anaconda-2021.05
 source activate /dali/nicho/caleb/git/intermittent_control_project/data/ssm_midway_python_environment/
