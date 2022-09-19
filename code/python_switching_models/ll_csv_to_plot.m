@@ -87,12 +87,13 @@ x = focused_state_range;
 y = [];
 state_count = 1;
 for iState = focused_state_range
-    y(state_count,:) = bits_per_spike(10,iState);
+    y(state_count,:) = bits_per_spike(5:20,iState);
     state_count = state_count + 1;
 end
 state_mean_across_dims = mean(y,2,'omitnan');
 figure; hold on;
 plot(x,state_mean_across_dims,'-o','LineWidth',2);
+plot(x,y','.')
 set(gcf,"Color","w")
 title(strcat(meta.subject," ",meta.task," Cross-Validated Likelihood"))
 xlabel("# Discrete States")
