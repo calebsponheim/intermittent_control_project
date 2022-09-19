@@ -72,10 +72,8 @@ for iDim = 2:size(bits_per_spike,1)
     plot3(repmat(iDim,length(y)),x,y,'LineWidth',2,'Color','#808080');
 end
 set(gcf,"Renderer","opengl","Color","w")
-title(strcat(meta.subject," ",meta.task," Cross-Validated Likelihood"))
-xlabel("# Latent Dimensions")
-ylabel("# Discrete States")
-zlabel("Log Likelihood")
+title(strcat(meta.subject,meta.task,"Cross-Validated Likelihood"))
+xlabel("D")
 grid on
 box off
 hold off
@@ -91,12 +89,6 @@ for iState = 2:size(bits_per_spike,2)
     y = y(~isnan(y));
     plot(x,y,'LineWidth',2,'Color',colors(iState,:))
 end
-set(gcf,"Renderer","opengl","Color","w")
-title(strcat(meta.subject," ",meta.task," Cross-Validated Likelihood"))
-xlabel("# Latent Dimensions")
-ylabel("Log Likelihood")
-grid on
-box off
 hold off
 saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_2D.png']);
 %%
