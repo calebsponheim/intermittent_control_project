@@ -45,8 +45,8 @@ for iFolder = 1:length(ll_files_list)
         temp = readmatrix(temp_bits_filepath);
         % put data in correct x,y,and x positions based on state, dim, and
         % folds in this given file and path.
-        disp(length(temp(:,1)))
-        if length(temp(:,1)) > 3
+%         disp(length(temp(:,1)))
+        if length(temp(:,1)) > 4
             bits_per_spike(temp_bits_dim_num,temp_bits_state_num) = mean(temp(:,1));
         end
     end
