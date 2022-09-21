@@ -1,4 +1,4 @@
-Processed spikes from trial 10.
+ELBO: -2542214.7:  40%|████      | 10/25 [1:50:50<2:28:16, 593.10s/it]ELBO: -2542214.7:  44%|████▍     | 11/25 [1:50:50<2:14:36, 576.88s/it]ELBO: -2572855.4:  20%|██        | 5/25 [1:10:33<3:52:24, 697.24s/it]ELBO: -2572855.4:  24%|██▍       | 6/25 [1:10:33<3:27:19, 654.70s/it]ELBO: -2677609.2:   4%|▍         | 1/25 [22:44<5:04:22, 760.93s/it]ELBO: -2677609.2:   8%|▊         | 2/25 [22:44<4:16:17, 668.57s/it]ELBO: -2539532.9:  44%|████▍     | 11/25 [1:59:53<2:14:36, 576.88s/it]ELBO: -2539532.9:  48%|████▊     | 12/25 [1:59:53<2:02:46, 566.63s/it]ELBO: -2612744.3:  12%|█▏        | 3/25 [1:55:27<10:43:14, 1754.28s/it]ELBO: -2612744.3:  16%|█▌        | 4/25 [1:55:27<9:36:12, 1646.30s/it] ELBO: -2564256.0:  24%|██▍       | 6/25 [1:19:45<3:27:19, 654.70s/it]ELBO: -2564256.0:  28%|██▊       | 7/25 [1:19:45<3:06:21, 621.21s/it]ELBO: -2646217.9:   8%|▊         | 2/25 [32:49<4:16:17, 668.57s/it]ELBO: -2646217.9:  12%|█▏        | 3/25 [32:49<3:54:21, 639.16s/it]ELBO: -2538294.2:  48%|████▊     | 12/25 [2:08:59<2:02:46, 566.63s/it]ELBO: -2538294.2:  52%|█████▏    | 13/25 [2:08:59<1:52:03, 560.27s/it]Processed spikes from trial 10.
 Processed spikes from trial 20.
 Processed spikes from trial 30.
 Processed spikes from trial 40.
@@ -152,335 +152,13 @@ Processed Kinematics from trial 740
 Processed Kinematics from trial 750
 Processed Kinematics from trial 760
 Processed Kinematics from trial 770
-Traceback (most recent call last):
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 26, in <module>
-    run_rslds(
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 114, in run_rslds
-    trial_classification, neuron_classification = assign_trials_to_HMM_group(
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/assign_trials_to_HMM_group.py", line 50, in assign_trials_to_HMM_group
-    fold_test_trials = multifold_shuffled_order[test_mask]
-IndexError: boolean index did not match indexed array along dimension 0; dimension is 773 but corresponding boolean dimension is 774
-Processed spikes from trial 10.
-Processed spikes from trial 20.
-Processed spikes from trial 30.
-Processed spikes from trial 40.
-Processed spikes from trial 50.
-Processed spikes from trial 60.
-Processed spikes from trial 70.
-Processed spikes from trial 80.
-Processed spikes from trial 90.
-Processed spikes from trial 100.
-Processed spikes from trial 110.
-Processed spikes from trial 120.
-Processed spikes from trial 130.
-Processed spikes from trial 140.
-Processed spikes from trial 150.
-Processed spikes from trial 160.
-Processed spikes from trial 170.
-Processed spikes from trial 180.
-Processed spikes from trial 190.
-Processed spikes from trial 200.
-Processed spikes from trial 210.
-Processed spikes from trial 220.
-Processed spikes from trial 230.
-Processed spikes from trial 240.
-Processed spikes from trial 250.
-Processed spikes from trial 260.
-Processed spikes from trial 270.
-Processed spikes from trial 280.
-Processed spikes from trial 290.
-Processed spikes from trial 300.
-Processed spikes from trial 310.
-Processed spikes from trial 320.
-Processed spikes from trial 330.
-Processed spikes from trial 340.
-Processed spikes from trial 350.
-Processed spikes from trial 360.
-Processed spikes from trial 370.
-Processed spikes from trial 380.
-Processed spikes from trial 390.
-Processed spikes from trial 400.
-Processed spikes from trial 410.
-Processed spikes from trial 420.
-Processed spikes from trial 430.
-Processed spikes from trial 440.
-Processed spikes from trial 450.
-Processed spikes from trial 460.
-Processed spikes from trial 470.
-Processed spikes from trial 480.
-Processed spikes from trial 490.
-Processed spikes from trial 500.
-Processed spikes from trial 510.
-Processed spikes from trial 520.
-Processed spikes from trial 530.
-Processed spikes from trial 540.
-Processed spikes from trial 550.
-Processed spikes from trial 560.
-Processed spikes from trial 570.
-Processed spikes from trial 580.
-Processed spikes from trial 590.
-Processed spikes from trial 600.
-Processed spikes from trial 610.
-Processed spikes from trial 620.
-Processed spikes from trial 630.
-Processed spikes from trial 640.
-Processed spikes from trial 650.
-Processed spikes from trial 660.
-Processed spikes from trial 670.
-Processed spikes from trial 680.
-Processed spikes from trial 690.
-Processed spikes from trial 700.
-Processed spikes from trial 710.
-Processed spikes from trial 720.
-Processed spikes from trial 730.
-Processed spikes from trial 740.
-Processed spikes from trial 750.
-Processed spikes from trial 760.
-Processed spikes from trial 770.
-Processed Kinematics from trial 10
-Processed Kinematics from trial 20
-Processed Kinematics from trial 30
-Processed Kinematics from trial 40
-Processed Kinematics from trial 50
-Processed Kinematics from trial 60
-Processed Kinematics from trial 70
-Processed Kinematics from trial 80
-Processed Kinematics from trial 90
-Processed Kinematics from trial 100
-Processed Kinematics from trial 110
-Processed Kinematics from trial 120
-Processed Kinematics from trial 130
-Processed Kinematics from trial 140
-Processed Kinematics from trial 150
-Processed Kinematics from trial 160
-Processed Kinematics from trial 170
-Processed Kinematics from trial 180
-Processed Kinematics from trial 190
-Processed Kinematics from trial 200
-Processed Kinematics from trial 210
-Processed Kinematics from trial 220
-Processed Kinematics from trial 230
-Processed Kinematics from trial 240
-Processed Kinematics from trial 250
-Processed Kinematics from trial 260
-Processed Kinematics from trial 270
-Processed Kinematics from trial 280
-Processed Kinematics from trial 290
-Processed Kinematics from trial 300
-Processed Kinematics from trial 310
-Processed Kinematics from trial 320
-Processed Kinematics from trial 330
-Processed Kinematics from trial 340
-Processed Kinematics from trial 350
-Processed Kinematics from trial 360
-Processed Kinematics from trial 370
-Processed Kinematics from trial 380
-Processed Kinematics from trial 390
-Processed Kinematics from trial 400
-Processed Kinematics from trial 410
-Processed Kinematics from trial 420
-Processed Kinematics from trial 430
-Processed Kinematics from trial 440
-Processed Kinematics from trial 450
-Processed Kinematics from trial 460
-Processed Kinematics from trial 470
-Processed Kinematics from trial 480
-Processed Kinematics from trial 490
-Processed Kinematics from trial 500
-Processed Kinematics from trial 510
-Processed Kinematics from trial 520
-Processed Kinematics from trial 530
-Processed Kinematics from trial 540
-Processed Kinematics from trial 550
-Processed Kinematics from trial 560
-Processed Kinematics from trial 570
-Processed Kinematics from trial 580
-Processed Kinematics from trial 590
-Processed Kinematics from trial 600
-Processed Kinematics from trial 610
-Processed Kinematics from trial 620
-Processed Kinematics from trial 630
-Processed Kinematics from trial 640
-Processed Kinematics from trial 650
-Processed Kinematics from trial 660
-Processed Kinematics from trial 670
-Processed Kinematics from trial 680
-Processed Kinematics from trial 690
-Processed Kinematics from trial 700
-Processed Kinematics from trial 710
-Processed Kinematics from trial 720
-Processed Kinematics from trial 730
-Processed Kinematics from trial 740
-Processed Kinematics from trial 750
-Processed Kinematics from trial 760
-Processed Kinematics from trial 770
-Traceback (most recent call last):
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 26, in <module>
-    run_rslds(
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 114, in run_rslds
-    trial_classification, neuron_classification = assign_trials_to_HMM_group(
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/assign_trials_to_HMM_group.py", line 50, in assign_trials_to_HMM_group
-    fold_test_trials = multifold_shuffled_order[test_mask]
-IndexError: boolean index did not match indexed array along dimension 0; dimension is 773 but corresponding boolean dimension is 774
-Processed spikes from trial 10.
-Processed spikes from trial 20.
-Processed spikes from trial 30.
-Processed spikes from trial 40.
-Processed spikes from trial 50.
-Processed spikes from trial 60.
-Processed spikes from trial 70.
-Processed spikes from trial 80.
-Processed spikes from trial 90.
-Processed spikes from trial 100.
-Processed spikes from trial 110.
-Processed spikes from trial 120.
-Processed spikes from trial 130.
-Processed spikes from trial 140.
-Processed spikes from trial 150.
-Processed spikes from trial 160.
-Processed spikes from trial 170.
-Processed spikes from trial 180.
-Processed spikes from trial 190.
-Processed spikes from trial 200.
-Processed spikes from trial 210.
-Processed spikes from trial 220.
-Processed spikes from trial 230.
-Processed spikes from trial 240.
-Processed spikes from trial 250.
-Processed spikes from trial 260.
-Processed spikes from trial 270.
-Processed spikes from trial 280.
-Processed spikes from trial 290.
-Processed spikes from trial 300.
-Processed spikes from trial 310.
-Processed spikes from trial 320.
-Processed spikes from trial 330.
-Processed spikes from trial 340.
-Processed spikes from trial 350.
-Processed spikes from trial 360.
-Processed spikes from trial 370.
-Processed spikes from trial 380.
-Processed spikes from trial 390.
-Processed spikes from trial 400.
-Processed spikes from trial 410.
-Processed spikes from trial 420.
-Processed spikes from trial 430.
-Processed spikes from trial 440.
-Processed spikes from trial 450.
-Processed spikes from trial 460.
-Processed spikes from trial 470.
-Processed spikes from trial 480.
-Processed spikes from trial 490.
-Processed spikes from trial 500.
-Processed spikes from trial 510.
-Processed spikes from trial 520.
-Processed spikes from trial 530.
-Processed spikes from trial 540.
-Processed spikes from trial 550.
-Processed spikes from trial 560.
-Processed spikes from trial 570.
-Processed spikes from trial 580.
-Processed spikes from trial 590.
-Processed spikes from trial 600.
-Processed spikes from trial 610.
-Processed spikes from trial 620.
-Processed spikes from trial 630.
-Processed spikes from trial 640.
-Processed spikes from trial 650.
-Processed spikes from trial 660.
-Processed spikes from trial 670.
-Processed spikes from trial 680.
-Processed spikes from trial 690.
-Processed spikes from trial 700.
-Processed spikes from trial 710.
-Processed spikes from trial 720.
-Processed spikes from trial 730.
-Processed spikes from trial 740.
-Processed spikes from trial 750.
-Processed spikes from trial 760.
-Processed spikes from trial 770.
-Processed Kinematics from trial 10
-Processed Kinematics from trial 20
-Processed Kinematics from trial 30
-Processed Kinematics from trial 40
-Processed Kinematics from trial 50
-Processed Kinematics from trial 60
-Processed Kinematics from trial 70
-Processed Kinematics from trial 80
-Processed Kinematics from trial 90
-Processed Kinematics from trial 100
-Processed Kinematics from trial 110
-Processed Kinematics from trial 120
-Processed Kinematics from trial 130
-Processed Kinematics from trial 140
-Processed Kinematics from trial 150
-Processed Kinematics from trial 160
-Processed Kinematics from trial 170
-Processed Kinematics from trial 180
-Processed Kinematics from trial 190
-Processed Kinematics from trial 200
-Processed Kinematics from trial 210
-Processed Kinematics from trial 220
-Processed Kinematics from trial 230
-Processed Kinematics from trial 240
-Processed Kinematics from trial 250
-Processed Kinematics from trial 260
-Processed Kinematics from trial 270
-Processed Kinematics from trial 280
-Processed Kinematics from trial 290
-Processed Kinematics from trial 300
-Processed Kinematics from trial 310
-Processed Kinematics from trial 320
-Processed Kinematics from trial 330
-Processed Kinematics from trial 340
-Processed Kinematics from trial 350
-Processed Kinematics from trial 360
-Processed Kinematics from trial 370
-Processed Kinematics from trial 380
-Processed Kinematics from trial 390
-Processed Kinematics from trial 400
-Processed Kinematics from trial 410
-Processed Kinematics from trial 420
-Processed Kinematics from trial 430
-Processed Kinematics from trial 440
-Processed Kinematics from trial 450
-Processed Kinematics from trial 460
-Processed Kinematics from trial 470
-Processed Kinematics from trial 480
-Processed Kinematics from trial 490
-Processed Kinematics from trial 500
-Processed Kinematics from trial 510
-Processed Kinematics from trial 520
-Processed Kinematics from trial 530
-Processed Kinematics from trial 540
-Processed Kinematics from trial 550
-Processed Kinematics from trial 560
-Processed Kinematics from trial 570
-Processed Kinematics from trial 580
-Processed Kinematics from trial 590
-Processed Kinematics from trial 600
-Processed Kinematics from trial 610
-Processed Kinematics from trial 620
-Processed Kinematics from trial 630
-Processed Kinematics from trial 640
-Processed Kinematics from trial 650
-Processed Kinematics from trial 660
-Processed Kinematics from trial 670
-Processed Kinematics from trial 680
-Processed Kinematics from trial 690
-Processed Kinematics from trial 700
-Processed Kinematics from trial 710
-Processed Kinematics from trial 720
-Processed Kinematics from trial 730
-Processed Kinematics from trial 740
-Processed Kinematics from trial 750
-Processed Kinematics from trial 760
-Processed Kinematics from trial 770
-Traceback (most recent call last):
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 26, in <module>
-    run_rslds(
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 114, in run_rslds
-    trial_classification, neuron_classification = assign_trials_to_HMM_group(
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/assign_trials_to_HMM_group.py", line 50, in assign_trials_to_HMM_group
-    fold_test_trials = multifold_shuffled_order[test_mask]
-IndexError: boolean index did not match indexed array along dimension 0; dimension is 773 but corresponding boolean dimension is 774
+  0%|          | 0/25 [00:00<?, ?it/s]ELBO: -10455412.8:   0%|          | 0/25 [00:00<?, ?it/s]ELBO: -2553913.5:  28%|██▊       | 7/25 [1:28:56<3:06:21, 621.21s/it]ELBO: -2553913.5:  32%|███▏      | 8/25 [1:28:56<2:49:42, 598.96s/it]ELBO: -2535890.2:  52%|█████▏    | 13/25 [2:18:05<1:52:03, 560.27s/it]ELBO: -2535890.2:  56%|█████▌    | 14/25 [2:18:05<1:41:57, 556.10s/it]ELBO: -2618439.5:  12%|█▏        | 3/25 [42:22<3:54:21, 639.16s/it]ELBO: -2618439.5:  16%|█▌        | 4/25 [42:22<3:34:34, 613.07s/it]ELBO: -2749240.2:   0%|          | 0/25 [12:45<?, ?it/s] ELBO: -2749240.2:   4%|▍         | 1/25 [12:45<5:06:07, 765.30s/it]ELBO: -2548752.6:  32%|███▏      | 8/25 [1:38:16<2:49:42, 598.96s/it]ELBO: -2548752.6:  36%|███▌      | 9/25 [1:38:16<2:36:30, 586.88s/it]ELBO: -2532799.2:  56%|█████▌    | 14/25 [2:27:08<1:41:57, 556.10s/it]ELBO: -2532799.2:  60%|██████    | 15/25 [2:27:08<1:32:01, 552.17s/it]ELBO: -2591113.0:  16%|█▌        | 4/25 [2:21:41<9:36:12, 1646.30s/it]ELBO: -2591113.0:  20%|██        | 5/25 [2:21:41<9:00:09, 1620.48s/it]ELBO: -2591116.1:  16%|█▌        | 4/25 [51:31<3:34:34, 613.07s/it]ELBO: -2591116.1:  20%|██        | 5/25 [51:31<3:16:41, 590.06s/it]ELBO: -2547314.3:  36%|███▌      | 9/25 [1:47:19<2:36:30, 586.88s/it]ELBO: -2547314.3:  40%|████      | 10/25 [1:47:19<2:23:16, 573.10s/it]ELBO: -2678646.1:   4%|▍         | 1/25 [23:01<5:06:07, 765.30s/it]ELBO: -2678646.1:   8%|▊         | 2/25 [23:01<4:19:49, 677.80s/it]ELBO: -2532006.2:  60%|██████    | 15/25 [2:36:08<1:32:01, 552.17s/it]ELBO: -2532006.2:  64%|██████▍   | 16/25 [2:36:08<1:22:17, 548.56s/it]ELBO: -2577078.8:  20%|██        | 5/25 [1:00:43<3:16:41, 590.06s/it]ELBO: -2577078.8:  24%|██▍       | 6/25 [1:00:43<3:02:43, 577.05s/it]ELBO: -2538468.3:  40%|████      | 10/25 [1:56:38<2:23:16, 573.10s/it]ELBO: -2538468.3:  44%|████▍     | 11/25 [1:56:38<2:12:42, 568.77s/it]ELBO: -2532889.1:  64%|██████▍   | 16/25 [2:45:10<1:22:17, 548.56s/it]ELBO: -2532889.1:  68%|██████▊   | 17/25 [2:45:10<1:12:52, 546.54s/it]ELBO: -2651501.9:   8%|▊         | 2/25 [32:42<4:19:49, 677.80s/it]ELBO: -2651501.9:  12%|█▏        | 3/25 [32:42<3:52:15, 633.41s/it]ELBO: -2563565.1:  24%|██▍       | 6/25 [1:09:58<3:02:43, 577.05s/it]ELBO: -2563565.1:  28%|██▊       | 7/25 [1:09:58<2:51:00, 570.01s/it]ELBO: -2576963.3:  20%|██        | 5/25 [2:47:52<9:00:09, 1620.48s/it]ELBO: -2576963.3:  24%|██▍       | 6/25 [2:47:52<8:27:46, 1603.48s/it]ELBO: -2536404.8:  44%|████▍     | 11/25 [2:05:41<2:12:42, 568.77s/it]ELBO: -2536404.8:  48%|████▊     | 12/25 [2:05:41<2:01:34, 561.15s/it]ELBO: -2530498.6:  68%|██████▊   | 17/25 [2:54:12<1:12:52, 546.54s/it]ELBO: -2530498.6:  72%|███████▏  | 18/25 [2:54:12<1:03:34, 544.98s/it]ELBO: -2621046.9:  12%|█▏        | 3/25 [41:39<3:52:15, 633.41s/it]ELBO: -2621046.9:  16%|█▌        | 4/25 [41:39<3:28:23, 595.42s/it]ELBO: -2558613.8:  28%|██▊       | 7/25 [1:19:10<2:51:00, 570.01s/it]ELBO: -2558613.8:  32%|███▏      | 8/25 [1:19:10<2:39:49, 564.09s/it]ELBO: -2532346.9:  48%|████▊     | 12/25 [2:14:46<2:01:34, 561.15s/it]ELBO: -2532346.9:  52%|█████▏    | 13/25 [2:14:46<1:51:14, 556.20s/it]ELBO: -2527571.4:  72%|███████▏  | 18/25 [3:03:16<1:03:34, 544.98s/it]ELBO: -2527571.4:  76%|███████▌  | 19/25 [3:03:16<54:28, 544.73s/it]  ELBO: -2593026.4:  16%|█▌        | 4/25 [50:55<3:28:23, 595.42s/it]ELBO: -2593026.4:  20%|██        | 5/25 [50:55<3:13:40, 581.00s/it]ELBO: -2553012.6:  32%|███▏      | 8/25 [1:28:21<2:39:49, 564.09s/it]ELBO: -2553012.6:  36%|███▌      | 9/25 [1:28:21<2:29:23, 560.23s/it]ELBO: -2531308.7:  52%|█████▏    | 13/25 [2:23:51<1:51:14, 556.20s/it]ELBO: -2531308.7:  56%|█████▌    | 14/25 [2:23:51<1:41:21, 552.84s/it]ELBO: -2525380.1:  76%|███████▌  | 19/25 [3:12:11<54:28, 544.73s/it]ELBO: -2525380.1:  80%|████████  | 20/25 [3:12:11<45:10, 542.02s/it]ELBO: -2574408.4:  20%|██        | 5/25 [1:00:16<3:13:40, 581.00s/it]ELBO: -2574408.4:  24%|██▍       | 6/25 [1:00:16<3:01:54, 574.46s/it]ELBO: -2549728.8:  36%|███▌      | 9/25 [1:37:25<2:29:23, 560.23s/it]ELBO: -2549728.8:  40%|████      | 10/25 [1:37:25<2:18:47, 555.18s/it]ELBO: -2562411.6:  24%|██▍       | 6/25 [3:13:40<8:27:46, 1603.48s/it]ELBO: -2562411.6:  28%|██▊       | 7/25 [3:13:40<7:55:36, 1585.35s/it]ELBO: -2529298.0:  56%|█████▌    | 14/25 [2:32:55<1:41:21, 552.84s/it]ELBO: -2529298.0:  60%|██████    | 15/25 [2:32:55<1:31:40, 550.08s/it]ELBO: -2523848.4:  80%|████████  | 20/25 [3:21:43<45:10, 542.02s/it]ELBO: -2523848.4:  84%|████████▍ | 21/25 [3:21:43<36:44, 551.00s/it]ELBO: -2545606.3:  40%|████      | 10/25 [1:46:25<2:18:47, 555.18s/it]ELBO: -2545606.3:  44%|████▍     | 11/25 [1:46:25<2:08:27, 550.50s/it]ELBO: -2567108.6:  24%|██▍       | 6/25 [1:10:55<3:01:54, 574.46s/it]ELBO: -2567108.6:  28%|██▊       | 7/25 [1:10:55<2:58:37, 595.40s/it]ELBO: -2529609.2:  60%|██████    | 15/25 [2:41:59<1:31:40, 550.08s/it]ELBO: -2529609.2:  64%|██████▍   | 16/25 [2:41:59<1:22:14, 548.27s/it]ELBO: -2522622.7:  84%|████████▍ | 21/25 [3:30:56<36:44, 551.00s/it]ELBO: -2522622.7:  88%|████████▊ | 22/25 [3:30:56<27:34, 551.51s/it]ELBO: -2541526.1:  44%|████▍     | 11/25 [1:55:33<2:08:27, 550.50s/it]ELBO: -2541526.1:  48%|████▊     | 12/25 [1:55:33<1:59:06, 549.71s/it]ELBO: -2556767.0:  28%|██▊       | 7/25 [1:21:52<2:58:37, 595.40s/it]ELBO: -2556767.0:  32%|███▏      | 8/25 [1:21:52<2:54:14, 614.98s/it]ELBO: -2525949.6:  64%|██████▍   | 16/25 [2:51:10<1:22:14, 548.27s/it]ELBO: -2525949.6:  68%|██████▊   | 17/25 [2:51:10<1:13:13, 549.14s/it]ELBO: -2521598.1:  88%|████████▊ | 22/25 [3:39:58<27:34, 551.51s/it]ELBO: -2521598.1:  92%|█████████▏| 23/25 [3:39:58<18:17, 548.55s/it]ELBO: -2539701.5:  48%|████▊     | 12/25 [2:04:33<1:59:06, 549.71s/it]ELBO: -2539701.5:  52%|█████▏    | 13/25 [2:04:33<1:49:22, 546.87s/it]ELBO: -2555218.1:  28%|██▊       | 7/25 [3:39:27<7:55:36, 1585.35s/it]ELBO: -2555218.1:  32%|███▏      | 8/25 [3:39:27<7:25:41, 1573.01s/it]ELBO: -2552908.6:  32%|███▏      | 8/25 [1:32:42<2:54:14, 614.98s/it]ELBO: -2552908.6:  36%|███▌      | 9/25 [1:32:42<2:46:55, 625.95s/it]ELBO: -2525475.4:  68%|██████▊   | 17/25 [3:00:14<1:13:13, 549.14s/it]ELBO: -2525475.4:  72%|███████▏  | 18/25 [3:00:14<1:03:52, 547.48s/it]ELBO: -2519915.4:  92%|█████████▏| 23/25 [3:49:02<18:17, 548.55s/it]ELBO: -2519915.4:  96%|█████████▌| 24/25 [3:49:02<09:07, 547.24s/it]ELBO: -2538208.4:  52%|█████▏    | 13/25 [2:13:35<1:49:22, 546.87s/it]ELBO: -2538208.4:  56%|█████▌    | 14/25 [2:13:35<1:39:57, 545.21s/it]ELBO: -2548979.6:  36%|███▌      | 9/25 [1:43:25<2:46:55, 625.95s/it]ELBO: -2548979.6:  40%|████      | 10/25 [1:43:25<2:37:48, 631.22s/it]ELBO: -2523928.3:  72%|███████▏  | 18/25 [3:09:18<1:03:52, 547.48s/it]ELBO: -2523928.3:  76%|███████▌  | 19/25 [3:09:18<54:38, 546.42s/it]  ELBO: -2521887.0:  96%|█████████▌| 24/25 [3:57:57<09:07, 547.24s/it]ELBO: -2521887.0: 100%|██████████| 25/25 [3:57:57<00:00, 543.56s/it]ELBO: -2521887.0: 100%|██████████| 25/25 [3:57:57<00:00, 571.10s/it]
+  0%|          | 0/25 [00:00<?, ?it/s]ELBO: -8487703.9:   0%|          | 0/25 [00:00<?, ?it/s]ELBO: -2536650.0:  56%|█████▌    | 14/25 [2:22:37<1:39:57, 545.21s/it]ELBO: -2536650.0:  60%|██████    | 15/25 [2:22:37<1:30:44, 544.44s/it]ELBO: -569357.8:   0%|          | 0/25 [03:57<?, ?it/s] ELBO: -569357.8:   4%|▍         | 1/25 [03:57<1:35:00, 237.53s/it]ELBO: -545302.7:   4%|▍         | 1/25 [06:31<1:35:00, 237.53s/it]ELBO: -545302.7:   8%|▊         | 2/25 [06:31<1:12:17, 188.58s/it]ELBO: -2522047.0:  76%|███████▌  | 19/25 [3:18:21<54:38, 546.42s/it]ELBO: -2522047.0:  80%|████████  | 20/25 [3:18:21<45:27, 545.44s/it]ELBO: -534867.2:   8%|▊         | 2/25 [08:42<1:12:17, 188.58s/it]ELBO: -534867.2:  12%|█▏        | 3/25 [08:42<59:24, 162.02s/it]  ELBO: -2547518.1:  40%|████      | 10/25 [1:53:55<2:37:48, 631.22s/it]ELBO: -2547518.1:  44%|████▍     | 11/25 [1:53:55<2:27:11, 630.80s/it]ELBO: -2535294.0:  60%|██████    | 15/25 [2:31:40<1:30:44, 544.44s/it]ELBO: -2535294.0:  64%|██████▍   | 16/25 [2:31:40<1:21:35, 543.96s/it]ELBO: -531862.5:  12%|█▏        | 3/25 [10:39<59:24, 162.02s/it]ELBO: -531862.5:  16%|█▌        | 4/25 [10:39<50:33, 144.45s/it]ELBO: -2551258.2:  32%|███▏      | 8/25 [4:04:35<7:25:41, 1573.01s/it]ELBO: -2551258.2:  36%|███▌      | 9/25 [4:04:35<6:54:04, 1552.78s/it]ELBO: -531272.9:  16%|█▌        | 4/25 [12:37<50:33, 144.45s/it]ELBO: -531272.9:  20%|██        | 5/25 [12:37<44:54, 134.71s/it]ELBO: -531862.2:  20%|██        | 5/25 [14:34<44:54, 134.71s/it]ELBO: -531862.2:  24%|██▍       | 6/25 [14:34<40:49, 128.94s/it]ELBO: -530226.0:  24%|██▍       | 6/25 [16:33<40:49, 128.94s/it]ELBO: -530226.0:  28%|██▊       | 7/25 [16:33<37:36, 125.39s/it]ELBO: -2520367.7:  80%|████████  | 20/25 [3:27:28<45:27, 545.44s/it]ELBO: -2520367.7:  84%|████████▍ | 21/25 [3:27:28<36:24, 546.03s/it]ELBO: -2530989.0:  64%|██████▍   | 16/25 [2:40:42<1:21:35, 543.96s/it]ELBO: -2530989.0:  68%|██████▊   | 17/25 [2:40:42<1:12:27, 543.40s/it]ELBO: -530179.6:  28%|██▊       | 7/25 [18:35<37:36, 125.39s/it]ELBO: -530179.6:  32%|███▏      | 8/25 [18:35<35:18, 124.61s/it]ELBO: -2543868.7:  44%|████▍     | 11/25 [2:04:29<2:27:11, 630.80s/it]ELBO: -2543868.7:  48%|████▊     | 12/25 [2:04:29<2:16:53, 631.84s/it]ELBO: -529771.1:  32%|███▏      | 8/25 [20:37<35:18, 124.61s/it]ELBO: -529771.1:  36%|███▌      | 9/25 [20:37<33:00, 123.80s/it]ELBO: -530395.2:  36%|███▌      | 9/25 [22:40<33:00, 123.80s/it]ELBO: -530395.2:  40%|████      | 10/25 [22:40<30:49, 123.33s/it]ELBO: -530863.4:  40%|████      | 10/25 [24:43<30:49, 123.33s/it]ELBO: -530863.4:  44%|████▍     | 11/25 [24:43<28:45, 123.24s/it]ELBO: -2516678.6:  84%|████████▍ | 21/25 [3:36:38<36:24, 546.03s/it]ELBO: -2516678.6:  88%|████████▊ | 22/25 [3:36:38<27:21, 547.22s/it]ELBO: -530359.2:  44%|████▍     | 11/25 [26:45<28:45, 123.24s/it]ELBO: -530359.2:  48%|████▊     | 12/25 [26:45<26:38, 122.98s/it]ELBO: -2531320.0:  68%|██████▊   | 17/25 [2:49:46<1:12:27, 543.40s/it]ELBO: -2531320.0:  72%|███████▏  | 18/25 [2:49:46<1:03:24, 543.53s/it]ELBO: -529646.1:  48%|████▊     | 12/25 [28:47<26:38, 122.98s/it]ELBO: -529646.1:  52%|█████▏    | 13/25 [28:47<24:32, 122.71s/it]ELBO: -2541064.6:  48%|████▊     | 12/25 [2:15:20<2:16:53, 631.84s/it]ELBO: -2541064.6:  52%|█████▏    | 13/25 [2:15:20<2:07:31, 637.59s/it]ELBO: -529902.2:  52%|█████▏    | 13/25 [30:51<24:32, 122.71s/it]ELBO: -529902.2:  56%|█████▌    | 14/25 [30:51<22:32, 122.98s/it]ELBO: -531048.2:  56%|█████▌    | 14/25 [32:54<22:32, 122.98s/it]ELBO: -531048.2:  60%|██████    | 15/25 [32:54<20:30, 123.01s/it]ELBO: -530668.7:  60%|██████    | 15/25 [34:58<20:30, 123.01s/it]ELBO: -530668.7:  64%|██████▍   | 16/25 [34:58<18:30, 123.35s/it]ELBO: -2519384.3:  88%|████████▊ | 22/25 [3:45:40<27:21, 547.22s/it]ELBO: -2519384.3:  92%|█████████▏| 23/25 [3:45:40<18:11, 545.55s/it]ELBO: -2528276.3:  72%|███████▏  | 18/25 [2:58:47<1:03:24, 543.53s/it]ELBO: -2528276.3:  76%|███████▌  | 19/25 [2:58:47<54:16, 542.68s/it]  ELBO: -2549408.3:  36%|███▌      | 9/25 [4:29:21<6:54:04, 1552.78s/it]ELBO: -2549408.3:  40%|████      | 10/25 [4:29:21<6:23:03, 1532.23s/it]ELBO: -530941.2:  64%|██████▍   | 16/25 [37:02<18:30, 123.35s/it]ELBO: -530941.2:  68%|██████▊   | 17/25 [37:02<16:28, 123.54s/it]ELBO: -530141.1:  68%|██████▊   | 17/25 [39:03<16:28, 123.54s/it]ELBO: -530141.1:  72%|███████▏  | 18/25 [39:03<14:19, 122.76s/it]ELBO: -2539031.3:  52%|█████▏    | 13/25 [2:26:04<2:07:31, 637.59s/it]ELBO: -2539031.3:  56%|█████▌    | 14/25 [2:26:04<1:57:14, 639.47s/it]ELBO: -530934.3:  72%|███████▏  | 18/25 [41:06<14:19, 122.76s/it]ELBO: -530934.3:  76%|███████▌  | 19/25 [41:06<12:16, 122.76s/it]ELBO: -529741.7:  76%|███████▌  | 19/25 [43:09<12:16, 122.76s/it]ELBO: -529741.7:  80%|████████  | 20/25 [43:09<10:15, 123.04s/it]ELBO: -2516285.0:  92%|█████████▏| 23/25 [3:55:15<18:11, 545.55s/it]ELBO: -2516285.0:  96%|█████████▌| 24/25 [3:55:15<09:14, 554.26s/it]ELBO: -529540.6:  80%|████████  | 20/25 [45:12<10:15, 123.04s/it]ELBO: -529540.6:  84%|████████▍ | 21/25 [45:12<08:12, 123.01s/it]ELBO: -2526614.5:  76%|███████▌  | 19/25 [3:07:51<54:16, 542.68s/it]ELBO: -2526614.5:  80%|████████  | 20/25 [3:07:51<45:15, 543.16s/it]ELBO: -530953.6:  84%|████████▍ | 21/25 [47:15<08:12, 123.01s/it]ELBO: -530953.6:  88%|████████▊ | 22/25 [47:15<06:08, 122.98s/it]ELBO: -530893.1:  88%|████████▊ | 22/25 [49:18<06:08, 122.98s/it]ELBO: -530893.1:  92%|█████████▏| 23/25 [49:18<04:06, 123.02s/it]ELBO: -529740.2:  92%|█████████▏| 23/25 [51:22<04:06, 123.02s/it]ELBO: -529740.2:  96%|█████████▌| 24/25 [51:22<02:03, 123.08s/it]ELBO: -2537271.2:  56%|█████▌    | 14/25 [2:36:42<1:57:14, 639.47s/it]ELBO: -2537271.2:  60%|██████    | 15/25 [2:36:42<1:46:31, 639.12s/it]ELBO: -530473.5:  96%|█████████▌| 24/25 [53:25<02:03, 123.08s/it]ELBO: -530473.5: 100%|██████████| 25/25 [53:25<00:00, 123.06s/it]ELBO: -530473.5: 100%|██████████| 25/25 [53:25<00:00, 128.21s/it]
+ELBO: -2515142.2:  96%|█████████▌| 24/25 [4:04:56<09:14, 554.26s/it]ELBO: -2515142.2: 100%|██████████| 25/25 [4:04:56<00:00, 562.42s/it]ELBO: -2515142.2: 100%|██████████| 25/25 [4:04:56<00:00, 587.86s/it]ELBO: -2525202.7:  80%|████████  | 20/25 [3:16:55<45:15, 543.16s/it]ELBO: -2525202.7:  84%|████████▍ | 21/25 [3:16:55<36:13, 543.47s/it]
+  0%|          | 0/25 [00:00<?, ?it/s]ELBO: -10133804.2:   0%|          | 0/25 [00:00<?, ?it/s]ELBO: -513319.5:   0%|          | 0/25 [04:02<?, ?it/s]  ELBO: -513319.5:   4%|▍         | 1/25 [04:02<1:37:04, 242.71s/it]ELBO: -496851.2:   4%|▍         | 1/25 [06:44<1:37:04, 242.71s/it]ELBO: -496851.2:   8%|▊         | 2/25 [06:44<1:14:41, 194.83s/it]ELBO: -2545180.0:  40%|████      | 10/25 [4:54:09<6:23:03, 1532.23s/it]ELBO: -2545180.0:  44%|████▍     | 11/25 [4:54:09<5:54:19, 1518.56s/it]ELBO: -2536999.5:  60%|██████    | 15/25 [2:47:32<1:46:31, 639.12s/it]ELBO: -2536999.5:  64%|██████▍   | 16/25 [2:47:32<1:36:21, 642.38s/it]ELBO: -492367.7:   8%|▊         | 2/25 [08:48<1:14:41, 194.83s/it]ELBO: -492367.7:  12%|█▏        | 3/25 [08:48<59:39, 162.71s/it]  ELBO: -2522613.3:  84%|████████▍ | 21/25 [3:26:01<36:13, 543.47s/it]ELBO: -2522613.3:  88%|████████▊ | 22/25 [3:26:01<27:12, 544.24s/it]ELBO: -491387.2:  12%|█▏        | 3/25 [10:53<59:39, 162.71s/it]ELBO: -491387.2:  16%|█▌        | 4/25 [10:53<51:47, 147.99s/it]ELBO: -491571.3:  16%|█▌        | 4/25 [12:58<51:47, 147.99s/it]ELBO: -491571.3:  20%|██        | 5/25 [12:58<46:32, 139.62s/it]ELBO: -490782.6:  20%|██        | 5/25 [15:04<46:32, 139.62s/it]ELBO: -490782.6:  24%|██▍       | 6/25 [15:04<42:41, 134.83s/it]ELBO: -491102.5:  24%|██▍       | 6/25 [17:09<42:41, 134.83s/it]ELBO: -491102.5:  28%|██▊       | 7/25 [17:09<39:30, 131.68s/it]ELBO: -2524325.0:  88%|████████▊ | 22/25 [3:35:05<27:12, 544.24s/it]ELBO: -2524325.0:  92%|█████████▏| 23/25 [3:35:05<18:08, 544.19s/it]ELBO: -2534525.6:  64%|██████▍   | 16/25 [2:58:07<1:36:21, 642.38s/it]ELBO: -2534525.6:  68%|██████▊   | 17/25 [2:58:07<1:25:22, 640.32s/it]ELBO: -490389.8:  28%|██▊       | 7/25 [19:14<39:30, 131.68s/it]ELBO: -490389.8:  32%|███▏      | 8/25 [19:14<36:41, 129.50s/it]ELBO: -490504.1:  32%|███▏      | 8/25 [21:21<36:41, 129.50s/it]ELBO: -490504.1:  36%|███▌      | 9/25 [21:21<34:18, 128.68s/it]ELBO: -490728.3:  36%|███▌      | 9/25 [23:26<34:18, 128.68s/it]ELBO: -490728.3:  40%|████      | 10/25 [23:26<31:53, 127.54s/it]ELBO: -489429.6:  40%|████      | 10/25 [25:32<31:53, 127.54s/it]ELBO: -489429.6:  44%|████▍     | 11/25 [25:32<29:39, 127.09s/it]ELBO: -2522066.9:  92%|█████████▏| 23/25 [3:44:04<18:08, 544.19s/it]ELBO: -2522066.9:  96%|█████████▌| 24/25 [3:44:04<09:02, 542.45s/it]ELBO: -490442.9:  44%|████▍     | 11/25 [27:36<29:39, 127.09s/it]ELBO: -490442.9:  48%|████▊     | 12/25 [27:36<27:22, 126.33s/it]ELBO: -2531098.2:  68%|██████▊   | 17/25 [3:08:48<1:25:22, 640.32s/it]ELBO: -2531098.2:  72%|███████▏  | 18/25 [3:08:48<1:14:43, 640.46s/it]ELBO: -489782.2:  48%|████▊     | 12/25 [29:41<27:22, 126.33s/it]ELBO: -489782.2:  52%|█████▏    | 13/25 [29:41<25:08, 125.70s/it]ELBO: -491097.2:  52%|█████▏    | 13/25 [31:45<25:08, 125.70s/it]ELBO: -491097.2:  56%|█████▌    | 14/25 [31:45<22:56, 125.17s/it]ELBO: -2541095.2:  44%|████▍     | 11/25 [5:19:10<5:54:19, 1518.56s/it]ELBO: -2541095.2:  48%|████▊     | 12/25 [5:19:10<5:27:54, 1513.43s/it]ELBO: -490693.1:  56%|█████▌    | 14/25 [33:48<22:56, 125.17s/it]ELBO: -490693.1:  60%|██████    | 15/25 [33:48<20:46, 124.61s/it]ELBO: -489000.7:  60%|██████    | 15/25 [35:53<20:46, 124.61s/it]ELBO: -489000.7:  64%|██████▍   | 16/25 [35:53<18:43, 124.81s/it]ELBO: -2518542.6:  96%|█████████▌| 24/25 [3:53:12<09:02, 542.45s/it]ELBO: -2518542.6: 100%|██████████| 25/25 [3:53:12<00:00, 544.19s/it]ELBO: -2518542.6: 100%|██████████| 25/25 [3:53:12<00:00, 559.70s/it]
+  0%|          | 0/25 [00:00<?, ?it/s]ELBO: -8927888.9:   0%|          | 0/25 [00:00<?, ?it/s]ELBO: -489544.1:  64%|██████▍   | 16/25 [37:58<18:43, 124.81s/it]ELBO: -489544.1:  68%|██████▊   | 17/25 [37:58<16:38, 124.81s/it]ELBO: -2529139.7:  72%|███████▏  | 18/25 [3:19:25<1:14:43, 640.46s/it]ELBO: -2529139.7:  76%|███████▌  | 19/25 [3:19:25<1:03:56, 639.33s/it]ELBO: -489867.5:  68%|██████▊   | 17/25 [40:03<16:38, 124.81s/it]ELBO: -489867.5:  72%|███████▏  | 18/25 [40:03<14:33, 124.78s/it]ELBO: -524381.1:   0%|          | 0/25 [04:03<?, ?it/s] ELBO: -524381.1:   4%|▍         | 1/25 [04:03<1:37:32, 243.84s/it]ELBO: -488880.7:  72%|███████▏  | 18/25 [42:07<14:33, 124.78s/it]ELBO: -488880.7:  76%|███████▌  | 19/25 [42:07<12:28, 124.74s/it]ELBO: -502770.7:   4%|▍         | 1/25 [06:45<1:37:32, 243.84s/it]ELBO: -502770.7:   8%|▊         | 2/25 [06:45<1:14:51, 195.29s/it]ELBO: -489515.8:  76%|███████▌  | 19/25 [44:12<12:28, 124.74s/it]ELBO: -489515.8:  80%|████████  | 20/25 [44:12<10:24, 124.85s/it]ELBO: -497124.0:   8%|▊         | 2/25 [09:12<1:14:51, 195.29s/it]ELBO: -497124.0:  12%|█▏        | 3/25 [09:12<1:03:38, 173.56s/it]ELBO: -489605.2:  80%|████████  | 20/25 [46:19<10:24, 124.85s/it]ELBO: -489605.2:  84%|████████▍ | 21/25 [46:19<08:21, 125.33s/it]ELBO: -494612.5:  12%|█▏        | 3/25 [11:14<1:03:38, 173.56s/it]ELBO: -494612.5:  16%|█▌        | 4/25 [11:14<53:35, 153.11s/it]  ELBO: -489289.0:  84%|████████▍ | 21/25 [48:24<08:21, 125.33s/it]ELBO: -489289.0:  88%|████████▊ | 22/25 [48:24<06:15, 125.20s/it]ELBO: -494685.2:  16%|█▌        | 4/25 [13:15<53:35, 153.11s/it]ELBO: -494685.2:  20%|██        | 5/25 [13:15<47:12, 141.61s/it]ELBO: -2528924.1:  76%|███████▌  | 19/25 [3:30:04<1:03:56, 639.33s/it]ELBO: -2528924.1:  80%|████████  | 20/25 [3:30:04<53:16, 639.22s/it]  ELBO: -490461.2:  88%|████████▊ | 22/25 [50:28<06:15, 125.20s/it]ELBO: -490461.2:  92%|█████████▏| 23/25 [50:28<04:10, 125.03s/it]ELBO: -494068.3:  20%|██        | 5/25 [15:13<47:12, 141.61s/it]ELBO: -494068.3:  24%|██▍       | 6/25 [15:13<42:15, 133.42s/it]ELBO: -489705.5:  92%|█████████▏| 23/25 [52:33<04:10, 125.03s/it]ELBO: -489705.5:  96%|█████████▌| 24/25 [52:33<02:04, 124.99s/it]ELBO: -493735.6:  24%|██▍       | 6/25 [17:09<42:15, 133.42s/it]ELBO: -493735.6:  28%|██▊       | 7/25 [17:09<38:20, 127.81s/it]ELBO: -489564.2:  96%|█████████▌| 24/25 [54:38<02:04, 124.99s/it]ELBO: -489564.2: 100%|██████████| 25/25 [54:38<00:00, 124.99s/it]ELBO: -489564.2: 100%|██████████| 25/25 [54:38<00:00, 131.15s/it]
+ELBO: -493637.3:  28%|██▊       | 7/25 [19:06<38:20, 127.81s/it]ELBO: -493637.3:  32%|███▏      | 8/25 [19:06<35:15, 124.46s/it]ELBO: -2537803.4:  48%|████▊     | 12/25 [5:44:05<5:27:54, 1513.43s/it]ELBO: -2537803.4:  52%|█████▏    | 13/25 [5:44:05<5:01:33, 1507.82s/it]ELBO: -492274.2:  32%|███▏      | 8/25 [21:04<35:15, 124.46s/it]ELBO: -492274.2:  36%|███▌      | 9/25 [21:04<32:36, 122.25s/it]ELBO: -492434.2:  36%|███▌      | 9/25 [23:02<32:36, 122.25s/it]ELBO: -492434.2:  40%|████      | 10/25 [23:02<30:14, 120.95s/it]ELBO: -2527971.4:  80%|████████  | 20/25 [3:40:48<53:16, 639.22s/it]ELBO: -2527971.4:  84%|████████▍ | 21/25 [3:40:48<42:42, 640.63s/it]ELBO: -492759.0:  40%|████      | 10/25 [24:58<30:14, 120.95s/it]ELBO: -492759.0:  44%|████▍     | 11/25 [24:58<27:53, 119.54s/it]ELBO: -491644.6:  44%|████▍     | 11/25 [26:55<27:53, 119.54s/it]ELBO: -491644.6:  48%|████▊     | 12/25 [26:55<25:43, 118.73s/it]ELBO: -493341.5:  48%|████▊     | 12/25 [28:51<25:43, 118.73s/it]ELBO: -493341.5:  52%|█████▏    | 13/25 [28:51<23:35, 117.97s/it]ELBO: -491758.4:  52%|█████▏    | 13/25 [30:48<23:35, 117.97s/it]ELBO: -491758.4:  56%|█████▌    | 14/25 [30:48<21:34, 117.67s/it]ELBO: -492683.6:  56%|█████▌    | 14/25 [32:45<21:34, 117.67s/it]ELBO: -492683.6:  60%|██████    | 15/25 [32:45<19:33, 117.37s/it]ELBO: -491968.0:  60%|██████    | 15/25 [34:43<19:33, 117.37s/it]ELBO: -491968.0:  64%|██████▍   | 16/25 [34:43<17:38, 117.56s/it]ELBO: -2528486.2:  84%|████████▍ | 21/25 [3:51:35<42:42, 640.63s/it]ELBO: -2528486.2:  88%|████████▊ | 22/25 [3:51:35<32:08, 642.74s/it]ELBO: -491409.4:  64%|██████▍   | 16/25 [36:41<17:38, 117.56s/it]ELBO: -491409.4:  68%|██████▊   | 17/25 [36:41<15:42, 117.78s/it]ELBO: -492218.0:  68%|██████▊   | 17/25 [38:38<15:42, 117.78s/it]ELBO: -492218.0:  72%|███████▏  | 18/25 [38:38<13:42, 117.43s/it]ELBO: -492510.5:  72%|███████▏  | 18/25 [40:36<13:42, 117.43s/it]ELBO: -492510.5:  76%|███████▌  | 19/25 [40:36<11:45, 117.61s/it]ELBO: -492865.0:  76%|███████▌  | 19/25 [42:32<11:45, 117.61s/it]ELBO: -492865.0:  80%|████████  | 20/25 [42:32<09:46, 117.29s/it]ELBO: -2525404.0:  88%|████████▊ | 22/25 [4:00:34<32:08, 642.74s/it]ELBO: -2525404.0:  92%|█████████▏| 23/25 [4:00:34<20:23, 611.65s/it]ELBO: -492477.9:  80%|████████  | 20/25 [44:29<09:46, 117.29s/it]ELBO: -492477.9:  84%|████████▍ | 21/25 [44:29<07:48, 117.23s/it]ELBO: -2537281.6:  52%|█████▏    | 13/25 [6:09:03<5:01:33, 1507.82s/it]ELBO: -2537281.6:  56%|█████▌    | 14/25 [6:09:03<4:35:53, 1504.85s/it]ELBO: -492049.1:  84%|████████▍ | 21/25 [46:27<07:48, 117.23s/it]ELBO: -492049.1:  88%|████████▊ | 22/25 [46:27<05:52, 117.41s/it]ELBO: -491951.6:  88%|████████▊ | 22/25 [48:24<05:52, 117.41s/it]ELBO: -491951.6:  92%|█████████▏| 23/25 [48:24<03:54, 117.08s/it]ELBO: -490526.6:  92%|█████████▏| 23/25 [50:20<03:54, 117.08s/it]ELBO: -490526.6:  96%|█████████▌| 24/25 [50:20<01:56, 116.80s/it]ELBO: -491670.4:  96%|█████████▌| 24/25 [52:17<01:56, 116.80s/it]ELBO: -491670.4: 100%|██████████| 25/25 [52:17<00:00, 117.00s/it]ELBO: -491670.4: 100%|██████████| 25/25 [52:17<00:00, 125.51s/it]
+ELBO: -2525229.7:  92%|█████████▏| 23/25 [4:09:33<20:23, 611.65s/it]ELBO: -2525229.7:  96%|█████████▌| 24/25 [4:09:33<09:49, 589.82s/it]ELBO: -2523798.8:  96%|█████████▌| 24/25 [4:18:39<09:49, 589.82s/it]ELBO: -2523798.8: 100%|██████████| 25/25 [4:18:39<00:00, 576.48s/it]ELBO: -2523798.8: 100%|██████████| 25/25 [4:18:39<00:00, 620.77s/it]
+  0%|          | 0/25 [00:00<?, ?it/s]ELBO: -8460383.0:   0%|          | 0/25 [00:00<?, ?it/s]ELBO: -533776.9:   0%|          | 0/25 [03:39<?, ?it/s] ELBO: -533776.9:   4%|▍         | 1/25 [03:39<1:27:57, 219.90s/it]ELBO: -509002.4:   4%|▍         | 1/25 [06:11<1:27:57, 219.90s/it]ELBO: -509002.4:   8%|▊         | 2/25 [06:11<1:08:50, 179.59s/it]ELBO: -2535781.3:  56%|█████▌    | 14/25 [6:33:59<4:35:53, 1504.85s/it]ELBO: -2535781.3:  60%|██████    | 15/25 [6:33:59<4:10:20, 1502.08s/it]ELBO: -500140.5:   8%|▊         | 2/25 [08:12<1:08:50, 179.59s/it]ELBO: -500140.5:  12%|█▏        | 3/25 [08:12<56:02, 152.82s/it]  ELBO: -495736.7:  12%|█▏        | 3/25 [10:10<56:02, 152.82s/it]ELBO: -495736.7:  16%|█▌        | 4/25 [10:10<48:39, 139.01s/it]ELBO: -495340.5:  16%|█▌        | 4/25 [12:07<48:39, 139.01s/it]ELBO: -495340.5:  20%|██        | 5/25 [12:07<43:42, 131.12s/it]ELBO: -494441.7:  20%|██        | 5/25 [14:03<43:42, 131.12s/it]ELBO: -494441.7:  24%|██▍       | 6/25 [14:03<39:57, 126.20s/it]ELBO: -494721.1:  24%|██▍       | 6/25 [16:00<39:57, 126.20s/it]ELBO: -494721.1:  28%|██▊       | 7/25 [16:00<36:55, 123.09s/it]ELBO: -494766.6:  28%|██▊       | 7/25 [17:58<36:55, 123.09s/it]ELBO: -494766.6:  32%|███▏      | 8/25 [17:58<34:25, 121.48s/it]ELBO: -494241.6:  32%|███▏      | 8/25 [19:54<34:25, 121.48s/it]ELBO: -494241.6:  36%|███▌      | 9/25 [19:54<31:55, 119.74s/it]ELBO: -494257.1:  36%|███▌      | 9/25 [21:51<31:55, 119.74s/it]ELBO: -494257.1:  40%|████      | 10/25 [21:51<29:41, 118.80s/it]ELBO: -493898.8:  40%|████      | 10/25 [23:48<29:41, 118.80s/it]ELBO: -493898.8:  44%|████▍     | 11/25 [23:48<27:35, 118.25s/it]ELBO: -493930.7:  44%|████▍     | 11/25 [25:43<27:35, 118.25s/it]ELBO: -493930.7:  48%|████▊     | 12/25 [25:43<25:25, 117.37s/it]ELBO: -494638.9:  48%|████▊     | 12/25 [27:40<25:25, 117.37s/it]ELBO: -494638.9:  52%|█████▏    | 13/25 [27:40<23:27, 117.26s/it]ELBO: -493694.5:  52%|█████▏    | 13/25 [29:38<23:27, 117.26s/it]ELBO: -493694.5:  56%|█████▌    | 14/25 [29:38<21:31, 117.42s/it]ELBO: -495389.5:  56%|█████▌    | 14/25 [31:34<21:31, 117.42s/it]ELBO: -495389.5:  60%|██████    | 15/25 [31:34<19:30, 117.08s/it]ELBO: -2533347.5:  60%|██████    | 15/25 [6:58:53<4:10:20, 1502.08s/it]ELBO: -2533347.5:  64%|██████▍   | 16/25 [6:58:53<3:44:57, 1499.77s/it]ELBO: -493419.3:  60%|██████    | 15/25 [33:32<19:30, 117.08s/it]ELBO: -493419.3:  64%|██████▍   | 16/25 [33:32<17:35, 117.24s/it]ELBO: -494494.9:  64%|██████▍   | 16/25 [35:27<17:35, 117.24s/it]ELBO: -494494.9:  68%|██████▊   | 17/25 [35:27<15:33, 116.74s/it]ELBO: -493988.9:  68%|██████▊   | 17/25 [37:24<15:33, 116.74s/it]ELBO: -493988.9:  72%|███████▏  | 18/25 [37:24<13:37, 116.83s/it]ELBO: -494456.4:  72%|███████▏  | 18/25 [39:20<13:37, 116.83s/it]ELBO: -494456.4:  76%|███████▌  | 19/25 [39:20<11:39, 116.54s/it]ELBO: -493926.1:  76%|███████▌  | 19/25 [41:17<11:39, 116.54s/it]ELBO: -493926.1:  80%|████████  | 20/25 [41:17<09:42, 116.49s/it]ELBO: -493847.6:  80%|████████  | 20/25 [43:12<09:42, 116.49s/it]ELBO: -493847.6:  84%|████████▍ | 21/25 [43:12<07:45, 116.29s/it]ELBO: -492554.7:  84%|████████▍ | 21/25 [45:08<07:45, 116.29s/it]ELBO: -492554.7:  88%|████████▊ | 22/25 [45:08<05:48, 116.22s/it]ELBO: -494435.4:  88%|████████▊ | 22/25 [47:05<05:48, 116.22s/it]ELBO: -494435.4:  92%|█████████▏| 23/25 [47:05<03:52, 116.46s/it]ELBO: -493395.4:  92%|█████████▏| 23/25 [49:02<03:52, 116.46s/it]ELBO: -493395.4:  96%|█████████▌| 24/25 [49:02<01:56, 116.61s/it]ELBO: -494206.4:  96%|█████████▌| 24/25 [50:58<01:56, 116.61s/it]ELBO: -494206.4: 100%|██████████| 25/25 [50:58<00:00, 116.36s/it]ELBO: -494206.4: 100%|██████████| 25/25 [50:58<00:00, 122.35s/it]
+ELBO: -2532157.7:  64%|██████▍   | 16/25 [7:23:47<3:44:57, 1499.77s/it]ELBO: -2532157.7:  68%|██████▊   | 17/25 [7:23:47<3:19:43, 1497.89s/it]ELBO: -2531031.6:  68%|██████▊   | 17/25 [7:48:46<3:19:43, 1497.89s/it]ELBO: -2531031.6:  72%|███████▏  | 18/25 [7:48:46<2:54:47, 1498.25s/it]ELBO: -2531234.0:  72%|███████▏  | 18/25 [8:13:44<2:54:47, 1498.25s/it]ELBO: -2531234.0:  76%|███████▌  | 19/25 [8:13:45<2:29:50, 1498.39s/it]ELBO: -2525211.0:  76%|███████▌  | 19/25 [8:38:42<2:29:50, 1498.39s/it]ELBO: -2525211.0:  80%|████████  | 20/25 [8:38:42<2:04:50, 1498.06s/it]ELBO: -2526198.0:  80%|████████  | 20/25 [9:03:42<2:04:50, 1498.06s/it]ELBO: -2526198.0:  84%|████████▍ | 21/25 [9:03:42<1:39:54, 1498.56s/it]ELBO: -2526727.7:  84%|████████▍ | 21/25 [9:28:58<1:39:54, 1498.56s/it]ELBO: -2526727.7:  88%|████████▊ | 22/25 [9:28:58<1:15:11, 1503.85s/it]ELBO: -2526650.9:  88%|████████▊ | 22/25 [9:54:18<1:15:11, 1503.85s/it]ELBO: -2526650.9:  92%|█████████▏| 23/25 [9:54:18<50:17, 1508.83s/it]  ELBO: -2522584.4:  92%|█████████▏| 23/25 [10:19:09<50:17, 1508.83s/it]ELBO: -2522584.4:  96%|█████████▌| 24/25 [10:19:09<25:03, 1503.38s/it]ELBO: -2522417.0:  96%|█████████▌| 24/25 [10:44:30<25:03, 1503.38s/it]ELBO: -2522417.0: 100%|██████████| 25/25 [10:44:30<00:00, 1508.56s/it]ELBO: -2522417.0: 100%|██████████| 25/25 [10:44:30<00:00, 1546.80s/it]
+  0%|          | 0/25 [00:00<?, ?it/s]ELBO: -9624289.2:   0%|          | 0/25 [00:00<?, ?it/s]ELBO: -572796.5:   0%|          | 0/25 [10:36<?, ?it/s] ELBO: -572796.5:   4%|▍         | 1/25 [10:36<4:14:40, 636.68s/it]ELBO: -553306.6:   4%|▍         | 1/25 [17:46<4:14:40, 636.68s/it]ELBO: -553306.6:   8%|▊         | 2/25 [17:46<3:17:31, 515.28s/it]ELBO: -541941.8:   8%|▊         | 2/25 [24:14<3:17:31, 515.28s/it]ELBO: -541941.8:  12%|█▏        | 3/25 [24:14<2:47:29, 456.79s/it]ELBO: -538389.1:  12%|█▏        | 3/25 [29:35<2:47:29, 456.79s/it]ELBO: -538389.1:  16%|█▌        | 4/25 [29:35<2:21:11, 403.41s/it]ELBO: -537093.0:  16%|█▌        | 4/25 [34:54<2:21:11, 403.41s/it]ELBO: -537093.0:  20%|██        | 5/25 [34:54<2:04:17, 372.86s/it]ELBO: -535964.3:  20%|██        | 5/25 [40:15<2:04:17, 372.86s/it]ELBO: -535964.3:  24%|██▍       | 6/25 [40:15<1:52:27, 355.11s/it]ELBO: -535391.4:  24%|██▍       | 6/25 [45:37<1:52:27, 355.11s/it]ELBO: -535391.4:  28%|██▊       | 7/25 [45:37<1:43:16, 344.27s/it]ELBO: -535845.5:  28%|██▊       | 7/25 [50:57<1:43:16, 344.27s/it]ELBO: -535845.5:  32%|███▏      | 8/25 [50:57<1:35:25, 336.79s/it]ELBO: -536252.1:  32%|███▏      | 8/25 [56:17<1:35:25, 336.79s/it]ELBO: -536252.1:  36%|███▌      | 9/25 [56:17<1:28:22, 331.38s/it]ELBO: -535906.7:  36%|███▌      | 9/25 [1:01:41<1:28:22, 331.38s/it]ELBO: -535906.7:  40%|████      | 10/25 [1:01:41<1:22:15, 329.06s/it]ELBO: -536170.4:  40%|████      | 10/25 [1:07:04<1:22:15, 329.06s/it]ELBO: -536170.4:  44%|████▍     | 11/25 [1:07:04<1:16:24, 327.43s/it]ELBO: -535727.8:  44%|████▍     | 11/25 [1:12:24<1:16:24, 327.43s/it]ELBO: -535727.8:  48%|████▊     | 12/25 [1:12:24<1:10:27, 325.18s/it]ELBO: -535845.4:  48%|████▊     | 12/25 [1:17:44<1:10:27, 325.18s/it]ELBO: -535845.4:  52%|█████▏    | 13/25 [1:17:44<1:04:42, 323.55s/it]ELBO: -535968.4:  52%|█████▏    | 13/25 [1:23:07<1:04:42, 323.55s/it]ELBO: -535968.4:  56%|█████▌    | 14/25 [1:23:07<59:15, 323.26s/it]  ELBO: -535466.3:  56%|█████▌    | 14/25 [1:28:30<59:15, 323.26s/it]ELBO: -535466.3:  60%|██████    | 15/25 [1:28:30<53:52, 323.21s/it]ELBO: -534541.6:  60%|██████    | 15/25 [1:33:50<53:52, 323.21s/it]ELBO: -534541.6:  64%|██████▍   | 16/25 [1:33:50<48:20, 322.25s/it]ELBO: -536195.2:  64%|██████▍   | 16/25 [1:39:11<48:20, 322.25s/it]ELBO: -536195.2:  68%|██████▊   | 17/25 [1:39:11<42:55, 321.97s/it]
