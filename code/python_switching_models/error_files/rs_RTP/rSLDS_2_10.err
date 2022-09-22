@@ -1,3 +1,4 @@
+ELBO: -526830.3:  16%|█▌        | 4/25 [00:56<03:45, 10.72s/it]ELBO: -526830.3:  20%|██        | 5/25 [00:56<03:27, 10.35s/it]ELBO: -526917.3:  20%|██        | 5/25 [01:05<03:27, 10.35s/it]ELBO: -526917.3:  24%|██▍       | 6/25 [01:05<03:12, 10.13s/it]ELBO: -526596.4:  24%|██▍       | 6/25 [01:15<03:12, 10.13s/it]ELBO: -526596.4:  28%|██▊       | 7/25 [01:15<02:59,  9.99s/it]ELBO: -526656.0:  28%|██▊       | 7/25 [01:25<02:59,  9.99s/it]ELBO: -526656.0:  32%|███▏      | 8/25 [01:25<02:48,  9.92s/it]ELBO: -526654.9:  32%|███▏      | 8/25 [01:35<02:48,  9.92s/it]ELBO: -526654.9:  36%|███▌      | 9/25 [01:35<02:37,  9.84s/it]ELBO: -526639.6:  36%|███▌      | 9/25 [01:44<02:37,  9.84s/it]ELBO: -526639.6:  40%|████      | 10/25 [01:44<02:26,  9.79s/it]ELBO: -526731.7:  40%|████      | 10/25 [01:54<02:26,  9.79s/it]ELBO: -526731.7:  44%|████▍     | 11/25 [01:54<02:16,  9.72s/it]ELBO: -526549.9:  44%|████▍     | 11/25 [02:03<02:16,  9.72s/it]ELBO: -526549.9:  48%|████▊     | 12/25 [02:03<02:06,  9.69s/it]ELBO: -526990.4:  48%|████▊     | 12/25 [02:13<02:06,  9.69s/it]ELBO: -526990.4:  52%|█████▏    | 13/25 [02:13<01:56,  9.68s/it]ELBO: -526816.4:  52%|█████▏    | 13/25 [02:23<01:56,  9.68s/it]ELBO: -526816.4:  56%|█████▌    | 14/25 [02:23<01:46,  9.67s/it]ELBO: -526635.7:  56%|█████▌    | 14/25 [02:32<01:46,  9.67s/it]ELBO: -526635.7:  60%|██████    | 15/25 [02:32<01:36,  9.66s/it]ELBO: -526843.4:  60%|██████    | 15/25 [02:42<01:36,  9.66s/it]ELBO: -526843.4:  64%|██████▍   | 16/25 [02:42<01:26,  9.65s/it]ELBO: -526781.7:  64%|██████▍   | 16/25 [02:52<01:26,  9.65s/it]ELBO: -526781.7:  68%|██████▊   | 17/25 [02:52<01:17,  9.65s/it]ELBO: -526723.9:  68%|██████▊   | 17/25 [03:01<01:17,  9.65s/it]ELBO: -526723.9:  72%|███████▏  | 18/25 [03:01<01:07,  9.64s/it]ELBO: -526714.6:  72%|███████▏  | 18/25 [03:11<01:07,  9.64s/it]ELBO: -526714.6:  76%|███████▌  | 19/25 [03:11<00:57,  9.65s/it]ELBO: -526640.3:  76%|███████▌  | 19/25 [03:21<00:57,  9.65s/it]ELBO: -526640.3:  80%|████████  | 20/25 [03:21<00:48,  9.64s/it]ELBO: -526880.5:  80%|████████  | 20/25 [03:30<00:48,  9.64s/it]ELBO: -526880.5:  84%|████████▍ | 21/25 [03:30<00:38,  9.64s/it]ELBO: -526700.3:  84%|████████▍ | 21/25 [03:40<00:38,  9.64s/it]ELBO: -526700.3:  88%|████████▊ | 22/25 [03:40<00:28,  9.63s/it]ELBO: -526488.8:  88%|████████▊ | 22/25 [03:49<00:28,  9.63s/it]ELBO: -526488.8:  92%|█████████▏| 23/25 [03:49<00:19,  9.63s/it]ELBO: -526661.4:  92%|█████████▏| 23/25 [03:59<00:19,  9.63s/it]ELBO: -526661.4:  96%|█████████▌| 24/25 [03:59<00:09,  9.60s/it]ELBO: -526962.0:  96%|█████████▌| 24/25 [04:09<00:09,  9.60s/it]ELBO: -526962.0: 100%|██████████| 25/25 [04:09<00:00,  9.60s/it]ELBO: -526962.0: 100%|██████████| 25/25 [04:09<00:00,  9.96s/it]
 Processed spikes from trial 10.
 Processed spikes from trial 20.
 Processed spikes from trial 30.
@@ -152,173 +153,5 @@ Processed Kinematics from trial 740
 Processed Kinematics from trial 750
 Processed Kinematics from trial 760
 Processed Kinematics from trial 770
-Traceback (most recent call last):
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 26, in <module>
-    run_rslds(
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 114, in run_rslds
-    trial_classification, neuron_classification = assign_trials_to_HMM_group(
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/assign_trials_to_HMM_group.py", line 50, in assign_trials_to_HMM_group
-    fold_test_trials = multifold_shuffled_order[test_mask]
-IndexError: boolean index did not match indexed array along dimension 0; dimension is 773 but corresponding boolean dimension is 774
-Processed spikes from trial 10.
-Processed spikes from trial 20.
-Processed spikes from trial 30.
-Processed spikes from trial 40.
-Processed spikes from trial 50.
-Processed spikes from trial 60.
-Processed spikes from trial 70.
-Processed spikes from trial 80.
-Processed spikes from trial 90.
-Processed spikes from trial 100.
-Processed spikes from trial 110.
-Processed spikes from trial 120.
-Processed spikes from trial 130.
-Processed spikes from trial 140.
-Processed spikes from trial 150.
-Processed spikes from trial 160.
-Processed spikes from trial 170.
-Processed spikes from trial 180.
-Processed spikes from trial 190.
-Processed spikes from trial 200.
-Processed spikes from trial 210.
-Processed spikes from trial 220.
-Processed spikes from trial 230.
-Processed spikes from trial 240.
-Processed spikes from trial 250.
-Processed spikes from trial 260.
-Processed spikes from trial 270.
-Processed spikes from trial 280.
-Processed spikes from trial 290.
-Processed spikes from trial 300.
-Processed spikes from trial 310.
-Processed spikes from trial 320.
-Processed spikes from trial 330.
-Processed spikes from trial 340.
-Processed spikes from trial 350.
-Processed spikes from trial 360.
-Processed spikes from trial 370.
-Processed spikes from trial 380.
-Processed spikes from trial 390.
-Processed spikes from trial 400.
-Processed spikes from trial 410.
-Processed spikes from trial 420.
-Processed spikes from trial 430.
-Processed spikes from trial 440.
-Processed spikes from trial 450.
-Processed spikes from trial 460.
-Processed spikes from trial 470.
-Processed spikes from trial 480.
-Processed spikes from trial 490.
-Processed spikes from trial 500.
-Processed spikes from trial 510.
-Processed spikes from trial 520.
-Processed spikes from trial 530.
-Processed spikes from trial 540.
-Processed spikes from trial 550.
-Processed spikes from trial 560.
-Processed spikes from trial 570.
-Processed spikes from trial 580.
-Processed spikes from trial 590.
-Processed spikes from trial 600.
-Processed spikes from trial 610.
-Processed spikes from trial 620.
-Processed spikes from trial 630.
-Processed spikes from trial 640.
-Processed spikes from trial 650.
-Processed spikes from trial 660.
-Processed spikes from trial 670.
-Processed spikes from trial 680.
-Processed spikes from trial 690.
-Processed spikes from trial 700.
-Processed spikes from trial 710.
-Processed spikes from trial 720.
-Processed spikes from trial 730.
-Processed spikes from trial 740.
-Processed spikes from trial 750.
-Processed spikes from trial 760.
-Processed spikes from trial 770.
-Processed Kinematics from trial 10
-Processed Kinematics from trial 20
-Processed Kinematics from trial 30
-Processed Kinematics from trial 40
-Processed Kinematics from trial 50
-Processed Kinematics from trial 60
-Processed Kinematics from trial 70
-Processed Kinematics from trial 80
-Processed Kinematics from trial 90
-Processed Kinematics from trial 100
-Processed Kinematics from trial 110
-Processed Kinematics from trial 120
-Processed Kinematics from trial 130
-Processed Kinematics from trial 140
-Processed Kinematics from trial 150
-Processed Kinematics from trial 160
-Processed Kinematics from trial 170
-Processed Kinematics from trial 180
-Processed Kinematics from trial 190
-Processed Kinematics from trial 200
-Processed Kinematics from trial 210
-Processed Kinematics from trial 220
-Processed Kinematics from trial 230
-Processed Kinematics from trial 240
-Processed Kinematics from trial 250
-Processed Kinematics from trial 260
-Processed Kinematics from trial 270
-Processed Kinematics from trial 280
-Processed Kinematics from trial 290
-Processed Kinematics from trial 300
-Processed Kinematics from trial 310
-Processed Kinematics from trial 320
-Processed Kinematics from trial 330
-Processed Kinematics from trial 340
-Processed Kinematics from trial 350
-Processed Kinematics from trial 360
-Processed Kinematics from trial 370
-Processed Kinematics from trial 380
-Processed Kinematics from trial 390
-Processed Kinematics from trial 400
-Processed Kinematics from trial 410
-Processed Kinematics from trial 420
-Processed Kinematics from trial 430
-Processed Kinematics from trial 440
-Processed Kinematics from trial 450
-Processed Kinematics from trial 460
-Processed Kinematics from trial 470
-Processed Kinematics from trial 480
-Processed Kinematics from trial 490
-Processed Kinematics from trial 500
-Processed Kinematics from trial 510
-Processed Kinematics from trial 520
-Processed Kinematics from trial 530
-Processed Kinematics from trial 540
-Processed Kinematics from trial 550
-Processed Kinematics from trial 560
-Processed Kinematics from trial 570
-Processed Kinematics from trial 580
-Processed Kinematics from trial 590
-Processed Kinematics from trial 600
-Processed Kinematics from trial 610
-Processed Kinematics from trial 620
-Processed Kinematics from trial 630
-Processed Kinematics from trial 640
-Processed Kinematics from trial 650
-Processed Kinematics from trial 660
-Processed Kinematics from trial 670
-Processed Kinematics from trial 680
-Processed Kinematics from trial 690
-Processed Kinematics from trial 700
-Processed Kinematics from trial 710
-Processed Kinematics from trial 720
-Processed Kinematics from trial 730
-Processed Kinematics from trial 740
-Processed Kinematics from trial 750
-Processed Kinematics from trial 760
-Processed Kinematics from trial 770
-Traceback (most recent call last):
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 26, in <module>
-    run_rslds(
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 114, in run_rslds
-    trial_classification, neuron_classification = assign_trials_to_HMM_group(
-  File "/dali/nicho/caleb/git/intermittent_control_project/code/python_switching_models/assign_trials_to_HMM_group.py", line 50, in assign_trials_to_HMM_group
-    fold_test_trials = multifold_shuffled_order[test_mask]
-IndexError: boolean index did not match indexed array along dimension 0; dimension is 773 but corresponding boolean dimension is 774
+  0%|          | 0/25 [00:00<?, ?it/s]ELBO: -3575426.1:   0%|          | 0/25 [00:00<?, ?it/s]ELBO: -2787854.5:   0%|          | 0/25 [03:02<?, ?it/s]ELBO: -2787854.5:   4%|▍         | 1/25 [03:02<1:12:57, 182.38s/it]ELBO: -2743429.1:   4%|▍         | 1/25 [05:41<1:12:57, 182.38s/it]ELBO: -2743429.1:   8%|▊         | 2/25 [05:41<1:04:40, 168.74s/it]ELBO: -2725156.7:   8%|▊         | 2/25 [07:48<1:04:40, 168.74s/it]ELBO: -2725156.7:  12%|█▏        | 3/25 [07:48<54:55, 149.78s/it]  ELBO: -2717484.7:  12%|█▏        | 3/25 [09:17<54:55, 149.78s/it]ELBO: -2717484.7:  16%|█▌        | 4/25 [09:17<44:01, 125.76s/it]ELBO: -2714014.2:  16%|█▌        | 4/25 [10:28<44:01, 125.76s/it]ELBO: -2714014.2:  20%|██        | 5/25 [10:28<35:18, 105.91s/it]ELBO: -2712737.2:  20%|██        | 5/25 [11:37<35:18, 105.91s/it]ELBO: -2712737.2:  24%|██▍       | 6/25 [11:37<29:36, 93.53s/it] ELBO: -2712046.5:  24%|██▍       | 6/25 [12:44<29:36, 93.53s/it]ELBO: -2712046.5:  28%|██▊       | 7/25 [12:44<25:26, 84.81s/it]ELBO: -2711532.8:  28%|██▊       | 7/25 [13:55<25:26, 84.81s/it]ELBO: -2711532.8:  32%|███▏      | 8/25 [13:55<22:47, 80.47s/it]ELBO: -2710755.0:  32%|███▏      | 8/25 [15:04<22:47, 80.47s/it]ELBO: -2710755.0:  36%|███▌      | 9/25 [15:04<20:25, 76.59s/it]ELBO: -2710824.1:  36%|███▌      | 9/25 [16:13<20:25, 76.59s/it]ELBO: -2710824.1:  40%|████      | 10/25 [16:13<18:34, 74.29s/it]ELBO: -2710612.9:  40%|████      | 10/25 [17:20<18:34, 74.29s/it]ELBO: -2710612.9:  44%|████▍     | 11/25 [17:20<16:48, 72.02s/it]ELBO: -2710451.9:  44%|████▍     | 11/25 [18:26<16:48, 72.02s/it]ELBO: -2710451.9:  48%|████▊     | 12/25 [18:26<15:14, 70.33s/it]ELBO: -2710487.8:  48%|████▊     | 12/25 [19:33<15:14, 70.33s/it]ELBO: -2710487.8:  52%|█████▏    | 13/25 [19:33<13:51, 69.30s/it]ELBO: -2710488.2:  52%|█████▏    | 13/25 [20:40<13:51, 69.30s/it]ELBO: -2710488.2:  56%|█████▌    | 14/25 [20:40<12:34, 68.63s/it]ELBO: -2709919.3:  56%|█████▌    | 14/25 [21:47<12:34, 68.63s/it]ELBO: -2709919.3:  60%|██████    | 15/25 [21:47<11:20, 68.09s/it]ELBO: -2710180.3:  60%|██████    | 15/25 [22:52<11:20, 68.09s/it]ELBO: -2710180.3:  64%|██████▍   | 16/25 [22:52<10:05, 67.23s/it]ELBO: -2709491.1:  64%|██████▍   | 16/25 [23:59<10:05, 67.23s/it]ELBO: -2709491.1:  68%|██████▊   | 17/25 [23:59<08:57, 67.13s/it]ELBO: -2709771.7:  68%|██████▊   | 17/25 [25:04<08:57, 67.13s/it]ELBO: -2709771.7:  72%|███████▏  | 18/25 [25:04<07:44, 66.36s/it]ELBO: -2709025.6:  72%|███████▏  | 18/25 [26:09<07:44, 66.36s/it]ELBO: -2709025.6:  76%|███████▌  | 19/25 [26:09<06:36, 66.04s/it]ELBO: -2709577.0:  76%|███████▌  | 19/25 [27:14<06:36, 66.04s/it]ELBO: -2709577.0:  80%|████████  | 20/25 [27:14<05:28, 65.73s/it]ELBO: -2709385.3:  80%|████████  | 20/25 [28:19<05:28, 65.73s/it]ELBO: -2709385.3:  84%|████████▍ | 21/25 [28:19<04:21, 65.43s/it]ELBO: -2709464.3:  84%|████████▍ | 21/25 [29:24<04:21, 65.43s/it]ELBO: -2709464.3:  88%|████████▊ | 22/25 [29:24<03:16, 65.44s/it]ELBO: -2709756.0:  88%|████████▊ | 22/25 [30:29<03:16, 65.44s/it]ELBO: -2709756.0:  92%|█████████▏| 23/25 [30:29<02:10, 65.29s/it]ELBO: -2709433.0:  92%|█████████▏| 23/25 [31:33<02:10, 65.29s/it]ELBO: -2709433.0:  96%|█████████▌| 24/25 [31:33<01:05, 65.04s/it]ELBO: -2709124.6:  96%|█████████▌| 24/25 [32:39<01:05, 65.04s/it]ELBO: -2709124.6: 100%|██████████| 25/25 [32:39<00:00, 65.12s/it]ELBO: -2709124.6: 100%|██████████| 25/25 [32:39<00:00, 78.37s/it]
+  0%|          | 0/25 [00:00<?, ?it/s]ELBO: -627872.1:   0%|          | 0/25 [00:00<?, ?it/s]ELBO: -527279.6:   0%|          | 0/25 [00:20<?, ?it/s]ELBO: -527279.6:   4%|▍         | 1/25 [00:20<08:15, 20.66s/it]ELBO: -526622.6:   4%|▍         | 1/25 [00:32<08:15, 20.66s/it]ELBO: -526622.6:   8%|▊         | 2/25 [00:32<05:51, 15.29s/it]ELBO: -526676.2:   8%|▊         | 2/25 [00:43<05:51, 15.29s/it]ELBO: -526676.2:  12%|█▏        | 3/25 [00:43<04:57, 13.51s/it]ELBO: -526699.4:  12%|█▏        | 3/25 [00:54<04:57, 13.51s/it]ELBO: -526699.4:  16%|█▌        | 4/25 [00:54<04:25, 12.66s/it]ELBO: -526518.1:  16%|█▌        | 4/25 [01:06<04:25, 12.66s/it]ELBO: -526518.1:  20%|██        | 5/25 [01:06<04:04, 12.21s/it]ELBO: -526491.6:  20%|██        | 5/25 [01:17<04:04, 12.21s/it]ELBO: -526491.6:  24%|██▍       | 6/25 [01:17<03:46, 11.92s/it]ELBO: -526800.5:  24%|██▍       | 6/25 [01:29<03:46, 11.92s/it]ELBO: -526800.5:  28%|██▊       | 7/25 [01:29<03:31, 11.73s/it]ELBO: -526606.5:  28%|██▊       | 7/25 [01:40<03:31, 11.73s/it]ELBO: -526606.5:  32%|███▏      | 8/25 [01:40<03:17, 11.62s/it]ELBO: -526597.9:  32%|███▏      | 8/25 [01:51<03:17, 11.62s/it]ELBO: -526597.9:  36%|███▌      | 9/25 [01:51<03:04, 11.54s/it]ELBO: -526635.3:  36%|███▌      | 9/25 [02:03<03:04, 11.54s/it]ELBO: -526635.3:  40%|████      | 10/25 [02:03<02:52, 11.49s/it]ELBO: -526629.4:  40%|████      | 10/25 [02:14<02:52, 11.49s/it]ELBO: -526629.4:  44%|████▍     | 11/25 [02:14<02:39, 11.41s/it]ELBO: -526414.1:  44%|████▍     | 11/25 [02:25<02:39, 11.41s/it]ELBO: -526414.1:  48%|████▊     | 12/25 [02:25<02:28, 11.39s/it]ELBO: -526423.5:  48%|████▊     | 12/25 [02:37<02:28, 11.39s/it]ELBO: -526423.5:  52%|█████▏    | 13/25 [02:37<02:16, 11.38s/it]ELBO: -526690.8:  52%|█████▏    | 13/25 [02:48<02:16, 11.38s/it]ELBO: -526690.8:  56%|█████▌    | 14/25 [02:48<02:05, 11.39s/it]ELBO: -526493.8:  56%|█████▌    | 14/25 [02:59<02:05, 11.39s/it]ELBO: -526493.8:  60%|██████    | 15/25 [02:59<01:53, 11.38s/it]ELBO: -526668.9:  60%|██████    | 15/25 [03:11<01:53, 11.38s/it]ELBO: -526668.9:  64%|██████▍   | 16/25 [03:11<01:42, 11.37s/it]ELBO: -526482.1:  64%|██████▍   | 16/25 [03:22<01:42, 11.37s/it]ELBO: -526482.1:  68%|██████▊   | 17/25 [03:22<01:30, 11.36s/it]ELBO: -526658.7:  68%|██████▊   | 17/25 [03:33<01:30, 11.36s/it]ELBO: -526658.7:  72%|███████▏  | 18/25 [03:33<01:19, 11.35s/it]ELBO: -526669.4:  72%|███████▏  | 18/25 [03:45<01:19, 11.35s/it]ELBO: -526669.4:  76%|███████▌  | 19/25 [03:45<01:08, 11.37s/it]ELBO: -526447.0:  76%|███████▌  | 19/25 [03:56<01:08, 11.37s/it]ELBO: -526447.0:  80%|████████  | 20/25 [03:56<00:56, 11.36s/it]ELBO: -526619.6:  80%|████████  | 20/25 [04:08<00:56, 11.36s/it]ELBO: -526619.6:  84%|████████▍ | 21/25 [04:08<00:45, 11.36s/it]ELBO: -526530.0:  84%|████████▍ | 21/25 [04:19<00:45, 11.36s/it]ELBO: -526530.0:  88%|████████▊ | 22/25 [04:19<00:34, 11.36s/it]ELBO: -526332.2:  88%|████████▊ | 22/25 [04:30<00:34, 11.36s/it]ELBO: -526332.2:  92%|█████████▏| 23/25 [04:30<00:22, 11.35s/it]ELBO: -526817.4:  92%|█████████▏| 23/25 [04:42<00:22, 11.35s/it]ELBO: -526817.4:  96%|█████████▌| 24/25 [04:42<00:11, 11.37s/it]ELBO: -526688.2:  96%|█████████▌| 24/25 [04:53<00:11, 11.37s/it]ELBO: -526688.2: 100%|██████████| 25/25 [04:53<00:00, 11.33s/it]ELBO: -526688.2: 100%|██████████| 25/25 [04:53<00:00, 11.73s/it]

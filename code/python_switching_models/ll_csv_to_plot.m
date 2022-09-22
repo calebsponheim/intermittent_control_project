@@ -45,8 +45,8 @@ for iFolder = 1:length(ll_files_list)
         temp = readmatrix(temp_bits_filepath);
         % put data in correct x,y,and x positions based on state, dim, and
         % folds in this given file and path.
-        disp(length(temp(:,1)))
-        if length(temp(:,1)) > 3
+%         disp(length(temp(:,1)))
+        if length(temp(:,1)) > 4
             bits_per_spike(temp_bits_dim_num,temp_bits_state_num) = mean(temp(:,1));
         end
     end
@@ -80,27 +80,28 @@ box off
 hold off
 saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf.png']);
 
-%% 3D focused
-colors = hsv(size(bits_per_spike,2));
-focused_state_range = 2:20;
-x = focused_state_range;
-y = [];
-state_count = 1;
-for iState = focused_state_range
-    y(state_count,:) = bits_per_spike(10,iState);
-    state_count = state_count + 1;
-end
-state_mean_across_dims = mean(y,2,'omitnan');
-figure; hold on;
-plot(x,state_mean_across_dims,'-o','LineWidth',2);
-set(gcf,"Color","w")
-title(strcat(meta.subject," ",meta.task," Cross-Validated Likelihood"))
-xlabel("# Discrete States")
-ylabel("Log Likelihood")
-grid on
-box off
-hold off
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_focused_3d.png']);
+% %% 3D focused
+% colors = hsv(size(bits_per_spike,2));
+% focused_state_range = 2:20;
+% x = focused_state_range;
+% y = [];
+% state_count = 1;
+% for iState = focused_state_range
+%     y(state_count,:) = bits_per_spike(5:20,iState);
+%     state_count = state_count + 1;
+% end
+% state_mean_across_dims = mean(y,2,'omitnan');
+% figure; hold on;
+% plot(x,state_mean_across_dims,'-o','LineWidth',2);
+% plot(x,y','.')
+% set(gcf,"Color","w")
+% title(strcat(meta.subject," ",meta.task," Cross-Validated Likelihood"))
+% xlabel("# Discrete States")
+% ylabel("Log Likelihood")
+% grid on
+% box off
+% hold off
+% saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_focused_3d.png']);
 
 %%   2D
 colors = hsv(size(bits_per_spike,2));
