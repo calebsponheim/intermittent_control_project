@@ -6,14 +6,14 @@ fold_number = int(sys.argv[2])
 task = str(sys.argv[5])
 subject = str(sys.argv[4])
 num_hidden_state_override = int(sys.argv[3])
+rslds_ll_analysis = 1
+midway_run = 1
 
 train_portion = 0.8
 model_select_portion = 0.0
 test_portion = 0.2
 hidden_max_state_range = 120
 hidden_state_skip = 1
-rslds_ll_analysis = 0
-midway_run = 0
 
 
 # latent_dim_state_range = 12
@@ -21,6 +21,8 @@ midway_run = 0
 # subject = 'rs'
 # task = 'CO'
 # num_hidden_state_override = 8
+# rslds_ll_analysis = 0
+# midway_run = 0
 
 # %% Running it
 run_rslds(
