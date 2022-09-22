@@ -12,14 +12,14 @@ model_select_portion = 0.0
 test_portion = 0.2
 hidden_max_state_range = 120
 hidden_state_skip = 1
-rslds_ll_analysis = 1
-midway_run = 1
+rslds_ll_analysis = 0
+midway_run = 0
 
 
 # latent_dim_state_range = 2
 # fold_number = 1
 # subject = 'rs'
-# task = 'CO'
+# task = 'RTP'
 # num_hidden_state_override = 2
 
 # %% Running it

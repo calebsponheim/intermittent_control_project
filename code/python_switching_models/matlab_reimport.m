@@ -12,15 +12,15 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'RSCO0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05_sBins_move_window_only\'];
 
-filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
-% filepath = [filepath_base 'RSRTP0.05sBins\'];
+% filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
+filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1803230.05sBins\'];
 
 % OPTIONS
-num_desired_states = 16;
-num_desired_dims = 11;
+num_desired_states = 2;
+num_desired_dims = 2;
 
 filepath_for_ll_plot = filepath;
 filepath = strcat(filepath,num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims\");
