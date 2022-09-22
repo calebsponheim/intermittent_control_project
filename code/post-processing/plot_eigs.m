@@ -1,8 +1,8 @@
 function plot_eigs(meta,colors)
 %%
-real_eigenvalues = readmatrix([meta.filepath 'real_eigenvalues.csv']);
+real_eigenvalues = readmatrix(strcat(meta.filepath,'real_eigenvalues.csv'));
 real_eigenvalues = real_eigenvalues(2:end,:);
-imaginary_eigenvalues = readmatrix([meta.filepath 'imaginary_eigenvalues.csv']);
+imaginary_eigenvalues = readmatrix(strcat(meta.filepath,'imaginary_eigenvalues.csv'));
 imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
 
 
@@ -35,7 +35,7 @@ ylabel('Imaginary Component')
 title('Blue = Accelerative | Red = Decelerative')
 
 hold off
-saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs.png']);
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs.png'));
 close gcf
 
 %% Error Bar Plot
@@ -72,7 +72,7 @@ ylabel('Imaginary Component (Absolute Value)')
 title('Blue = Accelerative | Red = Decelerative')
 
 hold off
-saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs_dec_vs_acc.png']);
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs_dec_vs_acc.png'));
 close gcf
 
 %% Bar
@@ -101,7 +101,7 @@ box off;
 text(1,50,{'Blue = Accelerative ','Red = Decelerative','Purple = Overlap'})
 title('Real Components of Eigenvalues')
 hold off;
-saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eig_dist_real.png']);
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eig_dist_real.png'));
 close gcf
 
 [acc_states_imag_counts,acc_states_imag_edges] = histcounts(reshape(acc_states_imag,[1,size(acc_states_imag,1)*size(acc_states_imag,2)]),edges);
@@ -115,7 +115,7 @@ box off;
 text(1,50,{'Blue = Accelerative ','Red = Decelerative','Purple = Overlap'})
 title('Imaginary Components of Eigenvalues')
 hold off
-saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eig_dist_imag.png']);
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eig_dist_imag.png'));
 close gcf
 
 

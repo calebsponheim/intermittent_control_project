@@ -56,7 +56,7 @@ ylabel('Number of Hidden State Transitions')
 
 % Save the plot
 
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_extrema_vs_transition_distance.png']);
+saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_extrema_vs_transition_distance.png'));
 close gcf
 
 

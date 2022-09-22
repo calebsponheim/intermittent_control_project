@@ -4,16 +4,16 @@ eigenvalue_magnitude_threshold = 0.75;
 
 sorted_state_transitions_for_function = sorted_state_transitions(:,:);
 for iState = 1:meta.optimal_number_of_states
-    real_eigenvectors_temp = readmatrix([meta.filepath 'real_eigenvectors_state_' num2str(iState) '.csv']);
+    real_eigenvectors_temp = readmatrix(strcat(meta.filepath,'real_eigenvectors_state_',num2str(iState),'.csv'));
     real_eigenvectors{iState} = real_eigenvectors_temp(2:end,:);
-    imaginary_eigenvectors_temp = readmatrix ([meta.filepath 'imaginary_eigenvectors_state_' num2str(iState) '.csv']);
+    imaginary_eigenvectors_temp = readmatrix(strcat(meta.filepath,'imaginary_eigenvectors_state_',num2str(iState),'.csv'));
     imaginary_eigenvectors{iState} = imaginary_eigenvectors_temp(2:end,:);
 end
 
 
-real_eigenvalues = readmatrix([meta.filepath 'real_eigenvalues.csv']);
+real_eigenvalues = readmatrix(strcat(meta.filepath,'real_eigenvalues.csv'));
 real_eigenvalues = real_eigenvalues(2:end,:);
-imaginary_eigenvalues = readmatrix([meta.filepath 'imaginary_eigenvalues.csv']);
+imaginary_eigenvalues = readmatrix(strcat(meta.filepath,'imaginary_eigenvalues.csv'));
 imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
 
 %% Eigenvalue Magnitude Mapping
@@ -22,15 +22,16 @@ eigenvalue_magnitude = sqrt(real_eigenvalues.^2 + imaginary_eigenvalues.^2);
 figure('visible','off'); hold on
 for iState = 1:size(eigenvalue_magnitude,1)
     temp_eigenvalue_magnitude = eigenvalue_magnitude(iState,:);
-    plot(fliplr(cumsum(sort(temp_eigenvalue_magnitude)))/sum(temp_eigenvalue_magnitude))
+    plot((cumsum(fliplr(sort(temp_eigenvalue_magnitude)))))
 %     plot(fliplr(sort(temp_eigenvalue_magnitude)))
 end
-xlabel('dimension index')
-ylabel('% accounted for')
+xlabel('Dimension index')
+ylabel('cumulative Magnitude')
+title(strcat("Cumulative Eigenvalue Magnitude (Imaginary + Real)"))
 hold off
 box off
 set(gcf,"Color",'White')
-saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvalue_magnitudes.png']);
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvalue_magnitudes.png'));
 
 close gcf
 
@@ -126,7 +127,7 @@ ylabel('imaginary component of cosine between eigenvectors')
 hold off
 box off
 set(gcf,"Color",'White')
-saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles.png']);
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles.png'));
 
 close gcf
 
@@ -163,7 +164,7 @@ xticklabels({'','all combo','top transitions',''})
 title('imaginary eigenvector angles')
 box off
 set(gcf,"Color","w")
-saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles_comparison.png']);
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles_comparison.png'));
 close gcf
 
 end

@@ -58,7 +58,7 @@ for iState = 1:size(snippet_data,2)
         xlim([.02 1])
         title([meta.subject,'  ',strrep(meta.task,'_',' '),' State ',num2str(iState),' Normalized Speed']);
         hold off
-        saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_norm_velocity.png']);
+        saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_norm_velocity.png'));
         close gcf
         
     end

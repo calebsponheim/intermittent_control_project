@@ -27,7 +27,7 @@ for iState = 1:size(snippet_data,2)
         box off
         set(gcf,'color','white')
         hold off
-        saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_direction.png']);
+        saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_direction.png'));
         close gcf
     end
 end

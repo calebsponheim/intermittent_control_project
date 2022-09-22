@@ -18,7 +18,7 @@ ylabel('Number of Local Extrema')
 xlim([0 max(vertcat(num_speed_extrema,num_transitions))]);
 ylim([0 max(vertcat(num_speed_extrema,num_transitions))]);
 box off
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_extrema_vs_transitions.png']);
+saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_extrema_vs_transitions.png'));
 close gcf
 
 end

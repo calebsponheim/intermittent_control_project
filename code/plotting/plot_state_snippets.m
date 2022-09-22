@@ -30,7 +30,7 @@ for iState = 1:size(snippet_data,2)
     title([meta.subject,'  ',strrep(meta.task,'_',' '),' state ',num2str(iState),' snippets']);
     box off
     hold off
-    saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_position.png']);
+    saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_position.png'));
     close gcf
     
 end

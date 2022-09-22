@@ -5,7 +5,7 @@ if strcmp(getenv('USERNAME'),'calebsponheim')
 elseif strcmp(getenv('USERNAME'),'caleb_work')
      file_base_base = 'C:\Users\Caleb (Work)';
 end
-
+    
 [~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', ...
     'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', ...
     'barney', 'blood orange', 'cerise', 'orange', 'red', 'salmon', 'lilac');
@@ -13,21 +13,21 @@ end
 %% Create Plot Figure Results Folder
 if meta.crosstrain == 0 
     if meta.move_only == 1
-        meta.figure_folder_filepath = [file_base_base '\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0_move_only\'];
+        meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\',meta.task,'_CT0_move_only\');
     elseif contains(meta.session,'180323')
-        meta.figure_folder_filepath = [file_base_base '\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '18_CT0\'];
+        meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\',meta.task,'18_CT0\');
     else
-        meta.figure_folder_filepath = [file_base_base '\Documents\git\intermittent_control_project\figures\' meta.subject '\' meta.task '_CT0\'];
+        meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\',meta.task,'_CT0\');
     end
 else
-    meta.figure_folder_filepath = [file_base_base '\Documents\git\intermittent_control_project\figures\' meta.subject '\CT' num2str(meta.crosstrain) '\'];
+    meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\CT',num2str(meta.crosstrain),'\');
 end
 
 if meta.use_rslds == 1
-    meta.figure_folder_filepath = [meta.figure_folder_filepath 'rslds\'];
-    meta.figure_folder_filepath = [meta.figure_folder_filepath num2str(meta.optimal_number_of_states) "_states_" num2str(meta.num_dims) "_dims\"];
+    meta.figure_folder_filepath = strcat(meta.figure_folder_filepath,'rslds\');
+    meta.figure_folder_filepath = strcat(meta.figure_folder_filepath,num2str(meta.optimal_number_of_states),"_states_",num2str(meta.num_dims),"_dims\");
 elseif meta.use_rslds == 0
-    meta.figure_folder_filepath = [meta.figure_folder_filepath 'hmm\' num2str(meta.optimal_number_of_states) "_states\"];
+    meta.figure_folder_filepath = strcat(meta.figure_folder_filepath,'hmm\',num2str(meta.optimal_number_of_states),"_states\");
 end
 
 %% Create Snippet Timing

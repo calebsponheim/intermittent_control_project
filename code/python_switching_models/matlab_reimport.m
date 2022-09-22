@@ -19,19 +19,18 @@ filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1803230.05sBins\'];
 
 % OPTIONS
-num_desired_states = 16;
-num_desired_dims = 11;
+num_desired_states = 8;
+num_desired_dims = 12;
 
 filepath_for_ll_plot = filepath;
 filepath = strcat(filepath,num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims\");
 
-meta.analyze_all_trials = 0;
+analyze_all_trials = 1;
 plot_ll_hmm = 0;
 plot_ll_rslds = 0;
 use_rslds = 1;
 
 %
-analyze_all_trials = meta.analyze_all_trials;
 meta.filepath = filepath;
 decoded_data_hmm = readmatrix(...
     strcat(filepath,'decoded_data_hmm.csv')...
@@ -110,6 +109,7 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         meta.task = 'RTP';
         meta.session = '1050211';
         meta.move_only = 0;
+
     elseif contains(filepath,'RS') && contains(filepath,'CO')
         if contains(filepath,'move')
             load(strcat(strrep(filepath,strcat(num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims\"),''),'RSCO_move_window.mat'))
@@ -161,6 +161,8 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
     meta.crosstrain = 0;
     meta.use_rslds = use_rslds;
     meta.plot_ll_rslds = plot_ll_rslds;
+    meta.analyze_all_trials = analyze_all_trials;
+    meta.filepath = filepath;
     %%
     if use_rslds == 1
         decoded_data_selected_state_num = decoded_data_rslds;

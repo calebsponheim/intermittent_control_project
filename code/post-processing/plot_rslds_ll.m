@@ -33,7 +33,7 @@ ylabel('Summed Log Likelihood (test trials)')
 
 % Save the plot
 
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_rslds_LL.png']);
+saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_rslds_LL.png'));
 close gcf
 
 end

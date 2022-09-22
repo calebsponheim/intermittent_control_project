@@ -33,7 +33,7 @@ for iTrial = available_test_trials(meta.trials_to_plot)
     end
     box off
     hold off
-    saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trial_',num2str(iTrial),'_position.png']);
+    saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trial_',num2str(iTrial),'_position.png'));
     close gcf
     
     % Vel
@@ -51,7 +51,7 @@ for iTrial = available_test_trials(meta.trials_to_plot)
     xlabel('time relative to trial start (ms)')
     box off
     hold off
-    saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trial_',num2str(iTrial),'_velocity.png']);
+    saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trial_',num2str(iTrial),'_velocity.png'));
     close gcf
     
     % Accel
@@ -67,7 +67,7 @@ for iTrial = available_test_trials(meta.trials_to_plot)
         xlabel('time relative to trial start (ms)')
         box off
         hold off
-        saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trial_',num2str(iTrial),'_acceleration.png']);
+        saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trial_',num2str(iTrial),'_acceleration.png'));
         close gcf
     end
 end
