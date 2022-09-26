@@ -18,9 +18,9 @@ from train_HMM import train_HMM
 import numpy as np
 from numpy.linalg import eig
 from rslds_cosmoothing import rslds_cosmoothing
-from plot_continuous_states import plot_continuous_states
+# from plot_continuous_states import plot_continuous_states
 # from state_prob_over_time import state_prob_over_time
-import autograd.numpy.random as npr
+# import autograd.numpy.random as npr
 
 
 def run_rslds(
@@ -208,7 +208,7 @@ def run_rslds(
 
         # %%
 
-        plot_continuous_states(xhat_lem, latent_dim_state_range, decoded_data_rslds)
+        # plot_continuous_states(xhat_lem, latent_dim_state_range, decoded_data_rslds)
         # %% Plot State Probabilities
 
         # state_prob_over_time(model, xhat_lem, y, num_hidden_state_override, figurepath)
