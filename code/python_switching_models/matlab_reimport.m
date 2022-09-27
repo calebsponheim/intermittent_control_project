@@ -175,7 +175,8 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         data(iTrial).trial_classification = trial_classification{iTrial};
         data(iTrial).ms_relative_to_trial_start = 1:length(data(iTrial).x_smoothed);
         decoded_trial_temp = decoded_data_selected_state_num(iTrial,~isnan(decoded_data_selected_state_num(iTrial,:)));
-        decoded_trial_temp_resamp = zeros(1,length(data(iTrial).kinematic_timestamps));
+        decoded_trial_temp_resamp = [];
+%       decoded_trial_temp_resamp = nan(1,length(data(iTrial).kinematic_timestamps));
         if (meta.move_only == 1) && strcmp(meta.subject,'bx')
         else
             for iBin = 1:(length(decoded_trial_temp))

@@ -38,6 +38,6 @@ for iDir = 1:length(dirs)
     end
     box off
     set(gcf,'color','w','Position',[100 100 350 1000])
-    saveas(gcf,[meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_dir_',num2str(iDir),'_avg_continuous_states.png']);
+    saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_dir_',num2str(iDir),'_avg_continuous_states.png'));
     close gcf
 end
