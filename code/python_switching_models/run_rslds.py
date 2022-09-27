@@ -35,7 +35,8 @@ def run_rslds(
     rslds_ll_analysis,
     latent_dim_state_range,
     midway_run,
-    fold_number
+    fold_number,
+    num_neuron_folds
 ):
     """
     Summary: Function is the main script for running rslds analysis.
@@ -114,7 +115,7 @@ def run_rslds(
     # %%
 
     trial_classification, neuron_classification = assign_trials_to_HMM_group(
-        data, meta, midway_run, fold_number, folderpath_out)
+        data, meta, midway_run, fold_number, folderpath_out, num_neuron_folds)
 
     # %% Running HMM
     if midway_run == 0:

@@ -1,6 +1,4 @@
 from run_rslds import run_rslds
-import sys
-
 train_portion = 0.8
 model_select_portion = 0.0
 test_portion = 0.2
@@ -14,7 +12,8 @@ subject = 'rs'
 task = 'CO'
 num_hidden_state_override = 8
 rslds_ll_analysis = 0
-midway_run = 0
+midway_run = 1
+num_neuron_folds = 4
 
 # %% Running it
 run_rslds(
@@ -29,5 +28,6 @@ run_rslds(
     rslds_ll_analysis,
     latent_dim_state_range,
     midway_run,
-    fold_number
+    fold_number,
+    num_neuron_folds
 )

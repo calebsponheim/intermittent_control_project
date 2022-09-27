@@ -27,42 +27,34 @@ def run_cosmoothing(model, ys, neuron_classification, inputs=None, cs_frac=0.8):
     if inputs is None:
         inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in ys]
 
-    # get number of neurons
-    # N = ys[0].shape[1]
-
-    # leave out cs_frac fraction of neurons
-    # split_idx = int(cs_frac * N)
-
-    neuron_ind_train = [i for i, x in enumerate(
-        neuron_classification) if x == "train"]
-    neuron_ind_test = [i for i, x in enumerate(
-        neuron_classification) if x == "test"]
-    test_neur = neuron_ind_test
-
     # create masks that mask out test neurons
-    masks = []
-    for y in ys:
-        mask = np.ones_like(y)
-        mask[:, test_neur] *= 0
-        mask = mask.astype(bool)
-        masks.append(mask)
+    lls = [0] * len(np.unique(neuron_classification))
+    for iFold in np.unique(neuron_classification):
+        test_neur = [i for i, x in enumerate(neuron_classification) if x == iFold]
+        masks = []
+        for y in ys:
+            mask = np.ones_like(y)
+            mask[:, test_neur] *= 0
+            mask = mask.astype(bool)
+            masks.append(mask)
 
-    _elbos, _q_model = model.approximate_posterior(
-        ys, inputs=inputs, masks=masks,
-        method="laplace_em",
-        variational_posterior="structured_meanfield",
-        num_iters=25, alpha=0.5)
+        _elbos, _q_model = model.approximate_posterior(
+            ys, inputs=inputs, masks=masks,
+            method="laplace_em",
+            variational_posterior="structured_meanfield",
+            num_iters=25, alpha=0.5)
 
-    # compute log likelihood of heldout neurons
-    lls = 0.0
-    for tr in range(len(ys)):
-        ll = np.sum(model.emissions.log_likelihoods(ys[tr],
-                                                    inputs[tr],
-                                                    mask=np.invert(masks[tr]),
-                                                    tag=None,
-                                                    x=_q_model.mean_continuous_states[tr]))
-        lls += ll
-    return lls
+        # compute log likelihood of heldout neurons
+
+        for tr in range(len(ys)):
+            ll = np.sum(model.emissions.log_likelihoods(ys[tr],
+                                                        inputs[tr],
+                                                        mask=np.invert(masks[tr]),
+                                                        tag=None,
+                                                        x=_q_model.mean_continuous_states[tr]))
+            lls[iFold] = lls[iFold] + ll
+
+    return np.mean(lls)
 
 
 def rslds_cosmoothing(data, trial_classification, meta, bin_size,
@@ -86,7 +78,6 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
     # %%
     observation_dimensions = trainset[0].shape[1]
     number_of_states = num_hidden_state_override
-    test_bits_sum = []
 
     # % rSLDS
     # Fit with Laplace EM
@@ -99,7 +90,7 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
     model.initialize(trainset)
     q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
                                                variational_posterior="structured_meanfield",
-                                               initialize=False, num_iters=25)
+                                               initialize=False, num_iters=100)
     # %%
     ys = testset
 

@@ -14,6 +14,7 @@ model_select_portion = 0.0
 test_portion = 0.2
 hidden_max_state_range = 120
 hidden_state_skip = 1
+num_neuron_folds = 4
 
 # %% Running it
 run_rslds(
@@ -28,5 +29,6 @@ run_rslds(
     rslds_ll_analysis,
     latent_dim_state_range,
     midway_run,
-    fold_number
+    fold_number,
+    num_neuron_folds
 )
