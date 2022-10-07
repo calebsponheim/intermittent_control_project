@@ -19,8 +19,8 @@ filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1803230.05sBins\'];
 
 % OPTIONS
-num_desired_states = 8;
-num_desired_dims = 12;
+num_desired_states = 2;
+num_desired_dims = 2;
 
 
 filepath_for_ll_plot = filepath;

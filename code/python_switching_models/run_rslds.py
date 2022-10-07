@@ -52,7 +52,7 @@ def run_rslds(
         folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
     elif "dali" in current_working_directory:
         folderpath_base_base = "/dali/nicho/caleb/git/intermittent_control_project/"
-    elif "project" in current_working_directory:
+    elif "project/nicho/caleb" in current_working_directory:
         folderpath_base_base = "/project/nicho/caleb/git/intermittent_control_project/"
     elif "Caleb (Work)" in current_working_directory:
         folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
