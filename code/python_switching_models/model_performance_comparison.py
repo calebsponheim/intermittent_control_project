@@ -3,6 +3,7 @@
 Created on Thu Sep 22 14:51:33 2022
 
 Running Performance Comparison Across Different Models. Same folds and trials and stuff.
+Different optimal states and dimensions for each type of model.
 
 @author: caleb_work
 """
@@ -20,11 +21,15 @@ import ssm
 
 train_portion = 0.8
 test_portion = 0.2
-latent_dim_state_range = 12
-num_hidden_state_override = 8
+num_latent_dims_rslds = 12
+num_discrete_states_rslds = 8
+num_latent_dims_slds = 0
+num_discrete_states_slds = 0
+num_latent_dims_lds = 0
+num_discrete_states_hmm = 0
 folds = int(1/test_portion)
 subject = 'rs'
-task = 'RTP'
+task = 'CO'
 
 # %% Data Import
 current_working_directory = os.getcwd()
@@ -67,17 +72,17 @@ else:
 
 temp_folderlist = os.listdir(folderpath)
 temp_figurelist = os.listdir(figurepath)
-if str(num_hidden_state_override) + "_states_" + str(latent_dim_state_range) + "_dims" not in temp_folderlist:
-    os.mkdir(folderpath + str(num_hidden_state_override) +
-             "_states_" + str(latent_dim_state_range) + "_dims/")
-if str(num_hidden_state_override) + "_states_" + str(latent_dim_state_range) + "_dims" not in temp_figurelist:
-    os.mkdir(figurepath + str(num_hidden_state_override) +
-             "_states_" + str(latent_dim_state_range) + "_dims/")
+if str(num_discrete_states_rslds) + "_states_" + str(num_latent_dims_rslds) + "_dims" not in temp_folderlist:
+    os.mkdir(folderpath + str(num_discrete_states_rslds) +
+             "_states_" + str(num_latent_dims_rslds) + "_dims/")
+if str(num_discrete_states_rslds) + "_states_" + str(num_latent_dims_rslds) + "_dims" not in temp_figurelist:
+    os.mkdir(figurepath + str(num_discrete_states_rslds) +
+             "_states_" + str(num_latent_dims_rslds) + "_dims/")
 
-folderpath_out = folderpath + str(num_hidden_state_override) + \
-    "_states_" + str(latent_dim_state_range) + "_dims/"
-figurepath = figurepath + str(num_hidden_state_override) + \
-    "_states_" + str(latent_dim_state_range) + "_dims/"
+folderpath_out = folderpath + str(num_discrete_states_rslds) + \
+    "_states_" + str(num_latent_dims_rslds) + "_dims/"
+figurepath = figurepath + str(num_discrete_states_rslds) + \
+    "_states_" + str(num_latent_dims_rslds) + "_dims/"
 
 
 class meta:
@@ -154,7 +159,7 @@ for iFold in np.arange(1, folds+1):
 
     N_iters = 100
     hmm = ssm.HMM(
-        num_hidden_state_override,
+        num_discrete_states_hmm,
         observation_dimensions,
         observations="poisson",
         transitions="standard",
@@ -173,7 +178,7 @@ for iFold in np.arange(1, folds+1):
     print("Created HMM Model")
 
     # LDS
-    model = ssm.LDS(observation_dimensions, latent_dim_state_range,
+    model = ssm.LDS(observation_dimensions, num_latent_dims_lds,
                     emissions="poisson")
     model.initialize(trainset)
     q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
@@ -205,7 +210,7 @@ for iFold in np.arange(1, folds+1):
     print("Created LDS Model")
 
     # SLDS
-    model = ssm.SLDS(observation_dimensions, num_hidden_state_override, latent_dim_state_range,
+    model = ssm.SLDS(observation_dimensions, num_discrete_states_slds, num_latent_dims_slds,
                      emissions="poisson",
                      single_subspace=True)
     model.initialize(trainset)
@@ -238,7 +243,7 @@ for iFold in np.arange(1, folds+1):
     print("Created SLDS Model")
 
     # rSLDS
-    model = ssm.SLDS(observation_dimensions, num_hidden_state_override, latent_dim_state_range,
+    model = ssm.SLDS(observation_dimensions, num_discrete_states_rslds, num_latent_dims_rslds,
                      transitions="recurrent",
                      dynamics="diagonal_gaussian",
                      emissions="poisson",
