@@ -7,11 +7,11 @@ hidden_max_state_range = 120
 hidden_state_skip = 1
 
 
-number_of_latent_dimensions = 20
-number_of_discrete_states = 8
+number_of_latent_dimensions = 2
+number_of_discrete_states = 2
 fold_number = 1
 subject = 'rs'
-task = 'RTP'
+task = 'CO'
 midway_run = 0
 rslds_ll_analysis = midway_run
 num_neuron_folds = 4
