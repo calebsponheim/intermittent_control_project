@@ -7,6 +7,8 @@ Created on Mon May  9 14:07:15 2022.
 import ssm
 import numpy as np
 import logging
+import matplotlib.pyplot as plt
+
 logger = logging.getLogger(__name__)
 
 
@@ -42,7 +44,7 @@ def run_cosmoothing(model, ys, neuron_classification, inputs=None, cs_frac=0.8):
             ys, inputs=inputs, masks=masks,
             method="laplace_em",
             variational_posterior="structured_meanfield",
-            num_iters=25, alpha=0.5)
+            num_iters=50, alpha=0.5)
 
         # compute log likelihood of heldout neurons
 
@@ -90,7 +92,7 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
     model.initialize(trainset)
     q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
                                                variational_posterior="structured_meanfield",
-                                               initialize=False, num_iters=100)
+                                               initialize=False, num_iters=50)
     # %%
     ys = testset
 
@@ -98,5 +100,12 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
     lls = run_cosmoothing(model, ys, neuron_classification, inputs=None, cs_frac=0.8)
     log_likelihood_emissions_sum = lls
     # %% Generating Rates for Test Trials
+    plt.figure()
+    plt.plot(q_elbos_lem_train[1:], label="Laplace-EM")
+    plt.legend()
+    plt.xlabel("Iteration")
+    plt.ylabel("ELBO")
+    plt.tight_layout()
+    plt.savefig(figurepath + "/training.png")
 
     return log_likelihood_emissions_sum
