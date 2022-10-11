@@ -18,9 +18,6 @@ import sys
 
 train_portion = 0.8
 test_portion = 0.2
-folds = int(1/test_portion)
-subject = 'rs'
-task = 'CO'
 num_neuron_folds = 4
 
 

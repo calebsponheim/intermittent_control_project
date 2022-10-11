@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=fold_3
 #SBATCH --array=2-80
-#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rs_CO/HMM_%a.out
-#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_CO/HMM_%a.err
+#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rs_CO/LDS_%a.out
+#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_CO/LDS_%a.err
 #SBATCH --time=36:00:00
 #SBATCH --mem-per-cpu=48G
 #SBATCH --account=pi-nicho
