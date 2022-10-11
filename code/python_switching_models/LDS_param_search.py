@@ -24,15 +24,15 @@ task = 'CO'
 num_neuron_folds = 4
 
 
-# fold_number = int(sys.argv[1])
-# task = str(sys.argv[2])
-# subject = str(sys.argv[3])
-# num_dims = int(sys.argv[4])
+fold_number = int(sys.argv[1])
+task = str(sys.argv[2])
+subject = str(sys.argv[3])
+num_dims = int(sys.argv[4])
 
-fold_number = 1
-task = "CO"
-subject = 'rs'
-num_dims = 2
+# fold_number = 1
+# task = "CO"
+# subject = 'rs'
+# num_dims = 2
 
 # %% Data Import
 current_working_directory = os.getcwd()
