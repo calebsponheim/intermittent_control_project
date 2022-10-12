@@ -18,9 +18,6 @@ import sys
 
 train_portion = 0.8
 test_portion = 0.2
-folds = int(1/test_portion)
-subject = 'rs'
-task = 'CO'
 num_neuron_folds = 4
 
 
@@ -30,7 +27,7 @@ subject = str(sys.argv[3])
 num_discrete_states = int(sys.argv[4])
 
 # fold_number = 1
-# task = "CO"
+# task = 'RTP'
 # subject = 'rs'
 # num_discrete_states = 2
 

@@ -6,6 +6,7 @@ fold_number = int(sys.argv[2])
 task = str(sys.argv[5])
 subject = str(sys.argv[4])
 num_hidden_state_override = int(sys.argv[3])
+train_model = int(sys.argv[6])
 rslds_ll_analysis = 1
 midway_run = 1
 
@@ -30,5 +31,6 @@ run_rslds(
     latent_dim_state_range,
     midway_run,
     fold_number,
-    num_neuron_folds
+    num_neuron_folds,
+    train_model
 )

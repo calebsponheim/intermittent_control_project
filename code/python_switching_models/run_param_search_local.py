@@ -12,10 +12,10 @@ number_of_discrete_states = 2
 fold_number = 1
 subject = 'rs'
 task = 'CO'
-midway_run = 0
+midway_run = 1
 rslds_ll_analysis = midway_run
 num_neuron_folds = 4
-
+train_model = 1
 # %% Running it
 run_rslds(
     subject,
@@ -30,5 +30,6 @@ run_rslds(
     number_of_latent_dimensions,
     midway_run,
     fold_number,
-    num_neuron_folds
+    num_neuron_folds,
+    train_model
 )

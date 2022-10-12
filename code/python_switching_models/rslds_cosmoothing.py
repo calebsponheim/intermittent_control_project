@@ -8,6 +8,7 @@ import ssm
 import numpy as np
 import logging
 import matplotlib.pyplot as plt
+import pickle
 
 logger = logging.getLogger(__name__)
 
@@ -60,8 +61,10 @@ def run_cosmoothing(model, ys, neuron_classification, inputs=None, cs_frac=0.8):
 
 
 def rslds_cosmoothing(data, trial_classification, meta, bin_size,
-                      num_hidden_state_override, figurepath,
-                      rslds_ll_analysis, latent_dim_state_range, neuron_classification):
+                      number_of_discrete_states, figurepath,
+                      rslds_ll_analysis, number_of_latent_dimensions,
+                      neuron_classification, folderpath_out,
+                      fold_number, train_model):
     """Train a Switching Linear Dynamical System."""
     # %%
     trind_train = [i for i, x in enumerate(
@@ -77,35 +80,49 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
         elif iTrial in trind_test:
             testset.append(np.transpose(np.array(data.spikes[iTrial])))
 
-    # %%
-    observation_dimensions = trainset[0].shape[1]
-    number_of_states = num_hidden_state_override
+    if train_model == 1:
+        # %%
+        observation_dimensions = trainset[0].shape[1]
+        number_of_states = number_of_discrete_states
 
-    # % rSLDS
-    # Fit with Laplace EM
+        # % rSLDS
+        # Fit with Laplace EM
 
-    model = ssm.SLDS(observation_dimensions, number_of_states, latent_dim_state_range,
-                     transitions="recurrent",
-                     dynamics="diagonal_gaussian",
-                     emissions="poisson",
-                     single_subspace=True)
-    model.initialize(trainset)
-    q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
-                                               variational_posterior="structured_meanfield",
-                                               initialize=False, num_iters=50)
-    # %%
-    ys = testset
+        model = ssm.SLDS(observation_dimensions, number_of_states, number_of_latent_dimensions,
+                         transitions="recurrent",
+                         dynamics="diagonal_gaussian",
+                         emissions="poisson",
+                         single_subspace=True)
+        model.initialize(trainset)
+        q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
+                                                   variational_posterior="structured_meanfield",
+                                                   initialize=False, num_iters=50)
 
-    # %%
-    lls = run_cosmoothing(model, ys, neuron_classification, inputs=None, cs_frac=0.8)
-    log_likelihood_emissions_sum = lls
-    # %% Generating Rates for Test Trials
-    plt.figure()
-    plt.plot(q_elbos_lem_train[1:], label="Laplace-EM")
-    plt.legend()
-    plt.xlabel("Iteration")
-    plt.ylabel("ELBO")
-    plt.tight_layout()
-    plt.savefig(figurepath + "/training.png")
+        # %% Pickle!
+        filename = folderpath_out + 'fold_' + str(fold_number) + '_model'
+        outfile = open(filename, 'wb')
+        pickle.dump(model, outfile)
+        outfile.close()
+        # %%
+        plt.figure()
+        plt.plot(q_elbos_lem_train[1:], label="Laplace-EM")
+        plt.legend()
+        plt.xlabel("Iteration")
+        plt.ylabel("ELBO")
+        plt.tight_layout()
+        plt.savefig(figurepath + "/training.png")
 
-    return log_likelihood_emissions_sum
+    elif train_model == 0:
+        # %%
+
+        ys = testset
+
+        # %%
+        infile = open(folderpath_out + 'fold_' + str(fold_number) + '_model', 'rb')
+        model = pickle.load(infile)
+        infile.close()
+
+        lls = run_cosmoothing(model, ys, neuron_classification, inputs=None, cs_frac=0.8)
+        log_likelihood_emissions_sum = lls
+
+        return log_likelihood_emissions_sum

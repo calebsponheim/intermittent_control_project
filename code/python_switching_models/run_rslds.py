@@ -31,12 +31,13 @@ def run_rslds(
     test_portion,
     hidden_max_state_range,
     hidden_state_skip,
-    num_hidden_state_override,
+    number_of_discrete_states,
     rslds_ll_analysis,
-    latent_dim_state_range,
+    number_of_latent_dimensions,
     midway_run,
     fold_number,
-    num_neuron_folds
+    num_neuron_folds,
+    train_model
 ):
     """
     Summary: Function is the main script for running rslds analysis.
@@ -89,17 +90,17 @@ def run_rslds(
 
     temp_folderlist = os.listdir(folderpath)
     temp_figurelist = os.listdir(figurepath)
-    if str(num_hidden_state_override) + "_states_" + str(latent_dim_state_range) + "_dims" not in temp_folderlist:
-        os.mkdir(folderpath + str(num_hidden_state_override) +
-                 "_states_" + str(latent_dim_state_range) + "_dims/")
-    if str(num_hidden_state_override) + "_states_" + str(latent_dim_state_range) + "_dims" not in temp_figurelist:
-        os.mkdir(figurepath + str(num_hidden_state_override) +
-                 "_states_" + str(latent_dim_state_range) + "_dims/")
+    if str(number_of_discrete_states) + "_states_" + str(number_of_latent_dimensions) + "_dims" not in temp_folderlist:
+        os.mkdir(folderpath + str(number_of_discrete_states) +
+                 "_states_" + str(number_of_latent_dimensions) + "_dims/")
+    if str(number_of_discrete_states) + "_states_" + str(number_of_latent_dimensions) + "_dims" not in temp_figurelist:
+        os.mkdir(figurepath + str(number_of_discrete_states) +
+                 "_states_" + str(number_of_latent_dimensions) + "_dims/")
 
-    folderpath_out = folderpath + str(num_hidden_state_override) + \
-        "_states_" + str(latent_dim_state_range) + "_dims/"
-    figurepath = figurepath + str(num_hidden_state_override) + \
-        "_states_" + str(latent_dim_state_range) + "_dims/"
+    folderpath_out = folderpath + str(number_of_discrete_states) + \
+        "_states_" + str(number_of_latent_dimensions) + "_dims/"
+    figurepath = figurepath + str(number_of_discrete_states) + \
+        "_states_" + str(number_of_latent_dimensions) + "_dims/"
 
     class meta:
         def __init__(self, train_portion, model_select_portion, test_portion):
@@ -126,7 +127,7 @@ def run_rslds(
             bin_size,
             hidden_max_state_range,
             hidden_state_skip,
-            num_hidden_state_override
+            number_of_discrete_states
         )
 
     # %% Running Co-Smoothing
@@ -139,23 +140,24 @@ def run_rslds(
 
     if midway_run == 1:
         log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-                                                         num_hidden_state_override, figurepath,
-                                                         rslds_ll_analysis, latent_dim_state_range,
-                                                         neuron_classification)
+                                                         number_of_discrete_states, figurepath,
+                                                         rslds_ll_analysis, number_of_latent_dimensions,
+                                                         neuron_classification, folderpath_out,
+                                                         fold_number, train_model)
         # test_bits_sum = pd.DataFrame(test_bits_sum)
-        # latent_dims = pd.DataFrame([latent_dim_state_range])
+        # latent_dims = pd.DataFrame([number_of_latent_dimensions])
         # frames = [test_bits_sum, latent_dims]
         # test_bits_sum = pd.concat(frames, axis=1)
         # first_file = 1
         # for file in os.listdir(folderpath_out):
-        #     if file.endswith(str(num_hidden_state_override) + "_states_test_bits.csv"):
+        #     if file.endswith(str(number_of_discrete_states) + "_states_test_bits.csv"):
         #         first_file = 0
 
         # if first_file == 1:
-        #     test_bits_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+        #     test_bits_sum.to_csv(folderpath_out + str(number_of_discrete_states) +
         #                          "_states_test_bits.csv", index=False, header=False)
         # elif first_file == 0:
-        #     test_bits_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+        #     test_bits_sum.to_csv(folderpath_out + str(number_of_discrete_states) +
         #                          "_states_test_bits.csv", mode='a', index=False, header=False)
 
         #############
@@ -163,23 +165,23 @@ def run_rslds(
         #############
         # log_likelihood_emissions_sum = sum(log_likelihood_emissions_sum)
         log_likelihood_emissions_sum = pd.DataFrame([log_likelihood_emissions_sum])
-        latent_dims = pd.DataFrame([latent_dim_state_range])
+        latent_dims = pd.DataFrame([number_of_latent_dimensions])
         frames = [log_likelihood_emissions_sum, latent_dims]
         log_likelihood_emissions_sum = pd.concat(frames, axis=1)
 
         if fold_number == 1:
-            log_likelihood_emissions_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+            log_likelihood_emissions_sum.to_csv(folderpath_out + str(number_of_discrete_states) +
                                                 "_states_test_emissions_ll.csv", index=False, header=False)
         elif fold_number > 1:
-            log_likelihood_emissions_sum.to_csv(folderpath_out + str(num_hidden_state_override) +
+            log_likelihood_emissions_sum.to_csv(folderpath_out + str(number_of_discrete_states) +
                                                 "_states_test_emissions_ll.csv", mode='a', index=False, header=False)
 
     # %% Running RSLDS
     if midway_run == 0:
         model, xhat_lem, fullset, model_params = train_rslds(
             data, trial_classification, meta, bin_size,
-            num_hidden_state_override, figurepath, rslds_ll_analysis,
-            latent_dim_state_range
+            number_of_discrete_states, figurepath, rslds_ll_analysis,
+            number_of_latent_dimensions
         )
 
         # %%
@@ -211,10 +213,10 @@ def run_rslds(
 
         # %%
 
-        # plot_continuous_states(xhat_lem, latent_dim_state_range, decoded_data_rslds)
+        # plot_continuous_states(xhat_lem, number_of_latent_dimensions, decoded_data_rslds)
         # %% Plot State Probabilities
 
-        # state_prob_over_time(model, xhat_lem, y, num_hidden_state_override, figurepath)
+        # state_prob_over_time(model, xhat_lem, y, number_of_discrete_states, figurepath)
 
         # %% write data for matlab
 
