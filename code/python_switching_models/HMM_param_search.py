@@ -27,7 +27,7 @@ subject = str(sys.argv[3])
 num_discrete_states = int(sys.argv[4])
 
 # fold_number = 1
-# task = 'RTP'
+# task = 'CO'
 # subject = 'rs'
 # num_discrete_states = 2
 
@@ -108,7 +108,7 @@ temp_datafolderlist = os.listdir(folderpath_out)
 if 'multifold_trial_classification.csv' in temp_datafolderlist:
     # if it is, then load it
     multifold_shuffled_order = pd.DataFrame.to_numpy(pd.read_csv(
-        folderpath_out + 'multifold_trial_classification.csv'))
+        folderpath + 'multifold_trial_classification.csv'))
 elif 'multifold_trial_classification.csv' not in temp_datafolderlist:
     # if not, make it
     np.random.shuffle(trial_indices)
@@ -116,7 +116,7 @@ elif 'multifold_trial_classification.csv' not in temp_datafolderlist:
 
     multifold_shuffled_order_out = pd.DataFrame(multifold_shuffled_order)
     multifold_shuffled_order_out.to_csv(
-        folderpath_out + 'multifold_trial_classification.csv', index=False, header=True)
+        folderpath + 'multifold_trial_classification.csv', index=False, header=True)
 
 fold_test_data_range_start = int((
     (test_portion*fold_number) - test_portion)*number_of_trials)
@@ -137,7 +137,7 @@ for iTrial in range(number_of_trials):
 if 'multifold_neuron_classification.csv' in temp_datafolderlist:
     # if it is, then load it
     multifold_shuffled_neuron_order = pd.DataFrame.to_numpy(pd.read_csv(
-        folderpath_out + 'multifold_neuron_classification.csv'))
+        folderpath + 'multifold_neuron_classification.csv'))
 elif 'multifold_neuron_classification.csv' not in temp_datafolderlist:
     # if not, make it
     np.random.shuffle(neuron_indices)
@@ -145,7 +145,7 @@ elif 'multifold_neuron_classification.csv' not in temp_datafolderlist:
 
     multifold_shuffled_neuron_order_out = pd.DataFrame(multifold_shuffled_neuron_order)
     multifold_shuffled_neuron_order_out.to_csv(
-        folderpath_out + 'multifold_neuron_classification.csv', index=False, header=True)
+        folderpath + 'multifold_neuron_classification.csv', index=False, header=True)
 
 # bring in which fold it is
 # take that segment of data
