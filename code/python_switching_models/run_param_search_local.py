@@ -15,7 +15,7 @@ task = 'CO'
 midway_run = 1
 rslds_ll_analysis = midway_run
 num_neuron_folds = 4
-train_model = 1
+train_model = 0
 # %% Running it
 run_rslds(
     subject,
