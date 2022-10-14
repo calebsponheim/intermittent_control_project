@@ -25,8 +25,8 @@ num_latent_dims_rslds = 12
 num_discrete_states_rslds = 8
 num_latent_dims_slds = 0
 num_discrete_states_slds = 0
-num_latent_dims_lds = 0
-num_discrete_states_hmm = 0
+num_latent_dims_lds = 55
+num_discrete_states_hmm = 22
 folds = int(1/test_portion)
 subject = 'rs'
 task = 'CO'
@@ -209,38 +209,38 @@ for iFold in np.arange(1, folds+1):
     lds_test_ll.append(lls)
     print("Created LDS Model")
 
-    # SLDS
-    model = ssm.SLDS(observation_dimensions, num_discrete_states_slds, num_latent_dims_slds,
-                     emissions="poisson",
-                     single_subspace=True)
-    model.initialize(trainset)
-    q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
-                                               variational_posterior="structured_meanfield",
-                                               num_iters=25)
+    # # SLDS
+    # model = ssm.SLDS(observation_dimensions, num_discrete_states_slds, num_latent_dims_slds,
+    #                  emissions="poisson",
+    #                  single_subspace=True)
+    # model.initialize(trainset)
+    # q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
+    #                                            variational_posterior="structured_meanfield",
+    #                                            num_iters=25)
 
-    inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in testset]
-    masks = []
-    for y in testset:
-        mask = np.ones_like(y)
-        mask = mask.astype(bool)
-        masks.append(mask)
+    # inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in testset]
+    # masks = []
+    # for y in testset:
+    #     mask = np.ones_like(y)
+    #     mask = mask.astype(bool)
+    #     masks.append(mask)
 
-    _elbos, _q_model = model.approximate_posterior(
-        testset,
-        method="laplace_em",
-        variational_posterior="structured_meanfield",
-        num_iters=25, alpha=0.5)
+    # _elbos, _q_model = model.approximate_posterior(
+    #     testset,
+    #     method="laplace_em",
+    #     variational_posterior="structured_meanfield",
+    #     num_iters=25, alpha=0.5)
 
-    lls = 0.0
-    for tr in range(len(testset)):
-        ll = np.sum(model.emissions.log_likelihoods(testset[tr],
-                                                    inputs[tr],
-                                                    mask=masks[tr],
-                                                    tag=None,
-                                                    x=_q_model.mean_continuous_states[tr]))
-        lls += ll
-    slds_test_ll.append(lls)
-    print("Created SLDS Model")
+    # lls = 0.0
+    # for tr in range(len(testset)):
+    #     ll = np.sum(model.emissions.log_likelihoods(testset[tr],
+    #                                                 inputs[tr],
+    #                                                 mask=masks[tr],
+    #                                                 tag=None,
+    #                                                 x=_q_model.mean_continuous_states[tr]))
+    #     lls += ll
+    # slds_test_ll.append(lls)
+    # print("Created SLDS Model")
 
     # rSLDS
     model = ssm.SLDS(observation_dimensions, num_discrete_states_rslds, num_latent_dims_rslds,
@@ -286,9 +286,9 @@ hmm_test_ll_out.to_csv(
 lds_test_ll_out = pd.DataFrame(lds_test_ll)
 lds_test_ll_out.to_csv(
     folderpath_out + 'lds_test_ll_for_model_comparison.csv', index=False, header=True)
-slds_test_ll_out = pd.DataFrame(slds_test_ll)
-slds_test_ll_out.to_csv(
-    folderpath_out + 'slds_test_ll_for_model_comparison.csv', index=False, header=True)
+# slds_test_ll_out = pd.DataFrame(slds_test_ll)
+# slds_test_ll_out.to_csv(
+#     folderpath_out + 'slds_test_ll_for_model_comparison.csv', index=False, header=True)
 rslds_test_ll_out = pd.DataFrame(rslds_test_ll)
 rslds_test_ll_out.to_csv(
     folderpath_out + 'rslds_test_ll_for_model_comparison.csv', index=False, header=True)
