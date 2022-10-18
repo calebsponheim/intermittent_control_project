@@ -12,8 +12,9 @@ filepath = [filepath_base 'RSRTP0.05sBins\'];
 meta.subject = 'RS';
 meta.task = 'RTP';
 meta.crosstrain = 0;
-meta.move_only = 1;
+meta.move_only = 0;
 meta.use_rslds = 0;
+meta.session = 'not';
 %% Create Plot Figure Results Folder
 if meta.crosstrain == 0 
     if meta.move_only == 1
