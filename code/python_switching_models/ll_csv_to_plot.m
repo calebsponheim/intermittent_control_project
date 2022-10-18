@@ -46,7 +46,7 @@ for iFolder = 1:length(ll_files_list)
         % put data in correct x,y,and x positions based on state, dim, and
         % folds in this given file and path.
 %         disp(length(temp(:,1)))
-        if length(temp(:,1)) >= 4
+        if length(temp(:,1)) >= 2
             bits_per_spike(temp_bits_dim_num,temp_bits_state_num) = mean(temp(:,1));
         end
     end
@@ -79,6 +79,7 @@ grid on
 box off
 hold off
 saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf.png']);
+saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf_interactive.fig']);
 
 % %% 3D focused
 % colors = hsv(size(bits_per_spike,2));

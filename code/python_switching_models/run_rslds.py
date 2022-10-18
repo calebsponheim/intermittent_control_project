@@ -169,12 +169,8 @@ def run_rslds(
         frames = [log_likelihood_emissions_sum, latent_dims]
         log_likelihood_emissions_sum = pd.concat(frames, axis=1)
 
-        if fold_number == 1:
-            log_likelihood_emissions_sum.to_csv(folderpath_out + str(number_of_discrete_states) +
-                                                "_states_test_emissions_ll.csv", index=False, header=False)
-        elif fold_number > 1:
-            log_likelihood_emissions_sum.to_csv(folderpath_out + str(number_of_discrete_states) +
-                                                "_states_test_emissions_ll.csv", mode='a', index=False, header=False)
+        log_likelihood_emissions_sum.to_csv(folderpath_out + str(number_of_discrete_states) +
+                                            "_states_test_emissions_ll_fold_" + str(fold_number) + ".csv", index=False, header=False)
 
     # %% Running RSLDS
     if midway_run == 0:
