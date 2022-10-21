@@ -21,13 +21,14 @@ import ssm
 
 train_portion = 0.8
 test_portion = 0.2
-num_latent_dims_rslds = 12
-num_discrete_states_rslds = 8
-num_latent_dims_slds = 0
-num_discrete_states_slds = 0
-num_latent_dims_lds = 55
-num_discrete_states_hmm = 22
-folds = int(1/test_portion)
+num_latent_dims_rslds = 2
+num_discrete_states_rslds = 2
+num_latent_dims_slds = 2
+num_discrete_states_slds = 2
+num_latent_dims_lds = 2
+num_discrete_states_hmm = 2
+trial_folds = int(1/test_portion)
+neuron_folds = 4
 subject = 'rs'
 task = 'CO'
 
@@ -79,10 +80,8 @@ if str(num_discrete_states_rslds) + "_states_" + str(num_latent_dims_rslds) + "_
     os.mkdir(figurepath + str(num_discrete_states_rslds) +
              "_states_" + str(num_latent_dims_rslds) + "_dims/")
 
-folderpath_out = folderpath + str(num_discrete_states_rslds) + \
-    "_states_" + str(num_latent_dims_rslds) + "_dims/"
-figurepath = figurepath + str(num_discrete_states_rslds) + \
-    "_states_" + str(num_latent_dims_rslds) + "_dims/"
+folderpath_out = folderpath
+figurepath = figurepath
 
 
 class meta:
@@ -123,7 +122,7 @@ elif 'multifold_trial_classification.csv' not in temp_datafolderlist:
     multifold_shuffled_order_out.to_csv(
         folderpath_out + 'multifold_trial_classification.csv', index=False, header=True)
 
-for iFold in np.arange(1, folds+1):
+for iFold in np.arange(1, trial_folds+1):
     # bring in which fold it is
     # take that segment of data
     fold_test_data_range_start = int((
