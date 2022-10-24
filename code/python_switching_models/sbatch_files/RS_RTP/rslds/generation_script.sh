@@ -17,6 +17,10 @@ do
 			printf "#SBATCH --time=36:00:00\n#SBATCH --mem-per-cpu=48G\n#SBATCH --account=pi-nicho\n#SBATCH --partition=caslake\n" >> sbatch_dims_2-80_state_${iState}_fold_${iFold}_train-model_${iPickle}.sh
 			printf "module load python/anaconda-2021.05\nsource activate /project/nicho/caleb/git/intermittent_control_project/data/ssm_midway_python_environment/\n" >> sbatch_dims_2-80_state_${iState}_fold_${iFold}_train-model_${iPickle}.sh
 			printf "python /project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py \$SLURM_ARRAY_TASK_ID %i %i %s %s %i" $iFold $iState $subject $taskname $iPickle>> sbatch_dims_2-80_state_${iState}_fold_${iFold}_train-model_${iPickle}.sh
+			if [[ $iPickle -eq 1 ]];
+			then
+				printf "sbatch --dependency=afterany:\$SLURM_JOB_ID sbatch_dims_2-80_state_${iState}_fold_${iFold}_train-model_0" >> sbatch_dims_2-80_state_${iState}_fold_${iFold}_train-model_${iPickle}.sh				
+			fi
 		done
 	done
 done
