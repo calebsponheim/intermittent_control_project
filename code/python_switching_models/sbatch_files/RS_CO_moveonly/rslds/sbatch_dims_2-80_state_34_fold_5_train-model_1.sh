@@ -1,3 +1,6 @@
+#!/bin/bash
+#SBATCH --job-name=34_5
+#SBATCH --array=2-80:2
 #SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rs_CO/rSLDS_%a_34.out
 #SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_CO/rSLDS_%a_34.err
 #SBATCH --time=36:00:00
