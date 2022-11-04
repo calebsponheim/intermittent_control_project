@@ -11,6 +11,7 @@ def import_matlab_data(folderpath):
     import csv
     from os import listdir
     from os.path import isfile, join
+    import pandas as pd
 
     spikefiles = [
         f
@@ -53,43 +54,12 @@ def import_matlab_data(folderpath):
     x_by_trial = []
     y_by_trial = []
     speed_by_trial = []
-    x_concatenated = []
-    y_concatenated = []
-    speed_concatenated = []
 
     for iFile in kinfiles:
-        x_ind_file = []
-        y_ind_file = []
-        speed_ind_file = []
-        with open(folderpath + iFile) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=",")
-            line_count = 0
-            for row in csv_reader:
-                for i in range(0, len(row)):
-                    row[i] = float(row[i])
-
-                if line_count == 0:
-                    x_ind_file = row
-                    if file_count == 0:
-                        x_concatenated.append(row)
-                    else:
-                        x_concatenated[0].extend(row)
-                elif line_count == 1:
-                    y_ind_file = row
-                    if file_count == 0:
-                        y_concatenated.append(row)
-                    else:
-                        y_concatenated[0].extend(row)
-                elif line_count == 2:
-                    speed_ind_file = row
-                    if file_count == 0:
-                        speed_concatenated.append(row)
-                    else:
-                        speed_concatenated[0].extend(row)
-                line_count += 1
-        x_by_trial.append(x_ind_file)
-        y_by_trial.append(y_ind_file)
-        speed_by_trial.append(speed_ind_file)
+        kinematics = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
+        x_by_trial.append(kinematics[:, 0])
+        y_by_trial.append(kinematics[:, 1])
+        speed_by_trial.append(kinematics[:, 2])
 
         file_count += 1
         if file_count % 10 == 0:
