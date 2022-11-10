@@ -6,7 +6,10 @@ if contains(filepath,'(Work)')
 else
     filepath_base = 'C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\';
 end
-
+if contains(filepath,'RSCO')
+    data.subject = 'RS';
+    data.task = 'CO';
+end
 if contains(filepath,'move')
     move_window = 1;
 else
@@ -64,7 +67,7 @@ try strcmp(data.meta.subject,'Bx')
             y_smoothed = data.data(iTrial).y_smoothed;
             speed = data.data(iTrial).speed;
             filename = [save_folder 'trial' iTrial_string '_kinematics.csv'];
-            writematrix(vertcat(x_smoothed,y_smoothed,speed),filename)
+            writematrix(horzcat(x_smoothed,y_smoothed,speed),filename)
 
             % Events
             trial_start_ms = data.data(iTrial).trial_start_ms;
@@ -121,7 +124,7 @@ catch
         else
             filename = [filepath_base data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
         end
-        writematrix(vertcat(x_smoothed,y_smoothed,speed),filename)
+        writematrix(horzcat(x_smoothed,y_smoothed,speed),filename)
 
         disp(iTrial)
     end
