@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=4_5
-#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rs_RTP/rSLDS_4_dims_4_states_fold_5.out
-#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_RTP/rSLDS_4_dims_4_states_fold_5.err
+#SBATCH --job-name=4_4_5_1
+#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rs_RTP/rSLDS_4_dims_4_states_fold_5_1.out
+#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_RTP/rSLDS_4_dims_4_states_fold_5_1.err
 #SBATCH --time=1:00:00
 #SBATCH --mem-per-cpu=48G
 #SBATCH --account=pi-nicho
