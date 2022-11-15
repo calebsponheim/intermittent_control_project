@@ -40,7 +40,7 @@ def import_matlab_data(folderpath):
                 line_count += 1
         data_by_trial.append(data_ind_file)
         file_count += 1
-        if file_count % 10 == 0:
+        if file_count % 100 == 0:
             print(f"Processed spikes from trial {file_count}.")
 
     # %% Import Kinematics into the equation
@@ -62,7 +62,7 @@ def import_matlab_data(folderpath):
         speed_by_trial.append(kinematics[:, 2])
 
         file_count += 1
-        if file_count % 10 == 0:
+        if file_count % 100 == 0:
             print(f"Processed Kinematics from trial {file_count}")
 
     # %% export

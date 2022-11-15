@@ -45,7 +45,7 @@ def run_cosmoothing(model, ys, neuron_classification, inputs=None, cs_frac=0.8):
             ys, inputs=inputs, masks=masks,
             method="laplace_em",
             variational_posterior="structured_meanfield",
-            num_iters=50, alpha=0.5)
+            num_iters=15, alpha=0.5)
 
         # compute log likelihood of heldout neurons
 
@@ -96,7 +96,7 @@ def rslds_cosmoothing(data, trial_classification, meta, bin_size,
         model.initialize(trainset)
         q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
                                                    variational_posterior="structured_meanfield",
-                                                   initialize=False, num_iters=50)
+                                                   initialize=False, num_iters=15)
 
         # %% Pickle!
         filename = folderpath_out + 'fold_' + str(fold_number) + '_model'
