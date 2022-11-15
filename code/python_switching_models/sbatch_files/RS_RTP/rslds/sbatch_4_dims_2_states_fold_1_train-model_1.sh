@@ -9,4 +9,4 @@
 module load python/anaconda-2021.05
 source activate /project/nicho/caleb/git/intermittent_control_project/data/ssm_midway_python_environment/
 python /project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py 4 1 2 rs RTP 1
-sbatch --dependency=afterany:$SLURM_JOB_ID sbatch_4_dims_2_states_1_folds_train-model_0.sh
+sbatch --dependency=afterany:$SLURM_JOB_ID sbatch_4_dims_2_states_fold_1_train-model_0.sh
