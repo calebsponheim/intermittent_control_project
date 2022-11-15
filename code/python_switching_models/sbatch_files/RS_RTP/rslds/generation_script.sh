@@ -26,7 +26,7 @@ do
 				printf "python /project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py %i %i %i %s %s %i\n" $iDim $iFold $iState $subject $taskname $iPickle>> sbatch_${iDim}_dims_${iState}_states_fold_${iFold}_train-model_${iPickle}.sh
 				if [[ $iPickle -eq 1 ]];
 				then
-					printf "sbatch --dependency=afterany:\$SLURM_JOB_ID sbatch_${iDim}_dims_${iState}_states_${iFold}_folds_train-model_0.sh" >> sbatch_${iDim}_dims_${iState}_states_fold_${iFold}_train-model_${iPickle}.sh				
+					printf "sbatch --dependency=afterany:\$SLURM_JOB_ID sbatch_${iDim}_dims_${iState}_states_fold_${iFold}_train-model_0.sh" >> sbatch_${iDim}_dims_${iState}_states_fold_${iFold}_train-model_${iPickle}.sh				
 				elif [[ $iPickle -eq 0 ]]
 				then
 					if [[ $iDim < 80 ]]
