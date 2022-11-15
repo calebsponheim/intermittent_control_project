@@ -1,626 +1,0 @@
-Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 20, in <module>
-    run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 93, in run_rslds
-    os.mkdir(folderpath + str(num_hidden_state_override) +
-FileExistsError: [Errno 17] File exists: '/project/nicho/caleb/git/intermittent_control_project/data/python_switching_models/RSRTP0.05sBins/30_states_77_dims/'
-Processed spikes from trial 10.
-Processed spikes from trial 20.
-Processed spikes from trial 30.
-Processed spikes from trial 40.
-Processed spikes from trial 50.
-Processed spikes from trial 60.
-Processed spikes from trial 70.
-Processed spikes from trial 80.
-Processed spikes from trial 90.
-Processed spikes from trial 100.
-Processed spikes from trial 110.
-Processed spikes from trial 120.
-Processed spikes from trial 130.
-Processed spikes from trial 140.
-Processed spikes from trial 150.
-Processed spikes from trial 160.
-Processed spikes from trial 170.
-Processed spikes from trial 180.
-Processed spikes from trial 190.
-Processed spikes from trial 200.
-Processed spikes from trial 210.
-Processed spikes from trial 220.
-Processed spikes from trial 230.
-Processed spikes from trial 240.
-Processed spikes from trial 250.
-Processed spikes from trial 260.
-Processed spikes from trial 270.
-Processed spikes from trial 280.
-Processed spikes from trial 290.
-Processed spikes from trial 300.
-Processed spikes from trial 310.
-Processed spikes from trial 320.
-Processed spikes from trial 330.
-Processed spikes from trial 340.
-Processed spikes from trial 350.
-Processed spikes from trial 360.
-Processed spikes from trial 370.
-Processed spikes from trial 380.
-Processed spikes from trial 390.
-Processed spikes from trial 400.
-Processed spikes from trial 410.
-Processed spikes from trial 420.
-Processed spikes from trial 430.
-Processed spikes from trial 440.
-Processed spikes from trial 450.
-Processed spikes from trial 460.
-Processed spikes from trial 470.
-Processed spikes from trial 480.
-Processed spikes from trial 490.
-Processed spikes from trial 500.
-Processed spikes from trial 510.
-Processed spikes from trial 520.
-Processed spikes from trial 530.
-Processed spikes from trial 540.
-Processed spikes from trial 550.
-Processed spikes from trial 560.
-Processed spikes from trial 570.
-Processed spikes from trial 580.
-Processed spikes from trial 590.
-Processed spikes from trial 600.
-Processed spikes from trial 610.
-Processed spikes from trial 620.
-Processed spikes from trial 630.
-Processed spikes from trial 640.
-Processed spikes from trial 650.
-Processed spikes from trial 660.
-Processed spikes from trial 670.
-Processed spikes from trial 680.
-Processed spikes from trial 690.
-Processed spikes from trial 700.
-Processed spikes from trial 710.
-Processed spikes from trial 720.
-Processed spikes from trial 730.
-Processed spikes from trial 740.
-Processed spikes from trial 750.
-Processed spikes from trial 760.
-Processed spikes from trial 770.
-Processed Kinematics from trial 10
-Processed Kinematics from trial 20
-Processed Kinematics from trial 30
-Processed Kinematics from trial 40
-Processed Kinematics from trial 50
-Processed Kinematics from trial 60
-Processed Kinematics from trial 70
-Processed Kinematics from trial 80
-Processed Kinematics from trial 90
-Processed Kinematics from trial 100
-Processed Kinematics from trial 110
-Processed Kinematics from trial 120
-Processed Kinematics from trial 130
-Processed Kinematics from trial 140
-Processed Kinematics from trial 150
-Processed Kinematics from trial 160
-Processed Kinematics from trial 170
-Processed Kinematics from trial 180
-Processed Kinematics from trial 190
-Processed Kinematics from trial 200
-Processed Kinematics from trial 210
-Processed Kinematics from trial 220
-Processed Kinematics from trial 230
-Processed Kinematics from trial 240
-Processed Kinematics from trial 250
-Processed Kinematics from trial 260
-Processed Kinematics from trial 270
-Processed Kinematics from trial 280
-Processed Kinematics from trial 290
-Processed Kinematics from trial 300
-Processed Kinematics from trial 310
-Processed Kinematics from trial 320
-Processed Kinematics from trial 330
-Processed Kinematics from trial 340
-Processed Kinematics from trial 350
-Processed Kinematics from trial 360
-Processed Kinematics from trial 370
-Processed Kinematics from trial 380
-Processed Kinematics from trial 390
-Processed Kinematics from trial 400
-Processed Kinematics from trial 410
-Processed Kinematics from trial 420
-Processed Kinematics from trial 430
-Processed Kinematics from trial 440
-Processed Kinematics from trial 450
-Processed Kinematics from trial 460
-Processed Kinematics from trial 470
-Processed Kinematics from trial 480
-Processed Kinematics from trial 490
-Processed Kinematics from trial 500
-Processed Kinematics from trial 510
-Processed Kinematics from trial 520
-Processed Kinematics from trial 530
-Processed Kinematics from trial 540
-Processed Kinematics from trial 550
-Processed Kinematics from trial 560
-Processed Kinematics from trial 570
-Processed Kinematics from trial 580
-Processed Kinematics from trial 590
-Processed Kinematics from trial 600
-Processed Kinematics from trial 610
-Processed Kinematics from trial 620
-Processed Kinematics from trial 630
-Processed Kinematics from trial 640
-Processed Kinematics from trial 650
-Processed Kinematics from trial 660
-Processed Kinematics from trial 670
-Processed Kinematics from trial 680
-Processed Kinematics from trial 690
-Processed Kinematics from trial 700
-Processed Kinematics from trial 710
-Processed Kinematics from trial 720
-Processed Kinematics from trial 730
-Processed Kinematics from trial 740
-Processed Kinematics from trial 750
-Processed Kinematics from trial 760
-Processed Kinematics from trial 770
-  0%|          | 0/100 [00:00<?, ?it/s]ELBO: -14081651.0:   0%|          | 0/100 [00:00<?, ?it/s]Processed spikes from trial 10.
-Processed spikes from trial 20.
-Processed spikes from trial 30.
-Processed spikes from trial 40.
-Processed spikes from trial 50.
-Processed spikes from trial 60.
-Processed spikes from trial 70.
-Processed spikes from trial 80.
-Processed spikes from trial 90.
-Processed spikes from trial 100.
-Processed spikes from trial 110.
-Processed spikes from trial 120.
-Processed spikes from trial 130.
-Processed spikes from trial 140.
-Processed spikes from trial 150.
-Processed spikes from trial 160.
-Processed spikes from trial 170.
-Processed spikes from trial 180.
-Processed spikes from trial 190.
-Processed spikes from trial 200.
-Processed spikes from trial 210.
-Processed spikes from trial 220.
-Processed spikes from trial 230.
-Processed spikes from trial 240.
-Processed spikes from trial 250.
-Processed spikes from trial 260.
-Processed spikes from trial 270.
-Processed spikes from trial 280.
-Processed spikes from trial 290.
-Processed spikes from trial 300.
-Processed spikes from trial 310.
-Processed spikes from trial 320.
-Processed spikes from trial 330.
-Processed spikes from trial 340.
-Processed spikes from trial 350.
-Processed spikes from trial 360.
-Processed spikes from trial 370.
-Processed spikes from trial 380.
-Processed spikes from trial 390.
-Processed spikes from trial 400.
-Processed spikes from trial 410.
-Processed spikes from trial 420.
-Processed spikes from trial 430.
-Processed spikes from trial 440.
-Processed spikes from trial 450.
-Processed spikes from trial 460.
-Processed spikes from trial 470.
-Processed spikes from trial 480.
-Processed spikes from trial 490.
-Processed spikes from trial 500.
-Processed spikes from trial 510.
-Processed spikes from trial 520.
-Processed spikes from trial 530.
-Processed spikes from trial 540.
-Processed spikes from trial 550.
-Processed spikes from trial 560.
-Processed spikes from trial 570.
-Processed spikes from trial 580.
-Processed spikes from trial 590.
-Processed spikes from trial 600.
-Processed spikes from trial 610.
-Processed spikes from trial 620.
-Processed spikes from trial 630.
-Processed spikes from trial 640.
-Processed spikes from trial 650.
-Processed spikes from trial 660.
-Processed spikes from trial 670.
-Processed spikes from trial 680.
-Processed spikes from trial 690.
-Processed spikes from trial 700.
-Processed spikes from trial 710.
-Processed spikes from trial 720.
-Processed spikes from trial 730.
-Processed spikes from trial 740.
-Processed spikes from trial 750.
-Processed spikes from trial 760.
-Processed spikes from trial 770.
-Processed Kinematics from trial 10
-Processed Kinematics from trial 20
-Processed Kinematics from trial 30
-Processed Kinematics from trial 40
-Processed Kinematics from trial 50
-Processed Kinematics from trial 60
-Processed Kinematics from trial 70
-Processed Kinematics from trial 80
-Processed Kinematics from trial 90
-Processed Kinematics from trial 100
-Processed Kinematics from trial 110
-Processed Kinematics from trial 120
-Processed Kinematics from trial 130
-Processed Kinematics from trial 140
-Processed Kinematics from trial 150
-Processed Kinematics from trial 160
-Processed Kinematics from trial 170
-Processed Kinematics from trial 180
-Processed Kinematics from trial 190
-Processed Kinematics from trial 200
-Processed Kinematics from trial 210
-Processed Kinematics from trial 220
-Processed Kinematics from trial 230
-Processed Kinematics from trial 240
-Processed Kinematics from trial 250
-Processed Kinematics from trial 260
-Processed Kinematics from trial 270
-Processed Kinematics from trial 280
-Processed Kinematics from trial 290
-Processed Kinematics from trial 300
-Processed Kinematics from trial 310
-Processed Kinematics from trial 320
-Processed Kinematics from trial 330
-Processed Kinematics from trial 340
-Processed Kinematics from trial 350
-Processed Kinematics from trial 360
-Processed Kinematics from trial 370
-Processed Kinematics from trial 380
-Processed Kinematics from trial 390
-Processed Kinematics from trial 400
-Processed Kinematics from trial 410
-Processed Kinematics from trial 420
-Processed Kinematics from trial 430
-Processed Kinematics from trial 440
-Processed Kinematics from trial 450
-Processed Kinematics from trial 460
-Processed Kinematics from trial 470
-Processed Kinematics from trial 480
-Processed Kinematics from trial 490
-Processed Kinematics from trial 500
-Processed Kinematics from trial 510
-Processed Kinematics from trial 520
-Processed Kinematics from trial 530
-Processed Kinematics from trial 540
-Processed Kinematics from trial 550
-Processed Kinematics from trial 560
-Processed Kinematics from trial 570
-Processed Kinematics from trial 580
-Processed Kinematics from trial 590
-Processed Kinematics from trial 600
-Processed Kinematics from trial 610
-Processed Kinematics from trial 620
-Processed Kinematics from trial 630
-Processed Kinematics from trial 640
-Processed Kinematics from trial 650
-Processed Kinematics from trial 660
-Processed Kinematics from trial 670
-Processed Kinematics from trial 680
-Processed Kinematics from trial 690
-Processed Kinematics from trial 700
-Processed Kinematics from trial 710
-Processed Kinematics from trial 720
-Processed Kinematics from trial 730
-Processed Kinematics from trial 740
-Processed Kinematics from trial 750
-Processed Kinematics from trial 760
-Processed Kinematics from trial 770
-  0%|          | 0/100 [00:00<?, ?it/s]ELBO: -14021154.1:   0%|          | 0/100 [00:00<?, ?it/s]Processed spikes from trial 10.
-Processed spikes from trial 20.
-Processed spikes from trial 30.
-Processed spikes from trial 40.
-Processed spikes from trial 50.
-Processed spikes from trial 60.
-Processed spikes from trial 70.
-Processed spikes from trial 80.
-Processed spikes from trial 90.
-Processed spikes from trial 100.
-Processed spikes from trial 110.
-Processed spikes from trial 120.
-Processed spikes from trial 130.
-Processed spikes from trial 140.
-Processed spikes from trial 150.
-Processed spikes from trial 160.
-Processed spikes from trial 170.
-Processed spikes from trial 180.
-Processed spikes from trial 190.
-Processed spikes from trial 200.
-Processed spikes from trial 210.
-Processed spikes from trial 220.
-Processed spikes from trial 230.
-Processed spikes from trial 240.
-Processed spikes from trial 250.
-Processed spikes from trial 260.
-Processed spikes from trial 270.
-Processed spikes from trial 280.
-Processed spikes from trial 290.
-Processed spikes from trial 300.
-Processed spikes from trial 310.
-Processed spikes from trial 320.
-Processed spikes from trial 330.
-Processed spikes from trial 340.
-Processed spikes from trial 350.
-Processed spikes from trial 360.
-Processed spikes from trial 370.
-Processed spikes from trial 380.
-Processed spikes from trial 390.
-Processed spikes from trial 400.
-Processed spikes from trial 410.
-Processed spikes from trial 420.
-Processed spikes from trial 430.
-Processed spikes from trial 440.
-Processed spikes from trial 450.
-Processed spikes from trial 460.
-Processed spikes from trial 470.
-Processed spikes from trial 480.
-Processed spikes from trial 490.
-Processed spikes from trial 500.
-Processed spikes from trial 510.
-Processed spikes from trial 520.
-Processed spikes from trial 530.
-Processed spikes from trial 540.
-Processed spikes from trial 550.
-Processed spikes from trial 560.
-Processed spikes from trial 570.
-Processed spikes from trial 580.
-Processed spikes from trial 590.
-Processed spikes from trial 600.
-Processed spikes from trial 610.
-Processed spikes from trial 620.
-Processed spikes from trial 630.
-Processed spikes from trial 640.
-Processed spikes from trial 650.
-Processed spikes from trial 660.
-Processed spikes from trial 670.
-Processed spikes from trial 680.
-Processed spikes from trial 690.
-Processed spikes from trial 700.
-Processed spikes from trial 710.
-Processed spikes from trial 720.
-Processed spikes from trial 730.
-Processed spikes from trial 740.
-Processed spikes from trial 750.
-Processed spikes from trial 760.
-Processed spikes from trial 770.
-Processed Kinematics from trial 10
-Processed Kinematics from trial 20
-Processed Kinematics from trial 30
-Processed Kinematics from trial 40
-Processed Kinematics from trial 50
-Processed Kinematics from trial 60
-Processed Kinematics from trial 70
-Processed Kinematics from trial 80
-Processed Kinematics from trial 90
-Processed Kinematics from trial 100
-Processed Kinematics from trial 110
-Processed Kinematics from trial 120
-Processed Kinematics from trial 130
-Processed Kinematics from trial 140
-Processed Kinematics from trial 150
-Processed Kinematics from trial 160
-Processed Kinematics from trial 170
-Processed Kinematics from trial 180
-Processed Kinematics from trial 190
-Processed Kinematics from trial 200
-Processed Kinematics from trial 210
-Processed Kinematics from trial 220
-Processed Kinematics from trial 230
-Processed Kinematics from trial 240
-Processed Kinematics from trial 250
-Processed Kinematics from trial 260
-Processed Kinematics from trial 270
-Processed Kinematics from trial 280
-Processed Kinematics from trial 290
-Processed Kinematics from trial 300
-Processed Kinematics from trial 310
-Processed Kinematics from trial 320
-Processed Kinematics from trial 330
-Processed Kinematics from trial 340
-Processed Kinematics from trial 350
-Processed Kinematics from trial 360
-Processed Kinematics from trial 370
-Processed Kinematics from trial 380
-Processed Kinematics from trial 390
-Processed Kinematics from trial 400
-Processed Kinematics from trial 410
-Processed Kinematics from trial 420
-Processed Kinematics from trial 430
-Processed Kinematics from trial 440
-Processed Kinematics from trial 450
-Processed Kinematics from trial 460
-Processed Kinematics from trial 470
-Processed Kinematics from trial 480
-Processed Kinematics from trial 490
-Processed Kinematics from trial 500
-Processed Kinematics from trial 510
-Processed Kinematics from trial 520
-Processed Kinematics from trial 530
-Processed Kinematics from trial 540
-Processed Kinematics from trial 550
-Processed Kinematics from trial 560
-Processed Kinematics from trial 570
-Processed Kinematics from trial 580
-Processed Kinematics from trial 590
-Processed Kinematics from trial 600
-Processed Kinematics from trial 610
-Processed Kinematics from trial 620
-Processed Kinematics from trial 630
-Processed Kinematics from trial 640
-Processed Kinematics from trial 650
-Processed Kinematics from trial 660
-Processed Kinematics from trial 670
-Processed Kinematics from trial 680
-Processed Kinematics from trial 690
-Processed Kinematics from trial 700
-Processed Kinematics from trial 710
-Processed Kinematics from trial 720
-Processed Kinematics from trial 730
-Processed Kinematics from trial 740
-Processed Kinematics from trial 750
-Processed Kinematics from trial 760
-Processed Kinematics from trial 770
-  0%|          | 0/100 [00:00<?, ?it/s]ELBO: -14096007.8:   0%|          | 0/100 [00:00<?, ?it/s]Processed spikes from trial 10.
-Processed spikes from trial 20.
-Processed spikes from trial 30.
-Processed spikes from trial 40.
-Processed spikes from trial 50.
-Processed spikes from trial 60.
-Processed spikes from trial 70.
-Processed spikes from trial 80.
-Processed spikes from trial 90.
-Processed spikes from trial 100.
-Processed spikes from trial 110.
-Processed spikes from trial 120.
-Processed spikes from trial 130.
-Processed spikes from trial 140.
-Processed spikes from trial 150.
-Processed spikes from trial 160.
-Processed spikes from trial 170.
-Processed spikes from trial 180.
-Processed spikes from trial 190.
-Processed spikes from trial 200.
-Processed spikes from trial 210.
-Processed spikes from trial 220.
-Processed spikes from trial 230.
-Processed spikes from trial 240.
-Processed spikes from trial 250.
-Processed spikes from trial 260.
-Processed spikes from trial 270.
-Processed spikes from trial 280.
-Processed spikes from trial 290.
-Processed spikes from trial 300.
-Processed spikes from trial 310.
-Processed spikes from trial 320.
-Processed spikes from trial 330.
-Processed spikes from trial 340.
-Processed spikes from trial 350.
-Processed spikes from trial 360.
-Processed spikes from trial 370.
-Processed spikes from trial 380.
-Processed spikes from trial 390.
-Processed spikes from trial 400.
-Processed spikes from trial 410.
-Processed spikes from trial 420.
-Processed spikes from trial 430.
-Processed spikes from trial 440.
-Processed spikes from trial 450.
-Processed spikes from trial 460.
-Processed spikes from trial 470.
-Processed spikes from trial 480.
-Processed spikes from trial 490.
-Processed spikes from trial 500.
-Processed spikes from trial 510.
-Processed spikes from trial 520.
-Processed spikes from trial 530.
-Processed spikes from trial 540.
-Processed spikes from trial 550.
-Processed spikes from trial 560.
-Processed spikes from trial 570.
-Processed spikes from trial 580.
-Processed spikes from trial 590.
-Processed spikes from trial 600.
-Processed spikes from trial 610.
-Processed spikes from trial 620.
-Processed spikes from trial 630.
-Processed spikes from trial 640.
-Processed spikes from trial 650.
-Processed spikes from trial 660.
-Processed spikes from trial 670.
-Processed spikes from trial 680.
-Processed spikes from trial 690.
-Processed spikes from trial 700.
-Processed spikes from trial 710.
-Processed spikes from trial 720.
-Processed spikes from trial 730.
-Processed spikes from trial 740.
-Processed spikes from trial 750.
-Processed spikes from trial 760.
-Processed spikes from trial 770.
-Processed Kinematics from trial 10
-Processed Kinematics from trial 20
-Processed Kinematics from trial 30
-Processed Kinematics from trial 40
-Processed Kinematics from trial 50
-Processed Kinematics from trial 60
-Processed Kinematics from trial 70
-Processed Kinematics from trial 80
-Processed Kinematics from trial 90
-Processed Kinematics from trial 100
-Processed Kinematics from trial 110
-Processed Kinematics from trial 120
-Processed Kinematics from trial 130
-Processed Kinematics from trial 140
-Processed Kinematics from trial 150
-Processed Kinematics from trial 160
-Processed Kinematics from trial 170
-Processed Kinematics from trial 180
-Processed Kinematics from trial 190
-Processed Kinematics from trial 200
-Processed Kinematics from trial 210
-Processed Kinematics from trial 220
-Processed Kinematics from trial 230
-Processed Kinematics from trial 240
-Processed Kinematics from trial 250
-Processed Kinematics from trial 260
-Processed Kinematics from trial 270
-Processed Kinematics from trial 280
-Processed Kinematics from trial 290
-Processed Kinematics from trial 300
-Processed Kinematics from trial 310
-Processed Kinematics from trial 320
-Processed Kinematics from trial 330
-Processed Kinematics from trial 340
-Processed Kinematics from trial 350
-Processed Kinematics from trial 360
-Processed Kinematics from trial 370
-Processed Kinematics from trial 380
-Processed Kinematics from trial 390
-Processed Kinematics from trial 400
-Processed Kinematics from trial 410
-Processed Kinematics from trial 420
-Processed Kinematics from trial 430
-Processed Kinematics from trial 440
-Processed Kinematics from trial 450
-Processed Kinematics from trial 460
-Processed Kinematics from trial 470
-Processed Kinematics from trial 480
-Processed Kinematics from trial 490
-Processed Kinematics from trial 500
-Processed Kinematics from trial 510
-Processed Kinematics from trial 520
-Processed Kinematics from trial 530
-Processed Kinematics from trial 540
-Processed Kinematics from trial 550
-Processed Kinematics from trial 560
-Processed Kinematics from trial 570
-Processed Kinematics from trial 580
-Processed Kinematics from trial 590
-Processed Kinematics from trial 600
-Processed Kinematics from trial 610
-Processed Kinematics from trial 620
-Processed Kinematics from trial 630
-Processed Kinematics from trial 640
-Processed Kinematics from trial 650
-Processed Kinematics from trial 660
-Processed Kinematics from trial 670
-Processed Kinematics from trial 680
-Processed Kinematics from trial 690
-Processed Kinematics from trial 700
-Processed Kinematics from trial 710
-Processed Kinematics from trial 720
-Processed Kinematics from trial 730
-Processed Kinematics from trial 740
-Processed Kinematics from trial 750
-Processed Kinematics from trial 760
-Processed Kinematics from trial 770
-  0%|          | 0/100 [00:00<?, ?it/s]ELBO: -14173343.8:   0%|          | 0/100 [00:00<?, ?it/s]ELBO: -2810965.0:   0%|          | 0/100 [1:32:04<?, ?it/s]ELBO: -2810965.0:   1%|          | 1/100 [1:32:04<151:55:03, 5524.28s/it]ELBO: -2800051.0:   0%|          | 0/100 [1:31:57<?, ?it/s]ELBO: -2800051.0:   1%|          | 1/100 [1:31:57<151:43:33, 5517.31s/it]ELBO: -2811581.4:   0%|          | 0/100 [1:32:16<?, ?it/s]ELBO: -2811581.4:   1%|          | 1/100 [1:32:16<152:15:01, 5536.38s/it]ELBO: -2818985.5:   0%|          | 0/100 [1:32:58<?, ?it/s]ELBO: -2818985.5:   1%|          | 1/100 [1:32:58<153:25:06, 5578.85s/it]ELBO: -2735983.6:   1%|          | 1/100 [2:40:51<151:55:03, 5524.28s/it]ELBO: -2735983.6:   2%|▏         | 2/100 [2:40:51<128:00:57, 4702.63s/it]ELBO: -2723563.8:   1%|          | 1/100 [2:40:27<151:43:33, 5517.31s/it]ELBO: -2723563.8:   2%|▏         | 2/100 [2:40:27<127:39:34, 4689.53s/it]ELBO: -2736550.6:   1%|          | 1/100 [2:41:33<152:15:01, 5536.38s/it]ELBO: -2736550.6:   2%|▏         | 2/100 [2:41:33<128:37:18, 4724.88s/it]ELBO: -2745538.9:   1%|          | 1/100 [2:42:20<153:25:06, 5578.85s/it]ELBO: -2745538.9:   2%|▏         | 2/100 [2:42:20<129:10:57, 4745.48s/it]ELBO: -2707172.9:   2%|▏         | 2/100 [3:49:42<128:00:57, 4702.63s/it]ELBO: -2707172.9:   3%|▎         | 3/100 [3:49:42<119:40:22, 4441.47s/it]ELBO: -2702291.2:   2%|▏         | 2/100 [3:49:38<127:39:34, 4689.53s/it]ELBO: -2702291.2:   3%|▎         | 3/100 [3:49:38<119:43:48, 4443.59s/it]ELBO: -2711849.8:   2%|▏         | 2/100 [3:50:36<128:37:18, 4724.88s/it]ELBO: -2711849.8:   3%|▎         | 3/100 [3:50:36<120:08:54, 4459.12s/it]ELBO: -2718159.2:   2%|▏         | 2/100 [3:52:14<129:10:57, 4745.48s/it]ELBO: -2718159.2:   3%|▎         | 3/100 [3:52:14<121:04:07, 4493.27s/it]ELBO: -2694235.4:   3%|▎         | 3/100 [4:58:18<119:40:22, 4441.47s/it]ELBO: -2694235.4:   4%|▍         | 4/100 [4:58:18<115:00:46, 4312.99s/it]ELBO: -2685350.7:   3%|▎         | 3/100 [4:57:29<119:43:48, 4443.59s/it]ELBO: -2685350.7:   4%|▍         | 4/100 [4:57:29<114:34:30, 4296.56s/it]ELBO: -2695483.9:   3%|▎         | 3/100 [5:00:04<120:08:54, 4459.12s/it]ELBO: -2695483.9:   4%|▍         | 4/100 [5:00:04<115:51:11, 4344.49s/it]ELBO: -2704630.8:   3%|▎         | 3/100 [5:01:00<121:04:07, 4493.27s/it]ELBO: -2704630.8:   4%|▍         | 4/100 [5:01:00<115:57:40, 4348.55s/it]ELBO: -2680928.8:   4%|▍         | 4/100 [6:07:15<115:00:46, 4312.99s/it]ELBO: -2680928.8:   5%|▌         | 5/100 [6:07:15<112:08:15, 4249.43s/it]ELBO: -2675057.5:   4%|▍         | 4/100 [6:05:59<114:34:30, 4296.56s/it]ELBO: -2675057.5:   5%|▌         | 5/100 [6:05:59<111:36:24, 4229.32s/it]ELBO: -2685951.3:   4%|▍         | 4/100 [6:09:40<115:51:11, 4344.49s/it]ELBO: -2685951.3:   5%|▌         | 5/100 [6:09:40<113:02:33, 4283.72s/it]ELBO: -2689296.7:   4%|▍         | 4/100 [6:10:32<115:57:40, 4348.55s/it]ELBO: -2689296.7:   5%|▌         | 5/100 [6:10:32<113:04:26, 4284.91s/it]ELBO: -2667577.7:   5%|▌         | 5/100 [7:14:32<111:36:24, 4229.32s/it]ELBO: -2667577.7:   6%|▌         | 6/100 [7:14:32<109:23:43, 4189.61s/it]ELBO: -2677727.4:   5%|▌         | 5/100 [7:16:13<112:08:15, 4249.43s/it]ELBO: -2677727.4:   6%|▌         | 6/100 [7:16:13<109:58:10, 4211.60s/it]ELBO: -2678236.7:   5%|▌         | 5/100 [7:20:19<113:02:33, 4283.72s/it]ELBO: -2678236.7:   6%|▌         | 6/100 [7:20:19<111:27:14, 4268.46s/it]ELBO: -2681869.2:   5%|▌         | 5/100 [7:19:42<113:04:26, 4284.91s/it]ELBO: -2681869.2:   6%|▌         | 6/100 [7:19:42<110:40:47, 4238.80s/it]ELBO: -2661087.0:   6%|▌         | 6/100 [8:22:56<109:23:43, 4189.61s/it]ELBO: -2661087.0:   7%|▋         | 7/100 [8:22:56<107:30:54, 4161.88s/it]ELBO: -2664295.4:   6%|▌         | 6/100 [8:25:28<109:58:10, 4211.60s/it]ELBO: -2664295.4:   7%|▋         | 7/100 [8:25:28<108:19:22, 4193.14s/it]ELBO: -2675957.1:   6%|▌         | 6/100 [8:28:56<110:40:47, 4238.80s/it]ELBO: -2675957.1:   7%|▋         | 7/100 [8:28:56<108:47:20, 4211.19s/it]ELBO: -2672491.5:   6%|▌         | 6/100 [8:31:04<111:27:14, 4268.46s/it]ELBO: -2672491.5:   7%|▋         | 7/100 [8:31:04<110:04:00, 4260.66s/it]ELBO: -2652846.9:   7%|▋         | 7/100 [9:31:29<107:30:54, 4161.88s/it]ELBO: -2652846.9:   8%|▊         | 8/100 [9:31:29<105:57:17, 4146.06s/it]ELBO: -2659757.8:   7%|▋         | 7/100 [9:34:16<108:19:22, 4193.14s/it]ELBO: -2659757.8:   8%|▊         | 8/100 [9:34:16<106:37:52, 4172.53s/it]ELBO: -2667367.0:   7%|▋         | 7/100 [9:38:10<108:47:20, 4211.19s/it]ELBO: -2667367.0:   8%|▊         | 8/100 [9:38:10<107:09:11, 4192.95s/it]ELBO: -2660938.2:   7%|▋         | 7/100 [9:42:02<110:04:00, 4260.66s/it]ELBO: -2660938.2:   8%|▊         | 8/100 [9:42:02<108:52:03, 4260.03s/it]ELBO: -2645447.4:   8%|▊         | 8/100 [10:39:37<105:57:17, 4146.06s/it]ELBO: -2645447.4:   9%|▉         | 9/100 [10:39:37<104:20:43, 4127.95s/it]ELBO: -2650788.5:   8%|▊         | 8/100 [10:43:09<106:37:52, 4172.53s/it]ELBO: -2650788.5:   9%|▉         | 9/100 [10:43:09<105:09:14, 4159.94s/it]ELBO: -2659351.2:   8%|▊         | 8/100 [10:46:46<107:09:11, 4192.95s/it]ELBO: -2659351.2:   9%|▉         | 9/100 [10:46:46<105:22:58, 4168.99s/it]ELBO: -2655115.7:   8%|▊         | 8/100 [10:52:28<108:52:03, 4260.03s/it]ELBO: -2655115.7:   9%|▉         | 9/100 [10:52:28<107:24:43, 4249.27s/it]ELBO: -2641429.0:   9%|▉         | 9/100 [11:47:57<104:20:43, 4127.95s/it]ELBO: -2641429.0:  10%|█         | 10/100 [11:47:57<102:59:03, 4119.37s/it]ELBO: -2644495.5:   9%|▉         | 9/100 [11:51:53<105:09:14, 4159.94s/it]ELBO: -2644495.5:  10%|█         | 10/100 [11:51:53<103:43:20, 4148.89s/it]ELBO: -2655848.2:   9%|▉         | 9/100 [11:55:35<105:22:58, 4168.99s/it]ELBO: -2655848.2:  10%|█         | 10/100 [11:55:35<103:54:51, 4156.57s/it]ELBO: -2647895.4:   9%|▉         | 9/100 [12:03:07<107:24:43, 4249.27s/it]ELBO: -2647895.4:  10%|█         | 10/100 [12:03:07<106:09:20, 4246.23s/it]ELBO: -2632793.6:  10%|█         | 10/100 [12:55:58<102:59:03, 4119.37s/it]ELBO: -2632793.6:  11%|█         | 11/100 [12:55:58<101:33:15, 4107.82s/it]ELBO: -2640777.3:  10%|█         | 10/100 [13:00:48<103:43:20, 4148.89s/it]ELBO: -2640777.3:  11%|█         | 11/100 [13:00:48<102:27:55, 4144.67s/it]ELBO: -2647114.5:  10%|█         | 10/100 [13:04:22<103:54:51, 4156.57s/it]ELBO: -2647114.5:  11%|█         | 11/100 [13:04:22<102:32:10, 4147.53s/it]ELBO: -2640666.5:  10%|█         | 10/100 [13:14:27<106:09:20, 4246.23s/it]ELBO: -2640666.5:  11%|█         | 11/100 [13:14:27<105:13:50, 4256.52s/it]ELBO: -2630569.5:  11%|█         | 11/100 [14:04:23<101:33:15, 4107.82s/it]ELBO: -2630569.5:  12%|█▏        | 12/100 [14:04:23<100:23:29, 4106.92s/it]ELBO: -2633227.1:  11%|█         | 11/100 [14:09:28<102:27:55, 4144.67s/it]ELBO: -2633227.1:  12%|█▏        | 12/100 [14:09:28<101:08:03, 4137.31s/it]ELBO: -2643960.2:  11%|█         | 11/100 [14:13:21<102:32:10, 4147.53s/it]ELBO: -2643960.2:  12%|█▏        | 12/100 [14:13:21<101:19:24, 4145.05s/it]ELBO: -2636252.6:  11%|█         | 11/100 [14:25:14<105:13:50, 4256.52s/it]ELBO: -2636252.6:  12%|█▏        | 12/100 [14:25:14<103:58:27, 4253.50s/it]ELBO: -2624184.9:  12%|█▏        | 12/100 [15:12:42<100:23:29, 4106.92s/it]ELBO: -2624184.9:  13%|█▎        | 13/100 [15:12:42<99:11:26, 4104.45s/it] ELBO: -2630435.2:  12%|█▏        | 12/100 [15:18:19<101:08:03, 4137.31s/it]ELBO: -2630435.2:  13%|█▎        | 13/100 [15:18:19<99:56:14, 4135.34s/it] ELBO: -2637855.5:  12%|█▏        | 12/100 [15:22:21<101:19:24, 4145.05s/it]ELBO: -2637855.5:  13%|█▎        | 13/100 [15:22:21<100:08:05, 4143.51s/it]ELBO: -2631345.5:  12%|█▏        | 12/100 [15:36:21<103:58:27, 4253.50s/it]ELBO: -2631345.5:  13%|█▎        | 13/100 [15:36:21<102:53:22, 4257.50s/it]ELBO: -2620161.4:  13%|█▎        | 13/100 [16:21:04<99:11:26, 4104.45s/it]ELBO: -2620161.4:  14%|█▍        | 14/100 [16:21:04<98:02:00, 4103.73s/it]ELBO: -2623495.2:  13%|█▎        | 13/100 [16:26:32<99:56:14, 4135.34s/it]ELBO: -2623495.2:  14%|█▍        | 14/100 [16:26:32<98:29:01, 4122.57s/it]ELBO: -2631147.4:  13%|█▎        | 13/100 [16:31:25<100:08:05, 4143.51s/it]ELBO: -2631147.4:  14%|█▍        | 14/100 [16:31:25<98:59:12, 4143.64s/it] ELBO: -2625355.2:  13%|█▎        | 13/100 [16:46:33<102:53:22, 4257.50s/it]ELBO: -2625355.2:  14%|█▍        | 14/100 [16:46:33<101:23:04, 4244.00s/it]ELBO: -2615511.2:  14%|█▍        | 14/100 [17:29:25<98:02:00, 4103.73s/it]ELBO: -2615511.2:  15%|█▌        | 15/100 [17:29:25<96:52:17, 4102.80s/it]ELBO: -2616714.8:  14%|█▍        | 14/100 [17:34:55<98:29:01, 4122.57s/it]ELBO: -2616714.8:  15%|█▌        | 15/100 [17:34:55<97:12:02, 4116.74s/it]ELBO: -2628112.6:  14%|█▍        | 14/100 [17:40:27<98:59:12, 4143.64s/it]ELBO: -2628112.6:  15%|█▌        | 15/100 [17:40:27<97:49:11, 4142.96s/it]ELBO: -2622685.7:  14%|█▍        | 14/100 [17:56:37<101:23:04, 4244.00s/it]ELBO: -2622685.7:  15%|█▌        | 15/100 [17:56:37<99:55:12, 4231.91s/it] ELBO: -2606546.7:  15%|█▌        | 15/100 [18:37:35<96:52:17, 4102.80s/it]ELBO: -2606546.7:  16%|█▌        | 16/100 [18:37:35<95:38:34, 4098.99s/it]ELBO: -2615976.0:  15%|█▌        | 15/100 [18:43:28<97:12:02, 4116.74s/it]ELBO: -2615976.0:  16%|█▌        | 16/100 [18:43:28<96:01:28, 4115.34s/it]ELBO: -2625968.6:  15%|█▌        | 15/100 [18:49:22<97:49:11, 4142.96s/it]ELBO: -2625968.6:  16%|█▌        | 16/100 [18:49:22<96:37:02, 4140.74s/it]ELBO: -2617712.7:  15%|█▌        | 15/100 [19:06:48<99:55:12, 4231.91s/it]ELBO: -2617712.7:  16%|█▌        | 16/100 [19:06:48<98:35:41, 4225.49s/it]ELBO: -2602973.1:  16%|█▌        | 16/100 [19:46:05<95:38:34, 4098.99s/it]ELBO: -2602973.1:  17%|█▋        | 17/100 [19:46:05<94:34:43, 4102.21s/it]ELBO: -2612494.4:  16%|█▌        | 16/100 [19:51:42<96:01:28, 4115.34s/it]ELBO: -2612494.4:  17%|█▋        | 17/100 [19:51:42<94:44:05, 4108.98s/it]ELBO: -2623029.0:  16%|█▌        | 16/100 [19:58:26<96:37:02, 4140.74s/it]ELBO: -2623029.0:  17%|█▋        | 17/100 [19:58:34<95:32:28, 4143.96s/it]ELBO: -2613990.3:  16%|█▌        | 16/100 [20:17:18<98:35:41, 4225.49s/it]ELBO: -2613990.3:  17%|█▋        | 17/100 [20:17:18<97:27:08, 4226.85s/it]ELBO: -2599838.9:  17%|█▋        | 17/100 [20:54:03<94:34:43, 4102.21s/it]ELBO: -2599838.9:  18%|█▊        | 18/100 [20:54:03<93:16:44, 4095.18s/it]ELBO: -2606948.8:  17%|█▋        | 17/100 [21:00:09<94:44:05, 4108.98s/it]ELBO: -2606948.8:  18%|█▊        | 18/100 [21:00:09<93:34:56, 4108.49s/it]ELBO: -2616102.2:  17%|█▋        | 17/100 [21:07:12<95:32:28, 4143.96s/it]ELBO: -2616102.2:  18%|█▊        | 18/100 [21:07:15<94:13:56, 4137.03s/it]ELBO: -2609368.0:  17%|█▋        | 17/100 [21:27:30<97:27:08, 4226.85s/it]ELBO: -2609368.0:  18%|█▊        | 18/100 [21:27:30<96:10:45, 4222.50s/it]ELBO: -2597163.7:  18%|█▊        | 18/100 [22:02:03<93:16:44, 4095.18s/it]ELBO: -2597163.7:  19%|█▉        | 19/100 [22:02:03<92:02:09, 4090.49s/it]ELBO: -2603370.4:  18%|█▊        | 18/100 [22:08:50<93:34:56, 4108.49s/it]ELBO: -2603370.4:  19%|█▉        | 19/100 [22:08:50<92:31:33, 4112.26s/it]ELBO: -2609776.3:  18%|█▊        | 18/100 [22:15:44<94:13:56, 4137.03s/it]ELBO: -2609776.3:  19%|█▉        | 19/100 [22:15:44<92:53:44, 4128.70s/it]ELBO: -2608767.5:  18%|█▊        | 18/100 [22:37:08<96:10:45, 4222.50s/it]ELBO: -2608767.5:  19%|█▉        | 19/100 [22:37:08<94:42:16, 4209.09s/it]ELBO: -2594260.5:  19%|█▉        | 19/100 [23:11:57<92:02:09, 4090.49s/it]ELBO: -2594260.5:  20%|██        | 20/100 [23:11:57<91:35:13, 4121.42s/it]ELBO: -2603094.1:  19%|█▉        | 19/100 [23:17:03<92:31:33, 4112.26s/it]ELBO: -2603094.1:  20%|██        | 20/100 [23:17:03<91:15:16, 4106.45s/it]ELBO: -2608496.9:  19%|█▉        | 19/100 [23:24:18<92:53:44, 4128.70s/it]ELBO: -2608496.9:  20%|██        | 20/100 [23:24:18<91:39:13, 4124.42s/it]ELBO: -2603698.3:  19%|█▉        | 19/100 [23:47:38<94:42:16, 4209.09s/it]ELBO: -2603698.3:  20%|██        | 20/100 [23:47:38<93:40:33, 4215.42s/it]ELBO: -2591925.8:  20%|██        | 20/100 [24:21:55<91:35:13, 4121.42s/it]ELBO: -2591925.8:  21%|██        | 21/100 [24:21:55<90:56:48, 4144.41s/it]ELBO: -2597677.1:  20%|██        | 20/100 [24:25:19<91:15:16, 4106.45s/it]ELBO: -2597677.1:  21%|██        | 21/100 [24:25:19<90:02:50, 4103.42s/it]ELBO: -2608485.2:  20%|██        | 20/100 [24:33:01<91:39:13, 4124.42s/it]ELBO: -2608485.2:  21%|██        | 21/100 [24:33:02<90:29:59, 4124.05s/it]ELBO: -2600015.3:  20%|██        | 20/100 [24:58:22<93:40:33, 4215.42s/it]ELBO: -2600015.3:  21%|██        | 21/100 [24:58:22<92:41:20, 4223.81s/it]ELBO: -2586610.0:  21%|██        | 21/100 [25:31:50<90:56:48, 4144.41s/it]ELBO: -2586610.0:  22%|██▏       | 22/100 [25:31:50<90:07:42, 4159.78s/it]ELBO: -2593743.1:  21%|██        | 21/100 [25:35:15<90:02:50, 4103.42s/it]ELBO: -2593743.1:  22%|██▏       | 22/100 [25:35:15<89:30:14, 4130.95s/it]ELBO: -2604282.1:  21%|██        | 21/100 [25:41:40<90:29:59, 4124.05s/it]ELBO: -2604282.1:  22%|██▏       | 22/100 [25:41:40<89:19:16, 4122.52s/it]ELBO: -2596821.0:  21%|██        | 21/100 [26:09:15<92:41:20, 4223.81s/it]ELBO: -2596821.0:  22%|██▏       | 22/100 [26:09:15<91:42:31, 4232.71s/it]ELBO: -2584975.7:  22%|██▏       | 22/100 [26:41:43<90:07:42, 4159.78s/it]ELBO: -2584975.7:  23%|██▎       | 23/100 [26:41:43<89:10:57, 4169.58s/it]ELBO: -2596269.3:  22%|██▏       | 22/100 [26:44:31<89:30:14, 4130.95s/it]ELBO: -2596269.3:  23%|██▎       | 23/100 [26:44:31<88:31:10, 4138.57s/it]ELBO: -2603795.0:  22%|██▏       | 22/100 [26:50:14<89:19:16, 4122.52s/it]ELBO: -2603795.0:  23%|██▎       | 23/100 [26:50:14<88:07:01, 4119.76s/it]ELBO: -2594252.6:  22%|██▏       | 22/100 [27:20:01<91:42:31, 4232.71s/it]ELBO: -2594252.6:  23%|██▎       | 23/100 [27:20:01<90:37:02, 4236.66s/it]ELBO: -2581830.3:  23%|██▎       | 23/100 [27:51:54<89:10:57, 4169.58s/it]ELBO: -2581830.3:  24%|██▍       | 24/100 [27:51:54<88:17:17, 4182.07s/it]ELBO: -2590730.8:  23%|██▎       | 23/100 [27:54:59<88:31:10, 4138.57s/it]ELBO: -2590730.8:  24%|██▍       | 24/100 [27:54:59<87:56:18, 4165.51s/it]ELBO: -2597067.8:  23%|██▎       | 23/100 [27:59:01<88:07:01, 4119.76s/it]ELBO: -2597067.8:  24%|██▍       | 24/100 [27:59:01<87:01:04, 4121.91s/it]ELBO: -2591674.3:  23%|██▎       | 23/100 [28:31:49<90:37:02, 4236.66s/it]ELBO: -2591674.3:  24%|██▍       | 24/100 [28:31:49<89:53:24, 4257.95s/it]ELBO: -2580059.9:  24%|██▍       | 24/100 [29:02:15<88:17:17, 4182.07s/it]ELBO: -2580059.9:  25%|██▌       | 25/100 [29:02:15<87:22:12, 4193.77s/it]ELBO: -2584572.5:  24%|██▍       | 24/100 [29:05:29<87:56:18, 4165.51s/it]ELBO: -2584572.5:  25%|██▌       | 25/100 [29:05:29<87:11:01, 4184.82s/it]ELBO: -2597427.5:  24%|██▍       | 24/100 [29:07:53<87:01:04, 4121.91s/it]ELBO: -2597427.5:  25%|██▌       | 25/100 [29:07:53<85:56:16, 4125.01s/it]ELBO: -2589103.8:  24%|██▍       | 24/100 [29:43:19<89:53:24, 4257.95s/it]ELBO: -2589103.8:  25%|██▌       | 25/100 [29:43:19<88:54:43, 4267.78s/it]ELBO: -2578159.1:  25%|██▌       | 25/100 [30:12:23<87:22:12, 4193.77s/it]ELBO: -2578159.1:  26%|██▌       | 26/100 [30:12:23<86:17:41, 4198.12s/it]ELBO: -2583524.1:  25%|██▌       | 25/100 [30:16:09<87:11:01, 4184.82s/it]ELBO: -2583524.1:  26%|██▌       | 26/100 [30:16:09<86:21:28, 4201.20s/it]ELBO: -2594488.4:  25%|██▌       | 25/100 [30:16:25<85:56:16, 4125.01s/it]ELBO: -2594488.4:  26%|██▌       | 26/100 [30:16:25<84:42:38, 4121.06s/it]ELBO: -2587176.7:  25%|██▌       | 25/100 [30:55:20<88:54:43, 4267.78s/it]ELBO: -2587176.7:  26%|██▌       | 26/100 [30:55:20<88:03:08, 4283.63s/it]ELBO: -2575352.9:  26%|██▌       | 26/100 [31:22:28<86:17:41, 4198.12s/it]ELBO: -2575352.9:  27%|██▋       | 27/100 [31:22:28<85:10:10, 4200.15s/it]ELBO: -2579706.7:  26%|██▌       | 26/100 [31:26:50<86:21:28, 4201.20s/it]ELBO: -2579706.7:  27%|██▋       | 27/100 [31:26:50<85:25:59, 4213.14s/it]ELBO: -2589912.2:  26%|██▌       | 26/100 [31:25:09<84:42:38, 4121.06s/it]ELBO: -2589912.2:  27%|██▋       | 27/100 [31:25:09<83:35:05, 4121.99s/it]ELBO: -2582998.7:  26%|██▌       | 26/100 [32:07:12<88:03:08, 4283.63s/it]ELBO: -2582998.7:  27%|██▋       | 27/100 [32:07:12<87:02:04, 4292.11s/it]ELBO: -2570535.4:  27%|██▋       | 27/100 [32:32:21<85:10:10, 4200.15s/it]ELBO: -2570535.4:  28%|██▊       | 28/100 [32:32:21<83:57:34, 4197.97s/it]ELBO: -2578175.9:  27%|██▋       | 27/100 [32:37:22<85:25:59, 4213.14s/it]ELBO: -2578175.9:  28%|██▊       | 28/100 [32:37:22<84:22:48, 4219.00s/it]ELBO: -2588643.5:  27%|██▋       | 27/100 [32:34:11<83:35:05, 4121.99s/it]ELBO: -2588643.5:  28%|██▊       | 28/100 [32:34:11<82:33:28, 4127.89s/it]ELBO: -2579475.7:  27%|██▋       | 27/100 [33:19:10<87:02:04, 4292.11s/it]ELBO: -2579475.7:  28%|██▊       | 28/100 [33:19:10<85:59:58, 4299.98s/it]ELBO: -2568946.7:  28%|██▊       | 28/100 [33:42:23<83:57:34, 4197.97s/it]ELBO: -2568946.7:  29%|██▉       | 29/100 [33:42:23<82:48:54, 4199.08s/it]ELBO: -2584264.2:  28%|██▊       | 28/100 [33:43:05<82:33:28, 4127.89s/it]ELBO: -2584264.2:  29%|██▉       | 29/100 [33:43:05<81:27:03, 4129.91s/it]ELBO: -2575426.9:  28%|██▊       | 28/100 [33:47:42<84:22:48, 4219.00s/it]ELBO: -2575426.9:  29%|██▉       | 29/100 [33:47:42<83:12:37, 4219.13s/it]slurmstepd: error: *** JOB 4604206 ON midway3-0202 CANCELLED AT 2022-10-04T22:13:58 DUE TO TIME LIMIT ***
-slurmstepd: error: *** JOB 4604207 ON midway3-0207 CANCELLED AT 2022-10-04T22:13:58 DUE TO TIME LIMIT ***
-slurmstepd: error: *** JOB 4604208 ON midway3-0159 CANCELLED AT 2022-10-04T22:13:58 DUE TO TIME LIMIT ***
-slurmstepd: error: *** JOB 4604210 ON midway3-0169 CANCELLED AT 2022-10-04T22:13:58 DUE TO TIME LIMIT ***
