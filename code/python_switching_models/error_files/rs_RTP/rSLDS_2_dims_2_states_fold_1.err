@@ -1,86 +1,15 @@
-Processed spikes from trial 10.
-Processed spikes from trial 20.
-Processed spikes from trial 30.
-Processed spikes from trial 40.
-Processed spikes from trial 50.
-Processed spikes from trial 60.
-Processed spikes from trial 70.
-Processed spikes from trial 80.
-Processed spikes from trial 90.
 Processed spikes from trial 100.
-Processed spikes from trial 110.
-Processed spikes from trial 120.
-Processed spikes from trial 130.
-Processed spikes from trial 140.
-Processed spikes from trial 150.
-Processed spikes from trial 160.
-Processed spikes from trial 170.
-Processed spikes from trial 180.
-Processed spikes from trial 190.
 Processed spikes from trial 200.
-Processed spikes from trial 210.
-Processed spikes from trial 220.
-Processed spikes from trial 230.
-Processed spikes from trial 240.
-Processed spikes from trial 250.
-Processed spikes from trial 260.
-Processed spikes from trial 270.
-Processed spikes from trial 280.
-Processed spikes from trial 290.
 Processed spikes from trial 300.
-Processed spikes from trial 310.
-Processed spikes from trial 320.
-Processed spikes from trial 330.
-Processed spikes from trial 340.
-Processed spikes from trial 350.
-Processed spikes from trial 360.
-Processed spikes from trial 370.
-Processed spikes from trial 380.
-Processed spikes from trial 390.
 Processed spikes from trial 400.
-Processed spikes from trial 410.
-Processed spikes from trial 420.
-Processed spikes from trial 430.
-Processed spikes from trial 440.
-Processed spikes from trial 450.
-Processed spikes from trial 460.
-Processed spikes from trial 470.
-Processed spikes from trial 480.
-Processed spikes from trial 490.
 Processed spikes from trial 500.
-Processed spikes from trial 510.
-Processed spikes from trial 520.
-Processed spikes from trial 530.
-Processed spikes from trial 540.
-Processed spikes from trial 550.
-Processed spikes from trial 560.
-Processed spikes from trial 570.
-Processed spikes from trial 580.
-Processed spikes from trial 590.
 Processed spikes from trial 600.
-Processed spikes from trial 610.
-Processed spikes from trial 620.
-Processed spikes from trial 630.
-Processed spikes from trial 640.
-Processed spikes from trial 650.
-Processed spikes from trial 660.
-Processed spikes from trial 670.
-Processed spikes from trial 680.
-Processed spikes from trial 690.
 Processed spikes from trial 700.
-Processed spikes from trial 710.
-Processed spikes from trial 720.
-Processed spikes from trial 730.
-Processed spikes from trial 740.
-Processed spikes from trial 750.
-Processed spikes from trial 760.
-Processed spikes from trial 770.
-Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
-    run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 114, in run_rslds
-    data = import_matlab_data(folderpath)
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/import_matlab_data.py", line 61, in import_matlab_data
-    y_by_trial.append(kinematics[:, 1])
-IndexError: index 1 is out of bounds for axis 1 with size 1
-sbatch: error: Unable to open file sbatch_2_dims_2_states_1_folds_train-model_0.sh
+Processed Kinematics from trial 100
+Processed Kinematics from trial 200
+Processed Kinematics from trial 300
+Processed Kinematics from trial 400
+Processed Kinematics from trial 500
+Processed Kinematics from trial 600
+Processed Kinematics from trial 700
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -3341073.5:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -2753558.5:   0%|          | 0/15 [01:29<?, ?it/s]ELBO: -2753558.5:   7%|▋         | 1/15 [01:29<20:56, 89.74s/it]ELBO: -2709668.1:   7%|▋         | 1/15 [02:54<20:56, 89.74s/it]ELBO: -2709668.1:  13%|█▎        | 2/15 [02:54<18:49, 86.87s/it]ELBO: -2695793.4:  13%|█▎        | 2/15 [03:51<18:49, 86.87s/it]ELBO: -2695793.4:  20%|██        | 3/15 [03:51<14:40, 73.39s/it]ELBO: -2691422.8:  20%|██        | 3/15 [04:33<14:40, 73.39s/it]ELBO: -2691422.8:  27%|██▋       | 4/15 [04:33<11:07, 60.70s/it]ELBO: -2689608.2:  27%|██▋       | 4/15 [05:05<11:07, 60.70s/it]ELBO: -2689608.2:  33%|███▎      | 5/15 [05:05<08:24, 50.41s/it]ELBO: -2688715.4:  33%|███▎      | 5/15 [05:35<08:24, 50.41s/it]ELBO: -2688715.4:  40%|████      | 6/15 [05:35<06:30, 43.35s/it]ELBO: -2688438.0:  40%|████      | 6/15 [06:02<06:30, 43.35s/it]ELBO: -2688438.0:  47%|████▋     | 7/15 [06:02<05:04, 38.11s/it]ELBO: -2688311.9:  47%|████▋     | 7/15 [06:28<05:04, 38.11s/it]ELBO: -2688311.9:  53%|█████▎    | 8/15 [06:28<04:00, 34.34s/it]ELBO: -2687671.9:  53%|█████▎    | 8/15 [06:54<04:00, 34.34s/it]ELBO: -2687671.9:  60%|██████    | 9/15 [06:54<03:11, 31.84s/it]ELBO: -2687839.9:  60%|██████    | 9/15 [07:21<03:11, 31.84s/it]ELBO: -2687839.9:  67%|██████▋   | 10/15 [07:21<02:30, 30.17s/it]ELBO: -2687598.4:  67%|██████▋   | 10/15 [07:47<02:30, 30.17s/it]ELBO: -2687598.4:  73%|███████▎  | 11/15 [07:47<01:56, 29.05s/it]ELBO: -2686981.1:  73%|███████▎  | 11/15 [08:14<01:56, 29.05s/it]ELBO: -2686981.1:  80%|████████  | 12/15 [08:14<01:24, 28.22s/it]ELBO: -2687158.4:  80%|████████  | 12/15 [08:39<01:24, 28.22s/it]ELBO: -2687158.4:  87%|████████▋ | 13/15 [08:39<00:54, 27.38s/it]ELBO: -2687037.6:  87%|████████▋ | 13/15 [09:06<00:54, 27.38s/it]ELBO: -2687037.6:  93%|█████████▎| 14/15 [09:06<00:27, 27.08s/it]
