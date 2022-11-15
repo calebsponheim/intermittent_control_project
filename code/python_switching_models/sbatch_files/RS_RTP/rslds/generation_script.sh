@@ -4,19 +4,18 @@
 subject='rs'
 taskname='RTP'
 
-for iState in `seq 2 2 4`
+for iState in `seq 2 2 40`
 do
-	for iDim in `seq 2 2 4`
+	for iDim in `seq 2 2 80`
 	do
 	time=`python get_runtime.py $iDim $iState`
-	# time=(-.5 + 0.0682*$iDim + 0.3238*$iState + -0.001494*$iDim^2 + -0.005368*$iDim*$iState + -0.01862*$iState^2 + 9.659e-06*$iDim^3 + 0.000114*$iDim^2*$iState + 0.0001095*$iDim*$iState^2 + 0.0003365*$iState^3)
 	let next_dim=$iDim+2
-	echo "$time"
+	# echo "$time"
 		for iFold in `seq 1 5`
 		do
 			for iPickle in `seq 0 1`
 			do
-				echo "$iDim $iState $iFold $iPickle"
+				# echo "$iDim $iState $iFold $iPickle"
 				printf "#!/bin/bash\n#SBATCH --job-name=%i_%i_%i_%i\n" $iDim $iState $iFold $iPickle > sbatch_${iDim}_dims_${iState}_states_fold_${iFold}_train-model_${iPickle}.sh
 				printf "#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/%s_%s/rSLDS_%i_dims_%i_states_fold_%i_%i.out\n" $subject $taskname  $iDim $iState $iFold $iPickle >> sbatch_${iDim}_dims_${iState}_states_fold_${iFold}_train-model_${iPickle}.sh
 				printf "#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/%s_%s/rSLDS_%i_dims_%i_states_fold_%i_%i.err\n" $subject $taskname  $iDim $iState $iFold $iPickle >> sbatch_${iDim}_dims_${iState}_states_fold_${iFold}_train-model_${iPickle}.sh
