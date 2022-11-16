@@ -164,13 +164,14 @@ def run_rslds(
         # Emissions
         #############
         # log_likelihood_emissions_sum = sum(log_likelihood_emissions_sum)
-        log_likelihood_emissions_sum = pd.DataFrame([log_likelihood_emissions_sum])
-        latent_dims = pd.DataFrame([number_of_latent_dimensions])
-        frames = [log_likelihood_emissions_sum, latent_dims]
-        log_likelihood_emissions_sum = pd.concat(frames, axis=1)
+        if train_model == 0:
+            log_likelihood_emissions_sum = pd.DataFrame([log_likelihood_emissions_sum])
+            latent_dims = pd.DataFrame([number_of_latent_dimensions])
+            frames = [log_likelihood_emissions_sum, latent_dims]
+            log_likelihood_emissions_sum = pd.concat(frames, axis=1)
 
-        log_likelihood_emissions_sum.to_csv(folderpath_out + str(number_of_discrete_states) +
-                                            "_states_test_emissions_ll_fold_" + str(fold_number) + ".csv", index=False, header=False)
+            log_likelihood_emissions_sum.to_csv(folderpath_out + str(number_of_discrete_states) +
+                                                "_states_test_emissions_ll_fold_" + str(fold_number) + ".csv", index=False, header=False)
 
     # %% Running RSLDS
     if midway_run == 0:
