@@ -2,8 +2,8 @@
 % RS center-out - rs1050225_clean_SNRgt4 located in W:\nicho\ANALYSIS\rs1050225_MI
 % RS RTP - rs1050211_clean_spikes_SNRgt4 located in W:\nicho\ANALYSIS\rs1050211
 subject = 'RS';
-subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050225_MI\rs1050225_clean_SNRgt4';
-% subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
+% subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050225_MI\rs1050225_clean_SNRgt4';
+subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
 num_states_subject = 8;
 if contains(subject_filepath,'1050225')
     task = 'CO';

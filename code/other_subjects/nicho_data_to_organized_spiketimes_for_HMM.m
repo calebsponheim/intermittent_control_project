@@ -202,7 +202,9 @@ clear bin_timestamps
 trials = 1:size(cpl_st_trial_rew,1);
 trials(bad_trials) = [];
 cpl_st_trial_rew(bad_trials,:) = [];
-target_dir(bad_trials) = [];
+if strcmp(task,'CO')
+    target_dir(bad_trials) = [];
+end
 num_trials = size(trials,2);
 
 for iTrial = 1:num_trials
@@ -229,5 +231,7 @@ for iTrial = 1:num_trials
             data(iTrial).spikecount(iUnit,iBin) = sum(units{iUnit} >  bin_edges(iTrial,iBin,1) & units{iUnit} <  bin_edges(iTrial,iBin,2));
         end
     end
-    data(iTrial).target_direction = target_dir(iTrial);
+    if strcmp(task,'CO')
+        data(iTrial).target_direction = target_dir(iTrial);
+    end
 end
