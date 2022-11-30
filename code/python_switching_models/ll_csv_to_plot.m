@@ -48,7 +48,7 @@ for iFolder = 1:length(ll_files_list)
         % folds in this given file and path.
 %         disp(length(temp(:,1)))
         end
-        if length(temp(:,1)) >= 5
+        if length(temp(:,1)) >= 2
             bits_per_spike(temp_bits_dim_num,temp_bits_state_num) = mean(temp(:,1));
         end
         
