@@ -42,17 +42,23 @@ ll_files_list = ll_files_list(cellfun(@(x) ~contains(x,'.csv'),ll_files_list));
 ll_files_list = ll_files_list(cellfun(@(x) contains(x,'_states'),ll_files_list));
 
 for iFolder = 1:length(ll_files_list)
-    temp_bits_files_list = dir(strcat(filepath,ll_files_list{iFolder}));
+    temp_bits_files_list = dir(strcat(filepath_for_ll_plot,ll_files_list{iFolder}));
     temp_bits_filename = {temp_bits_files_list.name}';
     temp_bits_folder = temp_bits_files_list(1).folder;
-    temp_bits_filename = temp_bits_filename(cellfun(@(x) contains(x,'_emissions_ll'),temp_bits_filename));
-    temp_bits_state_num = str2double(extractAfter(extractBefore(temp_bits_folder,'_states'),filepath));
+    temp_bits_filename = temp_bits_filename(cellfun(@(x) contains(x,'_emissions_ll_'),temp_bits_filename));
+    temp_bits_state_num = str2double(extractAfter(extractBefore(temp_bits_folder,'_states'),filepath_for_ll_plot));
     if size(temp_bits_filename,1) > 0
-        temp_bits_filepath = strcat(temp_bits_folder,'\',temp_bits_filename{1});
-        temp = readmatrix(temp_bits_filepath);
-        if length(temp(:,1)) >= 3
+        for iFile = 1:size(temp_bits_filename,1)
+            temp_bits_filepath = strcat(temp_bits_folder,'\',temp_bits_filename{iFile});
+            temp(iFile,:) = readmatrix(temp_bits_filepath);
+        % put data in correct x,y,and x positions based on state, dim, and
+        % folds in this given file and path.
+%         disp(length(temp(:,1)))
+        end
+        if length(temp(:,1)) >= 2
             bits_per_spike(temp_bits_state_num) = mean(temp(:,1));
         end
+        
     end
 end
 %%
