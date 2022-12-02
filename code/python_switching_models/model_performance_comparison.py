@@ -179,8 +179,21 @@ lls = hmm.fit(
 )
 hmm_params = hmm.params
 emission_matrix = hmm_params[2]
-most_likely_states = hmm.most_likely_states(fullset)
 
+most_likely_states = []
+latent_states_hmm = []
+for iTrial in range(len(fullset)):
+    most_likely_states = hmm.most_likely_states(fullset[iTrial])
+    latent_states_step = []
+    for iState in np.arange(len(most_likely_states)):
+        latent_states_step.append(np.transpose(emission_matrix[most_likely_states[iState], :]))
+    latent_states_step = np.asarray(latent_states_step)
+    latent_states_hmm.append(latent_states_step)
+
+for iTrial in range(len(fullset)):
+    latent_states_hmm_out = pd.DataFrame(latent_states_hmm[iTrial])
+    latent_states_hmm_out.to_csv(folderpath_out + "latent_states_hmm_trial_" + str(
+        '{:04}'.format(iTrial+1)) + "_fold_" + str(iFold) + ".csv", index=False, header=False)
 
 # # model selection decode
 # hmm_test_ll.append(hmm.log_likelihood(testset))

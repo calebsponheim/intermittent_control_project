@@ -139,8 +139,8 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     #          y_valid_predicted_kf[1000:2000, 1]+y_kf_train_mean[1], 'r')
     plt.plot(y_kf_valid[1000:2000, 2]+y_kf_train_mean[2], 'b')
     plt.plot(y_valid_predicted_kf[1000:2000, 2]+y_kf_train_mean[2], 'r')
-    plt.plot(y_kf_valid[1000:2000, 3]+y_kf_train_mean[3], 'b')
-    plt.plot(y_valid_predicted_kf[1000:2000, 3]+y_kf_train_mean[3], 'r')    # Save figure
+    # plt.plot(y_kf_valid[1000:2000, 3]+y_kf_train_mean[3], 'b')
+    # plt.plot(y_valid_predicted_kf[1000:2000, 3]+y_kf_train_mean[3], 'r')    # Save figure
     # fig_x_kf.savefig('x_velocity_decoding.eps')
     return R2_kf, y_valid_predicted_kf_all
 
@@ -152,12 +152,14 @@ num_discrete_states_rslds = 10
 num_latent_dims_slds = 2
 num_discrete_states_slds = 2
 num_latent_dims_lds = 2
-num_discrete_states_hmm = 2
+num_discrete_states_hmm = 28
 subject = 'rs'
 task = 'RTP'
-model = 'rslds'
+model = 'hmm'
 
 # %% Data Import
+
+
 current_working_directory = os.getcwd()
 if "calebsponheim" in current_working_directory:
     folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
@@ -189,8 +191,8 @@ if str(num_discrete_states_rslds) + "_states_" + str(num_latent_dims_rslds) + "_
     os.mkdir(folderpath + str(num_discrete_states_rslds) +
              "_states_" + str(num_latent_dims_rslds) + "_dims/")
 
-latentpath = (folderpath + str(num_discrete_states_rslds) +
-              "_states_" + str(num_latent_dims_rslds) + "_dims/")
+latentpath = (folderpath)  # + str(num_discrete_states_rslds) +
+#  "_states_" + str(num_latent_dims_rslds) + "_dims/")
 kinpath = folderpath
 
 R2_kf, y_valid_predicted_kf_all = decode_kinematics_from_latents(kinpath, latentpath, model)
