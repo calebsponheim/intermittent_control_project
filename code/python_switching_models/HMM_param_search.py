@@ -196,9 +196,5 @@ log_likelihood_emissions_sum = np.mean(lls)
 
 log_likelihood_emissions_sum = pd.DataFrame([log_likelihood_emissions_sum])
 
-if fold_number == 1:
-    log_likelihood_emissions_sum.to_csv(folderpath_out + str(num_discrete_states) +
-                                        "_states_test_emissions_ll.csv", index=False, header=False)
-elif fold_number > 1:
-    log_likelihood_emissions_sum.to_csv(folderpath_out + str(num_discrete_states) +
-                                        "_states_test_emissions_ll.csv", mode='a', index=False, header=False)
+log_likelihood_emissions_sum.to_csv(folderpath_out + str(num_discrete_states) +
+                                    "_states_test_emissions_ll_fold_" + str(fold_number) + ".csv", index=False, header=False)

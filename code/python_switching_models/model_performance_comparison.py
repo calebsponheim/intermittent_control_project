@@ -27,7 +27,7 @@ num_discrete_states_rslds = 10
 num_latent_dims_slds = 2
 num_discrete_states_slds = 2
 num_latent_dims_lds = 2
-num_discrete_states_hmm = 2
+num_discrete_states_hmm = 28
 trial_folds = int(1/test_portion)
 neuron_folds = 4
 subject = 'rs'
@@ -147,11 +147,14 @@ for iTrial in range(number_of_trials):
 
 trind_train = [i for i, x in enumerate(trial_classification) if x == "train"]
 trind_test = [i for i, x in enumerate(trial_classification) if x == "test"]
+trind_full = [i for i, x in enumerate(trial_classification) if x == "test" or "train"]
 
 trainset = []
 testset = []
+fullset = []
 
 for iTrial in range(len(trial_classification)):
+    fullset.append(np.transpose(np.array(data.spikes[iTrial])))
     if iTrial in trind_train:
         trainset.append(np.transpose(np.array(data.spikes[iTrial])))
     elif iTrial in trind_test:
@@ -159,21 +162,38 @@ for iTrial in range(len(trial_classification)):
 
 observation_dimensions = trainset[0].shape[1]
 
-# # HMM
-# N_iters = 100
-# hmm = ssm.HMM(
-#     num_discrete_states_hmm,
-#     observation_dimensions,
-#     observations="poisson",
-#     transitions="standard",
-# )
+# HMM
+N_iters = 15
+hmm = ssm.HMM(
+    num_discrete_states_hmm,
+    observation_dimensions,
+    observations="poisson",
+    transitions="standard",
+)
 
-# hmm.fit(
-#     trainset,
-#     method="em",
-#     num_iters=N_iters,
-#     init_method="random",
-# )
+lls = hmm.fit(
+    trainset,
+    method="em",
+    num_iters=N_iters,
+    init_method="random",
+)
+hmm_params = hmm.params
+emission_matrix = hmm_params[2]
+
+most_likely_states = []
+latent_states_hmm = []
+for iTrial in range(len(fullset)):
+    most_likely_states = hmm.most_likely_states(fullset[iTrial])
+    latent_states_step = []
+    for iState in np.arange(len(most_likely_states)):
+        latent_states_step.append(np.transpose(emission_matrix[most_likely_states[iState], :]))
+    latent_states_step = np.asarray(latent_states_step)
+    latent_states_hmm.append(latent_states_step)
+
+for iTrial in range(len(fullset)):
+    latent_states_hmm_out = pd.DataFrame(latent_states_hmm[iTrial])
+    latent_states_hmm_out.to_csv(folderpath_out + "latent_states_hmm_trial_" + str(
+        '{:04}'.format(iTrial+1)) + "_fold_" + str(iFold) + ".csv", index=False, header=False)
 
 # # model selection decode
 # hmm_test_ll.append(hmm.log_likelihood(testset))

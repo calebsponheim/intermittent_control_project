@@ -67,9 +67,9 @@ try strcmp(data.meta.subject,'Bx')
             y_smoothed = data.data(iTrial).y_smoothed;
             x_velocity = data.data(iTrial).x_velocity;
             y_velocity = data.data(iTrial).y_velocity;
-            speed = data.data(iTrial).speed;
+            acceleration = data.data(iTrial).acceleration;
             filename = [save_folder 'trial' iTrial_string '_kinematics.csv'];
-            writematrix(horzcat(x_smoothed,y_smoothed,x_velocity,y_velocity,speed),filename)
+            writematrix(horzcat(x_smoothed,y_smoothed,x_velocity,y_velocity,acceleration),filename)
 
             % Events
             trial_start_ms = data.data(iTrial).trial_start_ms;
@@ -122,13 +122,13 @@ catch
         y_smoothed = data.data(iTrial).y_smoothed;
         x_velocity = data.data(iTrial).x_velocity;
         y_velocity = data.data(iTrial).y_velocity;
-        speed = data.data(iTrial).speed;
+        acceleration = data.data(iTrial).acceleration;
         if move_window == 1
             filename = [filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
         else
             filename = [filepath_base data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
         end
-        writematrix(horzcat(x_smoothed,y_smoothed,x_velocity,y_velocity,speed),filename)
+        writematrix(horzcat(x_smoothed,y_smoothed,x_velocity,y_velocity,acceleration),filename)
 
         disp(iTrial)
     end
