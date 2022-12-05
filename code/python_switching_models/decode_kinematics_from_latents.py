@@ -60,7 +60,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
     for iFile in latentfiles:
         latents = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
-        latents_by_trial.extend(latents)
+        latents_by_trial.extend(latents[:, :29])
         file_count += 1
         if file_count % 100 == 0:
             print(f"Processed Latents from trial {file_count}")
@@ -69,7 +69,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     training_range = [0, 0.7]
     testing_range = [0.7, 0.85]
     valid_range = [0.85, 1]
-    y_valid_predicted_kf_all = []
+    y_valid_predicted_kf = []
     R2_kf = np.zeros([len(full_kinematics_by_trial), 5])
     lag = 0
     X_kf = np.asarray(latents_by_trial)
@@ -121,13 +121,13 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
     # Get predictions
     y_valid_predicted_kf = model_kf.predict(X_kf_valid, y_kf_valid)
-    y_valid_predicted_kf_all.append(y_valid_predicted_kf)
+    # y_valid_predicted_kf_all.append(y_valid_predicted_kf)
     # Get metrics of fit (see read me for more details on the differences between metrics)
     # First I'll get the R^2
     R2_kf = Neural_Decoding.get_R2(y_kf_valid, y_valid_predicted_kf)
     # I'm just printing the R^2's of the 3rd and 4th entries that correspond to the velocities
     # Next I'll get the rho^2 (the pearson correlation squared)
-    rho_kf = Neural_Decoding.get_rho(y_kf_valid, y_valid_predicted_kf)
+    # rho_kf = Neural_Decoding.get_rho(y_kf_valid, y_valid_predicted_kf)
     # I'm just printing the rho^2's of the 3rd and 4th entries that correspond to the velocities
 
     # As an example, I plot an example 1000 values of the x velocity (column index 2), both true and predicted with the Kalman filter
@@ -137,12 +137,12 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     #          y_kf_valid[1000:2000, 1]+y_kf_train_mean[1], 'b')
     # plt.plot(y_valid_predicted_kf[1000:2000, 0]+y_kf_train_mean[0],
     #          y_valid_predicted_kf[1000:2000, 1]+y_kf_train_mean[1], 'r')
-    plt.plot(y_kf_valid[1000:2000, 2]+y_kf_train_mean[2], 'b')
-    plt.plot(y_valid_predicted_kf[1000:2000, 2]+y_kf_train_mean[2], 'r')
-    # plt.plot(y_kf_valid[1000:2000, 3]+y_kf_train_mean[3], 'b')
-    # plt.plot(y_valid_predicted_kf[1000:2000, 3]+y_kf_train_mean[3], 'r')    # Save figure
+    # plt.plot(y_kf_valid[1000:2000, 2]+y_kf_train_mean[2], 'b')
+    # plt.plot(y_valid_predicted_kf[1000:2000, 2]+y_kf_train_mean[2], 'r')
+    plt.plot(y_kf_valid[1000:2000, 3]+y_kf_train_mean[3], 'b')
+    plt.plot(y_valid_predicted_kf[1000:2000, 3]+y_kf_train_mean[3], 'r')    # Save figure
     # fig_x_kf.savefig('x_velocity_decoding.eps')
-    return R2_kf, y_valid_predicted_kf_all
+    return R2_kf, y_valid_predicted_kf, model_kf
 
 
 # %% Parameter Setting
@@ -195,4 +195,4 @@ latentpath = (folderpath)  # + str(num_discrete_states_rslds) +
 #  "_states_" + str(num_latent_dims_rslds) + "_dims/")
 kinpath = folderpath
 
-R2_kf, y_valid_predicted_kf_all = decode_kinematics_from_latents(kinpath, latentpath, model)
+R2_kf, y_valid_predicted_kf, model_kf = decode_kinematics_from_latents(kinpath, latentpath, model)
