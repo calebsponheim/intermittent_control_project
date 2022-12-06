@@ -7,6 +7,7 @@ Created on Mon Nov 21 09:45:48 2022
 
 
 import os
+import scipy
 
 
 def decode_kinematics_from_latents(kinpath, latentpath, model):
@@ -60,7 +61,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
     for iFile in latentfiles:
         latents = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
-        latents_by_trial.extend(latents[:, :29])
+        latents_by_trial.extend(latents[:, :])
         file_count += 1
         if file_count % 100 == 0:
             print(f"Processed Latents from trial {file_count}")
@@ -70,8 +71,8 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     testing_range = [0.7, 0.85]
     valid_range = [0.85, 1]
     y_valid_predicted_kf = []
-    R2_kf = np.zeros([len(full_kinematics_by_trial), 5])
     lag = 0
+    # X_kf = scipy.ndimage.gaussian_filter1d(np.asarray(latents_by_trial), 3, axis=0)
     X_kf = np.asarray(latents_by_trial)
     y_kf = np.asarray(full_kinematics_binned)
 

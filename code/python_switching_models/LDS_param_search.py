@@ -171,7 +171,7 @@ for iTrial in range(len(trial_classification)):
 
 # %%
 observation_dimensions = trainset[0].shape[1]
-N_iters = 100
+N_iters = 15
 
 model = ssm.LDS(observation_dimensions, num_dims,
                 emissions="poisson")
@@ -191,7 +191,7 @@ _elbos, _q_model = model.approximate_posterior(
     testset,
     method="laplace_em",
     variational_posterior="structured_meanfield",
-    num_iters=100, alpha=0.5)
+    num_iters=N_iters, alpha=0.5)
 
 lls = 0.0
 for tr in range(len(testset)):
