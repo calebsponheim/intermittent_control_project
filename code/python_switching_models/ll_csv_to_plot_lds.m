@@ -46,7 +46,7 @@ for iFolder = 1:length(ll_files_list)
     temp_bits_filename = {temp_bits_files_list.name}';
     temp_bits_folder = temp_bits_files_list(1).folder;
     temp_bits_filename = temp_bits_filename(cellfun(@(x) contains(x,'_emissions_ll_'),temp_bits_filename));
-    temp_bits_state_num = str2double(extractAfter(extractBefore(temp_bits_folder,'_dims'),filepath_for_ll_plot));
+    temp_bits_dim_num = str2double(extractAfter(extractBefore(temp_bits_folder,'_dims'),filepath_for_ll_plot));
     if size(temp_bits_filename,1) > 0
         for iFile = 1:size(temp_bits_filename,1)
             temp_bits_filepath = strcat(temp_bits_folder,'\',temp_bits_filename{iFile});
@@ -56,7 +56,7 @@ for iFolder = 1:length(ll_files_list)
 %         disp(length(temp(:,1)))
         end
         if length(temp(:,1)) >= 1
-            bits_per_spike(temp_bits_state_num) = mean(temp(:,1));
+            bits_per_spike(temp_bits_dim_num) = mean(temp(:,1));
         end
         
     end
