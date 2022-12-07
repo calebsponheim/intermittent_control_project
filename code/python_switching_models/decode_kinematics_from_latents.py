@@ -18,10 +18,12 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     from os.path import isfile, join
     import Neural_Decoding
     import matplotlib.pyplot as plt
+    from import_matlab_data import import_matlab_data
     # from scipy import io
     # from scipy import stats
     # import pickle
     # Load Kinematics
+
     kinfiles = [
         f
         for f in listdir(folderpath)
@@ -39,6 +41,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
     # Bin Kinematics
     full_kinematics_binned = []
+    kin_length = []
     for iTrial in np.arange(len(full_kinematics_by_trial)):
         vels = np.asarray(full_kinematics_by_trial[iTrial])
         vel_times = np.arange(len(full_kinematics_by_trial[iTrial]))/1000
@@ -48,23 +51,35 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         downsample_factor = 1
         full_kinematics_binned.extend(Neural_Decoding.bin_output(
             vels, vel_times, dt, t_start, t_end, downsample_factor))
+        kin_length.append(len(Neural_Decoding.bin_output(
+            vels, vel_times, dt, t_start, t_end, downsample_factor)))
 
     # Load Latents
-    latentfiles = [
-        f
-        for f in listdir(folderpath)
-        if isfile(join(folderpath, f))
-        if f.startswith("latent_states_" + model + "_trial_")
-    ]
-    file_count = 0
-    latents_by_trial = []
+    if model == 'raw':
+        latents_by_trial = []
+        data = import_matlab_data(latentpath)
+        file_count = 0
+        for iTrial in np.arange(len(data.spikes)):
+            latents_by_trial.extend(np.asarray(data.spikes[iTrial][1:]).T[1:, :])
+            file_count += 1
+            if file_count % 100 == 0:
+                print(f"Processed Latents from trial {file_count}")
+    else:
+        latentfiles = [
+            f
+            for f in listdir(folderpath)
+            if isfile(join(folderpath, f))
+            if f.startswith("latent_states_" + model + "_trial_")
+        ]
+        file_count = 0
+        latents_by_trial = []
 
-    for iFile in latentfiles:
-        latents = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
-        latents_by_trial.extend(latents[:, :])
-        file_count += 1
-        if file_count % 100 == 0:
-            print(f"Processed Latents from trial {file_count}")
+        for iFile in latentfiles:
+            latents = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
+            latents_by_trial.extend(latents[:, :])
+            file_count += 1
+            if file_count % 100 == 0:
+                print(f"Processed Latents from trial {file_count}")
 
     # %% Decoding
     training_range = [0, 0.7]
@@ -100,12 +115,12 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     X_kf_valid = X_kf[valid_set, :]
     y_kf_valid = y_kf[valid_set, :]
 
-    # Z-score inputs
-    X_kf_train_mean = np.nanmean(X_kf_train, axis=0)
-    X_kf_train_std = np.nanstd(X_kf_train, axis=0)
-    X_kf_train = (X_kf_train-X_kf_train_mean)/X_kf_train_std
-    X_kf_test = (X_kf_test-X_kf_train_mean)/X_kf_train_std
-    X_kf_valid = (X_kf_valid-X_kf_train_mean)/X_kf_train_std
+    # # Z-score inputs
+    # X_kf_train_mean = np.nanmean(X_kf_train, axis=0)
+    # X_kf_train_std = np.nanstd(X_kf_train, axis=0)
+    # X_kf_train = (X_kf_train-X_kf_train_mean)/X_kf_train_std
+    # X_kf_test = (X_kf_test-X_kf_train_mean)/X_kf_train_std
+    # X_kf_valid = (X_kf_valid-X_kf_train_mean)/X_kf_train_std
 
     # Zero-center outputs
     y_kf_train_mean = np.mean(y_kf_train, axis=0)
@@ -152,11 +167,11 @@ num_latent_dims_rslds = 25
 num_discrete_states_rslds = 10
 num_latent_dims_slds = 2
 num_discrete_states_slds = 2
-num_latent_dims_lds = 2
+num_latent_dims_lds = 40
 num_discrete_states_hmm = 28
 subject = 'rs'
 task = 'RTP'
-model = 'hmm'
+model = 'raw'
 
 # %% Data Import
 

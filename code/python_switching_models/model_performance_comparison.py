@@ -26,7 +26,7 @@ num_latent_dims_rslds = 25
 num_discrete_states_rslds = 10
 num_latent_dims_slds = 2
 num_discrete_states_slds = 2
-num_latent_dims_lds = 2
+num_latent_dims_lds = 40
 num_discrete_states_hmm = 28
 trial_folds = int(1/test_portion)
 neuron_folds = 4
@@ -200,37 +200,50 @@ for iTrial in range(len(fullset)):
 
 # print("Created HMM Model")
 
-# # LDS
-# model = ssm.LDS(observation_dimensions, num_latent_dims_lds,
-#                 emissions="poisson")
-# model.initialize(trainset)
-# q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
-#                                            variational_posterior="structured_meanfield",
-#                                            num_iters=25)
+# LDS
+model = ssm.LDS(observation_dimensions, num_latent_dims_lds,
+                emissions="poisson")
+model.initialize(trainset)
+q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
+                                           variational_posterior="structured_meanfield",
+                                           num_iters=15)
 
-# inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in testset]
-# masks = []
-# for y in testset:
-#     mask = np.ones_like(y)
-#     mask = mask.astype(bool)
-#     masks.append(mask)
+inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in testset]
+masks = []
+for y in testset:
+    mask = np.ones_like(y)
+    mask = mask.astype(bool)
+    masks.append(mask)
 
-# _elbos, _q_model = model.approximate_posterior(
-#     testset,
-#     method="laplace_em",
-#     variational_posterior="structured_meanfield",
-#     num_iters=25, alpha=0.5)
+q_elbos_lem_test, q_lem_test = model.approximate_posterior(
+    testset,
+    method="laplace_em",
+    variational_posterior="structured_meanfield",
+    num_iters=15, alpha=0.5)
 
-# lls = 0.0
-# for tr in range(len(testset)):
-#     ll = np.sum(model.emissions.log_likelihoods(testset[tr],
-#                                                 inputs[tr],
-#                                                 mask=masks[tr],
-#                                                 tag=None,
-#                                                 x=_q_model.mean_continuous_states[tr]))
-#     lls += ll
-# lds_test_ll.append(lls)
-# print("Created LDS Model")
+
+xhat_lem = []
+for iTrial in range(len(trind_train)):
+    xhat_lem.insert(trind_train[iTrial], q_lem_train.mean_continuous_states[iTrial])
+for iTrial in range(len(trind_test)):
+    xhat_lem.insert(trind_test[iTrial], q_lem_test.mean_continuous_states[iTrial])
+
+for iTrial in range(len(xhat_lem)):
+    latent_states_rslds_temp = pd.DataFrame(xhat_lem[iTrial])
+    latent_states_rslds_temp.to_csv(folderpath_out + "latent_states_lds_trial_" +
+                                    str('{:04}'.format(iTrial+1)) + "_fold_" + str(iFold) + ".csv", index=False, header=False)
+
+
+lls = 0.0
+for tr in range(len(testset)):
+    ll = np.sum(model.emissions.log_likelihoods(testset[tr],
+                                                inputs[tr],
+                                                mask=masks[tr],
+                                                tag=None,
+                                                x=q_lem_test.mean_continuous_states[tr]))
+    lls += ll
+lds_test_ll.append(lls)
+print("Created LDS Model")
 
 # # SLDS
 # model = ssm.SLDS(observation_dimensions, num_discrete_states_slds, num_latent_dims_slds,
