@@ -7,7 +7,7 @@ Created on Mon Nov 21 09:45:48 2022
 
 
 import os
-import scipy
+import pandas as pd
 
 
 def decode_kinematics_from_latents(kinpath, latentpath, model):
@@ -82,71 +82,78 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
                 print(f"Processed Latents from trial {file_count}")
 
     # %% Decoding
-    training_range = [0, 0.8]
-    valid_range = [0.8, 0.9]
-    testing_range = [0.9, 1]
+    R2_kf_all = []
+
+    train_portion = .9
+    test_portion = .1
     y_valid_predicted_kf = []
+
     lag = 0
     # X_kf = scipy.ndimage.gaussian_filter1d(np.asarray(latents_by_trial), 3, axis=0)
     X_kf = np.asarray(latents_by_trial)
     y_kf = np.asarray(full_kinematics_binned)
-
-    # Remove neurons with too few spikes in HC dataset
-    nd_sum = np.nansum(X_kf, axis=0)  # Total number of spikes of each neuron
-    rmv_nrn = np.where(nd_sum < 100)  # Find neurons who have less than 100 spikes total
-    X_kf = np.delete(X_kf, rmv_nrn, 1)  # Remove those neurons
-
-    # Number of examples after taking into account bins removed for lag alignment
     num_examples_kf = X_kf.shape[0]
+    multifold_order = np.asarray(np.arange(num_examples_kf))
 
-    # Note that each range has a buffer of 1 bin at the beginning and end
-    # This makes it so that the different sets don't include overlapping data
-    training_set = np.arange(np.int64(np.round(
-        training_range[0]*num_examples_kf))+1, np.int64(np.round(training_range[1]*num_examples_kf))-1)
-    testing_set = np.arange(np.int64(np.round(
-        testing_range[0]*num_examples_kf))+1, np.int64(np.round(testing_range[1]*num_examples_kf))-1)
-    valid_set = np.arange(np.int64(
-        np.round(valid_range[0]*num_examples_kf))+1, np.int64(np.round(valid_range[1]*num_examples_kf))-1)
+    if model == "raw" or model == 'hmm':
+        nd_sum = np.nansum(X_kf, axis=0)  # Total number of spikes of each neuron
+        rmv_nrn = np.where(nd_sum < 100)  # Find neurons who have less than 100 spikes total
+        X_kf = np.delete(X_kf, rmv_nrn, 1)  # Remove those neurons
 
-    # Get training data
-    X_kf_train = X_kf[training_set, :]
-    y_kf_train = y_kf[training_set, :]
+    for iFold in np.arange(1, 11):
 
-    # Get testing data
-    X_kf_test = X_kf[testing_set, :]
-    y_kf_test = y_kf[testing_set, :]
+        # Remove neurons with too few spikes in HC dataset
 
-    # Get validation data
-    X_kf_valid = X_kf[valid_set, :]
-    y_kf_valid = y_kf[valid_set, :]
+        # Number of examples after taking into account bins removed for lag alignment
 
-    # Z-score inputs
-    X_kf_train_mean = np.nanmean(X_kf_train, axis=0)
-    X_kf_train_std = np.nanstd(X_kf_train, axis=0)
-    X_kf_train = (X_kf_train-X_kf_train_mean)/X_kf_train_std
-    X_kf_test = (X_kf_test-X_kf_train_mean)/X_kf_train_std
-    X_kf_valid = (X_kf_valid-X_kf_train_mean)/X_kf_train_std
+        fold_test_data_range_start = int((
+            (test_portion*iFold) - test_portion)*num_examples_kf)
+        fold_test_data_range_end = int((test_portion*iFold)*num_examples_kf)
 
-    # Zero-center outputs
-    y_kf_train_mean = np.mean(y_kf_train, axis=0)
-    y_kf_train = y_kf_train-y_kf_train_mean
-    y_kf_test = y_kf_test-y_kf_train_mean
-    y_kf_valid = y_kf_valid-y_kf_train_mean
+        test_mask = np.zeros_like(np.arange(num_examples_kf), bool)
+        test_mask[fold_test_data_range_start:fold_test_data_range_end] = True
+        test_mask = np.logical_not(test_mask)
+        train_mask = np.logical_not(test_mask)
+        fold_test_timepoints = multifold_order[test_mask]
+        fold_train_timepoints = multifold_order[train_mask]
 
-    # Declare model
-    # There is one optional parameter (see ReadMe)
-    model_kf = Neural_Decoding.KalmanFilterDecoder(C=1)
+        # Note that each range has a buffer of 1 bin at the beginning and end
+        # This makes it so that the different sets don't include overlapping data
 
-    # Fit model
-    model_kf.fit(X_kf_train, y_kf_train)
+        # Get training data
+        X_kf_train = X_kf[fold_train_timepoints, :]
+        y_kf_train = y_kf[fold_train_timepoints, :]
 
-    # Get predictions
-    y_valid_predicted_kf = model_kf.predict(X_kf_valid, y_kf_valid)
+        # Get testing data
+        X_kf_test = X_kf[fold_test_timepoints, :]
+        y_kf_test = y_kf[fold_test_timepoints, :]
 
-    # Printing out R2s for all of the kinematics parameters
-    R2_kf = Neural_Decoding.get_R2(y_kf_valid, y_valid_predicted_kf)
-    print('R2:', R2_kf)
+        # Z-score inputs
+        X_kf_train_mean = np.nanmean(X_kf_train, axis=0)
+        X_kf_train_std = np.nanstd(X_kf_train, axis=0)
+        X_kf_train = (X_kf_train-X_kf_train_mean)/X_kf_train_std
+        X_kf_test = (X_kf_test-X_kf_train_mean)/X_kf_train_std
 
+        # Zero-center outputs
+        y_kf_train_mean = np.mean(y_kf_train, axis=0)
+        y_kf_train = y_kf_train-y_kf_train_mean
+        y_kf_test = y_kf_test-y_kf_train_mean
+
+        # Declare model
+        # There is one optional parameter (see ReadMe)
+        model_kf = Neural_Decoding.KalmanFilterDecoder(C=1)
+
+        # Fit model
+        model_kf.fit(X_kf_train, y_kf_train)
+
+        # Get predictions
+        y_test_predicted_kf = model_kf.predict(X_kf_test, y_kf_test)
+
+        # Printing out R2s for all of the kinematics parameters
+        R2_kf = Neural_Decoding.get_R2(y_kf_test, y_test_predicted_kf)
+        print('R2:', R2_kf)
+
+        R2_kf_all.append(R2_kf)
     # As an example, I plot an example 1000 values of the x velocity (column index 2),
     # both true and predicted with the Kalman filter
     # Note that I add back in the mean value,
@@ -158,13 +165,14 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     #          y_valid_predicted_kf[1000:2000, 1]+y_kf_train_mean[1], 'r')
     # plt.plot(y_kf_valid[1000:2000, 2]+y_kf_train_mean[2], 'b')
     # plt.plot(y_valid_predicted_kf[1000:2000, 2]+y_kf_train_mean[2], 'r')
-    plt.plot(y_kf_valid[1000:2000, 3]+y_kf_train_mean[3], 'b')
-    plt.plot(y_valid_predicted_kf[1000:2000, 3]+y_kf_train_mean[3], 'r')    # Save figure
+    # plt.plot(y_kf_valid[1000:2000, 3]+y_kf_train_mean[3], 'b')
+    # plt.plot(y_valid_predicted_kf[1000:2000, 3]+y_kf_train_mean[3], 'r')    # Save figure
     # fig_x_kf.savefig('x_velocity_decoding.eps')
-    return R2_kf, y_valid_predicted_kf, model_kf
+    return R2_kf_all, y_valid_predicted_kf, model_kf
 
 
 # %% Parameter Setting
+
 
 num_latent_dims_rslds = 25
 num_discrete_states_rslds = 10
@@ -174,7 +182,7 @@ num_latent_dims_lds = 40
 num_discrete_states_hmm = 28
 subject = 'rs'
 task = 'RTP'
-model = 'hmm'
+model = 'raw'
 
 # %% Data Import
 
@@ -214,4 +222,9 @@ latentpath = (folderpath)  # + str(num_discrete_states_rslds) +
 #  "_states_" + str(num_latent_dims_rslds) + "_dims/")
 kinpath = folderpath
 
-R2_kf, y_valid_predicted_kf, model_kf = decode_kinematics_from_latents(kinpath, latentpath, model)
+R2_kf_all, y_valid_predicted_kf, model_kf = decode_kinematics_from_latents(
+    kinpath, latentpath, model)
+
+R2_kf_all_out = pd.DataFrame(R2_kf_all)
+R2_kf_all_out.to_csv(
+    folderpath + model + '_kalman_test_R2_for_model_comparison.csv', index=False, header=True)
