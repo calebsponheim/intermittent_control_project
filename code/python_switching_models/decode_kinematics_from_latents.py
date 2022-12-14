@@ -14,11 +14,11 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
     import pandas as pd
     import numpy as np
+    import csv
     from os import listdir
     from os.path import isfile, join
     import Neural_Decoding
     import matplotlib.pyplot as plt
-    from import_matlab_data import import_matlab_data
     # from scipy import io
     # from scipy import stats
     # import pickle
@@ -67,17 +67,17 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     ]
     file_count = 0
     full_kinematics_by_trial = []
-    for iFile in kinfiles[0:5]:
-        print(iFile)
+    for iFile in kinfiles:
+        # print(iFile)
         iTrial = iFile.split('trial', 1)[1]
         iTrial = int(iTrial.split('_kinematics')[0])
         if iTrial in trind_test:
-            print(iTrial)
+            # print(iTrial)
             kinematics = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
             full_kinematics_by_trial.append(kinematics)
         file_count += 1
-        if file_count % 100 == 0:
-            print(f"Processed Kinematics from trial {file_count}")
+        # if file_count % 100 == 0:
+        #     print(f"Processed Kinematics from trial {file_count}")
 
     # Bin Kinematics
     full_kinematics_binned = []
@@ -98,17 +98,36 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         latents_by_trial = []
         latents_test = []
         latent_length = []
-        data = import_matlab_data(latentpath)
+
+        # Importing Raw Spiking Data
+        spikefiles = [
+            f
+            for f in listdir(folderpath)
+            if isfile(join(folderpath, f))
+            if f.endswith("_spikes.csv")
+        ]
+
         file_count = 0
-        for iTrial in np.arange(len(data.spikes))[0:5]:
-            if iTrial in trind_test:
-                print(iTrial)
-                latents_by_trial.extend(np.asarray(data.spikes[iTrial]).T[1:, :])
-                latents_test.append(np.asarray(data.spikes[iTrial]).T[1:, :])
-                latent_length.append((np.asarray(data.spikes[iTrial]).T[1:, :]).shape)
+        data = []
+        # data_concatenated = []
+        for iFile in spikefiles:
+            data_ind_file = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
+            data.append(data_ind_file)
             file_count += 1
-            if file_count % 100 == 0:
-                print(f"Processed Latents from trial {file_count}")
+            # if file_count % 100 == 0:
+            # print(f"Processed spikes from trial {file_count}.")
+
+        # Putting spikes into Latent Structure for decode
+        file_count = 0
+        for iTrial in np.arange(len(data)):
+            if iTrial+1 in trind_test:
+                # print(iTrial)
+                latents_by_trial.extend(data[iTrial].T[1:, :])
+                latents_test.append(data[iTrial].T[1:, :])
+                latent_length.append(data[iTrial].T[1:, :].shape)
+            file_count += 1
+            # if file_count % 100 == 0:
+            # print(f"Processed Latents from trial {file_count}")
     else:
         latentfiles = [
             f
@@ -120,24 +139,24 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         latents_by_trial = []
         latent_length = []
 
-        for iFile in latentfiles[0:5]:
-            print(iFile)
+        for iFile in latentfiles:
+            # print(iFile)
             iTrial = iFile.split('trial_', 1)[1]
             iTrial = int(iTrial.split('_fold_')[0])
             if iTrial in trind_test:
-                print(iTrial)
+                # print(iTrial)
                 latents = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
                 latents_by_trial.extend(latents)
                 latent_length.append(len(latents))
             file_count += 1
-            if file_count % 100 == 0:
-                print(f"Processed Latents from trial {file_count}")
+            # if file_count % 100 == 0:
+            # print(f"Processed Latents from trial {file_count}")
 
     # %% Decoding
     R2_kf_all = []
 
-    train_portion = .9
-    test_portion = .1
+    train_portion = .99
+    test_portion = .01
     y_valid_predicted_kf = []
 
     lag = 0
@@ -145,6 +164,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     X_kf = np.asarray(latents_by_trial)
     y_kf = np.asarray(full_kinematics_binned)
 
+    # Remove neurons with too few spikes in HC dataset
     if model == "raw" or model == 'hmm':
         nd_sum = np.nansum(X_kf, axis=0)  # Total number of spikes of each neuron
         rmv_nrn = np.where(nd_sum < 100)  # Find neurons who have less than 100 spikes total
@@ -153,9 +173,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     num_examples_kf = X_kf.shape[0]
     multifold_order = np.asarray(np.arange(num_examples_kf))
 
-    for iFold in np.arange(1, 11):
-
-        # Remove neurons with too few spikes in HC dataset
+    for iFold in np.arange(1, (1/test_portion)+1):
 
         # Number of examples after taking into account bins removed for lag alignment
 
@@ -165,7 +183,6 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
         test_mask = np.zeros_like(np.arange(num_examples_kf), bool)
         test_mask[fold_test_data_range_start:fold_test_data_range_end] = True
-        test_mask = np.logical_not(test_mask)
         train_mask = np.logical_not(test_mask)
         fold_test_timepoints = multifold_order[test_mask]
         fold_train_timepoints = multifold_order[train_mask]
@@ -271,9 +288,9 @@ if str(num_discrete_states_rslds) + "_states_" + str(num_latent_dims_rslds) + "_
     os.mkdir(folderpath + str(num_discrete_states_rslds) +
              "_states_" + str(num_latent_dims_rslds) + "_dims/")
 
-latentpath = (folderpath)  # + str(num_discrete_states_rslds) +
-#  "_states_" + str(num_latent_dims_rslds) + "_dims/")
+latentpath = folderpath
 kinpath = folderpath
+# %%
 
 R2_kf_all, y_valid_predicted_kf, model_kf = decode_kinematics_from_latents(
     kinpath, latentpath, model)

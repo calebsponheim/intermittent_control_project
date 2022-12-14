@@ -7,13 +7,13 @@ subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\r
 num_states_subject = 8;
 if contains(subject_filepath,'1050225')
     task = 'CO';
-elseif contains(subject_filepath,'105 0211')
+elseif contains(subject_filepath,'1050211')
     task = 'RTP';
 end
 bin_size = .050; %s
 % bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
 bad_trials = [];
-move_only = 1;
+move_only = 0;
 muscle_lag = .100; %seconds
 % Scripts to run:
 
