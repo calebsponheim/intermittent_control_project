@@ -24,6 +24,41 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     # import pickle
     # Load Kinematics
 
+    # Identifying Test/Train Trials from the models
+    train_portion = 0.8
+    test_portion = 0.2
+    iFold = 1
+    # see if multifold shuffles index file csv is already made
+    temp_datafolderlist = os.listdir(latentpath)
+
+    # Trials
+    if 'multifold_trial_classification.csv' in temp_datafolderlist:
+        # if it is, then load it
+        multifold_shuffled_order = pd.DataFrame.to_numpy(pd.read_csv(
+            latentpath + 'multifold_trial_classification.csv'))
+    elif 'multifold_trial_classification.csv' not in temp_datafolderlist:
+        print('uh oh')
+        # bring in which fold it is
+    # take that segment of data
+    number_of_trials = len(multifold_shuffled_order)
+    trial_indices = np.arange(0, number_of_trials)
+
+    fold_test_data_range_start = int((
+        (test_portion*iFold) - test_portion)*number_of_trials)
+    fold_test_data_range_end = int((test_portion*iFold)*number_of_trials)
+    test_mask = np.ones_like(trial_indices, bool)
+    test_mask[fold_test_data_range_start:fold_test_data_range_end] = False
+    test_mask = np.logical_not(test_mask)
+    fold_test_trials = multifold_shuffled_order[test_mask]
+    trial_classification = []
+    for iTrial in range(number_of_trials):
+        if iTrial in fold_test_trials:
+            trial_classification.append('test')
+        else:
+            trial_classification.append('train')
+
+    trind_test = [i for i, x in enumerate(trial_classification) if x == "test"]
+
     kinfiles = [
         f
         for f in listdir(folderpath)
@@ -32,9 +67,14 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     ]
     file_count = 0
     full_kinematics_by_trial = []
-    for iFile in kinfiles:
-        kinematics = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
-        full_kinematics_by_trial.append(kinematics)
+    for iFile in kinfiles[0:5]:
+        print(iFile)
+        iTrial = iFile.split('trial', 1)[1]
+        iTrial = int(iTrial.split('_kinematics')[0])
+        if iTrial in trind_test:
+            print(iTrial)
+            kinematics = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
+            full_kinematics_by_trial.append(kinematics)
         file_count += 1
         if file_count % 100 == 0:
             print(f"Processed Kinematics from trial {file_count}")
@@ -49,18 +89,23 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         t_start = 0
         t_end = len(full_kinematics_by_trial[iTrial])/1000
         downsample_factor = 1
-        full_kinematics_binned.extend(Neural_Decoding.bin_output(
-            vels, vel_times, dt, t_start, t_end, downsample_factor))
-        kin_length.append(len(Neural_Decoding.bin_output(
-            vels, vel_times, dt, t_start, t_end, downsample_factor)))
+        out = Neural_Decoding.bin_output(vels, vel_times, dt, t_start, t_end, downsample_factor)
+        full_kinematics_binned.extend(out)
+        kin_length.append(out.shape)
 
     # Load Latents
     if model == 'raw':
         latents_by_trial = []
+        latents_test = []
+        latent_length = []
         data = import_matlab_data(latentpath)
         file_count = 0
-        for iTrial in np.arange(len(data.spikes)):
-            latents_by_trial.extend(np.asarray(data.spikes[iTrial][1:]).T[1:, :])
+        for iTrial in np.arange(len(data.spikes))[0:5]:
+            if iTrial in trind_test:
+                print(iTrial)
+                latents_by_trial.extend(np.asarray(data.spikes[iTrial]).T[1:, :])
+                latents_test.append(np.asarray(data.spikes[iTrial]).T[1:, :])
+                latent_length.append((np.asarray(data.spikes[iTrial]).T[1:, :]).shape)
             file_count += 1
             if file_count % 100 == 0:
                 print(f"Processed Latents from trial {file_count}")
@@ -73,10 +118,17 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         ]
         file_count = 0
         latents_by_trial = []
+        latent_length = []
 
-        for iFile in latentfiles:
-            latents = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
-            latents_by_trial.extend(latents[:, :])
+        for iFile in latentfiles[0:5]:
+            print(iFile)
+            iTrial = iFile.split('trial_', 1)[1]
+            iTrial = int(iTrial.split('_fold_')[0])
+            if iTrial in trind_test:
+                print(iTrial)
+                latents = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
+                latents_by_trial.extend(latents)
+                latent_length.append(len(latents))
             file_count += 1
             if file_count % 100 == 0:
                 print(f"Processed Latents from trial {file_count}")
@@ -92,13 +144,14 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     # X_kf = scipy.ndimage.gaussian_filter1d(np.asarray(latents_by_trial), 3, axis=0)
     X_kf = np.asarray(latents_by_trial)
     y_kf = np.asarray(full_kinematics_binned)
-    num_examples_kf = X_kf.shape[0]
-    multifold_order = np.asarray(np.arange(num_examples_kf))
 
     if model == "raw" or model == 'hmm':
         nd_sum = np.nansum(X_kf, axis=0)  # Total number of spikes of each neuron
         rmv_nrn = np.where(nd_sum < 100)  # Find neurons who have less than 100 spikes total
         X_kf = np.delete(X_kf, rmv_nrn, 1)  # Remove those neurons
+
+    num_examples_kf = X_kf.shape[0]
+    multifold_order = np.asarray(np.arange(num_examples_kf))
 
     for iFold in np.arange(1, 11):
 
