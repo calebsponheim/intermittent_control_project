@@ -27,7 +27,7 @@ for iState = 1:size(eigenvalue_magnitude,1)
 end
 xlabel('Dimension index')
 ylabel('cumulative Magnitude')
-title(strcat("Cumulative Eigenvalue Magnitude (Imaginary + Real)"))
+title(strcat("Cumulative Eigenvalue Magnitude (Real)"))
 hold off
 box off
 set(gcf,"Color",'White')
