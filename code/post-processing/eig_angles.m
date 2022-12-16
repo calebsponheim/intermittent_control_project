@@ -17,8 +17,8 @@ imaginary_eigenvalues = readmatrix(strcat(meta.filepath,'imaginary_eigenvalues.c
 imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
 
 %% Eigenvalue Magnitude Mapping
-eigenvalue_magnitude = sqrt(real_eigenvalues.^2 + imaginary_eigenvalues.^2);
-% eigenvalue_magnitude = real_eigenvalues;
+% eigenvalue_magnitude = sqrt(real_eigenvalues.^2 + imaginary_eigenvalues.^2);
+eigenvalue_magnitude = real_eigenvalues;
 figure('visible','off'); hold on
 for iState = 1:size(eigenvalue_magnitude,1)
     temp_eigenvalue_magnitude = eigenvalue_magnitude(iState,:);
