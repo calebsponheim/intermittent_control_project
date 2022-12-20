@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=f_3
-#SBATCH --array=2-80
+#SBATCH --array=80-100
 #SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/rs_CO/LDS_%a_3.out
 #SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/rs_CO/LDS_%a_3.err
 #SBATCH --time=1:00:00
