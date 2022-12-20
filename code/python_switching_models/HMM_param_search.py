@@ -26,10 +26,10 @@ task = str(sys.argv[2])
 subject = str(sys.argv[3])
 num_discrete_states = int(sys.argv[4])
 
-# fold_number = 1
-# task = 'CO'
-# subject = 'rs'
-# num_discrete_states = 2
+fold_number = 1
+task = 'CO'
+subject = 'rs'
+num_discrete_states = 2
 
 # %% Data Import
 current_working_directory = os.getcwd()
@@ -123,7 +123,7 @@ for iTrial in range(number_of_trials):
 if 'multifold_neuron_classification.csv' in temp_datafolderlist:
     # if it is, then load it
     multifold_shuffled_neuron_order = pd.DataFrame.to_numpy(pd.read_csv(
-        folderpath + 'multifold_neuron_classification.csv'))
+        folderpath_out + 'multifold_neuron_classification.csv'))
 elif 'multifold_neuron_classification.csv' not in temp_datafolderlist:
     # if not, make it
     np.random.shuffle(neuron_indices)
@@ -131,7 +131,7 @@ elif 'multifold_neuron_classification.csv' not in temp_datafolderlist:
 
     multifold_shuffled_neuron_order_out = pd.DataFrame(multifold_shuffled_neuron_order)
     multifold_shuffled_neuron_order_out.to_csv(
-        folderpath + 'multifold_neuron_classification.csv', index=False, header=True)
+        folderpath_out + 'multifold_neuron_classification.csv', index=False, header=True)
 
 # bring in which fold it is
 # take that segment of data
