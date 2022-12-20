@@ -7,10 +7,10 @@ elseif strcmp(getenv('USERNAME'),'caleb_work')
 end
 filepath_base = [file_base_base '\Documents\git\intermittent_control_project\data\python_switching_models\'];
 
-% filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
-filepath = [filepath_base 'RSRTP0.05sBins\'];
+filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
+% filepath = [filepath_base 'RSRTP0.05sBins\'];
 meta.subject = 'RS';
-meta.task = 'RTP';
+meta.task = 'CO';
 meta.crosstrain = 0;
 meta.move_only = 0;
 meta.use_rslds = 0;

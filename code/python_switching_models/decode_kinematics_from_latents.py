@@ -242,17 +242,24 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
 
 # %% Parameter Setting
-
-
-num_latent_dims_rslds = 25
-num_discrete_states_rslds = 10
-num_latent_dims_slds = 2
-num_discrete_states_slds = 2
-num_latent_dims_lds = 40
-num_discrete_states_hmm = 28
 subject = 'rs'
 task = 'RTP'
 model = 'raw'
+
+if subject == 'rs' & task == 'RTP':
+    num_latent_dims_rslds = 25
+    num_discrete_states_rslds = 10
+    num_latent_dims_slds = 2
+    num_discrete_states_slds = 2
+    num_latent_dims_lds = 40
+    num_discrete_states_hmm = 28
+elif subject == 'rs' & task == 'CO':
+    num_latent_dims_rslds = 14
+    num_discrete_states_rslds = 8
+    num_latent_dims_slds = 2
+    num_discrete_states_slds = 2
+    num_latent_dims_lds = 2
+    num_discrete_states_hmm = 2
 
 # %% Data Import
 

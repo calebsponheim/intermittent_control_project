@@ -8,13 +8,13 @@ Different optimal states and dimensions for each type of model.
 @author: caleb_work
 """
 import os
-import csv
+# import csv
 from import_matlab_data import import_matlab_data
-from assign_trials_to_HMM_group import assign_trials_to_HMM_group
+# from assign_trials_to_HMM_group import assign_trials_to_HMM_group
 import pandas as pd
 import numpy as np
-from numpy.linalg import eig
-import autograd.numpy.random as npr
+# from numpy.linalg import eig
+# import autograd.numpy.random as npr
 import ssm
 import pickle
 
@@ -22,16 +22,26 @@ import pickle
 
 train_portion = 0.8
 test_portion = 0.2
-num_latent_dims_rslds = 25
-num_discrete_states_rslds = 10
-num_latent_dims_slds = 2
-num_discrete_states_slds = 2
-num_latent_dims_lds = 40
-num_discrete_states_hmm = 28
+subject = 'rs'
+task = 'CO'
+
+if (subject == 'rs') & (task == 'RTP'):
+    num_latent_dims_rslds = 25
+    num_discrete_states_rslds = 10
+    num_latent_dims_slds = 2
+    num_discrete_states_slds = 2
+    num_latent_dims_lds = 40
+    num_discrete_states_hmm = 28
+elif (subject == 'rs') & (task == 'CO'):
+    num_latent_dims_rslds = 14
+    num_discrete_states_rslds = 8
+    num_latent_dims_slds = 2
+    num_discrete_states_slds = 2
+    num_latent_dims_lds = 2
+    num_discrete_states_hmm = 2
+
 trial_folds = int(1/test_portion)
 neuron_folds = 4
-subject = 'rs'
-task = 'RTP'
 
 # %% Data Import
 current_working_directory = os.getcwd()
