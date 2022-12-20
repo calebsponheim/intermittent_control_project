@@ -26,10 +26,10 @@ task = str(sys.argv[2])
 subject = str(sys.argv[3])
 num_discrete_states = int(sys.argv[4])
 
-fold_number = 1
-task = 'CO'
-subject = 'rs'
-num_discrete_states = 2
+# fold_number = 1
+# task = 'CO'
+# subject = 'rs'
+# num_discrete_states = 2
 
 # %% Data Import
 current_working_directory = os.getcwd()
