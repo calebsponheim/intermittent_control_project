@@ -37,7 +37,7 @@ elif (subject == 'rs') & (task == 'CO'):
     num_discrete_states_rslds = 8
     num_latent_dims_slds = 2
     num_discrete_states_slds = 2
-    num_latent_dims_lds = 80
+    num_latent_dims_lds = 50
     num_discrete_states_hmm = 16
 
 trial_folds = int(1/test_portion)
@@ -171,7 +171,7 @@ for iTrial in range(len(trial_classification)):
         testset.append(np.transpose(np.array(data.spikes[iTrial])))
 
 observation_dimensions = trainset[0].shape[1]
-
+# %%
 # HMM
 N_iters = 15
 hmm = ssm.HMM(
@@ -209,7 +209,7 @@ for iTrial in range(len(fullset)):
 # hmm_test_ll.append(hmm.log_likelihood(testset))
 
 # print("Created HMM Model")
-
+# %%
 # LDS
 model = ssm.LDS(observation_dimensions, num_latent_dims_lds,
                 emissions="poisson")
@@ -254,7 +254,7 @@ for tr in range(len(testset)):
     lls += ll
 lds_test_ll.append(lls)
 print("Created LDS Model")
-
+# %%
 # # SLDS
 # model = ssm.SLDS(observation_dimensions, num_discrete_states_slds, num_latent_dims_slds,
 #                  emissions="poisson",
@@ -287,7 +287,7 @@ print("Created LDS Model")
 #     lls += ll
 # slds_test_ll.append(lls)
 # print("Created SLDS Model")
-
+# %%
 # rSLDS
 model = ssm.SLDS(observation_dimensions, num_discrete_states_rslds, num_latent_dims_rslds,
                  transitions="recurrent",

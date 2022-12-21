@@ -14,6 +14,9 @@ meta.task = 'CO';
 meta.crosstrain = 0;
 meta.move_only = 0;
 meta.use_rslds = 0;
+if strcmp(meta.subject,'RS')
+    meta.session = '';
+end
 %% Create Plot Figure Results Folder
 if meta.crosstrain == 0 
     if meta.move_only == 1
