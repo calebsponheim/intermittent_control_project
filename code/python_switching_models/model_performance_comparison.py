@@ -37,7 +37,7 @@ elif (subject == 'rs') & (task == 'CO'):
     num_discrete_states_rslds = 8
     num_latent_dims_slds = 2
     num_discrete_states_slds = 2
-    num_latent_dims_lds = 2
+    num_latent_dims_lds = 80
     num_discrete_states_hmm = 16
 
 trial_folds = int(1/test_portion)

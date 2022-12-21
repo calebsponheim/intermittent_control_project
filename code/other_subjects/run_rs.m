@@ -2,8 +2,8 @@
 % RS center-out - rs1050225_clean_SNRgt4 located in W:\nicho\ANALYSIS\rs1050225_MI
 % RS RTP - rs1050211_clean_spikes_SNRgt4 located in W:\nicho\ANALYSIS\rs1050211
 subject = 'RS';
-% subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050225_MI\rs1050225_clean_SNRgt4';
-subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
+subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050225_MI\rs1050225_clean_SNRgt4';
+% subject_filepath = '\\prfs.cri.uchicago.edu\nicho-lab\nicho\ANALYSIS\rs1050211\rs1050211_clean_spikes_SNRgt4';
 num_states_subject = 8;
 if contains(subject_filepath,'1050225')
     task = 'CO';
@@ -13,7 +13,7 @@ end
 bin_size = .050; %s
 % bad_trials = [2;92;151;167;180;212;244;256;325;415;457;508;571;662;686;748];
 bad_trials = [];
-move_only = 0;
+move_only = 1;
 muscle_lag = .100; %seconds
 % Scripts to run:
 
