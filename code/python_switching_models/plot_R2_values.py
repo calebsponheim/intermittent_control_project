@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 # Plotting R^2 Values from Kalman Filter Decoders
 subject = 'rs'
-task = 'RTP'
+task = 'CO'
 
 current_working_directory = os.getcwd()
 if "calebsponheim" in current_working_directory:
@@ -62,7 +62,7 @@ rslds_r2 = pd.DataFrame.to_numpy(pd.read_csv(
 
 # %%
 plt.figure(figsize=[8, 8], dpi=300, edgecolor='white', layout='tight')
-plt.plot(np.asarray(np.arange(0, 1, .1)), np.asarray(np.arange(0, 1, .1)), color='black')
+plt.plot(np.asarray(np.arange(0, 2, .1)), np.asarray(np.arange(0, 2, .1)), color='black')
 plt.title("R^2 Values for Kalman Decoder Performance")
 plt.xlabel("rSLDS R^2")
 plt.ylabel("comparison R^2")
@@ -75,5 +75,6 @@ plt.plot(rslds_r2[:, 3], hmm_r2[:, 3], marker='o', linestyle='none', color='blue
 
 plt.plot(rslds_r2[:, 2], lds_r2[:, 2], marker='o', linestyle='none', color='green', label='LDS')
 plt.plot(rslds_r2[:, 3], lds_r2[:, 3], marker='o', linestyle='none', color='green')
-
+plt.xlim(0, 1)
+plt.ylim(0, 1)
 plt.legend()
