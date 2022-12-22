@@ -14,18 +14,11 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
     import pandas as pd
     import numpy as np
-    import csv
     from os import listdir
     from os.path import isfile, join
     import Neural_Decoding
-    import matplotlib.pyplot as plt
-    # from scipy import io
-    # from scipy import stats
-    # import pickle
-    # Load Kinematics
 
     # Identifying Test/Train Trials from the models
-    train_portion = 0.8
     test_portion = 0.2
     iFold = 1
     # see if multifold shuffles index file csv is already made
@@ -68,16 +61,12 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     file_count = 0
     full_kinematics_by_trial = []
     for iFile in kinfiles:
-        # print(iFile)
         iTrial = iFile.split('trial', 1)[1]
         iTrial = int(iTrial.split('_kinematics')[0])
         if iTrial in trind_test:
-            # print(iTrial)
             kinematics = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
             full_kinematics_by_trial.append(kinematics)
         file_count += 1
-        # if file_count % 100 == 0:
-        #     print(f"Processed Kinematics from trial {file_count}")
 
     # Bin Kinematics
     full_kinematics_binned = []
@@ -109,13 +98,10 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
         file_count = 0
         data = []
-        # data_concatenated = []
         for iFile in spikefiles:
             data_ind_file = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
             data.append(data_ind_file)
             file_count += 1
-            # if file_count % 100 == 0:
-            # print(f"Processed spikes from trial {file_count}.")
 
         # Putting spikes into Latent Structure for decode
         file_count = 0
@@ -126,8 +112,6 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
                 latents_test.append(data[iTrial].T[1:, :])
                 latent_length.append(data[iTrial].T[1:, :].shape)
             file_count += 1
-            # if file_count % 100 == 0:
-            # print(f"Processed Latents from trial {file_count}")
     else:
         latentfiles = [
             f
@@ -149,18 +133,14 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
                 latents_by_trial.extend(latents)
                 latent_length.append(len(latents))
             file_count += 1
-            # if file_count % 100 == 0:
-            # print(f"Processed Latents from trial {file_count}")
 
     # %% Decoding
     R2_kf_all = []
 
-    train_portion = .90
     test_portion = .10
     y_valid_predicted_kf = []
 
     lag = 0
-    # X_kf = scipy.ndimage.gaussian_filter1d(np.asarray(latents_by_trial), 3, axis=0)
     X_kf = np.asarray(latents_by_trial)
     y_kf = np.asarray(full_kinematics_binned)
 
@@ -224,20 +204,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         print('R2:', R2_kf)
 
         R2_kf_all.append(R2_kf)
-    # As an example, I plot an example 1000 values of the x velocity (column index 2),
-    # both true and predicted with the Kalman filter
-    # Note that I add back in the mean value,
-    # so that both true and predicted values are in the original coordinates
-    # fig_x_kf = plt.figure()
-    # plt.plot(y_kf_valid[1000:2000, 0]+y_kf_train_mean[0],
-    #          y_kf_valid[1000:2000, 1]+y_kf_train_mean[1], 'b')
-    # plt.plot(y_valid_predicted_kf[1000:2000, 0]+y_kf_train_mean[0],
-    #          y_valid_predicted_kf[1000:2000, 1]+y_kf_train_mean[1], 'r')
-    # plt.plot(y_kf_valid[1000:2000, 2]+y_kf_train_mean[2], 'b')
-    # plt.plot(y_valid_predicted_kf[1000:2000, 2]+y_kf_train_mean[2], 'r')
-    # plt.plot(y_kf_valid[1000:2000, 3]+y_kf_train_mean[3], 'b')
-    # plt.plot(y_valid_predicted_kf[1000:2000, 3]+y_kf_train_mean[3], 'r')    # Save figure
-    # fig_x_kf.savefig('x_velocity_decoding.eps')
+
     return R2_kf_all, y_valid_predicted_kf, model_kf
 
 
@@ -291,7 +258,8 @@ else:
     print("BAD, NO")
 
 temp_folderlist = os.listdir(folderpath)
-if str(num_discrete_states_rslds) + "_states_" + str(num_latent_dims_rslds) + "_dims" not in temp_folderlist:
+temp = str(num_discrete_states_rslds) + "_states_" + str(num_latent_dims_rslds) + "_dims"
+if temp not in temp_folderlist:
     os.mkdir(folderpath + str(num_discrete_states_rslds) +
              "_states_" + str(num_latent_dims_rslds) + "_dims/")
 

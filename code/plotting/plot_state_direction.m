@@ -1,12 +1,14 @@
-function [snippet_direction] = plot_state_direction(meta,data,snippet_data,colors)
+function [snippet_direction_out] = plot_state_direction(meta,data,snippet_data,colors)
 %%
 
 available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'model_select'));
 if meta.analyze_all_trials == 1
     available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'train') | ismember({data.trial_classification},'model_select'));
 end
-
+snippet_direction = [];
+snippet_direction_out = [];
 for iState = 1:size(snippet_data,2)
+    snippet_direction_temp = [];
     [~,~,allowed_snippets] = intersect(available_test_trials,snippet_data(iState).snippet_trial);
     state_snippets = snippet_data(iState).snippet_timestamps(allowed_snippets);
     state_snippet_trials = snippet_data(iState).snippet_trial(allowed_snippets);
@@ -18,7 +20,9 @@ for iState = 1:size(snippet_data,2)
             beginningy = data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}(1));
             snippet_vector = [endx - beginningx, endy - beginningy];
             snippet_direction(iSnippet,iState) = atan2(snippet_vector(2),snippet_vector(1));
+            snippet_direction_temp(iSnippet) = atan2(snippet_vector(2),snippet_vector(1));
         end
+        snippet_direction_out(iState) = circ_mean(snippet_direction_temp');
     end
     if ~isempty(state_snippet_trials)
         figure('visible','off');polaraxes; hold on

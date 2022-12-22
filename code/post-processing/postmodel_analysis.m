@@ -42,7 +42,7 @@ plot_single_trials_v2(meta,data,colors)
 % Plot Segments
 plot_state_snippets(meta,data,snippet_data,colors)
 % Plot State Direction
-snippet_direction = plot_state_direction(meta,data,snippet_data,colors);
+snippet_direction_out = plot_state_direction(meta,data,snippet_data,colors);
 
 % Plot all Trials
 plot_all_trials_v2(meta,data,colors);
@@ -66,7 +66,7 @@ if meta.plot_ll_rslds == 1
 end
 if meta.use_rslds == 1
     eig_angles(meta,sorted_state_transitions)
-    plot_eigs(meta,colors)
+    plot_eigs(meta,colors,snippet_direction_out)  
 end
 
 if contains(meta.task,'CO')

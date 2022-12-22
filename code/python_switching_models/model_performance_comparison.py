@@ -84,11 +84,14 @@ else:
 
 temp_folderlist = os.listdir(folderpath)
 temp_figurelist = os.listdir(figurepath)
-if str(num_discrete_states_rslds) + "_states_" + str(num_latent_dims_rslds) + "_dims" not in temp_folderlist:
+
+temp = str(num_discrete_states_rslds) + "_states_" + str(num_latent_dims_rslds) + "_dims"
+
+if temp not in temp_folderlist:
     os.mkdir(folderpath + str(num_discrete_states_rslds) +
              "_states_" + str(num_latent_dims_rslds) + "_dims/")
 
-if str(num_discrete_states_rslds) + "_states_" + str(num_latent_dims_rslds) + "_dims" not in temp_figurelist:
+if temp not in temp_figurelist:
     os.mkdir(figurepath + str(num_discrete_states_rslds) +
              "_states_" + str(num_latent_dims_rslds) + "_dims/")
 
@@ -241,7 +244,8 @@ for iTrial in range(len(trind_test)):
 for iTrial in range(len(xhat_lem)):
     latent_states_rslds_temp = pd.DataFrame(xhat_lem[iTrial])
     latent_states_rslds_temp.to_csv(folderpath_out + "latent_states_lds_trial_" +
-                                    str('{:04}'.format(iTrial+1)) + "_fold_" + str(iFold) + ".csv", index=False, header=False)
+                                    str('{:04}'.format(iTrial+1)) + "_fold_" +
+                                    str(iFold) + ".csv", index=False, header=False)
 
 
 lls = 0.0
@@ -322,7 +326,8 @@ for iTrial in range(len(trind_test)):
 for iTrial in range(len(xhat_lem)):
     latent_states_rslds_temp = pd.DataFrame(xhat_lem[iTrial])
     latent_states_rslds_temp.to_csv(folderpath_out + "latent_states_rslds_trial_" +
-                                    str('{:04}'.format(iTrial+1)) + "_fold_" + str(iFold) + ".csv", index=False, header=False)
+                                    str('{:04}'.format(iTrial+1)) + "_fold_" +
+                                    str(iFold) + ".csv", index=False, header=False)
 
 inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in testset]
 masks = []
