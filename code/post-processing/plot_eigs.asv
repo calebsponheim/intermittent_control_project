@@ -148,11 +148,11 @@ for iState = 1:length(snippet_direction_out)
 end
 
 hold off
-set(gca,'RTickLabel',[],'GridLineStyle',':','GridColor','k')
-set(gcf,'Color','White','Position',[300,300,600,600])
+set(gca,'RTickLabel',[],'GridLineStyle',':','GridColor')
+set(gcf,'Color','White')
 rlim([0 1.1])
-saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_direction_key_for_eigs.png'));
-close gcf
+% saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_direction_key_for_eigs.png'));
+% close gcf
 %% Bar
 
 acc_states_real = [];
