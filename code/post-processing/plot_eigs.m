@@ -134,8 +134,12 @@ close gcf
 
 %% 
 for iState = 1:length(snippet_direction_out)
+    real_eigs_to_plot = real_eigenvalues(iState, :);    
+    reshaped_real = reshape(real_eigs_to_plot,[],1);
+    real_mean = mean(reshaped_real);
+
     Angle = snippet_direction_out(iState)';
-    Radius = 1;
+    Radius = real_mean;
     tbl = table(Angle,Radius);
     if meta.acc_classification(iState) == 1
         polarplot(tbl,"Angle","Radius",'LineStyle','none','LineWidth',6,'color',colors_for_error_plot(iState,:),'MarkerFaceColor','Blue','Marker','o','MarkerSize',20);
@@ -148,9 +152,8 @@ for iState = 1:length(snippet_direction_out)
 end
 
 hold off
-set(gca,'RTickLabel',[],'GridLineStyle',':','GridColor','k')
+set(gca,'GridLineStyle',':','GridColor','k')
 set(gcf,'Color','White','Position',[300,300,600,600])
-rlim([0 1.1])
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_direction_key_for_eigs.png'));
 close gcf
 %% Bar
