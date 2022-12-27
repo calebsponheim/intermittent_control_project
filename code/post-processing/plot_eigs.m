@@ -1,8 +1,11 @@
 function plot_eigs(meta,colors,snippet_direction_out)
 %%
 
-dimension_cutoff_from_PCA_analysis = 10;
-
+if strcmp(meta.task,'RTP')
+    dimension_cutoff_from_PCA_analysis = 10;
+elseif strcmp(meta.task,'CO')
+    dimension_cutoff_from_PCA_analysis = 5;
+end
 real_eigenvalues = readmatrix(strcat(meta.filepath,'real_eigenvalues.csv'));
 real_eigenvalues = real_eigenvalues(2:end,:);
 imaginary_eigenvalues = readmatrix(strcat(meta.filepath,'imaginary_eigenvalues.csv'));

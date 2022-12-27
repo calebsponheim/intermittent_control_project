@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 # %% Parameter Setting
 subject = 'rs'
-task = 'RTP'
+task = 'CO'
 model = 'rslds'
 
 if (subject == 'rs') & (task == 'RTP'):
@@ -169,7 +169,7 @@ covariance_matrix = pca.get_covariance()
 PCA_eigs = np.linalg.eig(covariance_matrix)
 PCA_eigs_ratio = PCA_eigs[0]/sum(PCA_eigs[0])
 PCA_eigs_cumsum_percentage = np.cumsum(PCA_eigs_ratio)
-plt.plot(np.asarray(np.arange(25)), np.asarray(np.ones([25, 1])*.8), color='black')
+plt.plot(np.asarray(np.arange(25)), np.asarray(np.ones([25, 1])*.9), color='black')
 plt.plot(PCA_eigs_cumsum_percentage)
 
 PCA_eigs = pd.DataFrame(PCA_eigs)
