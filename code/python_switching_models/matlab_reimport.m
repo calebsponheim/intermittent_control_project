@@ -1,4 +1,4 @@
- %% Import Data from Python and integrate into matlab struct.
+%% Import Data from Python and integrate into matlab struct.
 %clear
 
 if strcmp(getenv('USERNAME'),'calebsponheim')
@@ -12,15 +12,15 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'RSCO0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05_sBins_move_window_only\'];
 
-filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
+% filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
-% filepath = [filepath_base 'Bxcenter_out1803230.05sBins\'];
+filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
 % OPTIONS
-num_desired_states = 8;
-num_desired_dims = 14;
+num_desired_states = 2;
+num_desired_dims = 2;
 
 
 filepath_for_ll_plot = filepath;
@@ -134,8 +134,8 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         meta.analyze_all_trials = analyze_all_trials;
         bin_size = meta.bin_size;
     elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
-        if contains(filepath,'180323')
-            load(['..\' filepath '\Bxcenter_out_HMM_struct_22-Jun-2022.mat'])
+        if contains(filepath,'Bx18')
+            load(strcat(filepath,'..\','Bxcenter_out180323CT0.mat'))
         elseif contains(filepath,'190228')
             load(['..\' filepath '\Bxcenter_out190228CT0.mat'])
         end
@@ -176,7 +176,7 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         data(iTrial).ms_relative_to_trial_start = 1:length(data(iTrial).x_smoothed);
         decoded_trial_temp = decoded_data_selected_state_num(iTrial,~isnan(decoded_data_selected_state_num(iTrial,:)));
         decoded_trial_temp_resamp = [];
-%       decoded_trial_temp_resamp = nan(1,length(data(iTrial).kinematic_timestamps));
+        %       decoded_trial_temp_resamp = nan(1,length(data(iTrial).kinematic_timestamps));
         if (meta.move_only == 1) && strcmp(meta.subject,'bx')
         else
             for iBin = 1:(length(decoded_trial_temp))
@@ -199,11 +199,14 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
 
     %% Bringing in Continuous State Values
     if use_rslds == 1
-        continuous_state_files = files_in_filepath(cellfun(@(x) contains(x,'continuous_states_trial_'),files_in_filepath));
-        if ~isempty(continuous_state_files)
-            for iTrial = 1:size(data,2)
-                file = readmatrix(strcat(filepath,'continuous_states_trial_',num2str(iTrial),'.csv'));
-                data(iTrial).continuous_states = file;
+        if contains(meta.session,"180323")
+        else
+            continuous_state_files = files_in_filepath(cellfun(@(x) contains(x,'continuous_states_trial_'),files_in_filepath));
+            if ~isempty(continuous_state_files)
+                for iTrial = 1:size(data,2)
+                    file = readmatrix(strcat(filepath,'continuous_states_trial_',num2str(iTrial),'.csv'));
+                    data(iTrial).continuous_states = file;
+                end
             end
         end
     end
