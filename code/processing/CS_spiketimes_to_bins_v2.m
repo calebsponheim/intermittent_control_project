@@ -226,8 +226,8 @@ for iTrial = 1:num_trials
             end
             data_temp(iTrial).spikecountresamp(iUnit,resamp_range) = spikecount;
             data_temp(iTrial).bin_timestamps_resamp(resamp_range) = data_temp(iTrial).bin_timestamps(iBin);
+            data(iTrial).spikecount(iUnit,iBin) = spikecount;
         end
-        data(iTrial).spikecount = spikecount;
         data(iTrial).spikecountresamp(iUnit,1:length(data(iTrial).ms_relative_to_trial_start)) = ...
             data_temp(iTrial).spikecountresamp(iUnit,1:length(data(iTrial).ms_relative_to_trial_start));
     end

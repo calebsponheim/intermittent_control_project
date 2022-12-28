@@ -9,6 +9,10 @@ end
 if contains(filepath,'RSCO')
     data.subject = 'RS';
     data.task = 'CO';
+elseif contains(filepath,'Bx18CO')
+    data.subject = 'Bx18';
+    data.task = 'CO';
+    data.bin_size = data.meta.bin_size;
 elseif contains(filepath,'Bxcenter_out')
     data.subject = 'Bx';
     data.task = 'CO';
@@ -21,126 +25,54 @@ else
 end
 %% Main Loop
 
-try strcmp(data.meta.subject,'Bx')
-    % for each trial, write a csv that is UNITSxTIMESTEPS
+
+% There's something going on with RS timestamps and their format and
+% scaling.
+if move_window == 1
+    mkdir([filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\'])
+else
+    mkdir([filepath_base data.subject data.task num2str(data.bin_size) 'sBins\'])
+end
+for iTrial = 1:size(data.data,2)
+    if iTrial < 10
+        iTrial_string = ['000' num2str(iTrial)];
+    elseif iTrial < 100
+        iTrial_string = ['00' num2str(iTrial)];
+    elseif iTrial < 1000
+        iTrial_string = ['0' num2str(iTrial)];
+    end
+
+    spikecount = data.data(iTrial).spikecount;
     if move_window == 1
-        save_folder = [filepath_base data.meta.subject data.meta.task data.meta.session num2str(data.meta.bin_size) '_sBins_move_window_only\'];
+        filename = [filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\trial' iTrial_string '_spikes.csv'];
     else
-        save_folder = [filepath_base data.meta.subject data.meta.task data.meta.session num2str(data.meta.bin_size) 'sBins\'];
+        filename = [filepath_base data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_spikes.csv'];
     end
-    mkdir(save_folder)
-    for iTrial = 1:size(data.data,2)
-        if iTrial < 10
-            iTrial_string = ['000' num2str(iTrial)];
-        elseif iTrial < 100
-            iTrial_string = ['00' num2str(iTrial)];
-        elseif iTrial < 1000
-            iTrial_string = ['0' num2str(iTrial)];
-        elseif iTrial >= 1000
-            iTrial_string = num2str(iTrial);
-        end
+    writematrix(spikecount,filename)
 
-%         if contains(filepath,'180323')
-%             if move_window == 1
-%                 disp('Bx 180323 does not currently support move window.');
-%             else
-%                 spikecount = data.data(iTrial).spikecount;
-%             end
-%             filename = [save_folder 'trial' iTrial_string '_spikes.csv'];
-%             writematrix(spikecount,filename)
-%             
-%             % Kinematics
-%             x_smoothed = data.data(iTrial).x_smoothed;
-%             y_smoothed = data.data(iTrial).y_smoothed;
-%             speed = data.data(iTrial).speed;
-%             filename = [save_folder 'trial' iTrial_string '_kinematics.csv'];
-%             writematrix(vertcat(x_smoothed,y_smoothed,speed),filename)
-%         else
-            % Spikes
-            if move_window == 1
-                spikecountresamp = data.data(iTrial).spikecountresamp(:,int64(data.data(iTrial).move_relative_to_trial_start):int64(data.data(iTrial).target_reach_relative_to_trial_start));
-            else
-                spikecountresamp = data.data(iTrial).spikecountresamp;
-            end
-            spikecountresamp = spikecountresamp(:,1:(data.meta.bin_size*1000):end);
-            filename = [save_folder 'trial' iTrial_string '_spikes.csv'];
-            writematrix(spikecountresamp,filename)
-
-            % Kinematics
-            x_smoothed = data.data(iTrial).x_smoothed;
-            y_smoothed = data.data(iTrial).y_smoothed;
-            x_velocity = data.data(iTrial).x_velocity;
-            y_velocity = data.data(iTrial).y_velocity;
-            acceleration = data.data(iTrial).acceleration;
-            filename = [save_folder 'trial' iTrial_string '_kinematics.csv'];
-            writematrix(horzcat(x_smoothed,y_smoothed,x_velocity,y_velocity,acceleration),filename)
-
-            % Events
-            trial_start_ms = data.data(iTrial).trial_start_ms;
-            if strcmp(data.meta.task,'center_out')
-                move_relative_to_trial_start = data.data(iTrial).move_relative_to_trial_start + trial_start_ms;
-                target_reach_relative_to_trial_start = data.data(iTrial).target_reach_relative_to_trial_start + trial_start_ms;
-            end
-            filename = [save_folder 'trial' iTrial_string '_events.csv'];
-            if strcmp(data.meta.task,'center_out')
-                writematrix(vertcat(trial_start_ms,move_relative_to_trial_start,target_reach_relative_to_trial_start),filename)
-            else
-                writematrix(vertcat(trial_start_ms),filename)
-            end
-%         end
-        disp(iTrial)
-    end
-    % write an additional csv with the meta struct to the same folder.
-    data.meta.targets = [];
-    if contains(filepath,'optimal')
-        data.meta.hn = [];
-    end
-    writestruct(data.meta,[save_folder 'meta'],"FileType",'xml')
-catch
-    % There's something going on with RS timestamps and their format and
-    % scaling.
+    % Kinematics
+    x_smoothed = data.data(iTrial).x_smoothed;
+    y_smoothed = data.data(iTrial).y_smoothed;
+    x_velocity = data.data(iTrial).x_velocity;
+    y_velocity = data.data(iTrial).y_velocity;
+    acceleration = data.data(iTrial).acceleration;
     if move_window == 1
-        mkdir([filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\'])
+        filename = [filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
     else
-        mkdir([filepath_base data.subject data.task num2str(data.bin_size) 'sBins\'])
+        filename = [filepath_base data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
     end
-    for iTrial = 1:size(data.data,2)
-        if iTrial < 10
-            iTrial_string = ['000' num2str(iTrial)];
-        elseif iTrial < 100
-            iTrial_string = ['00' num2str(iTrial)];
-        elseif iTrial < 1000
-            iTrial_string = ['0' num2str(iTrial)];
-        end
-
-        spikecount = data.data(iTrial).spikecount;
-        if move_window == 1
-            filename = [filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\trial' iTrial_string '_spikes.csv'];
-        else
-            filename = [filepath_base data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_spikes.csv'];
-        end
-        writematrix(spikecount,filename)
-
-        % Kinematics
-        x_smoothed = data.data(iTrial).x_smoothed;
-        y_smoothed = data.data(iTrial).y_smoothed;
-        x_velocity = data.data(iTrial).x_velocity;
-        y_velocity = data.data(iTrial).y_velocity;
-        acceleration = data.data(iTrial).acceleration;
-        if move_window == 1
-            filename = [filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
-        else
-            filename = [filepath_base data.subject data.task num2str(data.bin_size) 'sBins\trial' iTrial_string '_kinematics.csv'];
-        end
+    if contains(data.subject,'Bx')
+        writematrix(horzcat(x_smoothed',y_smoothed',x_velocity',y_velocity',acceleration'),filename)
+    else
         writematrix(horzcat(x_smoothed,y_smoothed,x_velocity,y_velocity,acceleration),filename)
+    end
 
-        disp(iTrial)
-    end
-    % write an additional csv with the meta struct to the same folder.
-    if move_window == 1
-        writematrix(data.subject,[filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\meta.csv'])
-    else
-        writematrix(data.subject,[filepath_base data.subject data.task num2str(data.bin_size) 'sBins\meta.csv'])
-    end
+    disp(iTrial)
+end
+% write an additional csv with the meta struct to the same folder.
+if move_window == 1
+    writematrix(data.subject,[filepath_base data.subject data.task '_move_window' num2str(data.bin_size) 'sBins\meta.csv'])
+else
+    writematrix(data.subject,[filepath_base data.subject data.task num2str(data.bin_size) 'sBins\meta.csv'])
 end
 end
