@@ -1,0 +1,14 @@
+BAD, NO
+Traceback (most recent call last):
+  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
+    run_rslds(
+  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 91, in run_rslds
+    temp_folderlist = os.listdir(folderpath)
+UnboundLocalError: local variable 'folderpath' referenced before assignment
+sbatch: Verify job submission ...
+sbatch: Using a shared partition ...
+sbatch: Partition: caslake
+sbatch: QOS-Flag: caslake
+sbatch: Account: pi-nicho
+sbatch: Verification: ***PASSED***
+Submitted batch job 1214834
