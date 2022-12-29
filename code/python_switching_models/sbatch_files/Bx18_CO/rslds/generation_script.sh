@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This is a script to write code into a script automatically
-subject='Bx18'
+subject='bx18'
 taskname='CO'
 
 for iState in `seq 2 2 40`
