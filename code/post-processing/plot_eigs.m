@@ -1,13 +1,21 @@
-function plot_eigs(meta,colors)
+function plot_eigs(meta,colors,snippet_direction_out)
 %%
+
+if strcmp(meta.task,'RTP')
+    dimension_cutoff_from_PCA_analysis = 10;
+elseif strcmp(meta.task,'CO')
+    dimension_cutoff_from_PCA_analysis = 5;
+end
 real_eigenvalues = readmatrix(strcat(meta.filepath,'real_eigenvalues.csv'));
 real_eigenvalues = real_eigenvalues(2:end,:);
 imaginary_eigenvalues = readmatrix(strcat(meta.filepath,'imaginary_eigenvalues.csv'));
 imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
 
+real_eigenvalues = real_eigenvalues(:,1:dimension_cutoff_from_PCA_analysis);
+imaginary_eigenvalues = imaginary_eigenvalues(:,1:dimension_cutoff_from_PCA_analysis);
 
 %% Scatter
-figure('color','w','visible','off');
+figure('color','w','visible','on');
 hold on;
 box off;
 ax = gca;
@@ -15,6 +23,10 @@ ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
 acc_eig_count = 1;
 dec_eig_count = 1;
+acc_eigs_real = [];
+acc_eigs_imag = [];
+dec_eigs_real = [];
+dec_eigs_imag = [];
 for iState = 1:size(real_eigenvalues,1)
     if meta.acc_classification(iState) == 1
         plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color',colors(1,:));
@@ -35,16 +47,16 @@ ylabel('Imaginary Component')
 title('Blue = Accelerative | Red = Decelerative')
 
 hold off
-saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs.png'));
+saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs.png'));
 close gcf
 
 %% Error Bar Plot
-reshaped_acc_real = reshape(acc_eigs_real,[],1);
-acc_real_mean = mean(reshaped_acc_real);
-acc_real_std_err = std(reshaped_acc_real)/sqrt(length(reshaped_acc_real));
-reshaped_acc_imag = reshape(acc_eigs_imag,[],1);
-acc_imag_mean = mean(reshaped_acc_imag);
-acc_imag_std_err = std(reshaped_acc_imag)/sqrt(length(reshaped_acc_imag));
+reshaped_real = reshape(acc_eigs_real,[],1);
+real_mean = mean(reshaped_real);
+real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
+reshaped_imag = reshape(acc_eigs_imag,[],1);
+imag_mean = mean(reshaped_imag);
+imag_std_err = std(reshaped_imag)/sqrt(length(reshaped_imag));
 
 reshaped_dec_real = reshape(dec_eigs_real,[],1);
 dec_real_mean = mean(reshaped_dec_real);
@@ -53,14 +65,14 @@ reshaped_dec_imag = reshape(dec_eigs_imag,[],1);
 dec_imag_mean = mean(reshaped_dec_imag);
 dec_imag_std_err = std(reshaped_dec_imag)/sqrt(length(reshaped_dec_imag));
 
-x = [acc_real_mean dec_real_mean];
-y = [acc_imag_mean dec_imag_mean];
-yneg = [acc_imag_std_err dec_imag_std_err];
+x = [real_mean dec_real_mean];
+y = [imag_mean dec_imag_mean];
+yneg = [imag_std_err dec_imag_std_err];
 ypos = yneg;
-xneg = [acc_real_std_err dec_real_std_err];
+xneg = [real_std_err dec_real_std_err];
 xpos = xneg;
 
-figure('color','w','visible','off');
+figure('color','w','visible','on');
 hold on;
 box off;
 
@@ -73,8 +85,80 @@ title('Blue = Accelerative | Red = Decelerative')
 
 hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs_dec_vs_acc.png'));
+% close gcf
+%% Error Bar Plot By Direction
+
+%turning snippet direction into color
+% colors_by_degree = hsv(360);
+% direction_in_degrees = rad2deg(snippet_direction_out)+180;
+% colors = colors_by_degree(round(direction_in_degrees),:);
+
+% Actually plotting
+
+figure('visible','on','Color','w'); hold on; box off
+
+for iState = 1:length(snippet_direction_out)
+
+    real_eigs_to_plot = real_eigenvalues(iState, :);
+    imaginary_eigs_to_plot = abs(imaginary_eigenvalues(iState, :));
+    
+    reshaped_real = reshape(real_eigs_to_plot,[],1);
+    real_mean = mean(reshaped_real);
+    real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
+    reshaped_imag = reshape(imaginary_eigs_to_plot,[],1);
+    imag_mean = mean(reshaped_imag);
+    imag_std_err = std(reshaped_imag)/sqrt(length(reshaped_imag));
+
+    x = real_mean;
+    y = imag_mean;
+    yneg = imag_std_err;
+    ypos = yneg;
+    xneg = real_std_err;
+    xpos = xneg;
+
+    if meta.acc_classification(iState) == 1
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Blue','LineWidth',2)
+    elseif meta.acc_classification(iState) == 0
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Red','LineWidth',2)
+    elseif meta.acc_classification(iState) == 2
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Black','LineWidth',2)
+    end
+
+
+end
+
+xlabel('Real Component')
+ylabel('Imaginary Component (Absolute Value)')
+title('Color = direction')
+    
+hold off
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs_by_dir.png'));
 close gcf
 
+%% 
+for iState = 1:length(snippet_direction_out)
+    real_eigs_to_plot = real_eigenvalues(iState, :);    
+    reshaped_real = reshape(real_eigs_to_plot,[],1);
+    real_mean = mean(reshaped_real);
+
+    Angle = snippet_direction_out(iState)';
+    Radius = real_mean;
+    tbl = table(Angle,Radius);
+    if meta.acc_classification(iState) == 1
+        polarplot(tbl,"Angle","Radius",'LineStyle','none','LineWidth',6,'color',colors(iState,:),'MarkerFaceColor','Blue','Marker','o','MarkerSize',20);
+    elseif meta.acc_classification(iState) == 0
+        polarplot(tbl,"Angle","Radius",'LineStyle','none','LineWidth',6,'color',colors(iState,:),'MarkerFaceColor','Red','Marker','o','MarkerSize',20);
+    elseif meta.acc_classification(iState) == 2
+        polarplot(tbl,"Angle","Radius",'LineStyle','none','LineWidth',6,'color',colors(iState,:),'MarkerFaceColor','Black','Marker','o','MarkerSize',20);
+    end
+    hold on
+end
+
+hold off
+set(gca,'GridLineStyle',':','GridColor','k')
+set(gcf,'Color','White','Position',[300,300,600,600])
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_direction_key_for_eigs.png'));
+close gcf
 %% Bar
 
 acc_states_real = [];

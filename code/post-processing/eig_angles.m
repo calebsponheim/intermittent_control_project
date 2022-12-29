@@ -66,8 +66,10 @@ for iCombo = 1:size(all_state_combos,1)
     complex_eigenvector_temp_two = complex_eigenvectors{all_state_combos(iCombo,2)};
     eigenvalue_magnitude_temp_one = eigenvalue_magnitude(all_state_combos(iCombo,1),:);
     eigenvalue_magnitude_temp_two = eigenvalue_magnitude(all_state_combos(iCombo,2),:);
+
     % Step 4: calculate dot products between all state eigenvector combos
     % of the two selected combos
+    
     [m,n] = ndgrid(find(eigenvalue_magnitude_temp_one > eigenvalue_magnitude_threshold),find(eigenvalue_magnitude_temp_two > eigenvalue_magnitude_threshold));
     eigenvector_combos = [m(:),n(:)];
 

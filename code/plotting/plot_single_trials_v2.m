@@ -5,7 +5,7 @@ function [] = plot_single_trials_v2(meta,data,colors)
 if strcmp(meta.subject,'RS')
     available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'model_select'));
 else
-    available_test_trials = find(ismember({data.trial_classification},'test'));
+    available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'model_select'));
 end
 
 if meta.analyze_all_trials == 1
