@@ -40,6 +40,8 @@ for iTrial = 1:size(data.data,2)
         iTrial_string = ['00' num2str(iTrial)];
     elseif iTrial < 1000
         iTrial_string = ['0' num2str(iTrial)];
+    else
+        iTrial_string = [num2str(iTrial)];
     end
 
     spikecount = data.data(iTrial).spikecount;
