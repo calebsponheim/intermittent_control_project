@@ -17,10 +17,10 @@ if meta.crosstrain == 0
     elseif contains(meta.session,'180323')
         meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\',meta.task,'18_CT0\');
     else
-        meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\',meta.task,'_CT0\');
+        meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\',meta.task,'\');
     end
 else
-    meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\CT',num2str(meta.crosstrain),'\');
+    meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\CT',meta.task,'\');
 end
 
 if meta.use_rslds == 1

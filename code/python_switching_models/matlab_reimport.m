@@ -16,7 +16,8 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
-filepath = [filepath_base 'Bx18CO0.05sBins\'];
+filepath = [filepath_base 'BxRTP0.05sBins\'];
+% filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
 % OPTIONS
 num_desired_states = 2;
@@ -136,21 +137,22 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
     elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
         if contains(filepath,'Bx18')
             load(strcat(filepath,'..\','Bxcenter_out180323CT0.mat'))
+        elseif contains(filepath,'BxRTP0.05sBins')
+            load(strcat(filepath,'..\','\BxRTP190228CT0.mat'))
+            meta.task = 'RTP';
         elseif contains(filepath,'190228')
             load(['..\' filepath '\Bxcenter_out190228CT0.mat'])
+            meta.task = 'CO';
         end
         meta.filepath = filepath;
         meta.analyze_all_trials = analyze_all_trials;
         meta.subject = 'Bx';
-        meta.task = 'CO';
         bin_size = meta.bin_size;
         if contains(filepath, 'move_window')
             meta.move_only = 1;
         else
             meta.move_only = 0;
         end
-    elseif contains(filepath, 'Bx') || contains(filepath,'RTP')
-        disp('Bx RTP NOT SUPPORTED YET')
     end
 
     if size(decoded_data_hmm,2) == 1
