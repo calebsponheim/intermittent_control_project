@@ -17,6 +17,10 @@ elseif contains(filepath,'Bxcenter_out')
     data.subject = 'Bx';
     data.task = 'CO';
     data.bin_size = data.meta.bin_size;
+elseif contains(filepath,'BxRTP')
+    data.subject = 'Bx';
+    data.task = 'RTP';
+    data.bin_size = data.meta.bin_size;
 end
 if contains(filepath,'move')
     move_window = 1;

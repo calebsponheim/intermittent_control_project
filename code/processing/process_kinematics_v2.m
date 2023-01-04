@@ -133,9 +133,9 @@ for iTrial = 1:size(data,2)
         y_temp = filt_lowpass_y{iTrial}(1:2:end);
         data(iTrial).y_smoothed = y_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
         x_velocity_temp = filt_lowpass_x_vel{iTrial}(1:2:end);
-        data(iTrial).x_velocity = filt_lowpass_x_vel(1:size(data(iTrial).ms_relative_to_trial_start,2));
+        data(iTrial).x_velocity = x_velocity_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
         y_velocity_temp = filt_lowpass_y_vel{iTrial}(1:2:end);
-        data(iTrial).y_velocity = filt_lowpass_y_vel(1:size(data(iTrial).ms_relative_to_trial_start,2));
+        data(iTrial).y_velocity = y_velocity_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
         speed_temp = velocity{iTrial}(1:2:end);
         data(iTrial).speed = speed_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
         

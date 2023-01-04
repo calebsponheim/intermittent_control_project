@@ -70,6 +70,9 @@ def run_rslds(
         elif task == "CO+RTP":
             folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
             figurepath = figurepath_base + "Bx/CO+RTP_CT0/rslds/"
+        elif task == "RTP":
+            folderpath = folderpath_base + "BxRTP0.05sBins/"
+            figurepath = figurepath_base + "Bx/RTP/rslds/"
     elif subject == "bx18":
         folderpath = folderpath_base + "Bx18CO0.05sBins/"
         figurepath = figurepath_base + "Bx/CO18_CT0/rslds/"
