@@ -16,8 +16,8 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
-filepath = [filepath_base 'BxRTP0.05sBins\'];
-% filepath = [filepath_base 'Bx18CO0.05sBins\'];
+% filepath = [filepath_base 'BxRTP0.05sBins\'];
+filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
 % OPTIONS
 num_desired_states = 2;
@@ -137,6 +137,7 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
     elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
         if contains(filepath,'Bx18')
             load(strcat(filepath,'..\','Bxcenter_out180323CT0.mat'))
+            meta.task = 'CO';
         elseif contains(filepath,'BxRTP0.05sBins')
             load(strcat(filepath,'..\','\BxRTP190228CT0.mat'))
             meta.task = 'RTP';

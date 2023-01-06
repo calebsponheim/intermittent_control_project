@@ -81,8 +81,8 @@ zlabel("Log Likelihood")
 grid on
 box off
 hold off
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf.png']);
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf_interactive.fig']);
+saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf.png'));
+saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf_interactive.fig'));
 
 % %% 3D focused
 % colors = hsv(size(bits_per_spike,2));
@@ -123,6 +123,6 @@ ylabel("Log Likelihood")
 grid on
 box off
 hold off
-saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_2D.png']);
+saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_2D.png'));
 %%
 % close all
