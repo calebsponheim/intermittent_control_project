@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 # %% Parameter Setting
 subject = 'rs'
-task = 'CO'
+task = 'RTP'
 model = 'rslds'
 
 if (subject == 'rs') & (task == 'RTP'):
@@ -70,108 +70,48 @@ if temp not in temp_folderlist:
 
 latentpath = folderpath
 
-# Identifying Test/Train Trials from the models
-test_portion = 0.2
-iFold = 1
-# see if multifold shuffles index file csv is already made
-temp_datafolderlist = os.listdir(latentpath)
+# %% Variance analysis
+variance = []
+for iState in np.arange(num_discrete_states_rslds) + 1:
+    variance_state = []
+    state_real_eigenvectors = pd.DataFrame.to_numpy(
+        pd.read_csv(folderpath + str(num_discrete_states_rslds) +
+                    "_states_" + str(num_latent_dims_rslds) + "_dims/" +
+                    'real_eigenvectors_state_' + str(iState) + '.csv'))
+    state_imaginary_eigenvectors = pd.DataFrame.to_numpy(
+        pd.read_csv(folderpath + str(num_discrete_states_rslds) +
+                    "_states_" + str(num_latent_dims_rslds) + "_dims/" +
+                    'imaginary_eigenvectors_state_' + str(iState) + '.csv'))
+    state_complex_eigenvectors = np.zeros(
+        [len(state_real_eigenvectors), len(state_real_eigenvectors)], dtype=np.complex_)
+    for iRow in np.arange(len(state_real_eigenvectors)):
+        for iColumn in np.arange(len(state_real_eigenvectors)):
+            state_complex_eigenvectors[iRow, iColumn] = complex(
+                state_real_eigenvectors[iRow, iColumn], state_imaginary_eigenvectors[iRow, iColumn])
+    a = pd.DataFrame.to_numpy(
+        pd.read_csv(folderpath + str(num_discrete_states_rslds) +
+                    "_states_" + str(num_latent_dims_rslds) + "_dims/" +
+                    'dynamics_state_' + str(iState) + '.csv'))
 
-# Trials
-if 'multifold_trial_classification.csv' in temp_datafolderlist:
-    # if it is, then load it
-    multifold_shuffled_order = pd.DataFrame.to_numpy(pd.read_csv(
-        latentpath + 'multifold_trial_classification.csv'))
-elif 'multifold_trial_classification.csv' not in temp_datafolderlist:
-    print('uh oh')
-    # bring in which fold it is
-# take that segment of data
-number_of_trials = len(multifold_shuffled_order)
-trial_indices = np.arange(0, number_of_trials)
+    # COLUMNS ARE DIMENSIONS
+    for iDim in np.arange(len(state_complex_eigenvectors)):
+        b = state_complex_eigenvectors[:, iDim]
+        vp = (np.dot(a, b) / np.dot(b, b)) * b
+        variance_state.append(np.var(vp))
+    variance_state_ratio = variance_state/sum(variance_state)
+    variance_state_sort_order = np.argsort(variance_state_ratio)
 
-fold_test_data_range_start = int((
-    (test_portion*iFold) - test_portion)*number_of_trials)
-fold_test_data_range_end = int((test_portion*iFold)*number_of_trials)
-test_mask = np.ones_like(trial_indices, bool)
-test_mask[fold_test_data_range_start:fold_test_data_range_end] = False
-test_mask = np.logical_not(test_mask)
-fold_test_trials = multifold_shuffled_order[test_mask]
-trial_classification = []
-for iTrial in range(number_of_trials):
-    if iTrial in fold_test_trials:
-        trial_classification.append('test')
-    else:
-        trial_classification.append('train')
+    variance_state_cumsum_percentage = np.cumsum(
+        np.flip(variance_state_ratio[variance_state_sort_order]))
 
-trind_test = [i for i, x in enumerate(trial_classification) if x == "test"]
+    # Plotting
 
+    plt.plot(np.asarray(np.arange(num_latent_dims_rslds)), np.asarray(
+        np.ones([num_latent_dims_rslds, 1])*.9), color='black')
+    plt.plot(variance_state_cumsum_percentage)
 
-# Load Latents
-if model == 'raw':
-    latents_by_trial = []
-    latents_test = []
-    latent_length = []
+    variance.append(variance_state)
 
-    # Importing Raw Spiking Data
-    spikefiles = [
-        f
-        for f in listdir(folderpath)
-        if isfile(join(folderpath, f))
-        if f.endswith("_spikes.csv")
-    ]
-
-    file_count = 0
-    data = []
-    for iFile in spikefiles:
-        data_ind_file = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
-        data.append(data_ind_file)
-        file_count += 1
-
-    # Putting spikes into Latent Structure for decode
-    file_count = 0
-    for iTrial in np.arange(len(data)):
-        if iTrial+1 in trind_test:
-            # print(iTrial)
-            latents_by_trial.extend(data[iTrial].T[1:, :])
-            latents_test.append(data[iTrial].T[1:, :])
-            latent_length.append(data[iTrial].T[1:, :].shape)
-        file_count += 1
-else:
-    latentfiles = [
-        f
-        for f in listdir(folderpath)
-        if isfile(join(folderpath, f))
-        if f.startswith("latent_states_" + model + "_trial_")
-    ]
-    file_count = 0
-    latents_by_trial = []
-    latent_length = []
-
-    for iFile in latentfiles:
-        # print(iFile)
-        iTrial = iFile.split('trial_', 1)[1]
-        iTrial = int(iTrial.split('_fold_')[0])
-        if iTrial in trind_test:
-            # print(iTrial)
-            latents = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
-            latents_by_trial.extend(latents)
-            latent_length.append(len(latents))
-        file_count += 1
-
-# %% PCA analysis
-
-X_kf = np.asarray(latents_by_trial)
-
-pca = PCA()
-
-pca.fit(X_kf)
-print(pca.explained_variance_ratio_)
-covariance_matrix = pca.get_covariance()
-PCA_eigs = np.linalg.eig(covariance_matrix)
-PCA_eigs_ratio = PCA_eigs[0]/sum(PCA_eigs[0])
-PCA_eigs_cumsum_percentage = np.cumsum(PCA_eigs_ratio)
-plt.plot(np.asarray(np.arange(25)), np.asarray(np.ones([25, 1])*.9), color='black')
-plt.plot(PCA_eigs_cumsum_percentage)
-
-PCA_eigs = pd.DataFrame(PCA_eigs)
-PCA_eigs.to_csv(
-    folderpath + model + '_PCA_eigs.csv', index=False, header=True)
+# PCA_eigs = pd.DataFrame(PCA_eigs)
+# PCA_eigs.to_csv(
+#     folderpath + model + '_PCA_eigs.csv', index=False, header=True)

@@ -198,9 +198,10 @@ def run_rslds(
         imaginary_eigenvalues = []
         real_eigenvectors = []
         imaginary_eigenvectors = []
+        dynamics = []
         for iLatentDim in np.arange(model.dynamics.As.shape[0]):
             eigenvalues_temp, eigenvectors_temp = eig(model.dynamics.As[iLatentDim, :, :])
-
+            dynamics.append(model.dynamics.As[iLatentDim, :, :])
             real_eigenvalues.append(np.around(eigenvalues_temp.real, 3))
             imaginary_eigenvalues.append(np.around(eigenvalues_temp.imag, 3))
             real_eigenvectors.append(np.around(eigenvectors_temp.real, 3))
@@ -250,6 +251,10 @@ def run_rslds(
             imaginary_eigenvectors_out = pd.DataFrame(imaginary_eigenvectors[iState])
             imaginary_eigenvectors_out.to_csv(folderpath_out + "imaginary_eigenvectors_state_" +
                                               str(iState+1) + ".csv", index=False)
+
+            dynamics_out = pd.DataFrame(dynamics[iState])
+            dynamics_out.to_csv(folderpath_out + "dynamics_state_" +
+                                str(iState+1) + ".csv", index=False)
 
         # %%
     if midway_run == 0:

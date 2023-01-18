@@ -1,8 +1,9 @@
-function plot_eigs(meta,colors,snippet_direction_out)
+function plot_eigs(meta,colors,snippet_direction_out,snippet_length_per_state)
 %%
 
 if strcmp(meta.task,'RTP')
     dimension_cutoff_from_PCA_analysis = 10;
+%     dimension_cutoff_from_PCA_analysis = 0;
 elseif strcmp(meta.task,'CO')
     dimension_cutoff_from_PCA_analysis = 5;
 end
@@ -11,9 +12,10 @@ real_eigenvalues = real_eigenvalues(2:end,:);
 imaginary_eigenvalues = readmatrix(strcat(meta.filepath,'imaginary_eigenvalues.csv'));
 imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
 
-real_eigenvalues = real_eigenvalues(:,1:dimension_cutoff_from_PCA_analysis);
-imaginary_eigenvalues = imaginary_eigenvalues(:,1:dimension_cutoff_from_PCA_analysis);
-
+if dimension_cutoff_from_PCA_analysis > 0
+    real_eigenvalues = real_eigenvalues(:,1:dimension_cutoff_from_PCA_analysis);
+    imaginary_eigenvalues = imaginary_eigenvalues(:,1:dimension_cutoff_from_PCA_analysis);
+end
 %% Scatter
 figure('color','w','visible','on');
 hold on;
@@ -29,12 +31,12 @@ dec_eigs_real = [];
 dec_eigs_imag = [];
 for iState = 1:size(real_eigenvalues,1)
     if meta.acc_classification(iState) == 1
-        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color',colors(1,:));
+        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color','Blue');
         acc_eigs_real(acc_eig_count,:) = real_eigenvalues(iState,:);
         acc_eigs_imag(acc_eig_count,:) = abs(imaginary_eigenvalues(iState,:));
         acc_eig_count = acc_eig_count + 1;
     elseif meta.acc_classification(iState) == 0
-        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color',colors(2,:));
+        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color','Red');
         dec_eigs_real(dec_eig_count,:) = real_eigenvalues(iState,:);
         dec_eigs_imag(dec_eig_count,:) = abs(imaginary_eigenvalues(iState,:));
         dec_eig_count = dec_eig_count + 1;
@@ -135,7 +137,7 @@ hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs_by_dir.png'));
 close gcf
 
-%% 
+%% By Direction
 for iState = 1:length(snippet_direction_out)
     real_eigs_to_plot = real_eigenvalues(iState, :);    
     reshaped_real = reshape(real_eigs_to_plot,[],1);
@@ -158,6 +160,49 @@ hold off
 set(gca,'GridLineStyle',':','GridColor','k')
 set(gcf,'Color','White','Position',[300,300,600,600])
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_direction_key_for_eigs.png'));
+close gcf
+
+%% By Snippet Length
+
+%snippet_length_per_state
+
+figure('visible','on','Color','w'); hold on; box off
+
+for iState = 1:length(snippet_direction_out)
+
+    real_eigs_to_plot = real_eigenvalues(iState, :);
+    snippet_length_to_plot = snippet_length_per_state{iState};
+    
+    reshaped_real = reshape(real_eigs_to_plot,[],1);
+    real_mean = mean(reshaped_real);
+    real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
+    snippet_length_mean = median(snippet_length_to_plot);
+    snippet_length_std_err = std(snippet_length_mean); %/sqrt(length(snippet_length_mean));
+
+    y = real_mean;
+    x = snippet_length_mean;
+    xneg = snippet_length_std_err;
+    xpos = xneg;
+    yneg = real_std_err;
+    ypos = yneg;
+
+    if meta.acc_classification(iState) == 1
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Blue','LineWidth',2)
+    elseif meta.acc_classification(iState) == 0
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Red','LineWidth',2)
+    elseif meta.acc_classification(iState) == 2
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Black','LineWidth',2)
+    end
+
+
+end
+
+xlabel('Mean Snippet Length')
+ylabel('Real Eigenvalue Magnitude')
+title('Line Color = State')
+    
+hold off
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real_eigs_by_snippet_length.png'));
 close gcf
 %% Bar
 

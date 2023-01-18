@@ -6,9 +6,7 @@ elseif strcmp(getenv('USERNAME'),'caleb_work')
      file_base_base = 'C:\Users\Caleb (Work)';
 end
     
-[~, colors] = colornames('xkcd','windows blue', 'red', 'amber', 'faded green', ...
-    'deep aqua', 'fresh green', 'indian red', 'orangeish', 'old rose', 'azul', ...
-    'barney', 'blood orange', 'cerise', 'orange', 'red', 'salmon', 'lilac');
+[~, colors] = colornames('xkcd','red','brown','purple','blue','hot pink','orange','lime green','green','teal','blue');
 
 %% Create Plot Figure Results Folder
 if meta.crosstrain == 0 
@@ -17,7 +15,7 @@ if meta.crosstrain == 0
     elseif contains(meta.session,'180323')
         meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\',meta.task,'18_CT0\');
     else
-        meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\',meta.task,'\');
+        meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\',meta.task,'_CT0\');
     end
 else
     meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\CT',meta.task,'\');
@@ -55,7 +53,7 @@ meta = plot_state_normalized_velocity(meta,data,snippet_data,colors);
 
 % Plot Mean Snippet Lengths
 
-plot_state_lengths(meta,snippet_data)
+snippet_length_per_state = plot_state_lengths(meta,snippet_data,colors);
 
 % Compare Extrema Timing to Transition Timing
 
@@ -66,7 +64,7 @@ if meta.plot_ll_rslds == 1
 end
 if meta.use_rslds == 1
     eig_angles(meta,sorted_state_transitions)
-    plot_eigs(meta,colors,snippet_direction_out)  
+    plot_eigs(meta,colors,snippet_direction_out,snippet_length_per_state)  
 end
 
 if contains(meta.task,'CO')
