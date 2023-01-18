@@ -1,21 +1,14 @@
 function plot_eigs(meta,colors,snippet_direction_out,snippet_length_per_state)
 %%
 
-if strcmp(meta.task,'RTP')
-    dimension_cutoff_from_PCA_analysis = 10;
-%     dimension_cutoff_from_PCA_analysis = 0;
-elseif strcmp(meta.task,'CO')
-    dimension_cutoff_from_PCA_analysis = 5;
-end
+
+dimension_cutoffs = readmatrix(strcat(meta.filepath,'dims_to_include.csv'));
+
 real_eigenvalues = readmatrix(strcat(meta.filepath,'real_eigenvalues.csv'));
 real_eigenvalues = real_eigenvalues(2:end,:);
 imaginary_eigenvalues = readmatrix(strcat(meta.filepath,'imaginary_eigenvalues.csv'));
 imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
 
-if dimension_cutoff_from_PCA_analysis > 0
-    real_eigenvalues = real_eigenvalues(:,1:dimension_cutoff_from_PCA_analysis);
-    imaginary_eigenvalues = imaginary_eigenvalues(:,1:dimension_cutoff_from_PCA_analysis);
-end
 %% Scatter
 figure('color','w','visible','on');
 hold on;
@@ -30,18 +23,21 @@ acc_eigs_imag = [];
 dec_eigs_real = [];
 dec_eigs_imag = [];
 for iState = 1:size(real_eigenvalues,1)
+    dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
+    real_eigenvalues_temp = real_eigenvalues(iState,dims_to_include_temp);
+    imaginary_eigenvalues_temp = imaginary_eigenvalues(iState,dims_to_include_temp);
     if meta.acc_classification(iState) == 1
-        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color','Blue');
-        acc_eigs_real(acc_eig_count,:) = real_eigenvalues(iState,:);
-        acc_eigs_imag(acc_eig_count,:) = abs(imaginary_eigenvalues(iState,:));
+        plot(real_eigenvalues_temp,imaginary_eigenvalues_temp,'o','color','Blue');
+        acc_eigs_real{acc_eig_count} = real_eigenvalues_temp;
+        acc_eigs_imag{acc_eig_count} = abs(imaginary_eigenvalues_temp);
         acc_eig_count = acc_eig_count + 1;
     elseif meta.acc_classification(iState) == 0
-        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color','Red');
-        dec_eigs_real(dec_eig_count,:) = real_eigenvalues(iState,:);
-        dec_eigs_imag(dec_eig_count,:) = abs(imaginary_eigenvalues(iState,:));
+        plot(real_eigenvalues_temp,imaginary_eigenvalues_temp,'o','color','Red');
+        dec_eigs_real{dec_eig_count} = real_eigenvalues_temp;
+        dec_eigs_imag{dec_eig_count} = abs(imaginary_eigenvalues_temp);
         dec_eig_count = dec_eig_count + 1;
     elseif meta.acc_classification(iState) == 2
-        plot(real_eigenvalues(iState,:),imaginary_eigenvalues(iState,:),'o','color','black');
+        plot(real_eigenvalues_temp,imaginary_eigenvalues_temp,'o','color','black');
     end
 end
 xlabel('Real Component')
@@ -53,17 +49,17 @@ saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2st
 close gcf
 
 %% Error Bar Plot
-reshaped_real = reshape(acc_eigs_real,[],1);
+reshaped_real = reshape([acc_eigs_real{:}],[],1);
 real_mean = mean(reshaped_real);
 real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
-reshaped_imag = reshape(acc_eigs_imag,[],1);
+reshaped_imag = reshape([acc_eigs_imag{:}],[],1);
 imag_mean = mean(reshaped_imag);
 imag_std_err = std(reshaped_imag)/sqrt(length(reshaped_imag));
 
-reshaped_dec_real = reshape(dec_eigs_real,[],1);
+reshaped_dec_real = reshape([dec_eigs_real{:}],[],1);
 dec_real_mean = mean(reshaped_dec_real);
 dec_real_std_err = std(reshaped_dec_real)/sqrt(length(reshaped_dec_real));
-reshaped_dec_imag = reshape(dec_eigs_imag,[],1);
+reshaped_dec_imag = reshape([dec_eigs_imag{:}],[],1);
 dec_imag_mean = mean(reshaped_dec_imag);
 dec_imag_std_err = std(reshaped_dec_imag)/sqrt(length(reshaped_dec_imag));
 
@@ -87,7 +83,7 @@ title('Blue = Accelerative | Red = Decelerative')
 
 hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs_dec_vs_acc.png'));
-% close gcf
+close gcf
 %% Error Bar Plot By Direction
 
 %turning snippet direction into color
@@ -100,9 +96,12 @@ saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',nu
 figure('visible','on','Color','w'); hold on; box off
 
 for iState = 1:length(snippet_direction_out)
+    dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
+    real_eigenvalues_temp = real_eigenvalues(iState,dims_to_include_temp);
+    imaginary_eigenvalues_temp = imaginary_eigenvalues(iState,dims_to_include_temp);
 
-    real_eigs_to_plot = real_eigenvalues(iState, :);
-    imaginary_eigs_to_plot = abs(imaginary_eigenvalues(iState, :));
+    real_eigs_to_plot = real_eigenvalues_temp;
+    imaginary_eigs_to_plot = abs(imaginary_eigenvalues_temp);
     
     reshaped_real = reshape(real_eigs_to_plot,[],1);
     real_mean = mean(reshaped_real);
@@ -139,7 +138,9 @@ close gcf
 
 %% By Direction
 for iState = 1:length(snippet_direction_out)
-    real_eigs_to_plot = real_eigenvalues(iState, :);    
+    dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
+    real_eigenvalues_temp = real_eigenvalues(iState,dims_to_include_temp);
+    real_eigs_to_plot = real_eigenvalues_temp;    
     reshaped_real = reshape(real_eigs_to_plot,[],1);
     real_mean = mean(reshaped_real);
 
@@ -170,7 +171,10 @@ figure('visible','on','Color','w'); hold on; box off
 
 for iState = 1:length(snippet_direction_out)
 
-    real_eigs_to_plot = real_eigenvalues(iState, :);
+    dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
+    real_eigenvalues_temp = real_eigenvalues(iState,dims_to_include_temp);
+    real_eigs_to_plot = real_eigenvalues_temp;    
+
     snippet_length_to_plot = snippet_length_per_state{iState};
     
     reshaped_real = reshape(real_eigs_to_plot,[],1);

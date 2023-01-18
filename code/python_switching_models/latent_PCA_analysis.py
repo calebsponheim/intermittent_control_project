@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 subject = 'rs'
 task = 'RTP'
 model = 'rslds'
+cutoff = .9
 
 if (subject == 'rs') & (task == 'RTP'):
     num_latent_dims_rslds = 25
@@ -72,6 +73,7 @@ latentpath = folderpath
 
 # %% Variance analysis
 variance = []
+dims_to_include = []
 for iState in np.arange(num_discrete_states_rslds) + 1:
     variance_state = []
     state_real_eigenvectors = pd.DataFrame.to_numpy(
@@ -103,15 +105,19 @@ for iState in np.arange(num_discrete_states_rslds) + 1:
 
     variance_state_cumsum_percentage = np.cumsum(
         np.flip(variance_state_ratio[variance_state_sort_order]))
-
+    variance_states_cutoff = variance_state_cumsum_percentage < cutoff
+    variance_states_cutoff[sum(variance_states_cutoff)] = True
+    state_dims_to_include = np.flip(variance_state_sort_order)[variance_states_cutoff]
     # Plotting
 
     plt.plot(np.asarray(np.arange(num_latent_dims_rslds)), np.asarray(
-        np.ones([num_latent_dims_rslds, 1])*.9), color='black')
+        np.ones([num_latent_dims_rslds, 1])*cutoff), color='black')
     plt.plot(variance_state_cumsum_percentage)
 
     variance.append(variance_state)
+    dims_to_include.append(state_dims_to_include+1)
 
-# PCA_eigs = pd.DataFrame(PCA_eigs)
-# PCA_eigs.to_csv(
-#     folderpath + model + '_PCA_eigs.csv', index=False, header=True)
+dims_to_include = pd.DataFrame(dims_to_include)
+dims_to_include.to_csv(folderpath + str(num_discrete_states_rslds) +
+                       "_states_" + str(num_latent_dims_rslds) + "_dims/" +
+                       'dims_to_include.csv', index=False, header=False)
