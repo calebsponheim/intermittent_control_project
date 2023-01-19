@@ -70,7 +70,7 @@ ypos = yneg;
 xneg = [real_std_err dec_real_std_err];
 xpos = xneg;
 
-figure('color','w','visible','on');
+figure('color','w','visible','off');
 hold on;
 box off;
 
@@ -93,7 +93,7 @@ close gcf
 
 % Actually plotting
 
-figure('visible','on','Color','w'); hold on; box off
+figure('visible','off','Color','w'); hold on; box off
 
 for iState = 1:length(snippet_direction_out)
     dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
@@ -130,13 +130,14 @@ end
 
 xlabel('Real Component')
 ylabel('Imaginary Component (Absolute Value)')
-title('Color = direction')
+title('Color = Discrete State')
     
 hold off
-saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs_by_dir.png'));
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real+imag_eigs_by_dir.png'));
 close gcf
 
 %% By Direction
+hold off
 for iState = 1:length(snippet_direction_out)
     dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
     real_eigenvalues_temp = real_eigenvalues(iState,dims_to_include_temp);
@@ -160,14 +161,14 @@ end
 hold off
 set(gca,'GridLineStyle',':','GridColor','k')
 set(gcf,'Color','White','Position',[300,300,600,600])
-saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_direction_key_for_eigs.png'));
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real_eigs_by_movement_direction.png'));
 close gcf
 
 %% By Snippet Length
 
 %snippet_length_per_state
 
-figure('visible','on','Color','w'); hold on; box off
+figure('visible','off','Color','w'); hold on; box off
 
 for iState = 1:length(snippet_direction_out)
 

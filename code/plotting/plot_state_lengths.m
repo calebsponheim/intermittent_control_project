@@ -17,7 +17,7 @@ for iState = 1:length(snippet_data)
         title(strcat(meta.subject,' ',strrep(meta.task,'_',' '),'State ',num2str(iState),' snippet length'));
         xlabel('length of snippet (ms)')
         ylabel('Count (number of snippets)')
-        saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,num2str(meta.optimal_number_of_states),'states','State ',num2str(iState),'_snippet_length.png'));
+        saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_snippet_length.png'));
         close gcf
     end
 end
@@ -29,7 +29,7 @@ set(gcf,'color','w')
 title(strcat(meta.subject,' ',strrep(meta.task,'_',' '),' snippet length'));
 xlabel('length of snippet (ms)')
 ylabel('Count (number of snippets)')
-saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,num2str(meta.optimal_number_of_states),'states','_snippet_length.png'));
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,meta.crosstrain,num2str(meta.optimal_number_of_states),'states','_snippet_length.png'));
 close gcf
 
 end

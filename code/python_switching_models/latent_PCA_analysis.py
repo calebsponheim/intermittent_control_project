@@ -69,13 +69,86 @@ if temp not in temp_folderlist:
     os.mkdir(folderpath + str(num_discrete_states_rslds) +
              "_states_" + str(num_latent_dims_rslds) + "_dims/")
 
-latentpath = folderpath
+# latentpath = folderpath
+# %% Load Latents
+
+# # Identifying Test/Train Trials from the models
+# test_portion = 0.2
+# iFold = 1
+# # see if multifold shuffles index file csv is already made
+# temp_datafolderlist = os.listdir(latentpath)
+
+# # Trials
+# if 'multifold_trial_classification.csv' in temp_datafolderlist:
+#     # if it is, then load it
+#     multifold_shuffled_order = pd.DataFrame.to_numpy(pd.read_csv(
+#         latentpath + 'multifold_trial_classification.csv'))
+# elif 'multifold_trial_classification.csv' not in temp_datafolderlist:
+#     print('uh oh')
+#     # bring in which fold it is
+# # take that segment of data
+# number_of_trials = len(multifold_shuffled_order)
+# trial_indices = np.arange(0, number_of_trials)
+
+# fold_test_data_range_start = int((
+#     (test_portion*iFold) - test_portion)*number_of_trials)
+# fold_test_data_range_end = int((test_portion*iFold)*number_of_trials)
+# test_mask = np.ones_like(trial_indices, bool)
+# test_mask[fold_test_data_range_start:fold_test_data_range_end] = False
+# test_mask = np.logical_not(test_mask)
+# fold_test_trials = multifold_shuffled_order[test_mask]
+# trial_classification = []
+# for iTrial in range(number_of_trials):
+#     if iTrial in fold_test_trials:
+#         trial_classification.append('test')
+#     else:
+#         trial_classification.append('train')
+
+# trind_test = [i for i, x in enumerate(trial_classification) if x == "test"]
+
+# latentfiles = [
+#     f
+#     for f in listdir(folderpath + str(num_discrete_states_rslds) +
+#                      "_states_" + str(num_latent_dims_rslds) + "_dims/")
+#     if isfile(join(folderpath + str(num_discrete_states_rslds) +
+#                    "_states_" + str(num_latent_dims_rslds) + "_dims/", f))
+#     if f.startswith("latent_states_full")
+# ]
+# file_count = 0
+# latents_by_trial = []
+# latent_length = []
+
+# for iFile in latentfiles:
+#     # print(iFile)
+#     iTrial = iFile.split('trial_', 1)[1]
+#     iTrial = int(iTrial.split('.csv')[0]) - 1
+#     # if iTrial in trind_test:
+#     print(iTrial)
+#     latents = pd.DataFrame.to_numpy(pd.read_csv(folderpath + str(num_discrete_states_rslds) +
+#                                                 "_states_" + str(num_latent_dims_rslds) +
+#                                                 "_dims/" + iFile, index_col=False))
+#     latents_by_trial.insert(iTrial, latents)
+#     latent_length.insert(iTrial, np.shape(latents)[0])
+#     file_count += 1
+
+discrete_states_full = pd.DataFrame.to_numpy(pd.read_csv(
+    folderpath + str(num_discrete_states_rslds) + "_states_" +
+    str(num_latent_dims_rslds) + "_dims/discrete_states_full.csv", header=None))
+latent_states_full = pd.DataFrame.to_numpy(pd.read_csv(
+    folderpath + str(num_discrete_states_rslds) + "_states_" +
+    str(num_latent_dims_rslds) + "_dims/latent_states_full.csv", header=None))
+
+# discrete_state_length = []
+# discrete_states_by_trial = []
 
 # %% Variance analysis
 variance = []
 dims_to_include = []
 for iState in np.arange(num_discrete_states_rslds) + 1:
     variance_state = []
+
+    # Pulling in eigenvectors
+
     state_real_eigenvectors = pd.DataFrame.to_numpy(
         pd.read_csv(folderpath + str(num_discrete_states_rslds) +
                     "_states_" + str(num_latent_dims_rslds) + "_dims/" +
@@ -90,15 +163,16 @@ for iState in np.arange(num_discrete_states_rslds) + 1:
         for iColumn in np.arange(len(state_real_eigenvectors)):
             state_complex_eigenvectors[iRow, iColumn] = complex(
                 state_real_eigenvectors[iRow, iColumn], state_imaginary_eigenvectors[iRow, iColumn])
-    a = pd.DataFrame.to_numpy(
-        pd.read_csv(folderpath + str(num_discrete_states_rslds) +
-                    "_states_" + str(num_latent_dims_rslds) + "_dims/" +
-                    'dynamics_state_' + str(iState) + '.csv'))
+
+    # pulling in state-specific dynamics
+    state_specific_dynamics_indices = np.where(discrete_states_full == (iState-1))[0]
+    a = latent_states_full[state_specific_dynamics_indices, :]
 
     # COLUMNS ARE DIMENSIONS
     for iDim in np.arange(len(state_complex_eigenvectors)):
         b = state_complex_eigenvectors[:, iDim]
-        vp = (np.dot(a, b) / np.dot(b, b)) * b
+        # vp = (np.dot(a, b) / np.dot(b, b)) * b # This is my version from thie internet
+        vp = np.dot(a, b)  # This is Nicho's version
         variance_state.append(np.var(vp))
     variance_state_ratio = variance_state/sum(variance_state)
     variance_state_sort_order = np.argsort(variance_state_ratio)

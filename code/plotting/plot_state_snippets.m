@@ -15,7 +15,7 @@ for iState = 1:size(snippet_data,2)
     state_snippet_trials = snippet_data(iState).snippet_trial(allowed_snippets);
     if ~isempty(state_snippets)
         for iSnippet = 1:size(state_snippets,2)
-            scatter(data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet}),data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}),3,colors(iState,:),'filled');
+            scatter(data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet}),data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}),3,colors(iState,:),'filled','MarkerFaceAlpha',0.1,'MarkerEdgeAlpha',0.1);
             scatter(data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet}(1)),data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}(1)),7,'g','filled');
             scatter(data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet}(end)),data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet}(end)),7,'r','filled');
         end

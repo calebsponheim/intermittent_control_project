@@ -187,9 +187,13 @@ def run_rslds(
         # %%
 
         decoded_data_rslds = []
-
+        discrete_states_full = []
+        latent_states_full = []
         for iTrial in range(len(fullset)):
             decoded_data_rslds.append(model.most_likely_states(xhat_lem[iTrial], fullset[iTrial]))
+            discrete_states_full.extend(
+                model.most_likely_states(xhat_lem[iTrial], fullset[iTrial]))
+            latent_states_full.extend(xhat_lem[iTrial])
 
         # rslds_likelihood = model.emissions.log_likelihoods(
         #     data=y, input=np.zeros([y[0].shape[0], 0]), mask=None, tag=[], x=xhat_lem)
@@ -227,6 +231,14 @@ def run_rslds(
         decoded_data_rslds_out = pd.DataFrame(decoded_data_rslds)
         decoded_data_rslds_out.to_csv(
             folderpath_out + "decoded_data_rslds.csv", index=False)
+
+        discrete_states_full_out = pd.DataFrame(discrete_states_full)
+        discrete_states_full_out.to_csv(
+            folderpath_out + "discrete_states_full.csv", index=False, header=False)
+
+        latent_states_full_out = pd.DataFrame(latent_states_full)
+        latent_states_full_out.to_csv(
+            folderpath_out + "latent_states_full.csv", index=False, header=False)
 
         with open(folderpath_out + "trial_classifiction.csv", "w", newline="") as f:
             write = csv.writer(f, delimiter=" ", quotechar="|",
