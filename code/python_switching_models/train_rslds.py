@@ -15,9 +15,8 @@ from matplotlib.font_manager import FontProperties
 from sklearn.decomposition import PCA as PCA_sk
 
 
-color_names = ["windows blue", "red", "amber", "faded green", "deep aqua", "fresh green",
-               "indian red", "orangeish", "old rose", "azul", "barney", "blood orange",
-               "cerise", "orange", "red", "salmon", "lilac"]
+color_names = ['red', 'brown', 'purple', 'blue', 'hot pink',
+               'orange', 'lime green', 'green', 'teal', 'light blue']
 colors = sns.xkcd_palette(color_names)
 sns.set_style("white")
 sns.set_context("talk")

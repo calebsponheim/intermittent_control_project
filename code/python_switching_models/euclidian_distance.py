@@ -13,6 +13,12 @@ from os import listdir
 from os.path import isfile, join
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
+from sklearn.datasets import load_digits
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+import seaborn as sns
+import pandas as pd
+import umap
 
 # %% Parameter Setting
 subject = 'rs'
@@ -76,4 +82,22 @@ biases = pd.DataFrame.to_numpy(pd.read_csv(
     folderpath + str(num_discrete_states_rslds) + "_states_" +
     str(num_latent_dims_rslds) + "_dims/biases.csv", header=0))
 
-distance = math.dist(biases[0, :], biases[1, :])
+sns.set(style='white', context='notebook', rc={'figure.figsize': (14, 10)})
+reducer = umap.UMAP()
+
+embedding = reducer.fit_transform(biases)
+embedding.shape
+
+# %% Plotting
+color_names = ['red', 'brown', 'purple', 'blue', 'hot pink',
+               'orange', 'lime green', 'green', 'teal', 'light blue']
+colors = sns.xkcd_palette(color_names)
+sns.set_style("white")
+sns.set_context("talk")
+
+plt.scatter(
+    embedding[:, 0],
+    embedding[:, 1],
+    c=[colors[x] for x in np.arange(num_discrete_states_rslds)])
+plt.gca().set_aspect('equal', 'datalim')
+plt.title('UMAP projection of discrete state fixed points', fontsize=24)
