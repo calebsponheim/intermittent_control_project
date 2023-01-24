@@ -256,6 +256,9 @@ def run_rslds(
         imaginary_eigenvalues_out = pd.DataFrame(imaginary_eigenvalues)
         imaginary_eigenvalues_out.to_csv(folderpath_out + "imaginary_eigenvalues.csv", index=False)
 
+        biases_out = pd.DataFrame(model.dynamics.bs)
+        biases_out.to_csv(folderpath_out + "biases.csv", index=False)
+
         for iState in range(len(real_eigenvectors)):
             real_eigenvectors_out = pd.DataFrame(real_eigenvectors[iState])
             real_eigenvectors_out.to_csv(folderpath_out + "real_eigenvectors_state_" +

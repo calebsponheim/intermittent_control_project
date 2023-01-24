@@ -67,8 +67,8 @@ def plot_trajectory_ind(z, x, figurepath):
 
 
 def plot_most_likely_dynamics(model,
-                              xlim=(-10, 10), ylim=(-10, 10), nxpts=30, nypts=30,
-                              alpha=0.8, ax=None, figsize=(10, 10)):
+                              xlim=(-100, 100), ylim=(-100, 100), nxpts=30, nypts=30,
+                              alpha=0.8, ax=None, figsize=(30, 30)):
 
     # K = model.K
     # assert model.D == 2
@@ -95,6 +95,7 @@ def plot_most_likely_dynamics(model,
             ax.quiver(xy[zk, 0], xy[zk, 1],
                       dxydt_m[zk, 0], dxydt_m[zk, 1],
                       color=colors[k % len(colors)], alpha=alpha)
+            ax.plot(b[0], b[1], color=colors[k % len(colors)], markersize=40, marker='o')
 
     ax.set_xlabel('$x_1$')
     ax.set_ylabel('$x_2$')
@@ -215,21 +216,21 @@ def train_rslds(data, trial_classification, meta, bin_size,
     sns.set_context("talk")
     # %% Define number of latent dimensions using PCA
 
-    pca_input = fullset[0]
+    # pca_input = fullset[0]
 
-    for iTrial in range(len(fullset)):
-        pca_input = np.vstack([pca_input, fullset[iTrial]])
+    # for iTrial in range(len(fullset)):
+    #     pca_input = np.vstack([pca_input, fullset[iTrial]])
 
-    pca_input = pca_input[1:, :]
-    pca_latent = PCA_sk()
-    pca_for_latent_state = pca_latent.fit(pca_input)
-    explained_variance = pca_for_latent_state.explained_variance_ratio_
+    # pca_input = pca_input[1:, :]
+    # pca_latent = PCA_sk()
+    # pca_for_latent_state = pca_latent.fit(pca_input)
+    # explained_variance = pca_for_latent_state.explained_variance_ratio_
 
-    cumulative_variance = np.cumsum(explained_variance)
+    # cumulative_variance = np.cumsum(explained_variance)
 
-    # plot(explained_variance)
-    # plot(cumulative_variance)
-    num_latent_dims = sum(cumulative_variance < .9)
+    # # plot(explained_variance)
+    # # plot(cumulative_variance)
+    # num_latent_dims = sum(cumulative_variance < .9)
 
     num_latent_dims = latent_dim_state_range
 
