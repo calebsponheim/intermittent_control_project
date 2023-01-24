@@ -29,7 +29,7 @@ set(gcf,'color','w')
 title(strcat(meta.subject,' ',strrep(meta.task,'_',' '),' snippet length'));
 xlabel('length of snippet (ms)')
 ylabel('Count (number of snippets)')
-saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,meta.crosstrain,num2str(meta.optimal_number_of_states),'states','_snippet_length.png'));
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,num2str(meta.crosstrain),num2str(meta.optimal_number_of_states),'states','_snippet_length.png'));
 close gcf
 
 end

@@ -136,7 +136,7 @@ hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real+imag_eigs_by_dir.png'));
 close gcf
 
-%% By Direction
+%% By Direction - Real Eigenvalues
 hold off
 for iState = 1:length(snippet_direction_out)
     dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
@@ -162,6 +162,34 @@ hold off
 set(gca,'GridLineStyle',':','GridColor','k')
 set(gcf,'Color','White','Position',[300,300,600,600])
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real_eigs_by_movement_direction.png'));
+close gcf
+
+%% By Direction - Imaginary Eigenvalues
+hold off
+for iState = 1:length(snippet_direction_out)
+    dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
+    imaginary_eigenvalues_temp = imaginary_eigenvalues(iState,dims_to_include_temp);
+    imaginary_eigs_to_plot = abs(imaginary_eigenvalues_temp);    
+    reshaped_imaginary = reshape(imaginary_eigs_to_plot,[],1);
+    imaginary_mean = mean(reshaped_imaginary);
+
+    Angle = snippet_direction_out(iState)';
+    Radius = imaginary_mean;
+    tbl = table(Angle,Radius);
+    if meta.acc_classification(iState) == 1
+        polarplot(tbl,"Angle","Radius",'LineStyle','none','LineWidth',6,'color',colors(iState,:),'MarkerFaceColor','Blue','Marker','o','MarkerSize',20);
+    elseif meta.acc_classification(iState) == 0
+        polarplot(tbl,"Angle","Radius",'LineStyle','none','LineWidth',6,'color',colors(iState,:),'MarkerFaceColor','Red','Marker','o','MarkerSize',20);
+    elseif meta.acc_classification(iState) == 2
+        polarplot(tbl,"Angle","Radius",'LineStyle','none','LineWidth',6,'color',colors(iState,:),'MarkerFaceColor','Black','Marker','o','MarkerSize',20);
+    end
+    hold on
+end
+
+hold off
+set(gca,'GridLineStyle',':','GridColor','k')
+set(gcf,'Color','White','Position',[300,300,600,600])
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_imaginary_eigs_by_movement_direction.png'));
 close gcf
 
 %% By Snippet Length
