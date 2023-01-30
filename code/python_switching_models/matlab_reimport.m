@@ -20,8 +20,8 @@ filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
 % OPTIONS
-num_desired_states = 10;
-num_desired_dims = 25;
+num_desired_states = 100;
+num_desired_dims = 2;
 
 
 filepath_for_ll_plot = filepath;
@@ -30,7 +30,7 @@ filepath = strcat(filepath,num2str(num_desired_states),"_states_",num2str(num_de
 analyze_all_trials = 0;
 plot_ll_hmm = 0;
 plot_ll_rslds = 0;
-use_rslds = 1;
+use_rslds = 0;
 
 %
 meta.filepath = filepath;

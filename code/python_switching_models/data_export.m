@@ -9,6 +9,9 @@ end
 if contains(filepath,'RSCO')
     data.subject = 'RS';
     data.task = 'CO';
+elseif contains(filepath,'RJ')
+    data.subject = 'RJ';
+    data.task = 'RTP';
 elseif contains(filepath,'Bx18CO')
     data.subject = 'Bx18';
     data.task = 'CO';
