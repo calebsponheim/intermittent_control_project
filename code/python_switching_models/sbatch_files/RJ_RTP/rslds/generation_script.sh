@@ -3,9 +3,9 @@
 # This is a script to write code into a script automatically
 subject='rj'
 taskname='RTP'
-skip = 4
-max_dim = 80
-max_state = 40
+skip=4
+max_dim=80
+max_state=40
 for iState in `seq 2 $skip $max_state`
 do
 	for iDim in `seq 2 $skip $max_dim`
