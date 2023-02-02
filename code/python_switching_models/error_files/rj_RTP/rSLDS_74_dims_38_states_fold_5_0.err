@@ -1,0 +1,18 @@
+Processed spikes from trial 100.
+Processed spikes from trial 200.
+Processed spikes from trial 300.
+Traceback (most recent call last):
+  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
+    run_rslds(
+  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 145, in run_rslds
+    log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
+  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 121, in rslds_cosmoothing
+    infile = open(folderpath_out + 'fold_' + str(fold_number) + '_model', 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/project/nicho/caleb/git/intermittent_control_project/data/python_switching_models/RJRTP0.05sBins/38_states_74_dims/fold_5_model'
+sbatch: Verify job submission ...
+sbatch: Using a shared partition ...
+sbatch: Partition: caslake
+sbatch: QOS-Flag: caslake
+sbatch: Account: pi-nicho
+sbatch: Verification: ***PASSED***
+Submitted batch job 1725788
