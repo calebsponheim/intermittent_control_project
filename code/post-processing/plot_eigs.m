@@ -209,8 +209,8 @@ for iState = 1:length(snippet_direction_out)
     reshaped_real = reshape(real_eigs_to_plot,[],1);
     real_mean = mean(reshaped_real);
     real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
-    snippet_length_mean = median(snippet_length_to_plot);
-    snippet_length_std_err = std(snippet_length_mean); %/sqrt(length(snippet_length_mean));
+    snippet_length_mean = mean(snippet_length_to_plot);
+    snippet_length_std_err = std(snippet_length_mean)/sqrt(length(snippet_length_mean));
 
     y = real_mean;
     x = snippet_length_mean;
@@ -236,6 +236,96 @@ title('Line Color = State')
     
 hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real_eigs_by_snippet_length.png'));
+close gcf
+%% By Avg Speed
+
+%snippet_length_per_state
+
+figure('visible','off','Color','w'); hold on; box off
+
+for iState = 1:length(snippet_direction_out)
+
+    dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
+    real_eigenvalues_temp = real_eigenvalues(iState,dims_to_include_temp);
+    real_eigs_to_plot = real_eigenvalues_temp;    
+
+    mean_speed_to_plot = meta.mean_speed{iState};
+    
+    reshaped_real = reshape(real_eigs_to_plot,[],1);
+    real_mean = mean(reshaped_real);
+    real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
+    mean_speed_mean= mean(mean_speed_to_plot);
+    mean_speed_std_err = std(mean_speed_mean)/sqrt(length(snippet_length_mean));
+
+    y = real_mean;
+    x = mean_speed_mean;
+    xneg = mean_speed_std_err;
+    xpos = xneg;
+    yneg = real_std_err;
+    ypos = yneg;
+
+    if meta.acc_classification(iState) == 1
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Blue','LineWidth',2)
+    elseif meta.acc_classification(iState) == 0
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Red','LineWidth',2)
+    elseif meta.acc_classification(iState) == 2
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Black','LineWidth',2)
+    end
+
+
+end
+
+xlabel('Mean Snippet Speed')
+ylabel('Real Eigenvalue Magnitude')
+title('Line Color = State')
+    
+hold off
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real_eigs_by_snippet_mean_speed.png'));
+close gcf
+%% By Peak Speed
+
+%snippet_length_per_state
+
+figure('visible','off','Color','w'); hold on; box off
+
+for iState = 1:length(snippet_direction_out)
+
+    dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
+    real_eigenvalues_temp = real_eigenvalues(iState,dims_to_include_temp);
+    real_eigs_to_plot = real_eigenvalues_temp;    
+
+    peak_speed_to_plot = meta.peak_speed{iState};
+    
+    reshaped_real = reshape(real_eigs_to_plot,[],1);
+    real_mean = mean(reshaped_real);
+    real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
+    peak_speed_mean= mean(peak_speed_to_plot);
+    peak_speed_std_err = std(peak_speed_mean)/sqrt(length(snippet_length_mean));
+
+    y = real_mean;
+    x = peak_speed_mean;
+    xneg = peak_speed_std_err;
+    xpos = xneg;
+    yneg = real_std_err;
+    ypos = yneg;
+
+    if meta.acc_classification(iState) == 1
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Blue','LineWidth',2)
+    elseif meta.acc_classification(iState) == 0
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Red','LineWidth',2)
+    elseif meta.acc_classification(iState) == 2
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Black','LineWidth',2)
+    end
+
+
+end
+
+xlabel('Peak Snippet Speed')
+ylabel('Real Eigenvalue Magnitude')
+title('Line Color = State')
+    
+hold off
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real_eigs_by_snippet_peak_speed.png'));
 close gcf
 %% Bar
 
