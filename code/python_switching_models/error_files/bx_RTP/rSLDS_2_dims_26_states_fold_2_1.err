@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
+    run_rslds(
+  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 97, in run_rslds
+    os.mkdir(folderpath + str(number_of_discrete_states) +
+FileExistsError: [Errno 17] File exists: '/project/nicho/caleb/git/intermittent_control_project/data/python_switching_models/BxRTP0.05sBins/26_states_2_dims/'
+sbatch: Verify job submission ...
+sbatch: Using a shared partition ...
+sbatch: Partition: caslake
+sbatch: QOS-Flag: caslake
+sbatch: Account: pi-nicho
+sbatch: Verification: ***PASSED***
+Submitted batch job 1732710
