@@ -11,7 +11,12 @@ for iState = 1:length(snippet_data)
     end
     if iState_length_count > 1
         figure('visible','off'); hold on
-        bar(25:50:round(max(snippet_length_per_state{iState}),-1),histcounts(snippet_length_per_state{iState},0:50:round(max(snippet_length_per_state{iState}),-1)),'FaceColor',colors(iState,:))
+        bar_x = 25:50:round(max(snippet_length_per_state{iState}),-1);
+        bar_values = histcounts(snippet_length_per_state{iState},0:50:round(max(snippet_length_per_state{iState}),-1));
+        if length(bar_values) < length(bar_x)
+            bar_x = bar_x(1:end-1);
+        end
+        bar(bar_x,bar_values,'FaceColor',colors(iState,:))
         box off
         set(gcf,'color','w')
         title(strcat(meta.subject,' ',strrep(meta.task,'_',' '),'State ',num2str(iState),' snippet length'));
