@@ -27,22 +27,23 @@ for iState = 1:size(real_eigenvalues,1)
     real_eigenvalues_temp = real_eigenvalues(iState,dims_to_include_temp);
     imaginary_eigenvalues_temp = imaginary_eigenvalues(iState,dims_to_include_temp);
     if meta.acc_classification(iState) == 1
-        plot(real_eigenvalues_temp,imaginary_eigenvalues_temp,'o','color','Blue');
+        plot(real_eigenvalues_temp,imaginary_eigenvalues_temp,'.','color',colors(iState,:),'MarkerSize',30);
         acc_eigs_real{acc_eig_count} = real_eigenvalues_temp;
         acc_eigs_imag{acc_eig_count} = abs(imaginary_eigenvalues_temp);
         acc_eig_count = acc_eig_count + 1;
     elseif meta.acc_classification(iState) == 0
-        plot(real_eigenvalues_temp,imaginary_eigenvalues_temp,'o','color','Red');
+        plot(real_eigenvalues_temp,imaginary_eigenvalues_temp,'.','color',colors(iState,:),'MarkerSize',30);
         dec_eigs_real{dec_eig_count} = real_eigenvalues_temp;
         dec_eigs_imag{dec_eig_count} = abs(imaginary_eigenvalues_temp);
         dec_eig_count = dec_eig_count + 1;
     elseif meta.acc_classification(iState) == 2
-        plot(real_eigenvalues_temp,imaginary_eigenvalues_temp,'o','color','black');
+        plot(real_eigenvalues_temp,imaginary_eigenvalues_temp,'.','color',colors(iState,:),'MarkerSize',30);
     end
 end
 xlabel('Real Component')
 ylabel('Imaginary Component')
-title('Blue = Accelerative | Red = Decelerative')
+title('Eigenvalue Magnitudes (Color = State)')
+ylim([0 max(imaginary_eigenvalues_temp)])
 
 hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs.png'));

@@ -40,7 +40,7 @@ elif (subject == 'rs') & (task == 'CO'):
     num_latent_dims_lds = 80
     num_discrete_states_hmm = 16
 elif (subject == 'rj') & (task == 'RTP'):
-    num_latent_dims_rslds = 22
+    num_latent_dims_rslds = 25
     num_discrete_states_rslds = 10
     num_latent_dims_slds = 2
     num_discrete_states_slds = 2
@@ -58,6 +58,7 @@ elif "dali" in current_working_directory:
 elif "Caleb (Work)" in current_working_directory:
     folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
 folderpath_base = folderpath_base_base + "data/python_switching_models/"
+figurepath_base = folderpath_base_base + "figures/"
 
 if subject == "bx":
     if task == "CO":
@@ -71,8 +72,10 @@ elif subject == "rs":
         folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
     elif task == "RTP":
         folderpath = folderpath_base + "RSRTP0.05sBins/"
+        figurepath = figurepath_base + "RS/RTP_CT0/rslds/"
 elif subject == "rj":
     folderpath = folderpath_base + "RJRTP0.05sBins/"
+    figurepath = figurepath_base + "RJ/RTP_CT0/rslds/"
 else:
     print("BAD, NO")
 
@@ -88,11 +91,17 @@ biases = pd.DataFrame.to_numpy(pd.read_csv(
     folderpath + str(num_discrete_states_rslds) + "_states_" +
     str(num_latent_dims_rslds) + "_dims/biases.csv", header=0))
 
-sns.set(style='white', context='notebook', rc={'figure.figsize': (14, 10)})
-reducer = umap.UMAP()
+# %% PCA
 
-embedding = reducer.fit_transform(biases)
-embedding.shape
+pca = PCA()
+reduced_data = pca.fit_transform(biases)
+# %%
+# UMAP
+# sns.set(style='white', context='notebook', rc={'figure.figsize': (14, 10)})
+# reducer = umap.UMAP()
+
+# reduced_data = reducer.fit_transform(biases)
+# reduced_data.shape
 
 # %% Plotting
 color_names = ['red', 'brown', 'purple', 'blue', 'hot pink',
@@ -102,8 +111,10 @@ sns.set_style("white")
 sns.set_context("talk")
 
 plt.scatter(
-    embedding[:, 0],
-    embedding[:, 1],
+    reduced_data[:, 0],
+    reduced_data[:, 1],
     c=[colors[x] for x in np.arange(num_discrete_states_rslds)])
 plt.gca().set_aspect('equal', 'datalim')
-plt.title('UMAP projection of discrete state fixed points', fontsize=24)
+plt.title('2D plot of Hi-D discrete state fixed points', fontsize=24)
+plt.savefig(figurepath + str(num_discrete_states_rslds) +
+            "_states_" + str(num_latent_dims_rslds) + "_dims/" + "PCA_fixed_points.png")
