@@ -20,8 +20,8 @@ filepath = [filepath_base 'BxRTP0.05sBins\'];
 % filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
 % OPTIONS
-num_desired_states = 2;
-num_desired_dims = 2;
+num_desired_states = 18;
+num_desired_dims = 38;
 
 
 filepath_for_ll_plot = filepath;
