@@ -20,8 +20,23 @@ filepath = [filepath_base 'BxRTP0.05sBins\'];
 % filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
 % OPTIONS
-num_desired_states = 18;
-num_desired_dims = 38;
+if contains(filepath,'RS') && contains(filepath,'RTP')
+    num_desired_states = 10;
+    num_desired_dims = 25;
+elseif contains(filepath,'RS') && contains(filepath,'CO')
+elseif contains(filepath,'RJ')
+    num_desired_states = 10;
+    num_desired_dims = 25;
+elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
+    if contains(filepath,'Bx18')
+    elseif contains(filepath,'BxRTP0.05sBins')
+%         num_desired_states = 18;
+%         num_desired_dims = 38;
+        num_desired_states = 2;
+        num_desired_dims = 2;
+    elseif contains(filepath,'190228')
+    end
+end
 
 
 filepath_for_ll_plot = filepath;
