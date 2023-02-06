@@ -14,7 +14,7 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
 # %% Parameter Setting
-subject = 'rj'
+subject = 'bx'
 task = 'RTP'
 model = 'rslds'
 cutoff = .9
@@ -33,7 +33,7 @@ elif (subject == 'rj') & (task == 'RTP'):
     num_discrete_states_slds = 2
     num_latent_dims_lds = 80
     num_discrete_states_hmm = 16
-elif (subject == 'Bx') & (task == 'RTP'):
+elif (subject == 'bx') & (task == 'RTP'):
     num_latent_dims_rslds = 38
     num_discrete_states_rslds = 18
     num_latent_dims_slds = 2
@@ -65,6 +65,8 @@ if subject == "bx":
         folderpath = folderpath_base + "Bxcenter_out1902280.05sBins/"
     elif task == "CO+RTP":
         folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
+    elif task == "RTP":
+        folderpath = folderpath_base + "BxRTP0.05sBins/"
 elif subject == "bx18":
     folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/"
 elif subject == "rs":

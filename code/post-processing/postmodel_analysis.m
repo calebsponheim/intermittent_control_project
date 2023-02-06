@@ -6,7 +6,10 @@ elseif strcmp(getenv('USERNAME'),'caleb_work')
      file_base_base = 'C:\Users\Caleb (Work)';
 end
     
-[~, colors] = colornames('xkcd','red','brown','purple','blue','hot pink','orange','lime green','green','teal','light blue');
+[~, colors] = colornames('xkcd', ...
+    'red','magenta','brown','purple','blue','hot pink','salmon','orange', ...
+    'mustard','lime green','green','teal','light blue','olive green', ...
+    'grey','peach','periwinkle','black');
 
 %% Create Plot Figure Results Folder
 if meta.crosstrain == 0 

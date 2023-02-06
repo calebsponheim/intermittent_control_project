@@ -28,7 +28,12 @@ for iState = 1:length(snippet_data)
 end
 
 figure('visible','off'); hold on
-bar(25:50:round(max(snippet_length),-1),histcounts(snippet_length,0:50:round(max(snippet_length),-1)))
+bar_x = 25:50:round(max(snippet_length),-1);
+bar_values = histcounts(snippet_length,0:50:round(max(snippet_length),-1));
+if length(bar_values) < length(bar_x)
+    bar_x = bar_x(1:end-1);
+end
+bar(bar_x,bar_values)
 box off
 set(gcf,'color','w')
 title(strcat(meta.subject,' ',strrep(meta.task,'_',' '),' snippet length'));
