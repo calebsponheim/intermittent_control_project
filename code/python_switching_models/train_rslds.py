@@ -249,7 +249,7 @@ def train_rslds(data, trial_classification, meta, bin_size,
     model.initialize(trainset)
     q_elbos_lem, q_lem = model.fit(trainset, method="laplace_em",
                                    variational_posterior="structured_meanfield",
-                                   num_iters=15)
+                                   num_iters=30)
     xhat_lem = []
     # zhat_lem = []
     # for iTrial in range(len(trainset)):
@@ -264,7 +264,7 @@ def train_rslds(data, trial_classification, meta, bin_size,
         datas=testset,
         method="laplace_em",
         variational_posterior="structured_meanfield",
-        num_iters=15)
+        num_iters=30)
     # test_states = []
     # for iTrial in range(len(testset)):
     #     test_states.append(model.most_likely_states(
