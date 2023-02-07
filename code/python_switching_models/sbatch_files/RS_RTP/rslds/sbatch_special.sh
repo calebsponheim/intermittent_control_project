@@ -8,4 +8,4 @@
 #SBATCH --partition=caslake
 module load python/anaconda-2021.05
 source activate /project/nicho/caleb/git/intermittent_control_project/data/ssm_midway_python_environment/
-python /project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search_special_bx.py
+python /project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search_special_rs.py
