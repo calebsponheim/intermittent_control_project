@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=38d_18s
-#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/bx_RTP/rSLDS_2_dims_2_states_fold_1_0.out
-#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/bx_RTP/rSLDS_2_dims_2_states_fold_1_0.err
+#SBATCH --job-name=special
+#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/out_files/special.out
+#SBATCH --output=/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/error_files/special.err
 #SBATCH --time=36:00:00
 #SBATCH --mem-per-cpu=48G
 #SBATCH --account=pi-nicho
