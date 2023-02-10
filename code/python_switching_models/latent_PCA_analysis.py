@@ -8,9 +8,9 @@ Created on Thu Dec 22 08:46:39 2022
 import os
 import pandas as pd
 import numpy as np
-from os import listdir
-from os.path import isfile, join
-from sklearn.decomposition import PCA
+# from os import listdir
+# from os.path import isfile, join
+# from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
 # %% Parameter Setting
@@ -27,8 +27,8 @@ if (subject == 'rs') & (task == 'RTP'):
     num_latent_dims_lds = 40
     num_discrete_states_hmm = 28
 elif (subject == 'rj') & (task == 'RTP'):
-    # num_latent_dims_rslds = 25
-    num_latent_dims_rslds = 10
+    num_latent_dims_rslds = 25
+    # num_latent_dims_rslds = 10
     num_discrete_states_rslds = 10
     num_latent_dims_slds = 2
     num_discrete_states_slds = 2
@@ -156,6 +156,7 @@ discrete_states_full = pd.DataFrame.to_numpy(pd.read_csv(
 latent_states_full = pd.DataFrame.to_numpy(pd.read_csv(
     folderpath + str(num_discrete_states_rslds) + "_states_" +
     str(num_latent_dims_rslds) + "_dims/latent_states_full.csv", header=None))
+
 
 # discrete_state_length = []
 # discrete_states_by_trial = []

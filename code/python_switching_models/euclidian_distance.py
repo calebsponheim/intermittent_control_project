@@ -24,6 +24,7 @@ import umap
 subject = 'rj'
 task = 'RTP'
 model = 'rslds'
+cutoff = .9
 
 if (subject == 'rs') & (task == 'RTP'):
     num_latent_dims_rslds = 25
@@ -32,16 +33,26 @@ if (subject == 'rs') & (task == 'RTP'):
     num_discrete_states_slds = 2
     num_latent_dims_lds = 40
     num_discrete_states_hmm = 28
-elif (subject == 'rs') & (task == 'CO'):
-    num_latent_dims_rslds = 14
-    num_discrete_states_rslds = 8
+elif (subject == 'rj') & (task == 'RTP'):
+    num_latent_dims_rslds = 25
+    # num_latent_dims_rslds = 10
+    num_discrete_states_rslds = 10
     num_latent_dims_slds = 2
     num_discrete_states_slds = 2
     num_latent_dims_lds = 80
     num_discrete_states_hmm = 16
-elif (subject == 'rj') & (task == 'RTP'):
-    num_latent_dims_rslds = 25
+elif (subject == 'bx') & (task == 'RTP'):
+    # num_latent_dims_rslds = 38
+    # num_discrete_states_rslds = 18
+    num_latent_dims_rslds = 30
     num_discrete_states_rslds = 10
+    num_latent_dims_slds = 2
+    num_discrete_states_slds = 2
+    num_latent_dims_lds = 80
+    num_discrete_states_hmm = 16
+elif (subject == 'rs') & (task == 'CO'):
+    num_latent_dims_rslds = 14
+    num_discrete_states_rslds = 8
     num_latent_dims_slds = 2
     num_discrete_states_slds = 2
     num_latent_dims_lds = 80
@@ -63,8 +74,16 @@ figurepath_base = folderpath_base_base + "figures/"
 if subject == "bx":
     if task == "CO":
         folderpath = folderpath_base + "Bxcenter_out1902280.05sBins/"
+        # folderpath = (
+        #     folderpath_base + "Bxcenter_out1902280.05_sBins_move_window_only/"
+        # )
+        figurepath = figurepath_base + "Bx/CO_CT0/rslds/"
     elif task == "CO+RTP":
         folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
+        figurepath = figurepath_base + "Bx/CO+RTP_CT0/rslds/"
+    elif task == "RTP":
+        folderpath = folderpath_base + "BxRTP0.05sBins/"
+        figurepath = figurepath_base + "Bx/RTP_CT0/rslds/"
 elif subject == "bx18":
     folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/"
 elif subject == "rs":
@@ -86,6 +105,10 @@ if temp not in temp_folderlist:
              "_states_" + str(num_latent_dims_rslds) + "_dims/")
 
 # %%
+latent_states_full = pd.DataFrame.to_numpy(pd.read_csv(
+    folderpath + str(num_discrete_states_rslds) + "_states_" +
+    str(num_latent_dims_rslds) + "_dims/latent_states_full.csv", header=None))
+
 
 biases = pd.DataFrame.to_numpy(pd.read_csv(
     folderpath + str(num_discrete_states_rslds) + "_states_" +
@@ -94,7 +117,14 @@ biases = pd.DataFrame.to_numpy(pd.read_csv(
 # %% PCA
 
 pca = PCA()
-reduced_data = pca.fit_transform(biases)
+latent_states_reduced = pca.fit_transform(latent_states_full)
+fixed_point_reduced = pca.transform(biases)
+
+fixed_point_reduced_out = pd.DataFrame(fixed_point_reduced)
+fixed_point_reduced_out.to_csv(folderpath + str(num_discrete_states_rslds) +
+                               "_states_" + str(num_latent_dims_rslds) + "_dims/" +
+                               'fixed_points_PCA.csv', index=False, header=False)
+
 # %%
 # UMAP
 # sns.set(style='white', context='notebook', rc={'figure.figsize': (14, 10)})
@@ -104,15 +134,16 @@ reduced_data = pca.fit_transform(biases)
 # reduced_data.shape
 
 # %% Plotting
-color_names = ['red', 'brown', 'purple', 'blue', 'hot pink',
-               'orange', 'lime green', 'green', 'teal', 'light blue']
+color_names = ['black', 'grey', 'red', 'brown', 'purple', 'blue', 'hot pink', 'orange',
+               'mustard', 'green', 'teal', 'light blue', 'olive green',
+               'peach', 'periwinkle', 'magenta', 'salmon', 'lime green']
 colors = sns.xkcd_palette(color_names)
 sns.set_style("white")
 sns.set_context("talk")
 
 plt.scatter(
-    reduced_data[:, 0],
-    reduced_data[:, 1],
+    fixed_point_reduced[:, 0],
+    fixed_point_reduced[:, 1],
     c=[colors[x] for x in np.arange(num_discrete_states_rslds)])
 plt.gca().set_aspect('equal', 'datalim')
 plt.title('2D plot of Hi-D discrete state fixed points', fontsize=24)

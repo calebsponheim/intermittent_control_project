@@ -9,7 +9,7 @@ for iState = 1:length(snippet_data)
         iState_length_count = iState_length_count + 1;
         length_count = length_count + 1;
     end
-    if iState_length_count > 1
+    if iState_length_count > 1 && (round(max(snippet_length_per_state{iState}),-1) >= 50)
         figure('visible','off'); hold on
         bar_x = 25:50:round(max(snippet_length_per_state{iState}),-1);
         bar_values = histcounts(snippet_length_per_state{iState},0:50:round(max(snippet_length_per_state{iState}),-1));

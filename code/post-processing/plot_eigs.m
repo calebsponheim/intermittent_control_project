@@ -50,7 +50,7 @@ saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2st
 close gcf
 
 %% Error Bar Plot
-if ~isempty(acc_eigs_real)
+if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real) 
     reshaped_real = reshape([acc_eigs_real{:}],[],1);
     real_mean = mean(reshaped_real);
     real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
@@ -343,7 +343,7 @@ for iState = 1:size(real_eigenvalues,1)
         dec_states_imag = [acc_states_imag imaginary_eigenvalues(iState,:)];
     end
 end
-if ~isempty(acc_states_real)
+if ~isempty(acc_states_real) &&  ~isempty(dec_eigs_real) 
     bin_size = 0.25;
     edges = -2:bin_size:2;
     [acc_states_real_counts,acc_states_real_edges] = histcounts(reshape(acc_states_real,[1,size(acc_states_real,1)*size(acc_states_real,2)]),edges);

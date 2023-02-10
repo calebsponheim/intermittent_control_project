@@ -25,10 +25,10 @@ if contains(filepath,'RS') && contains(filepath,'RTP')
     num_desired_dims = 25;
 elseif contains(filepath,'RS') && contains(filepath,'CO')
 elseif contains(filepath,'RJ')
-%     num_desired_states = 10;
-%     num_desired_dims = 25;
-    num_desired_states = 5;
-    num_desired_dims = 10;
+    num_desired_states = 10;
+    num_desired_dims = 25;
+%     num_desired_states = 5;
+%     num_desired_dims = 10;
 elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
     if contains(filepath,'Bx18')
     elseif contains(filepath,'BxRTP0.05sBins')
@@ -75,7 +75,7 @@ if contains(rslds_check{1},'rslds')
     %         );
     %     ll_rslds = ll_rslds(2:end,:);
 end
-% [decoded_data_rslds] = censor_and_threshold_HMM_states(decoded_data_rslds);
+[decoded_data_rslds] = censor_and_threshold_HMM_states(decoded_data_rslds);
 
 %%
 ll_files = files_in_filepath(cellfun(@(x) contains(x,'select_ll'),files_in_filepath));

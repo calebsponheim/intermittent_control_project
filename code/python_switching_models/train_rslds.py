@@ -15,8 +15,9 @@ from matplotlib.font_manager import FontProperties
 from sklearn.decomposition import PCA as PCA_sk
 
 
-color_names = ['red', 'brown', 'purple', 'blue', 'hot pink',
-               'orange', 'lime green', 'green', 'teal', 'light blue']
+color_names = ['black', 'grey', 'red', 'brown', 'purple', 'blue', 'hot pink', 'orange',
+               'mustard', 'green', 'teal', 'light blue', 'olive green',
+               'peach', 'periwinkle', 'magenta', 'salmon', 'lime green']
 colors = sns.xkcd_palette(color_names)
 sns.set_style("white")
 sns.set_context("talk")
@@ -244,12 +245,12 @@ def train_rslds(data, trial_classification, meta, bin_size,
     model = ssm.SLDS(D_obs, K, D_latent,
                      transitions="recurrent",
                      dynamics="diagonal_gaussian",
-                     emissions="poisson",
+                     emissions="poisson_orthog",
                      single_subspace=True)
     model.initialize(trainset)
     q_elbos_lem, q_lem = model.fit(trainset, method="laplace_em",
                                    variational_posterior="structured_meanfield",
-                                   num_iters=40)
+                                   num_iters=10)
     xhat_lem = []
     # zhat_lem = []
     # for iTrial in range(len(trainset)):
@@ -264,7 +265,7 @@ def train_rslds(data, trial_classification, meta, bin_size,
         datas=testset,
         method="laplace_em",
         variational_posterior="structured_meanfield",
-        num_iters=40)
+        num_iters=10)
     # test_states = []
     # for iTrial in range(len(testset)):
     #     test_states.append(model.most_likely_states(
