@@ -68,12 +68,12 @@ for iCombo = 1:size(all_state_combos,1)
     eigenvalue_magnitude_temp_one = eigenvalue_magnitude(all_state_combos(iCombo,1),:);
     eigenvalue_magnitude_temp_two = eigenvalue_magnitude(all_state_combos(iCombo,2),:);
 
-    dims_to_include_vector_one = dimension_cutoffs(all_state_combos(iCombo,1),~isnan(dimension_cutoffs(all_state_combos(iCombo,1),:)));
-    dims_to_include_vector_two = dimension_cutoffs(all_state_combos(iCombo,2),~isnan(dimension_cutoffs(all_state_combos(iCombo,2),:)));
+    dims_to_include_vector_one = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
+    dims_to_include_vector_two = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
     % Step 4: calculate dot products between all state eigenvector combos
     % of the two selected combos
     
-    [m,n] = ndgrid(dims_to_include_vector_one,dims_to_include_vector_two);
+    [m,n] = ndgrid(find(eigenvalue_magnitude_temp_one > eigenvalue_magnitude_threshold),find(eigenvalue_magnitude_temp_two > eigenvalue_magnitude_threshold));
     eigenvector_combos = [m(:),n(:)];
 
     for iIntraCombo = 1:size(eigenvector_combos,1)  
@@ -99,13 +99,9 @@ for iCombo = 1:size(sorted_state_transitions_for_function,1)
     eigenvalue_magnitude_temp_one = eigenvalue_magnitude(sorted_state_transitions_for_function(iCombo,1),:);
     eigenvalue_magnitude_temp_two = eigenvalue_magnitude(sorted_state_transitions_for_function(iCombo,2),:);
 
-    dims_to_include_vector_one = dimension_cutoffs(sorted_state_transitions_for_function(iCombo,1),~isnan(dimension_cutoffs(sorted_state_transitions_for_function(iCombo,1),:)));
-    dims_to_include_vector_two = dimension_cutoffs(sorted_state_transitions_for_function(iCombo,2),~isnan(dimension_cutoffs(sorted_state_transitions_for_function(iCombo,2),:)));
-    % Step 4: calculate dot products between all state eigenvector combos
-    % of the two selected combos
-    
-    [m,n] = ndgrid(dims_to_include_vector_one,dims_to_include_vector_two);
+    dims_to_include_vector_one = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
 
+    [m,n] = ndgrid(find(eigenvalue_magnitude_temp_one > eigenvalue_magnitude_threshold),find(eigenvalue_magnitude_temp_two > eigenvalue_magnitude_threshold));
     eigenvector_combos = [m(:),n(:)];
     eigenvector_combos(eigenvector_combos(:,1) == eigenvector_combos(:,2),:) = [];
 
