@@ -38,6 +38,7 @@ close gcf
 
 %% Calculating the complex vectors
 
+% COLUMNS ARE DIMENSIONS
 for iState = 1:size(real_eigenvectors, 2)
     complex_eigenvectors{iState} = complex(real_eigenvectors{iState},imaginary_eigenvectors{iState});
 end

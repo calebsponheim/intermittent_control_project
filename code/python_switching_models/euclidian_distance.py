@@ -21,7 +21,7 @@ import pandas as pd
 import umap
 
 # %% Parameter Setting
-subject = 'rj'
+subject = 'bx'
 task = 'RTP'
 model = 'rslds'
 cutoff = .9
@@ -35,15 +35,12 @@ if (subject == 'rs') & (task == 'RTP'):
     num_discrete_states_hmm = 28
 elif (subject == 'rj') & (task == 'RTP'):
     num_latent_dims_rslds = 25
-    # num_latent_dims_rslds = 10
     num_discrete_states_rslds = 10
     num_latent_dims_slds = 2
     num_discrete_states_slds = 2
     num_latent_dims_lds = 80
     num_discrete_states_hmm = 16
 elif (subject == 'bx') & (task == 'RTP'):
-    # num_latent_dims_rslds = 38
-    # num_discrete_states_rslds = 18
     num_latent_dims_rslds = 30
     num_discrete_states_rslds = 10
     num_latent_dims_slds = 2

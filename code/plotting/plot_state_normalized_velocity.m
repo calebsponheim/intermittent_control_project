@@ -41,9 +41,9 @@ for iState = 1:size(snippet_data,2)
         line_fit_temp = polyfit(max_res,interpnormspeedmean{iState},1);
         y_for_line_plot = polyval(line_fit_temp,max_res);
         line_slope_temp = line_fit_temp(1);
-        if line_slope_temp > .3
+        if line_slope_temp > .2
             meta.acc_classification(iState) = 1; % ACCELERATIVE
-        elseif line_slope_temp < -.3
+        elseif line_slope_temp < -.2
             meta.acc_classification(iState) = 0; % DECELRATIVE
         else
             meta.acc_classification(iState) = 2; % FLAT

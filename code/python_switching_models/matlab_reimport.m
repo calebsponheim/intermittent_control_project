@@ -1,11 +1,11 @@
 %% Import Data from Python and integrate into matlab struct.
-%clear
 
 if strcmp(getenv('USERNAME'),'calebsponheim')
     file_base_base = 'C:\Users\calebsponheim';
 elseif strcmp(getenv('USERNAME'),'caleb_work')
     file_base_base = 'C:\Users\Caleb (Work)';
 end
+
 filepath_base = [file_base_base '\Documents\git\intermittent_control_project\data\python_switching_models\'];
 figure_base = [file_base_base '\Documents\git\intermittent_control_project\figures\'];
 % filepath = [filepath_base 'RSCO0.05sBins\'];
@@ -21,20 +21,16 @@ filepath = [filepath_base 'RSRTP0.05sBins\'];
 
 % OPTIONS
 if contains(filepath,'RS') && contains(filepath,'RTP')
-    num_desired_states = 8;
+    num_desired_states = 10;
     num_desired_dims = 25;
 elseif contains(filepath,'RS') && contains(filepath,'CO')
 elseif contains(filepath,'RJ')
-    num_desired_states = 8;
+    num_desired_states = 10;
     num_desired_dims = 25;
-%     num_desired_states = 5;
-%     num_desired_dims = 10;
 elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
     if contains(filepath,'Bx18')
     elseif contains(filepath,'BxRTP0.05sBins')
-%         num_desired_states = 18;
-%         num_desired_dims = 38;
-        num_desired_states = 8;
+        num_desired_states = 10;
         num_desired_dims = 30;
     elseif contains(filepath,'190228')
     end
