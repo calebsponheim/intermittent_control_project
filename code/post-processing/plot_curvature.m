@@ -5,9 +5,8 @@ available_test_trials = find(ismember({data.trial_classification},'test') | isme
 if meta.analyze_all_trials == 1
     available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'train') | ismember({data.trial_classification},'model_select'));
 end
-overall_curve_count = 1;
 for iState = 1:size(snippet_data,2)
-    curve_count = 1;
+    curvature_per_state{iState} = [];
     [~,~,allowed_snippets] = intersect(available_test_trials,snippet_data(iState).snippet_trial);
     state_snippets = snippet_data(iState).snippet_timestamps(allowed_snippets);
     state_snippet_trials = snippet_data(iState).snippet_trial(allowed_snippets);
@@ -18,18 +17,15 @@ for iState = 1:size(snippet_data,2)
             snippet_kin = [smooth(x_temp,3), smooth(y_temp,3)];
             if size(snippet_kin,1) > 1
                 %             figure; plot(snippet_kin(:,1), snippet_kin(:,2))
-                [cum_arc_length_temp,radius_temp,curvature_vector_temp] = curvature(snippet_kin);
-                avg_radius = mean(radius_temp(3:end-3),'omitnan');
-                curvature_per_state{iState}(curve_count) = avg_radius;
-                curvature_overall(overall_curve_count) = avg_radius;
-                curve_count = curve_count + 1;
-                overall_curve_count = overall_curve_count + 1;
+                [~,radius_temp,~] = curvature(snippet_kin);
+%                 avg_radius = mean(radius_temp(3:end-3),'omitnan');
+                curvature_per_state{iState} = vertcat(curvature_per_state{iState},radius_temp(3:end-3));
             end
         end
     end
-    if curve_count > 1
+    if ~isempty(curvature_per_state{iState})
         figure('visible','off'); hold on
-        [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},0,20, colors(iState,:), 'bilateral', 100,std(curvature_per_state{iState})/5000,5);
+        [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},0,2, colors(iState,:), 'bilateral', 100,std(curvature_per_state{iState})/1000000,1);
         if ~isnan(q_temp(end,1))
             ylim([0 q_temp(end,1)])
         end
@@ -43,11 +39,19 @@ for iState = 1:size(snippet_data,2)
         close gcf
     end
 end
+%% overall curve
+if contains(subject,'RJ') || contains(subject,'RS')
+    overall_kin = [smooth(vertcat(data.x_smoothed)',3),smooth(vertcat(data.y_smoothed)',3)];
+else
+    overall_kin = [smooth([data.x_smoothed],3),smooth([data.y_smoothed],3)];
+end
+[cum_arc_length_temp,radius_temp,curvature_vector_temp] = curvature(overall_kin);
+curvature_overall = radius_temp;
 
 %%
 figure('visible','off'); hold on
 for iState = 1:size(snippet_data,2)
-    [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},iState,0.75, colors(iState,:), 'right', 50,std(curvature_per_state{iState})/10000,0);
+    [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},iState,0.75, colors(iState,:), 'right', 50,std(curvature_per_state{iState})/100000,1);
     q(iState) = q_temp(end,1);
 end
 ylim([0 mean(q,'omitnan')])

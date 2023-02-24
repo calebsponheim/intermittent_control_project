@@ -81,11 +81,11 @@ for i=1:size(x,2)
     h{i}=gcf;
     switch type
         case {'bilateral', 'man'}
-            scatter(pos(i)*ones(size(x(:,i)))+jitw*(rand(size(x(:,i)))-0.5),x(:,i),10,col(i,:),'filled','MarkerFaceAlpha',0.1);
+            scatter(pos(i)*ones(size(x(:,i)))+jitw*(rand(size(x(:,i)))-0.5),x(:,i),10,col(i,:),'filled','MarkerFaceAlpha',0.1,'SizeData',0.1);
             hold on
             patch([pos(i)-f fliplr(pos(i)+f)], [uc fliplr(uc)], 0.97*col(i,:),'edgecolor','none','facealpha',0.2)
             patch([pos(i)+boxw(i)/2 pos(i)+boxw(i)/2 pos(i)+boxw(i)/4 pos(i)+boxw(i)/2 pos(i)+boxw(i)/2 pos(i)-boxw(i)/2 pos(i)-boxw(i)/2 pos(i)-boxw(i)/4 pos(i)-boxw(i)/2 pos(i)-boxw(i)/2], [q(2,i) notch(1,i) q(3,i) notch(2,i) q(4,i) q(4,i) notch(2,i) q(3,i) notch(1,i) q(2,i)], 0.97*col(i,:),'edgecolor','k','facealpha',0.7,'HandleVisibility','off')
-            patch([pos(i)-boxw(i)/8 pos(i)+boxw(i)/8 pos(i)+boxw(i)/8 pos(i)-boxw(i)/8 pos(i)-boxw(i)/8], [mu(i)-sigma(i) mu(i)-sigma(i) mu(i)+sigma(i) mu(i)+sigma(i) mu(i)-sigma(i)], col(i,:),'edgecolor','none','facealpha',0,'HandleVisibility','off')
+%             patch([pos(i)-boxw(i)/8 pos(i)+boxw(i)/8 pos(i)+boxw(i)/8 pos(i)-boxw(i)/8 pos(i)-boxw(i)/8], [mu(i)-sigma(i) mu(i)-sigma(i) mu(i)+sigma(i) mu(i)+sigma(i) mu(i)-sigma(i)], col(i,:),'edgecolor','none','facealpha',0,'HandleVisibility','off')
             plot([pos(i)-boxw(i)/4 pos(i)+boxw(i)/4], [q(3,i) q(3,i)],'color',col(i,:)/2,'linewidth',2,'HandleVisibility','off')
             plot(pos(i), mu(i),'*','color',col(i,:)/2,'linewidth',1,'HandleVisibility','off')
             
@@ -129,11 +129,11 @@ for i=1:size(x,2)
             plot(pos(i)-boxw(i)/20, mu(i),'*','color',col(i,:)/2,'linewidth',1,'HandleVisibility','off')
             
         case 'right'
-            scatter((pos(i)+boxw(i)/40)*ones(size(x(:,i)))+jitw*0.25*rand(size(x(:,i))),x(:,i),10,col(i,:),'filled','MarkerFaceAlpha',0.1);
+            scatter((pos(i)+boxw(i)/40)*ones(size(x(:,i)))+jitw*0.25*rand(size(x(:,i))),x(:,i),10,col(i,:),'filled','MarkerFaceAlpha',0.1,'SizeData',0.1);
             hold on
             patch(pos(i)+f, uc, 0.97*col(i,:),'edgecolor','none','facealpha',0.3,'HandleVisibility','off')
             patch([pos(i) pos(i)+boxw(i)/2 pos(i)+boxw(i)/2 pos(i)+boxw(i)/4 pos(i)+boxw(i)/2 pos(i)+boxw(i)/2 pos(i) pos(i)], [q(2,i) q(2,i) notch(1,i) q(3,i) notch(2,i) q(4,i) q(4,i) q(2,i)], 0.97*col(i,:),'edgecolor','k','facealpha',0.5,'HandleVisibility','off')
-            patch([pos(i)+boxw(i)/8 pos(i) pos(i) pos(i)+boxw(i)/8 pos(i)+boxw(i)/8], [mu(i)-sigma(i) mu(i)-sigma(i) mu(i)+sigma(i) mu(i)+sigma(i) mu(i)-sigma(i)], col(i,:),'edgecolor','none','facealpha',0.35,'HandleVisibility','off')
+%             patch([pos(i)+boxw(i)/8 pos(i) pos(i) pos(i)+boxw(i)/8 pos(i)+boxw(i)/8], [mu(i)-sigma(i) mu(i)-sigma(i) mu(i)+sigma(i) mu(i)+sigma(i) mu(i)-sigma(i)], col(i,:),'edgecolor','none','facealpha',0.35,'HandleVisibility','off')
             plot([pos(i)+boxw(i)/4 pos(i)], [q(3,i) q(3,i)],'color',col(i,:)/2,'linewidth',2,'HandleVisibility','off')
             plot(pos(i)+boxw(i)/20, mu(i),'*','color',col(i,:)/2,'linewidth',1,'HandleVisibility','off')
             
