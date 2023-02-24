@@ -330,6 +330,52 @@ title('Line Color = State')
 hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real_eigs_by_snippet_peak_speed.png'));
 close gcf
+%% By Median Curvature
+
+%snippet_length_per_state
+
+figure('visible','off','Color','w'); hold on; box off
+
+for iState = 1:length(snippet_direction_out)
+
+    dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
+    real_eigenvalues_temp = real_eigenvalues(iState,dims_to_include_temp);
+    real_eigs_to_plot = real_eigenvalues_temp;    
+
+    curvature_to_plot = meta.curvature_out{iState};
+    
+    reshaped_real = reshape(real_eigs_to_plot,[],1);
+    real_mean = mean(reshaped_real);
+    real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
+    curvature_median= mean(curvature_to_plot);
+    peak_speed_std_err = std(curvature_median)/sqrt(length(curvature_median));
+
+    y = real_mean;
+    x = curvature_median;
+    xneg = peak_speed_std_err;
+    xpos = xneg;
+    yneg = real_std_err;
+    ypos = yneg;
+
+    if meta.acc_classification(iState) == 1
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Blue','LineWidth',2)
+    elseif meta.acc_classification(iState) == 0
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Red','LineWidth',2)
+    elseif meta.acc_classification(iState) == 2
+        errorbar(x,y,yneg,ypos,xneg,xpos,'o','Color',colors(iState,:),'MarkerSize',10,'MarkerFaceColor','Black','LineWidth',2)
+    end
+
+
+end
+
+xlabel('Peak Snippet Speed')
+ylabel('Real Eigenvalue Magnitude')
+title('Line Color = State')
+    
+hold off
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real_eigs_by_median_curvature.png'));
+close gcf
+
 %% Bar
 
 acc_states_real = [];

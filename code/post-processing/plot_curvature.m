@@ -1,4 +1,4 @@
-function plot_curvature(meta,data,snippet_data,colors)
+function meta = plot_curvature(meta,data,snippet_data,colors)
 
 %%
 available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'model_select'));
@@ -20,6 +20,7 @@ for iState = 1:size(snippet_data,2)
                 [~,radius_temp,~] = curvature(snippet_kin);
 %                 avg_radius = mean(radius_temp(3:end-3),'omitnan');
                 curvature_per_state{iState} = vertcat(curvature_per_state{iState},radius_temp(3:end-3));
+                meta.curvature_out{iState} = curvature_per_state{iState};
             end
         end
     end
@@ -40,7 +41,7 @@ for iState = 1:size(snippet_data,2)
     end
 end
 %% overall curve
-if contains(subject,'RJ') || contains(subject,'RS')
+if contains(meta.subject,'RJ') || contains(meta.subject,'RS')
     overall_kin = [smooth(vertcat(data.x_smoothed)',3),smooth(vertcat(data.y_smoothed)',3)];
 else
     overall_kin = [smooth([data.x_smoothed],3),smooth([data.y_smoothed],3)];
