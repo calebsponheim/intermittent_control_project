@@ -368,7 +368,7 @@ for iState = 1:length(snippet_direction_out)
 
 end
 
-xlabel('Peak Snippet Speed')
+xlabel('Median Curvature')
 ylabel('Real Eigenvalue Magnitude')
 title('Line Color = State')
     

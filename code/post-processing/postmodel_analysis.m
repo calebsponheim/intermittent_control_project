@@ -60,7 +60,7 @@ snippet_length_per_state = plot_state_lengths(meta,snippet_data,colors);
 
 % Plot Curvature Metrics for States
 
-plot_curvature(meta,data,snippet_data,colors,file_base_base);
+meta = plot_curvature(meta,data,snippet_data,colors,file_base_base);
 
 % Compare Extrema Timing to Transition Timing
 
