@@ -7,10 +7,16 @@ elseif strcmp(getenv('USERNAME'),'caleb_work')
 end
 filepath_base = [file_base_base '\Documents\git\intermittent_control_project\data\python_switching_models\'];
 
-filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
+% filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
-meta.subject = 'RS';
-meta.task = 'CO';
+filepath = [filepath_base 'RJRTP0.05sBins\'];
+% filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
+% filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
+% filepath = [filepath_base 'BxRTP0.05sBins\'];
+% filepath = [filepath_base 'Bx18CO0.05sBins\'];
+
+meta.subject = 'RJ';
+meta.task = 'RTP';
 meta.crosstrain = 0;
 meta.move_only = 0;
 meta.use_rslds = 0;
@@ -39,6 +45,7 @@ bits_per_spike = [];
 ll_files_list = dir(filepath);
 ll_files_list = {ll_files_list.name}';
 ll_files_list = ll_files_list(cellfun(@(x) ~contains(x,'.csv'),ll_files_list));
+ll_files_list = ll_files_list(cellfun(@(x) ~contains(x,'_dims'),ll_files_list));
 ll_files_list = ll_files_list(cellfun(@(x) contains(x,'_states'),ll_files_list));
 
 for iFolder = 1:length(ll_files_list)

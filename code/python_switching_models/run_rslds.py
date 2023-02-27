@@ -18,6 +18,7 @@ from train_HMM import train_HMM
 import numpy as np
 from numpy.linalg import eig
 from rslds_cosmoothing import rslds_cosmoothing
+import pickle
 # from plot_continuous_states import plot_continuous_states
 # from state_prob_over_time import state_prob_over_time
 # import autograd.numpy.random as npr
@@ -183,6 +184,13 @@ def run_rslds(
             number_of_discrete_states, figurepath, rslds_ll_analysis,
             number_of_latent_dimensions
         )
+
+        # %%
+
+        filename = folderpath_out + 'fold_' + str(fold_number) + '_model'
+        outfile = open(filename, 'wb')
+        pickle.dump(model, outfile)
+        outfile.close()
 
         # %%
 
