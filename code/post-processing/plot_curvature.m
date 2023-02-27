@@ -1,4 +1,4 @@
-function meta = plot_curvature(meta,data,snippet_data,colors)
+function meta = plot_curvature(meta,data,snippet_data,colors,file_base_base)
 
 %%
 available_test_trials = find(ismember({data.trial_classification},'test') | ismember({data.trial_classification},'model_select'));
@@ -24,21 +24,21 @@ for iState = 1:size(snippet_data,2)
             end
         end
     end
-    if ~isempty(curvature_per_state{iState})
-        figure('visible','off'); hold on
-        [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},0,2, colors(iState,:), 'bilateral', 100,std(curvature_per_state{iState})/1000000,1);
-        if ~isnan(q_temp(end,1))
-            ylim([0 q_temp(end,1)])
-        end
-        hold off
-        box off
-        set(gcf,'color','w','Position',[100 100 300 800])
-        title(strcat(meta.subject,'   ',strrep(meta.task,'_','  '),'  State  ',num2str(iState), 'Radius of Curvature'));
-        xlabel('')
-        ylabel('Radius Size')
-        saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_Curvature.png'));
-        close gcf
-    end
+%     if ~isempty(curvature_per_state{iState})
+%         figure('visible','off'); hold on
+%         [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},0,2, colors(iState,:), 'bilateral', 100,std(curvature_per_state{iState})/1000000,1);
+%         if ~isnan(q_temp(end,1))
+%             ylim([0 q_temp(end,1)])
+%         end
+%         hold off
+%         box off
+%         set(gcf,'color','w','Position',[100 100 300 800])
+%         title(strcat(meta.subject,'   ',strrep(meta.task,'_','  '),'  State  ',num2str(iState), 'Radius of Curvature'));
+%         xlabel('')
+%         ylabel('Radius Size')
+%         saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_Curvature.png'));
+%         close gcf
+%     end
 end
 %% overall curve
 if contains(meta.subject,'RJ') || contains(meta.subject,'RS')

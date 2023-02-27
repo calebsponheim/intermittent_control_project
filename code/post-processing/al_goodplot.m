@@ -129,7 +129,7 @@ for i=1:size(x,2)
             plot(pos(i)-boxw(i)/20, mu(i),'*','color',col(i,:)/2,'linewidth',1,'HandleVisibility','off')
             
         case 'right'
-            scatter((pos(i)+boxw(i)/40)*ones(size(x(:,i)))+jitw*0.25*rand(size(x(:,i))),x(:,i),10,col(i,:),'filled','MarkerFaceAlpha',0.1,'SizeData',0.1);
+            scatter((pos(i)+boxw(i)/40)*ones(size(x(1:10:end,i)))+jitw*0.25*rand(size(x(1:10:end,i))),x(1:10:end,i),10,col(i,:),'filled','MarkerFaceAlpha',0.1,'SizeData',0.1);
             hold on
             patch(pos(i)+f, uc, 0.97*col(i,:),'edgecolor','none','facealpha',0.3,'HandleVisibility','off')
             patch([pos(i) pos(i)+boxw(i)/2 pos(i)+boxw(i)/2 pos(i)+boxw(i)/4 pos(i)+boxw(i)/2 pos(i)+boxw(i)/2 pos(i) pos(i)], [q(2,i) q(2,i) notch(1,i) q(3,i) notch(2,i) q(4,i) q(4,i) q(2,i)], 0.97*col(i,:),'edgecolor','k','facealpha',0.5,'HandleVisibility','off')
