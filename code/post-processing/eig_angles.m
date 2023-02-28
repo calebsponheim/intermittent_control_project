@@ -49,11 +49,11 @@ all_state_combos = [m(:),n(:)];
 
 %%%% finding intersection of actual transitions and all possible states and
 %%%% getting rid of the ones that overlap.
-for iRow = 1:length(all_state_combos)
-    all_combo_for_intersect(iRow) = str2double(strrep([num2str(all_state_combos(iRow,1)) num2str(all_state_combos(iRow,2))],' ',''));
-end
 for iRow = 1:size(sorted_state_transitions_for_function,1)
     sorted_transitions_for_intersect(iRow) = str2double(strrep([num2str(sorted_state_transitions_for_function(iRow,1)) num2str(sorted_state_transitions_for_function(iRow,2))],' ',''));
+end
+for iRow = 1:length(all_state_combos)
+    all_combo_for_intersect(iRow) = str2double(strrep([num2str(all_state_combos(iRow,1)) num2str(all_state_combos(iRow,2))],' ',''));
 end
 
 
