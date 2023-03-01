@@ -10,8 +10,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Plotting R^2 Values from Kalman Filter Decoders
-subject = 'rs'
-task = 'CO'
+subject = 'bx'
+task = 'RTP'
 
 current_working_directory = os.getcwd()
 if "calebsponheim" in current_working_directory:
@@ -21,21 +21,36 @@ elif "dali" in current_working_directory:
 elif "Caleb (Work)" in current_working_directory:
     folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
 folderpath_base = folderpath_base_base + "data/python_switching_models/"
+figurepath_base = folderpath_base_base + "figures/"
 
 if subject == "bx":
     if task == "CO":
         folderpath = folderpath_base + "Bxcenter_out1902280.05sBins/"
+        # folderpath = (
+        #     folderpath_base + "Bxcenter_out1902280.05_sBins_move_window_only/"
+        # )
+        figurepath = figurepath_base + "Bx/CO_CT0/rslds/"
     elif task == "CO+RTP":
         folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
+        figurepath = figurepath_base + "Bx/CO+RTP_CT0/rslds/"
+    elif task == "RTP":
+        folderpath = folderpath_base + "BxRTP0.05sBins/"
+        figurepath = figurepath_base + "Bx/RTP/rslds/"
 elif subject == "bx18":
-    folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/"
+    folderpath = folderpath_base + "Bx18CO0.05sBins/"
+    figurepath = figurepath_base + "Bx/CO18_CT0/rslds/"
 elif subject == "rs":
     if task == "CO":
+        # folderpath = folderpath_base + "RSCO0.05sBins/"
         folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
+        figurepath = figurepath_base + "RS/CO_CT0_move_only/rslds/"
+
     elif task == "RTP":
         folderpath = folderpath_base + "RSRTP0.05sBins/"
+        figurepath = figurepath_base + "RS/RTP_CT0/rslds/"
 elif subject == "rj":
     folderpath = folderpath_base + "RJRTP0.05sBins/"
+    figurepath = figurepath_base + "RJ/RTP_CT0/rslds/"
 else:
     print("BAD, NO")
 
@@ -63,12 +78,12 @@ rslds_r2 = pd.DataFrame.to_numpy(pd.read_csv(
 # %%
 plt.figure(figsize=[8, 8], dpi=300, edgecolor='white', layout='tight')
 plt.plot(np.asarray(np.arange(0, 2, .1)), np.asarray(np.arange(0, 2, .1)), color='black')
-plt.title("R^2 Values for Kalman Decoder Performance")
+plt.title(subject + " R^2 Values for Kalman Decoder Performance")
 plt.xlabel("rSLDS R^2")
 plt.ylabel("comparison R^2")
 
-plt.plot(rslds_r2[:, 2], raw_r2[:, 2], marker='o', linestyle='none', color='red', label='Raw Data')
-plt.plot(rslds_r2[:, 3], raw_r2[:, 3], marker='o', linestyle='none', color='red')
+# plt.plot(rslds_r2[:, 2], raw_r2[:, 2], marker='o', linestyle='none', color='red', label='Raw Data')
+# plt.plot(rslds_r2[:, 3], raw_r2[:, 3], marker='o', linestyle='none', color='red')
 
 plt.plot(rslds_r2[:, 2], hmm_r2[:, 2], marker='o', linestyle='none', color='blue', label='HMM')
 plt.plot(rslds_r2[:, 3], hmm_r2[:, 3], marker='o', linestyle='none', color='blue')

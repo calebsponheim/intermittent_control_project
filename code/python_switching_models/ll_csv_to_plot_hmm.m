@@ -9,13 +9,13 @@ filepath_base = [file_base_base '\Documents\git\intermittent_control_project\dat
 
 % filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
-filepath = [filepath_base 'RJRTP0.05sBins\'];
+% filepath = [filepath_base 'RJRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
-% filepath = [filepath_base 'BxRTP0.05sBins\'];
+filepath = [filepath_base 'BxRTP0.05sBins\'];
 % filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
-meta.subject = 'RJ';
+meta.subject = 'Bx';
 meta.task = 'RTP';
 meta.crosstrain = 0;
 meta.move_only = 0;
@@ -40,6 +40,7 @@ elseif meta.use_rslds == 0
     meta.figure_folder_filepath = [meta.figure_folder_filepath 'hmm\'];
 end
 
+filepath_for_ll_plot = filepath;
 %%
 bits_per_spike = [];
 ll_files_list = dir(filepath);

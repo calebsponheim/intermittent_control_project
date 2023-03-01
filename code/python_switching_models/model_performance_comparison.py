@@ -8,13 +8,9 @@ Different optimal states and dimensions for each type of model.
 @author: caleb_work
 """
 import os
-# import csv
 from import_matlab_data import import_matlab_data
-# from assign_trials_to_HMM_group import assign_trials_to_HMM_group
 import pandas as pd
 import numpy as np
-# from numpy.linalg import eig
-# import autograd.numpy.random as npr
 import ssm
 import pickle
 
@@ -22,22 +18,28 @@ import pickle
 
 train_portion = 0.8
 test_portion = 0.2
-subject = 'rs'
-task = 'CO'
+subject = 'rj'
+task = 'RTP'
 
 if (subject == 'rs') & (task == 'RTP'):
     num_latent_dims_rslds = 25
     num_discrete_states_rslds = 10
-    num_latent_dims_slds = 2
-    num_discrete_states_slds = 2
     num_latent_dims_lds = 40
     num_discrete_states_hmm = 28
+elif (subject == 'rj') & (task == 'RTP'):
+    num_latent_dims_rslds = 25
+    num_discrete_states_rslds = 10
+    num_latent_dims_lds = 43
+    num_discrete_states_hmm = 67
+elif (subject == 'bx') & (task == 'RTP'):
+    num_latent_dims_rslds = 30
+    num_discrete_states_rslds = 10
+    num_latent_dims_lds = 49
+    num_discrete_states_hmm = 43
 elif (subject == 'rs') & (task == 'CO'):
     num_latent_dims_rslds = 14
     num_discrete_states_rslds = 8
-    num_latent_dims_slds = 2
-    num_discrete_states_slds = 2
-    num_latent_dims_lds = 50
+    num_latent_dims_lds = 80
     num_discrete_states_hmm = 16
 
 trial_folds = int(1/test_portion)
@@ -64,8 +66,11 @@ if subject == "bx":
     elif task == "CO+RTP":
         folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
         figurepath = figurepath_base + "Bx/CO+RTP_CT0/rslds/"
+    elif task == "RTP":
+        folderpath = folderpath_base + "BxRTP0.05sBins/"
+        figurepath = figurepath_base + "Bx/RTP/rslds/"
 elif subject == "bx18":
-    folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/"
+    folderpath = folderpath_base + "Bx18CO0.05sBins/"
     figurepath = figurepath_base + "Bx/CO18_CT0/rslds/"
 elif subject == "rs":
     if task == "CO":
@@ -258,39 +263,7 @@ for tr in range(len(testset)):
     lls += ll
 lds_test_ll.append(lls)
 print("Created LDS Model")
-# %%
-# # SLDS
-# model = ssm.SLDS(observation_dimensions, num_discrete_states_slds, num_latent_dims_slds,
-#                  emissions="poisson",
-#                  single_subspace=True)
-# model.initialize(trainset)
-# q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
-#                                            variational_posterior="structured_meanfield",
-#                                            num_iters=25)
 
-# inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in testset]
-# masks = []
-# for y in testset:
-#     mask = np.ones_like(y)
-#     mask = mask.astype(bool)
-#     masks.append(mask)
-
-# _elbos, _q_model = model.approximate_posterior(
-#     testset,
-#     method="laplace_em",
-#     variational_posterior="structured_meanfield",
-#     num_iters=25, alpha=0.5)
-
-# lls = 0.0
-# for tr in range(len(testset)):
-#     ll = np.sum(model.emissions.log_likelihoods(testset[tr],
-#                                                 inputs[tr],
-#                                                 mask=masks[tr],
-#                                                 tag=None,
-#                                                 x=_q_model.mean_continuous_states[tr]))
-#     lls += ll
-# slds_test_ll.append(lls)
-# print("Created SLDS Model")
 # %%
 # rSLDS
 model = ssm.SLDS(observation_dimensions, num_discrete_states_rslds, num_latent_dims_rslds,
@@ -362,9 +335,6 @@ hmm_test_ll_out.to_csv(
 lds_test_ll_out = pd.DataFrame(lds_test_ll)
 lds_test_ll_out.to_csv(
     folderpath_out + 'lds_test_ll_for_model_comparison.csv', index=False, header=True)
-# slds_test_ll_out = pd.DataFrame(slds_test_ll)
-# slds_test_ll_out.to_csv(
-#     folderpath_out + 'slds_test_ll_for_model_comparison.csv', index=False, header=True)
 rslds_test_ll_out = pd.DataFrame(rslds_test_ll)
 rslds_test_ll_out.to_csv(
     folderpath_out + 'rslds_test_ll_for_model_comparison.csv', index=False, header=True)

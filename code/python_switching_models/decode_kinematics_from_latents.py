@@ -80,7 +80,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         downsample_factor = 1
         out = Neural_Decoding.bin_output(vels, vel_times, dt, t_start, t_end, downsample_factor)
         full_kinematics_binned.extend(out)
-        kin_length.append(out.shape)
+        kin_length.append(out.shape[0])
 
     # Load Latents
     if model == 'raw':
@@ -105,12 +105,14 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
         # Putting spikes into Latent Structure for decode
         file_count = 0
+        file_include_count = 0
         for iTrial in np.arange(len(data)):
             if iTrial+1 in trind_test:
                 # print(iTrial)
-                latents_by_trial.extend(data[iTrial].T[1:, :])
+                latents_by_trial.extend(data[iTrial].T[1:kin_length[file_include_count]+1, :])
                 latents_test.append(data[iTrial].T[1:, :])
                 latent_length.append(data[iTrial].T[1:, :].shape)
+                file_include_count = file_include_count + 1
             file_count += 1
     else:
         latentfiles = [
@@ -122,7 +124,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         file_count = 0
         latents_by_trial = []
         latent_length = []
-
+        file_include_count = 0
         for iFile in latentfiles:
             # print(iFile)
             iTrial = iFile.split('trial_', 1)[1]
@@ -130,14 +132,15 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
             if iTrial in trind_test:
                 # print(iTrial)
                 latents = pd.DataFrame.to_numpy(pd.read_csv(folderpath + iFile))
-                latents_by_trial.extend(latents)
+                latents_by_trial.extend(latents[0:kin_length[file_include_count]])
                 latent_length.append(len(latents))
+                file_include_count = file_include_count + 1
             file_count += 1
 
     # %% Decoding
     R2_kf_all = []
 
-    test_portion = .10
+    test_portion = .01
     y_valid_predicted_kf = []
 
     lag = 0
@@ -209,36 +212,28 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
 
 # %% Parameter Setting
-subject = 'rj'
+subject = 'rs'
 task = 'RTP'
 model = 'hmm'
 
 if (subject == 'rs') & (task == 'RTP'):
     num_latent_dims_rslds = 25
     num_discrete_states_rslds = 10
-    num_latent_dims_slds = 2
-    num_discrete_states_slds = 2
     num_latent_dims_lds = 40
     num_discrete_states_hmm = 28
 elif (subject == 'rj') & (task == 'RTP'):
     num_latent_dims_rslds = 25
     num_discrete_states_rslds = 10
-    num_latent_dims_slds = 2
-    num_discrete_states_slds = 2
-    num_latent_dims_lds = 80
-    num_discrete_states_hmm = 16
+    num_latent_dims_lds = 43
+    num_discrete_states_hmm = 67
 elif (subject == 'bx') & (task == 'RTP'):
     num_latent_dims_rslds = 30
     num_discrete_states_rslds = 10
-    num_latent_dims_slds = 2
-    num_discrete_states_slds = 2
-    num_latent_dims_lds = 80
-    num_discrete_states_hmm = 16
+    num_latent_dims_lds = 49
+    num_discrete_states_hmm = 43
 elif (subject == 'rs') & (task == 'CO'):
     num_latent_dims_rslds = 14
     num_discrete_states_rslds = 8
-    num_latent_dims_slds = 2
-    num_discrete_states_slds = 2
     num_latent_dims_lds = 80
     num_discrete_states_hmm = 16
 
@@ -257,13 +252,20 @@ folderpath_base = folderpath_base_base + "data/python_switching_models/"
 if subject == "bx":
     if task == "CO":
         folderpath = folderpath_base + "Bxcenter_out1902280.05sBins/"
+        # folderpath = (
+        #     folderpath_base + "Bxcenter_out1902280.05_sBins_move_window_only/"
+        # )
     elif task == "CO+RTP":
         folderpath = folderpath_base + "Bxcenter_out_and_RTP1902280.05sBins/"
+    elif task == "RTP":
+        folderpath = folderpath_base + "BxRTP0.05sBins/"
 elif subject == "bx18":
-    folderpath = folderpath_base + "Bxcenter_out1803230.05sBins/"
+    folderpath = folderpath_base + "Bx18CO0.05sBins/"
 elif subject == "rs":
     if task == "CO":
+        # folderpath = folderpath_base + "RSCO0.05sBins/"
         folderpath = folderpath_base + "RSCO_move_window0.05sBins/"
+
     elif task == "RTP":
         folderpath = folderpath_base + "RSRTP0.05sBins/"
 elif subject == "rj":
@@ -284,6 +286,7 @@ kinpath = folderpath
 R2_kf_all, y_valid_predicted_kf, model_kf = decode_kinematics_from_latents(
     kinpath, latentpath, model)
 
+# %%
 R2_kf_all_out = pd.DataFrame(R2_kf_all)
 R2_kf_all_out.to_csv(
     folderpath + model + '_kalman_test_R2_for_model_comparison.csv', index=False, header=True)
