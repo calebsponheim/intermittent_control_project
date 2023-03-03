@@ -18,27 +18,27 @@ for iState = 1:size(snippet_data,2)
             if size(snippet_kin,1) > 1
                 %             figure; plot(snippet_kin(:,1), snippet_kin(:,2))
                 [~,radius_temp,~] = curvature(snippet_kin);
-%                 avg_radius = mean(radius_temp(3:end-3),'omitnan');
+                %                 avg_radius = mean(radius_temp(3:end-3),'omitnan');
                 curvature_per_state{iState} = vertcat(curvature_per_state{iState},radius_temp(3:end-3));
                 meta.curvature_out{iState} = curvature_per_state{iState};
             end
         end
     end
-%     if ~isempty(curvature_per_state{iState})
-%         figure('visible','off'); hold on
-%         [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},0,2, colors(iState,:), 'bilateral', 100,std(curvature_per_state{iState})/1000000,1);
-%         if ~isnan(q_temp(end,1))
-%             ylim([0 q_temp(end,1)])
-%         end
-%         hold off
-%         box off
-%         set(gcf,'color','w','Position',[100 100 300 800])
-%         title(strcat(meta.subject,'   ',strrep(meta.task,'_','  '),'  State  ',num2str(iState), 'Radius of Curvature'));
-%         xlabel('')
-%         ylabel('Radius Size')
-%         saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_Curvature.png'));
-%         close gcf
-%     end
+    %     if ~isempty(curvature_per_state{iState})
+    %         figure('visible','off'); hold on
+    %         [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},0,2, colors(iState,:), 'bilateral', 100,std(curvature_per_state{iState})/1000000,1);
+    %         if ~isnan(q_temp(end,1))
+    %             ylim([0 q_temp(end,1)])
+    %         end
+    %         hold off
+    %         box off
+    %         set(gcf,'color','w','Position',[100 100 300 800])
+    %         title(strcat(meta.subject,'   ',strrep(meta.task,'_','  '),'  State  ',num2str(iState), 'Radius of Curvature'));
+    %         xlabel('')
+    %         ylabel('Radius Size')
+    %         saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_Curvature.png'));
+    %         close gcf
+    %     end
 end
 %% overall curve
 if contains(meta.subject,'RJ') || contains(meta.subject,'RS')
@@ -52,7 +52,11 @@ curvature_overall = radius_temp;
 %%
 figure('visible','off'); hold on
 for iState = 1:size(snippet_data,2)
-    [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},iState,0.75, colors(iState,:), 'right', 50,std(curvature_per_state{iState})/100000,1);
+    if contains(meta.subject,'bx')
+        [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},iState,0.75, colors(iState,:), 'right', 1,std(curvature_per_state{iState})/1000000,1);
+    else
+        [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},iState,0.75, colors(iState,:), 'right', 50,std(curvature_per_state{iState})/100000,1);
+    end
     q(iState) = q_temp(end,1);
 end
 ylim([0 mean(q,'omitnan')])

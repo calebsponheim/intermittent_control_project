@@ -34,9 +34,9 @@ for iState = 1:size(snippet_data,2)
             end
         end %iSnippet
         interpnormspeedmean{iState} = mean(interpnormspeed{iState},1,'omitnan');
-%         speedmean{iState} = mean([average_speed{:,iState}],'omitnan');
+        %         speedmean{iState} = mean([average_speed{:,iState}],'omitnan');
         meta.mean_speed{iState} = [average_speed{:,iState}];
-%         speedpeak{iState} = mean([peak_speed{:,iState}],'omitnan');
+        %         speedpeak{iState} = mean([peak_speed{:,iState}],'omitnan');
         meta.peak_speed{iState} = [peak_speed{:,iState}];
         line_fit_temp = polyfit(max_res,interpnormspeedmean{iState},1);
         y_for_line_plot = polyval(line_fit_temp,max_res);
@@ -49,6 +49,7 @@ for iState = 1:size(snippet_data,2)
             meta.acc_classification(iState) = 2; % FLAT
         end
         interpnormspeedstderr{iState} = std(interpnormspeed{iState},1,'omitnan') / sqrt(size(interpnormspeed{iState},1));
+
         % plot the normalized speed
         figure('Visible','off','color','white'); hold on;
         patch([max_res fliplr(max_res)],[(interpnormspeedmean{iState}+interpnormspeedstderr{iState})...
@@ -66,22 +67,32 @@ for iState = 1:size(snippet_data,2)
         hold off
         saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_norm_velocity.png'));
         close gcf
-        
-        % Plot Peak Speed
-        figure('Visible','off','color','white'); hold on;
-        histogram([average_speed{:,iState}],'facecolor',colors(iState,:))
-        title([meta.subject,'  ',strrep(meta.task,'_',' '),' State ',num2str(iState),' Average Snippet Speed']);        
-        hold off
-        saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_avg_velocity.png'));
-        close gcf
-        % Plot Average Speed
-        figure('Visible','off','color','white'); hold on;
-        histogram([peak_speed{:,iState}],'facecolor',colors(iState,:))
-        title([meta.subject,'  ',strrep(meta.task,'_',' '),' State ',num2str(iState),' Peak Snippet Speed']);        
-        saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_state_',num2str(iState),'_peak_velocity.png'));
-        close gcf
-        hold off
-    end
+    end %if
 end %iState
 
+% Plot Peak Speed
+figure('Visible','off','color','white'); hold on;
+for iState = 1:size(snippet_data,2)
+%     histogram([average_speed{:,iState}],'facecolor',colors(iState,:))
+    al_goodplot([average_speed{:,iState}],iState,0.75, colors(iState,:), 'right',.05,std([average_speed{:,iState}])/1000,1);
+end
+title([meta.subject,'  ',strrep(meta.task,'_',' '),' Average Snippet Speed']);
+ylabel('Mean Snippet Speed')
+xlabel('State Number')
+hold off
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_avg_velocity.png'));
+close gcf
+
+% Plot Average Speed
+figure('Visible','off','color','white'); hold on;
+for iState = 1:size(snippet_data,2)
+%     histogram([peak_speed{:,iState}],'facecolor',colors(iState,:))
+    al_goodplot([peak_speed{:,iState}],iState,0.75, colors(iState,:), 'right', .05,std([peak_speed{:,iState}])/1000,1);
+end %iState
+title([meta.subject,'  ',strrep(meta.task,'_',' '),' Peak Snippet Speed']);
+ylabel('Peak Snippet Speed')
+xlabel('State Number')
+hold off
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_peak_velocity.png'));
+close gcf
 end
