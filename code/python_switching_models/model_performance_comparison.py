@@ -18,7 +18,7 @@ import pickle
 
 train_portion = 0.8
 test_portion = 0.2
-subject = 'rj'
+subject = 'rs'
 task = 'RTP'
 
 if (subject == 'rs') & (task == 'RTP'):
@@ -215,8 +215,8 @@ for iTrial in range(len(fullset)):
 
 # # model selection decode
 # hmm_test_ll.append(hmm.log_likelihood(testset))
-
 # print("Created HMM Model")
+
 # %%
 # LDS
 model = ssm.LDS(observation_dimensions, num_latent_dims_lds,
