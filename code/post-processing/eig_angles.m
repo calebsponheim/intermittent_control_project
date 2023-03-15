@@ -164,16 +164,17 @@ err_bars_imag = [
 
 figure('visible','off'); hold on
 subplot(1,2,1); hold on
-errorbar([mean(reshaped_all_combos_real) mean(reshaped_angles_real)],err_bars_real,'o')
+errorbar([mean(reshaped_all_combos_real) mean(reshaped_angles_real)],err_bars_real,'o','LineWidth',2,'Color','k','MarkerFaceColor','k','MarkerSize',10)
 xlim([0 3])
+ylabel('Cosine of Angle Between States')
 xticklabels({'','all combo','top transitions',''})
-title('real eigenvector angles')
+title('Real Eigenvector Angles')
 
 subplot(1,2,2); hold on
-errorbar([mean(reshaped_all_combos_imag) mean(reshaped_angles_imag)],err_bars_imag,'o')
+errorbar([mean(reshaped_all_combos_imag) mean(reshaped_angles_imag)],err_bars_imag,'o','LineWidth',2,'Color','k','MarkerFaceColor','k','MarkerSize',10)
 xlim([0 3])
 xticklabels({'','all combo','top transitions',''})
-title('imaginary eigenvector angles')
+title('Imaginary Eigenvector Angles')
 box off
 set(gcf,"Color","w")
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles_comparison.png'));
