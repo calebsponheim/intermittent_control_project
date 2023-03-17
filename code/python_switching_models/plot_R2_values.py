@@ -77,7 +77,7 @@ rslds_r2 = pd.DataFrame.to_numpy(pd.read_csv(
 
 # %%
 plt.figure(figsize=[8, 8], dpi=300, edgecolor='white', layout='tight')
-plt.plot(np.asarray(np.arange(0, 2, .1)), np.asarray(np.arange(0, 2, .1)), color='black')
+plt.plot(np.asarray(np.arange(-1, 2, .1)), np.asarray(np.arange(-1, 2, .1)), color='black')
 plt.title(subject + " R^2 Values for Kalman Decoder Performance")
 plt.xlabel("rSLDS R^2")
 plt.ylabel("comparison R^2")
@@ -90,6 +90,6 @@ plt.plot(rslds_r2[:, 3], hmm_r2[:, 3], marker='o', linestyle='none', color='blue
 
 plt.plot(rslds_r2[:, 2], lds_r2[:, 2], marker='o', linestyle='none', color='green', label='LDS')
 plt.plot(rslds_r2[:, 3], lds_r2[:, 3], marker='o', linestyle='none', color='green')
-plt.xlim(0, 1)
-plt.ylim(0, 1)
+plt.xlim(-1, 1)
+plt.ylim(-1, 1)
 plt.legend()

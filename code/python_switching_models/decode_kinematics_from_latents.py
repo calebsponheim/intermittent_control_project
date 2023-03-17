@@ -140,7 +140,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     # %% Decoding
     R2_kf_all = []
 
-    test_portion = .01
+    test_portion = .05
     y_valid_predicted_kf = []
 
     lag = 0
@@ -214,7 +214,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 # %% Parameter Setting
 subject = 'bx'
 task = 'RTP'
-model = 'raw'
+model = 'rslds'
 
 if (subject == 'rs') & (task == 'RTP'):
     num_latent_dims_rslds = 25

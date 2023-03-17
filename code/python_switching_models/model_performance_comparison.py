@@ -269,12 +269,12 @@ print("Created LDS Model")
 model = ssm.SLDS(observation_dimensions, num_discrete_states_rslds, num_latent_dims_rslds,
                  transitions="recurrent",
                  dynamics="diagonal_gaussian",
-                 emissions="poisson",
+                 emissions="poisson_orthog",
                  single_subspace=True)
 model.initialize(trainset)
 q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
                                            variational_posterior="structured_meanfield",
-                                           initialize=False,
+                                           initialize=True,
                                            num_iters=15)
 
 # Pickling/Saving Trained Model
