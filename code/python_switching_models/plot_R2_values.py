@@ -8,9 +8,9 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
+from scipy.stats import wilcoxon
 # Plotting R^2 Values from Kalman Filter Decoders
-subject = 'bx'
+subject = 'rj'
 task = 'RTP'
 
 current_working_directory = os.getcwd()
@@ -82,8 +82,8 @@ plt.title(subject + " R^2 Values for Kalman Decoder Performance")
 plt.xlabel("rSLDS R^2")
 plt.ylabel("comparison R^2")
 
-# plt.plot(rslds_r2[:, 2], raw_r2[:, 2], marker='o', linestyle='none', color='red', label='Raw Data')
-# plt.plot(rslds_r2[:, 3], raw_r2[:, 3], marker='o', linestyle='none', color='red')
+plt.plot(rslds_r2[:, 2], raw_r2[:, 2], marker='o', linestyle='none', color='red', label='Raw Data')
+plt.plot(rslds_r2[:, 3], raw_r2[:, 3], marker='o', linestyle='none', color='red')
 
 plt.plot(rslds_r2[:, 2], hmm_r2[:, 2], marker='o', linestyle='none', color='blue', label='HMM')
 plt.plot(rslds_r2[:, 3], hmm_r2[:, 3], marker='o', linestyle='none', color='blue')
@@ -93,3 +93,8 @@ plt.plot(rslds_r2[:, 3], lds_r2[:, 3], marker='o', linestyle='none', color='gree
 plt.xlim(-1, 1)
 plt.ylim(-1, 1)
 plt.legend()
+
+# %% Calculate Stats
+
+# Wilcoxon signed-rank test
+[out, p] = wilcoxon(rslds_r2[:, 2], lds_r2[:, 2])
