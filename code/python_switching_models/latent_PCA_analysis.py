@@ -14,7 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # %% Parameter Setting
-subject = 'bx'
+subject = 'rs'
 task = 'RTP'
 model = 'rslds'
 cutoff = .9

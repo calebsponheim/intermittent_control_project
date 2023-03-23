@@ -2,7 +2,7 @@ function eig_angles(meta,sorted_state_transitions)
 
 % eigenvalue_magnitude_threshold = 0.75;
 dimension_cutoffs = readmatrix(strcat(meta.filepath,'dims_to_include.csv'));
-percent_cutoff = 0.1;
+percent_cutoff = 0.;
 sorted_state_transitions_for_function = sorted_state_transitions(1:round(size(sorted_state_transitions,1)*percent_cutoff),:);
 for iState = 1:meta.optimal_number_of_states
     real_eigenvectors_temp = readmatrix(strcat(meta.filepath,'real_eigenvectors_state_',num2str(iState),'.csv'));
@@ -180,7 +180,7 @@ xticklabels({'','all angles','transitions in data',''})
 title('Imaginary Eigenvector Angles')
 box off
 set(gcf,"Color","w")
-saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles_comparison.png'));
-close gcf
+% saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles_comparison.png'));
+% close gcf
 
 end

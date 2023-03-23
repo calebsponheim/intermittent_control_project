@@ -11,7 +11,7 @@ import pandas as pd
 
 
 def decode_kinematics_from_latents(kinpath, latentpath, model):
-
+    # %%
     import pandas as pd
     import numpy as np
     from os import listdir
@@ -140,7 +140,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     # %% Decoding
     R2_kf_all = []
 
-    test_portion = .05
+    test_portion = .20
     y_valid_predicted_kf = []
 
     lag = 0
@@ -188,9 +188,10 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         X_kf_test = (X_kf_test-X_kf_train_mean)/X_kf_train_std
 
         # Zero-center outputs
-        y_kf_train_mean = np.mean(y_kf_train, axis=0)
-        y_kf_train = y_kf_train-y_kf_train_mean
-        y_kf_test = y_kf_test-y_kf_train_mean
+        y_kf_train_mean = np.nanmean(y_kf_train, axis=0)
+        y_kf_train_std = np.nanstd(y_kf_train, axis=0)
+        y_kf_train = (y_kf_train-y_kf_train_mean)/y_kf_train_std
+        y_kf_test = (y_kf_test-y_kf_train_mean)/y_kf_train_std
 
         # Declare model
         # There is one optional parameter (see ReadMe)
@@ -207,14 +208,14 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         print('R2:', R2_kf)
 
         R2_kf_all.append(R2_kf)
-
+        # %%
     return R2_kf_all, y_valid_predicted_kf, model_kf
 
 
 # %% Parameter Setting
-subject = 'bx'
+subject = 'rs'
 task = 'RTP'
-model = 'rslds'
+model = 'raw'
 
 if (subject == 'rs') & (task == 'RTP'):
     num_latent_dims_rslds = 25
