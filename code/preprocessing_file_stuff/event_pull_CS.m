@@ -57,10 +57,11 @@ for iTrial = 1:size(rewardStart_2k,2)
     trialwise_kinematics(iTrial).trial_start = trial_start_times_temp(end);
     trialwise_kinematics(iTrial).trial_end = rewardStart_2k(iTrial);    
     trialwise_kinematics(iTrial).trial_num = find(trialStart_2k == trialwise_kinematics(iTrial).trial_start);
-    trialwise_kinematics(iTrial).x = x(round(trialStart_2k(iTrial)):round(rewardStart_2k(iTrial)));
-    trialwise_kinematics(iTrial).y = y(round(trialStart_2k(iTrial)):round(rewardStart_2k(iTrial)));
+    trialwise_kinematics(iTrial).x = x(round(trialwise_kinematics(iTrial).trial_start):round(rewardStart_2k(iTrial)));
+    trialwise_kinematics(iTrial).y = y(round(trialwise_kinematics(iTrial).trial_start):round(rewardStart_2k(iTrial)));
     trialwise_kinematics(iTrial).x_vel = x_velocity(round(trialStart_2k(iTrial)):round(rewardStart_2k(iTrial)));
     trialwise_kinematics(iTrial).y_vel = y_velocity(round(trialStart_2k(iTrial)):round(rewardStart_2k(iTrial)));
+%     figure; plot(trialwise_kinematics(iTrial).x);
 end
 %%
 
