@@ -8,6 +8,7 @@ Created on Mon Nov 21 09:45:48 2022
 
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def decode_kinematics_from_latents(kinpath, latentpath, model):
@@ -79,6 +80,9 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         t_end = len(full_kinematics_by_trial[iTrial])/1000
         downsample_factor = 1
         out = Neural_Decoding.bin_output(vels, vel_times, dt, t_start, t_end, downsample_factor)
+        plt.figure(iTrial)
+        plt.plot(out)
+        plt.title(iTrial)
         full_kinematics_binned.extend(out)
         kin_length.append(out.shape[0])
 
@@ -140,21 +144,31 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     # %% Decoding
     R2_kf_all = []
 
-    test_portion = .20
+    test_portion = .01
     y_valid_predicted_kf = []
 
-    lag = 0
     X_kf = np.asarray(latents_by_trial)
     y_kf = np.asarray(full_kinematics_binned)
 
     # Remove neurons with too few spikes in HC dataset
     if model == "raw" or model == 'hmm':
         nd_sum = np.nansum(X_kf, axis=0)  # Total number of spikes of each neuron
-        rmv_nrn = np.where(nd_sum < 100)  # Find neurons who have less than 100 spikes total
+        rmv_nrn = np.where(nd_sum < 1000)  # Find neurons who have less than 100 spikes total
         X_kf = np.delete(X_kf, rmv_nrn, 1)  # Remove those neurons
 
     num_examples_kf = X_kf.shape[0]
     multifold_order = np.asarray(np.arange(num_examples_kf))
+
+    # Zero-center outputs
+    for iKin in np.arange(5):
+        y_kf_mean_temp = np.nanmean(y_kf[:, iKin], axis=0)
+        y_kf_std_temp = np.nanstd(y_kf[:, iKin], axis=0)
+        y_kf[:, iKin] = (y_kf[:, iKin]-y_kf_mean_temp)/y_kf_std_temp
+
+    # Z-score inputs
+    X_kf_mean = np.nanmean(X_kf, axis=0)
+    X_kf_std = np.nanstd(X_kf, axis=0)
+    X_kf = (X_kf-X_kf_mean)/X_kf_std
 
     for iFold in np.arange(1, (1/test_portion)+1):
 
@@ -181,18 +195,6 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         X_kf_test = X_kf[fold_test_timepoints, :]
         y_kf_test = y_kf[fold_test_timepoints, :]
 
-        # Z-score inputs
-        X_kf_train_mean = np.nanmean(X_kf_train, axis=0)
-        X_kf_train_std = np.nanstd(X_kf_train, axis=0)
-        X_kf_train = (X_kf_train-X_kf_train_mean)/X_kf_train_std
-        X_kf_test = (X_kf_test-X_kf_train_mean)/X_kf_train_std
-
-        # Zero-center outputs
-        y_kf_train_mean = np.nanmean(y_kf_train, axis=0)
-        y_kf_train_std = np.nanstd(y_kf_train, axis=0)
-        y_kf_train = (y_kf_train-y_kf_train_mean)/y_kf_train_std
-        y_kf_test = (y_kf_test-y_kf_train_mean)/y_kf_train_std
-
         # Declare model
         # There is one optional parameter (see ReadMe)
         model_kf = Neural_Decoding.KalmanFilterDecoder(C=1)
@@ -213,7 +215,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 
 
 # %% Parameter Setting
-subject = 'rs'
+subject = 'bx'
 task = 'RTP'
 model = 'raw'
 

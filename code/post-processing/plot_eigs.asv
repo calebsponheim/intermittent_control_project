@@ -71,8 +71,10 @@ if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
     ypos = yneg;
     xneg = [real_std_err dec_real_std_err];
     xpos = xneg;
-    
-    figure('color','w','visible','off');
+    [p_real,h_real,stats_real] = ranksum(reshaped_real,reshaped_dec_real)
+    [p_imag,h_imag,stats_imag] = ranksum(reshaped_imag,reshaped_dec_imag)
+
+    figure('color','w','visible','on');
     hold on;
     box off;
     
@@ -81,7 +83,7 @@ if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
     
     xlabel('Real Component')
     ylabel('Imaginary Component (Absolute Value)')
-    title('Blue = Accelerative | Red = Decelerative')
+    title('Accelerative (Blue) vs Decelerative (Red) Discrete St')
     
     hold off
     saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs_dec_vs_acc.png'));
@@ -241,15 +243,14 @@ title('Line Color = State')
  
 [R,P] = corrcoef(eig_mean,snippet_mean);
 [f,g] = fit(snippet_mean,eig_mean,'power2');
-disp(strcat('Snippet Length R^2: ',num2str(R(2))))
-disp(strcat('Snippet Length P-Value: ',num2str(P(2))))
-
+disp(strcat('Snippet Length R^2: ',num2str(g.rsquare)))
+% disp(strcat('Snippet Length P-Value: ',num2str(P(2))))
+plot(f)
+legend off
 hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real_eigs_by_snippet_length.png'));
 close gcf
 
-figure; hold on 
-plot(f,snippet_mean,eig_mean)
 %% By Avg Speed
 
 %snippet_length_per_state

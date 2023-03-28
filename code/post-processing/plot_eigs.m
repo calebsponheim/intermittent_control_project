@@ -71,8 +71,10 @@ if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
     ypos = yneg;
     xneg = [real_std_err dec_real_std_err];
     xpos = xneg;
-    
-    figure('color','w','visible','off');
+    [p_real,h_real,stats_real] = ranksum(reshaped_real,reshaped_dec_real)
+    [p_imag,h_imag,stats_imag] = ranksum(reshaped_imag,reshaped_dec_imag)
+
+    figure('color','w','visible','on');
     hold on;
     box off;
     
@@ -81,7 +83,7 @@ if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
     
     xlabel('Real Component')
     ylabel('Imaginary Component (Absolute Value)')
-    title('Blue = Accelerative | Red = Decelerative')
+    title('Accelerative (Blue) vs Decelerative (Red) Discrete States')
     
     hold off
     saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs_dec_vs_acc.png'));
