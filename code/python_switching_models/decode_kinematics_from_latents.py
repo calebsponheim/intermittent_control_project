@@ -80,9 +80,9 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
         t_end = len(full_kinematics_by_trial[iTrial])/1000
         downsample_factor = 1
         out = Neural_Decoding.bin_output(vels, vel_times, dt, t_start, t_end, downsample_factor)
-        plt.figure(iTrial)
-        plt.plot(out)
-        plt.title(iTrial)
+        # plt.figure(iTrial)
+        # plt.plot(out)
+        # plt.title(iTrial)
         full_kinematics_binned.extend(out)
         kin_length.append(out.shape[0])
 
