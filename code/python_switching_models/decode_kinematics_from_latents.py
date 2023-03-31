@@ -153,7 +153,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
     # Remove neurons with too few spikes in HC dataset
     if model == "raw" or model == 'hmm':
         nd_sum = np.nansum(X_kf, axis=0)  # Total number of spikes of each neuron
-        rmv_nrn = np.where(nd_sum < 1000)  # Find neurons who have less than 100 spikes total
+        rmv_nrn = np.where(nd_sum < 300)  # Find neurons who have less than 100 spikes total
         X_kf = np.delete(X_kf, rmv_nrn, 1)  # Remove those neurons
 
     num_examples_kf = X_kf.shape[0]
