@@ -73,8 +73,10 @@ end %iState
 % Plot Peak Speed
 figure('Visible','off','color','white'); hold on;
 for iState = 1:size(snippet_data,2)
-%     histogram([average_speed{:,iState}],'facecolor',colors(iState,:))
-    al_goodplot([average_speed{:,iState}],iState,0.75, colors(iState,:), 'right',.05,std([average_speed{:,iState}])/1000,1);
+    %     histogram([average_speed{:,iState}],'facecolor',colors(iState,:))
+    if ~isempty([average_speed{:,iState}])
+        al_goodplot([average_speed{:,iState}],iState,0.75, colors(iState,:), 'right',.05,std([average_speed{:,iState}])/1000,1);
+    end
 end
 title([meta.subject,'  ',strrep(meta.task,'_',' '),' Average Snippet Speed']);
 ylabel('Mean Snippet Speed')
@@ -86,8 +88,10 @@ close gcf
 % Plot Average Speed
 figure('Visible','off','color','white'); hold on;
 for iState = 1:size(snippet_data,2)
-%     histogram([peak_speed{:,iState}],'facecolor',colors(iState,:))
-    al_goodplot([peak_speed{:,iState}],iState,0.75, colors(iState,:), 'right', .05,std([peak_speed{:,iState}])/1000,1);
+    %     histogram([peak_speed{:,iState}],'facecolor',colors(iState,:))
+    if ~isempty([average_speed{:,iState}])
+        al_goodplot([peak_speed{:,iState}],iState,0.75, colors(iState,:), 'right', .05,std([peak_speed{:,iState}])/1000,1);
+    end
 end %iState
 title([meta.subject,'  ',strrep(meta.task,'_',' '),' Peak Snippet Speed']);
 ylabel('Peak Snippet Speed')

@@ -22,7 +22,7 @@ acc_eigs_real = [];
 acc_eigs_imag = [];
 dec_eigs_real = [];
 dec_eigs_imag = [];
-for iState = 1:size(real_eigenvalues,1)
+for iState = 1:numel(meta.acc_classification)
     dims_to_include_temp = dimension_cutoffs(iState,~isnan(dimension_cutoffs(iState,:)));
     real_eigenvalues_temp = real_eigenvalues(iState,dims_to_include_temp);
     imaginary_eigenvalues_temp = imaginary_eigenvalues(iState,dims_to_include_temp);
@@ -242,7 +242,7 @@ ylabel('Real Eigenvalue Magnitude')
 title('Line Color = State')
  
 [R,P] = corrcoef(eig_mean,snippet_mean);
-[f,g] = fit(snippet_mean,eig_mean,'power2');
+[f,g] = fit(snippet_mean(~isnan(snippet_mean)),eig_mean(~isnan(snippet_mean)),'power2');
 disp(strcat('Snippet Length R^2: ',num2str(g.rsquare)))
 % disp(strcat('Snippet Length P-Value: ',num2str(P(2))))
 plot(f)
@@ -413,7 +413,7 @@ close gcf
 
 acc_states_real = [];
 acc_states_imag = [];
-for iState = 1:size(real_eigenvalues,1)
+for iState = 1:size(meta.acc_classification,1)
     if meta.acc_classification(iState) == 1
         acc_states_real = [acc_states_real real_eigenvalues(iState,:)];
         acc_states_imag = [acc_states_imag imaginary_eigenvalues(iState,:)];

@@ -12,11 +12,11 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'Bxcenter_out1902280.05_sBins_move_window_only\'];
 
 % filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
-filepath = [filepath_base 'RSRTP0.05sBins\'];
+% filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'RJRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
-% filepath = [filepath_base 'BxRTP0.05sBins\'];
+filepath = [filepath_base 'BxRTP0.05sBins\'];
 % filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
 % OPTIONS
@@ -30,8 +30,10 @@ elseif contains(filepath,'RJ')
 elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
     if contains(filepath,'Bx18')
     elseif contains(filepath,'BxRTP0.05sBins')
+%         num_desired_states = 10;
+%         num_desired_dims = 30;
         num_desired_states = 10;
-        num_desired_dims = 30;
+        num_desired_dims = 25;
     elseif contains(filepath,'190228')
     end
 end
