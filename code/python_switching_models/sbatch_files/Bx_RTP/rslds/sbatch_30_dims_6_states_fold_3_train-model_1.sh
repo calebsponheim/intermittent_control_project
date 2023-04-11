@@ -6,7 +6,7 @@
 #SBATCH --mem-per-cpu=48G
 #SBATCH --account=pi-nicho
 #SBATCH --partition=caslake
-module load python/anaconda-2021.05
+module load python/anaconda-2022.05
 source activate /project/nicho/projects/caleb/git/intermittent_control_project/data/ssm_midway_python_environment/
 python /project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py 30 3 6 bx RTP 1
 sbatch --dependency=afterany:$SLURM_JOB_ID sbatch_30_dims_6_states_fold_3_train-model_0.sh
