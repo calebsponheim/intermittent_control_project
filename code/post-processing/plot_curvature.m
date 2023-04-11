@@ -52,12 +52,14 @@ curvature_overall = radius_temp;
 %%
 figure('visible','off'); hold on
 for iState = 1:size(snippet_data,2)
-    if contains(meta.subject,'bx')
-        [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},iState,0.75, colors(iState,:), 'right', 1,std(curvature_per_state{iState})/1000000,1);
-    else
-        [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},iState,0.75, colors(iState,:), 'right', 50,std(curvature_per_state{iState})/100000,1);
+    if ~isempty(curvature_per_state{iState})
+        if contains(meta.subject,'bx')
+            [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},iState,0.75, colors(iState,:), 'right', 1,std(curvature_per_state{iState})/1000000,1);
+        else
+            [~, ~, ~, q_temp, ~] = al_goodplot(curvature_per_state{iState},iState,0.75, colors(iState,:), 'right', 50,std(curvature_per_state{iState})/100000,1);
+        end
+        q(iState) = q_temp(end,1);
     end
-    q(iState) = q_temp(end,1);
 end
 ylim([0 mean(q,'omitnan')])
 xlim([1 size(snippet_data,2)+1])

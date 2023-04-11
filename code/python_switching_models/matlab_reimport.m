@@ -32,8 +32,8 @@ elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
     elseif contains(filepath,'BxRTP0.05sBins')
 %         num_desired_states = 10;
 %         num_desired_dims = 30;
-        num_desired_states = 15;
-        num_desired_dims = 40;
+        num_desired_states = 10;
+        num_desired_dims = 25;
     elseif contains(filepath,'190228')
     end
 end

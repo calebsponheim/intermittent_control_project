@@ -7,8 +7,8 @@ hidden_max_state_range = 120
 hidden_state_skip = 1
 
 
-number_of_latent_dimensions = 40
-number_of_discrete_states = 15
+number_of_latent_dimensions = 25
+number_of_discrete_states = 10
 fold_number = 4
 subject = 'bx'
 task = 'RTP'

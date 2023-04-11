@@ -3,7 +3,8 @@
 %% User-Defined Variables via "meta" struct
 
 meta.subject = 'Bx'; % Subject
-meta.arrays = {'M1m';'M1l'}; % Which M1 Arrays to analyze
+% meta.arrays = {'M1m';'M1l'}; % Which M1 Arrays to analyze
+meta.arrays = {'M1m'}; % Which M1 Arrays to analyze
 % meta.session = '180323'; % Which day of data
 meta.session = '190228'; % Which day of data
 % meta.task = 'center_out';       % Choose one of the three options here
