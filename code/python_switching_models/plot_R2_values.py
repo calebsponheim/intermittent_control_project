@@ -90,6 +90,7 @@ plt.plot(rslds_r2[:, 3], hmm_r2[:, 3], marker='o', linestyle='none', color='blue
 
 plt.plot(rslds_r2[:, 2], lds_r2[:, 2], marker='o', linestyle='none', color='green', label='LDS')
 plt.plot(rslds_r2[:, 3], lds_r2[:, 3], marker='o', linestyle='none', color='green')
+
 plt.xlim(-1, 1)
 plt.ylim(-1, 1)
 plt.legend()
@@ -97,4 +98,6 @@ plt.legend()
 # %% Calculate Stats
 
 # Wilcoxon signed-rank test
-[out, p] = wilcoxon(rslds_r2[:, 2], lds_r2[:, 2])
+[out_raw, p_raw] = wilcoxon(rslds_r2[:, 2], raw_r2[:, 2])
+[out_hmm, p_hmm] = wilcoxon(rslds_r2[:, 2], hmm_r2[:, 2])
+[out_lds, p_lds] = wilcoxon(rslds_r2[:, 2], lds_r2[:, 2])

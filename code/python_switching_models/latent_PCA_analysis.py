@@ -14,7 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # %% Parameter Setting
-subject = 'rs'
+subject = 'bx'
 task = 'RTP'
 model = 'rslds'
 cutoff = .9
@@ -34,8 +34,10 @@ elif (subject == 'rj') & (task == 'RTP'):
     num_latent_dims_lds = 80
     num_discrete_states_hmm = 16
 elif (subject == 'bx') & (task == 'RTP'):
-    num_latent_dims_rslds = 30
-    num_discrete_states_rslds = 10
+    num_latent_dims_rslds = 40
+    num_discrete_states_rslds = 15
+    # num_latent_dims_rslds = 30
+    # num_discrete_states_rslds = 10
     num_latent_dims_slds = 2
     num_discrete_states_slds = 2
     num_latent_dims_lds = 80

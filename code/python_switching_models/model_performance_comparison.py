@@ -32,8 +32,10 @@ elif (subject == 'rj') & (task == 'RTP'):
     num_latent_dims_lds = 43
     num_discrete_states_hmm = 67
 elif (subject == 'bx') & (task == 'RTP'):
-    num_latent_dims_rslds = 30
-    num_discrete_states_rslds = 10
+    num_latent_dims_rslds = 40
+    num_discrete_states_rslds = 15
+    # num_latent_dims_rslds = 30
+    # num_discrete_states_rslds = 10
     num_latent_dims_lds = 49
     num_discrete_states_hmm = 43
 elif (subject == 'rs') & (task == 'CO'):
