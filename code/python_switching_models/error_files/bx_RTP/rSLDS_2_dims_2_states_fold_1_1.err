@@ -1,11 +1,18 @@
 Processed spikes from trial 100.
 Processed spikes from trial 200.
 Processed spikes from trial 300.
-  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -5036400.2:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -4691458.0:   0%|          | 0/15 [00:55<?, ?it/s]ELBO: -4691458.0:   7%|▋         | 1/15 [00:55<12:53, 55.25s/it]ELBO: -4665222.6:   7%|▋         | 1/15 [01:24<12:53, 55.25s/it]ELBO: -4665222.6:  13%|█▎        | 2/15 [01:24<08:35, 39.68s/it]ELBO: -4657093.1:  13%|█▎        | 2/15 [01:50<08:35, 39.68s/it]ELBO: -4657093.1:  20%|██        | 3/15 [01:50<06:44, 33.67s/it]ELBO: -4655445.9:  20%|██        | 3/15 [02:08<06:44, 33.67s/it]ELBO: -4655445.9:  27%|██▋       | 4/15 [02:08<05:01, 27.42s/it]ELBO: -4655042.8:  27%|██▋       | 4/15 [02:26<05:01, 27.42s/it]ELBO: -4655042.8:  33%|███▎      | 5/15 [02:26<03:59, 23.95s/it]ELBO: -4654274.9:  33%|███▎      | 5/15 [02:43<03:59, 23.95s/it]ELBO: -4654274.9:  40%|████      | 6/15 [02:43<03:16, 21.85s/it]ELBO: -4654161.8:  40%|████      | 6/15 [03:00<03:16, 21.85s/it]ELBO: -4654161.8:  47%|████▋     | 7/15 [03:00<02:39, 19.96s/it]ELBO: -4653227.0:  47%|████▋     | 7/15 [03:16<02:39, 19.96s/it]ELBO: -4653227.0:  53%|█████▎    | 8/15 [03:16<02:11, 18.74s/it]ELBO: -4653064.8:  53%|█████▎    | 8/15 [03:32<02:11, 18.74s/it]ELBO: -4653064.8:  60%|██████    | 9/15 [03:32<01:47, 17.95s/it]ELBO: -4652842.0:  60%|██████    | 9/15 [03:48<01:47, 17.95s/it]ELBO: -4652842.0:  67%|██████▋   | 10/15 [03:48<01:27, 17.45s/it]ELBO: -4652805.2:  67%|██████▋   | 10/15 [04:04<01:27, 17.45s/it]ELBO: -4652805.2:  73%|███████▎  | 11/15 [04:04<01:08, 17.01s/it]ELBO: -4652539.4:  73%|███████▎  | 11/15 [04:20<01:08, 17.01s/it]ELBO: -4652539.4:  80%|████████  | 12/15 [04:20<00:50, 16.73s/it]ELBO: -4652447.1:  80%|████████  | 12/15 [04:37<00:50, 16.73s/it]ELBO: -4652447.1:  87%|████████▋ | 13/15 [04:37<00:33, 16.60s/it]ELBO: -4652325.6:  87%|████████▋ | 13/15 [04:53<00:33, 16.60s/it]ELBO: -4652325.6:  93%|█████████▎| 14/15 [04:53<00:16, 16.42s/it]ELBO: -4651756.8:  93%|█████████▎| 14/15 [05:09<00:16, 16.42s/it]ELBO: -4651756.8: 100%|██████████| 15/15 [05:09<00:00, 16.32s/it]ELBO: -4651756.8: 100%|██████████| 15/15 [05:09<00:00, 20.61s/it]
+Traceback (most recent call last):
+  File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
+    run_rslds(
+  File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 122, in run_rslds
+    trial_classification, neuron_classification = assign_trials_to_HMM_group(
+  File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/assign_trials_to_HMM_group.py", line 50, in assign_trials_to_HMM_group
+    fold_test_trials = multifold_shuffled_order[test_mask]
+IndexError: boolean index did not match indexed array along dimension 0; dimension is 745 but corresponding boolean dimension is 371
 sbatch: Verify job submission ...
 sbatch: Using a shared partition ...
 sbatch: Partition: caslake
 sbatch: QOS-Flag: caslake
 sbatch: Account: pi-nicho
 sbatch: Verification: ***PASSED***
-Submitted batch job 1732833
+Submitted batch job 3241638

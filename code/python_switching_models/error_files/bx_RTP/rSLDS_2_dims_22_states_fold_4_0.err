@@ -1,18 +1,4 @@
 Processed spikes from trial 100.
 Processed spikes from trial 200.
 Processed spikes from trial 300.
-Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
-    run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 145, in run_rslds
-    log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 121, in rslds_cosmoothing
-    infile = open(folderpath_out + 'fold_' + str(fold_number) + '_model', 'rb')
-FileNotFoundError: [Errno 2] No such file or directory: '/project/nicho/caleb/git/intermittent_control_project/data/python_switching_models/BxRTP0.05sBins/22_states_2_dims/fold_4_model'
-sbatch: Verify job submission ...
-sbatch: Using a shared partition ...
-sbatch: Partition: caslake
-sbatch: QOS-Flag: caslake
-sbatch: Account: pi-nicho
-sbatch: Verification: ***PASSED***
-Submitted batch job 1732720
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -259166.3:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -205569.1:   0%|          | 0/15 [00:26<?, ?it/s]ELBO: -205569.1:   7%|▋         | 1/15 [00:26<06:14, 26.73s/it]ELBO: -205456.7:   7%|▋         | 1/15 [00:40<06:14, 26.73s/it]ELBO: -205456.7:  13%|█▎        | 2/15 [00:40<04:06, 18.94s/it]ELBO: -205637.7:  13%|█▎        | 2/15 [00:53<04:06, 18.94s/it]ELBO: -205637.7:  20%|██        | 3/15 [00:53<03:16, 16.41s/it]ELBO: -205636.6:  20%|██        | 3/15 [01:06<03:16, 16.41s/it]ELBO: -205636.6:  27%|██▋       | 4/15 [01:06<02:46, 15.18s/it]ELBO: -205555.0:  27%|██▋       | 4/15 [01:20<02:46, 15.18s/it]ELBO: -205555.0:  33%|███▎      | 5/15 [01:20<02:24, 14.46s/it]ELBO: -205564.2:  33%|███▎      | 5/15 [01:33<02:24, 14.46s/it]ELBO: -205564.2:  40%|████      | 6/15 [01:33<02:06, 14.05s/it]ELBO: -205577.5:  40%|████      | 6/15 [01:46<02:06, 14.05s/it]ELBO: -205577.5:  47%|████▋     | 7/15 [01:46<01:50, 13.84s/it]ELBO: -205461.1:  47%|████▋     | 7/15 [01:59<01:50, 13.84s/it]ELBO: -205461.1:  53%|█████▎    | 8/15 [01:59<01:34, 13.57s/it]
