@@ -32,8 +32,8 @@ elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
     elseif contains(filepath,'BxRTP0.05sBins')
 %         num_desired_states = 10;
 %         num_desired_dims = 30;
-        num_desired_states = 10;
-        num_desired_dims = 25;
+        num_desired_states = 2;
+        num_desired_dims = 2;
     elseif contains(filepath,'190228')
     end
 end
@@ -157,9 +157,11 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         elseif contains(filepath,'BxRTP0.05sBins')
             load(strcat(filepath,'..\','\BxRTP190228CT0.mat'))
             meta.task = 'RTP';
+            meta.crosstrain = 0;
         elseif contains(filepath,'190228')
             load(['..\' filepath '\Bxcenter_out190228CT0.mat'])
             meta.task = 'CO';
+            meta.crosstrain = 0; 
         end
         meta.filepath = filepath;
         meta.analyze_all_trials = analyze_all_trials;
