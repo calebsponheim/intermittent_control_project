@@ -4,7 +4,7 @@
 subject='bx'
 taskname='RTP'
 skip=4
-max_dim=40
+max_dim=80
 max_state=40
 for iState in `seq 2 $skip $max_state`
 do
@@ -12,7 +12,6 @@ do
 	do
 	time=`python get_runtime.py $iDim $iState`
 	let next_dim=$iDim+$skip
-	# echo "$time"
 		for iFold in `seq 1 5`
 		do
 			for iPickle in `seq 0 1`
@@ -31,7 +30,8 @@ do
 				elif [[ $iPickle -eq 0 ]]
 				then
 					if [[ $iDim < $max_dim ]]
-					then
+					then	
+						# echo "$next_dim"
 						printf "sbatch --dependency=afterany:\$SLURM_JOB_ID sbatch_%i_dims_${iState}_states_fold_${iFold}_train-model_1.sh" $next_dim>> sbatch_${iDim}_dims_${iState}_states_fold_${iFold}_train-model_${iPickle}.sh				
 					fi
 				fi
