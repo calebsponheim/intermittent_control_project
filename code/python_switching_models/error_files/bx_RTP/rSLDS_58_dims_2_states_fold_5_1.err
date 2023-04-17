@@ -1,0 +1,30 @@
+Processed spikes from trial 100.
+Processed spikes from trial 200.
+Processed spikes from trial 300.
+Traceback (most recent call last):
+  File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
+    run_rslds(
+  File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 146, in run_rslds
+    log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
+  File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 96, in rslds_cosmoothing
+    model.initialize(trainset)
+  File "/project/nicho/projects/caleb/git/ssm/ssm/util.py", line 111, in wrapper
+    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
+  File "/project/nicho/projects/caleb/git/ssm/ssm/lds.py", line 167, in initialize
+    self.emissions.initialize(datas, inputs, masks, tags)
+  File "/project/nicho/projects/caleb/git/ssm/ssm/util.py", line 111, in wrapper
+    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
+  File "/project/nicho/projects/caleb/git/ssm/ssm/emissions.py", line 712, in initialize
+    self._initialize_with_pca(yhats, inputs=inputs, masks=masks, tags=tags)
+  File "/project/nicho/projects/caleb/git/ssm/ssm/util.py", line 111, in wrapper
+    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
+  File "/project/nicho/projects/caleb/git/ssm/ssm/emissions.py", line 199, in _initialize_with_pca
+    Cs.append((weights @ pca.components_).T)
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 46 is different from 58)
+sbatch: Verify job submission ...
+sbatch: Using a shared partition ...
+sbatch: Partition: caslake
+sbatch: QOS-Flag: caslake
+sbatch: Account: pi-nicho
+sbatch: Verification: ***PASSED***
+Submitted batch job 3291030
