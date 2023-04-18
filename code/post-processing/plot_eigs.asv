@@ -54,22 +54,15 @@ close gcf
 %%
 
 if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
-    figure('color','w','visible','on'); hold on
+    figure; hold on
     acc_mean = mean([acc_trajectory_speeds{:}]);
     acc_std_err = std([acc_trajectory_speeds{:}])/sqrt(length([acc_trajectory_speeds{:}]));
     errorbar(1,acc_mean,acc_std_err,acc_std_err,0,0,'o','Color','Blue','MarkerSize',10,'MarkerFaceColor','Blue','LineWidth',2)
-    dec_mean = mean([dec_trajectory_speeds{:}]);
-    dec_std_err = std([dec_trajectory_speeds{:}])/sqrt(length([dec_trajectory_speeds{:}]));
-    errorbar(2,dec_mean,dec_std_err,dec_std_err,0,0,'o','Color','Red','MarkerSize',10,'MarkerFaceColor','Red','LineWidth',2)
-    xlim([0 3])
-    box off;
-    xticks([0 1 2 3])
-    xticklabels({' ','Accelerative States','Decelerative States',' '})
-    ylabel('Mean Neural Latent Trajectory Speed')
-    hold off
-    saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trajectory_speed_dec_vs_acc.png'));
-    close gcf
+    dec_mean = mean([acc_trajectory_speeds{:}]);
+    dec_std_err = std([acc_trajectory_speeds{:}])/sqrt(length([acc_trajectory_speeds{:}]));
+    errorbar(1,acc_mean,acc_std_err,acc_std_err,0,0,'o','Color','Blue','MarkerSize',10,'MarkerFaceColor','Blue','LineWidth',2)
 
+%     dec_trajectory_speeds
 end
 
 %% Error Bar Plot
