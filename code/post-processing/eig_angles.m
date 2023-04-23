@@ -2,7 +2,7 @@ function eig_angles(meta,sorted_state_transitions)
 
 % eigenvalue_magnitude_threshold = 0.75;
 dimension_cutoffs = readmatrix(strcat(meta.filepath,'dims_to_include.csv'));
-percent_cutoff = 0.1;
+percent_cutoff = 1;
 sorted_state_transitions_for_function = sorted_state_transitions(1:round(size(sorted_state_transitions,1)*percent_cutoff),:);
 for iState = 1:meta.optimal_number_of_states
     real_eigenvectors_temp = readmatrix(strcat(meta.filepath,'real_eigenvectors_state_',num2str(iState),'.csv'));
@@ -182,5 +182,26 @@ box off
 set(gcf,"Color","w")
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles_comparison.png'));
 close gcf
+%% Plotting Regression!
+regression_prep = zeros(1,2);
+figure('visible','on','color','w'); hold on
+for iTransition = 1:size(sorted_state_transitions_for_function,1)
+    y = real(complex_eigenvector_angles{iTransition});
+    x = repmat(sorted_state_transitions_for_function(iTransition,3),1,length(y));
+
+    regression_prep = vertcat(regression_prep, [x' y']);
+    plot(x,y,'color','k','linestyle',':')
+end
+for iTransition = 1:size(complex_eigenvector_angles_all_combos,2)
+    y = real(complex_eigenvector_angles_all_combos{iTransition});
+    x = zeros(1,length(y));
+
+    regression_prep = vertcat(regression_prep, [x' y']);
+    plot(x,y,'color','r','linestyle',':')
+end
+
+mdl = fitlm(regression_prep(:,1),regression_prep(:,2));
+
+plot(mdl)
 
 end
