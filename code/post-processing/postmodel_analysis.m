@@ -71,6 +71,7 @@ if meta.plot_ll_rslds == 1
 end
 if meta.use_rslds == 1
     eig_angles(meta,sorted_state_transitions)
+    eig_angles_v2(meta,sorted_state_transitions)
     plot_eigs(meta,colors,snippet_direction_out,snippet_length_per_state)  
 end
 

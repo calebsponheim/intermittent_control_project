@@ -19,22 +19,22 @@ imaginary_eigenvalues = imaginary_eigenvalues(2:end,:);
 
 %% Eigenvalue Magnitude Mapping
 % eigenvalue_magnitude = sqrt(real_eigenvalues.^2 + imaginary_eigenvalues.^2);
-eigenvalue_magnitude = real_eigenvalues;
-figure('visible','off'); hold on
-for iState = 1:size(eigenvalue_magnitude,1)
-    temp_eigenvalue_magnitude = eigenvalue_magnitude(iState,:);
-    plot((cumsum(fliplr(sort(temp_eigenvalue_magnitude)))))
-%     plot(fliplr(sort(temp_eigenvalue_magnitude)))
-end
-xlabel('Dimension index')
-ylabel('cumulative Magnitude')
-title(strcat("Cumulative Eigenvalue Magnitude (Real)"))
-hold off
-box off
-set(gcf,"Color",'White')
-saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvalue_magnitudes.png'));
-
-close gcf
+% eigenvalue_magnitude = real_eigenvalues;
+% figure('visible','off'); hold on
+% for iState = 1:size(eigenvalue_magnitude,1)
+%     temp_eigenvalue_magnitude = eigenvalue_magnitude(iState,:);
+%     plot((cumsum(fliplr(sort(temp_eigenvalue_magnitude)))))
+% %     plot(fliplr(sort(temp_eigenvalue_magnitude)))
+% end
+% xlabel('Dimension index')
+% ylabel('cumulative Magnitude')
+% title(strcat("Cumulative Eigenvalue Magnitude (Real)"))
+% hold off
+% box off
+% set(gcf,"Color",'White')
+% saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvalue_magnitudes.png'));
+% 
+% close gcf
 
 %% Calculating the complex vectors
 
@@ -46,7 +46,8 @@ end
 %% Okay now we calculate angles between all the other combinations of things.
 [m,n] = ndgrid(1:meta.optimal_number_of_states,1:meta.optimal_number_of_states);
 all_state_combos = [m(:),n(:)];
-
+sorted_transitions_for_intersect = [];
+all_combo_for_intersect = [];
 %%%% finding intersection of actual transitions and all possible states and
 %%%% getting rid of the ones that overlap.
 for iRow = 1:size(sorted_state_transitions,1)
@@ -62,12 +63,12 @@ end
 all_state_combos(ia,:) = [];
 all_state_combos(all_state_combos(:,1) == all_state_combos(:,2),:) = [];
 complex_eigenvector_angles_all_combos = [];
+complex_dot_product_temp = [];
+
 for iCombo = 1:size(all_state_combos,1)
 
     complex_eigenvector_temp_one = complex_eigenvectors{all_state_combos(iCombo,1)};
     complex_eigenvector_temp_two = complex_eigenvectors{all_state_combos(iCombo,2)};
-    eigenvalue_magnitude_temp_one = eigenvalue_magnitude(all_state_combos(iCombo,1),:);
-    eigenvalue_magnitude_temp_two = eigenvalue_magnitude(all_state_combos(iCombo,2),:);
 
     dims_to_include_vector_one = dimension_cutoffs(all_state_combos(iCombo,1),~isnan(dimension_cutoffs(all_state_combos(iCombo,1),:)));
     dims_to_include_vector_two = dimension_cutoffs(all_state_combos(iCombo,2),~isnan(dimension_cutoffs(all_state_combos(iCombo,2),:)));
@@ -91,14 +92,15 @@ for iCombo = 1:size(all_state_combos,1)
     end
 end
 %%
-colors = cool(size(sorted_state_transitions_for_function,1));
+% colors = cool(size(sorted_state_transitions_for_function,1));
 complex_eigenvector_angles = [];
+complex_dot_product_temp = [];
+complex_vector_length_product_temp = [];
+
 for iCombo = 1:size(sorted_state_transitions_for_function,1)
 
     complex_eigenvector_temp_one = complex_eigenvectors{sorted_state_transitions_for_function(iCombo,1)};
     complex_eigenvector_temp_two = complex_eigenvectors{sorted_state_transitions_for_function(iCombo,2)};
-    eigenvalue_magnitude_temp_one = eigenvalue_magnitude(sorted_state_transitions_for_function(iCombo,1),:);
-    eigenvalue_magnitude_temp_two = eigenvalue_magnitude(sorted_state_transitions_for_function(iCombo,2),:);
 
     dims_to_include_vector_one = dimension_cutoffs(sorted_state_transitions_for_function(iCombo,1),~isnan(dimension_cutoffs(sorted_state_transitions_for_function(iCombo,1),:)));
     dims_to_include_vector_two = dimension_cutoffs(sorted_state_transitions_for_function(iCombo,2),~isnan(dimension_cutoffs(sorted_state_transitions_for_function(iCombo,2),:)));
@@ -108,7 +110,7 @@ for iCombo = 1:size(sorted_state_transitions_for_function,1)
     [m,n] = ndgrid(dims_to_include_vector_one,dims_to_include_vector_two);
 
     eigenvector_combos = [m(:),n(:)];
-    eigenvector_combos(eigenvector_combos(:,1) == eigenvector_combos(:,2),:) = [];
+    eigenvector_combos(eigenvector_combos(:,1) ~= eigenvector_combos(:,2),:) = [];
 
 
     for iIntraCombo = 1:size(eigenvector_combos,1)
@@ -125,23 +127,23 @@ end
 
 %%
 % Step 7: plot
-figure('Visible','off'); hold on;
-for iCombo = 1:size(all_state_combos,1)
-    plot(real(complex_eigenvector_angles_all_combos{iCombo}),imag(complex_eigenvector_angles_all_combos{iCombo}),'.',"Color",'k','MarkerSize',10)
-end
-for iCombo = 1:size(sorted_state_transitions_for_function,1)
-    plot(real(complex_eigenvector_angles{iCombo}),imag(complex_eigenvector_angles{iCombo}),'.',"Color",colors(iCombo,:),'MarkerSize',10)
-end
-
-
-xlabel('real component of cosine between eigenvectors')
-ylabel('imaginary component of cosine between eigenvectors')
-hold off
-box off
-set(gcf,"Color",'White')
-saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles.png'));
-
-close gcf
+% figure('Visible','off'); hold on;
+% for iCombo = 1:size(all_state_combos,1)
+%     plot(real(complex_eigenvector_angles_all_combos{iCombo}),imag(complex_eigenvector_angles_all_combos{iCombo}),'.',"Color",'k','MarkerSize',10)
+% end
+% for iCombo = 1:size(sorted_state_transitions_for_function,1)
+%     plot(real(complex_eigenvector_angles{iCombo}),imag(complex_eigenvector_angles{iCombo}),'.',"Color",colors(iCombo,:),'MarkerSize',10)
+% end
+% 
+% 
+% xlabel('real component of cosine between eigenvectors')
+% ylabel('imaginary component of cosine between eigenvectors')
+% hold off
+% box off
+% set(gcf,"Color",'White')
+% saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles.png'));
+% 
+% close gcf
 
 %% plot
 reshaped_all_combos_real = reshape(real([complex_eigenvector_angles_all_combos{:}]),[],1);
@@ -162,8 +164,11 @@ err_bars_imag = [
     reshaped_angles_imag_err
     ];
 
-[p_real,~,~] = ranksum(reshaped_angles_real,reshaped_all_combos_real)
-[p_imag,~,~] = ranksum(reshaped_angles_imag,reshaped_all_combos_imag)
+[p_real,~,~] = ranksum(reshaped_all_combos_real,reshaped_angles_real);
+[p_imag,~,~] = ranksum(reshaped_all_combos_imag,reshaped_angles_imag);
+
+fprintf('P-value for real eigenvectors: %f \n', p_real)
+fprintf('P-value for imaginary eigenvectors: %f \n', p_imag)
 
 figure('visible','on'); hold on
 subplot(1,2,1); hold on
@@ -181,27 +186,27 @@ title('Imaginary Eigenvector Angles')
 box off
 set(gcf,"Color","w")
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles_comparison.png'));
-close gcf
+% close gcf
 %% Plotting Regression!
-regression_prep = zeros(1,2);
-figure('visible','on','color','w'); hold on
-for iTransition = 1:size(sorted_state_transitions_for_function,1)
-    y = real(complex_eigenvector_angles{iTransition});
-    x = repmat(sorted_state_transitions_for_function(iTransition,3),1,length(y));
-
-    regression_prep = vertcat(regression_prep, [x' y']);
-    plot(x,y,'color','k','linestyle',':')
-end
-for iTransition = 1:size(complex_eigenvector_angles_all_combos,2)
-    y = real(complex_eigenvector_angles_all_combos{iTransition});
-    x = zeros(1,length(y));
-
-    regression_prep = vertcat(regression_prep, [x' y']);
-    plot(x,y,'color','r','linestyle',':')
-end
-
-mdl = fitlm(regression_prep(:,1),regression_prep(:,2));
-
-plot(mdl)
-
+% regression_prep = zeros(1,2);
+% figure('visible','on','color','w'); hold on
+% for iTransition = 1:size(sorted_state_transitions_for_function,1)
+%     y = real(complex_eigenvector_angles{iTransition});
+%     x = repmat(sorted_state_transitions_for_function(iTransition,3),1,length(y));
+% 
+%     regression_prep = vertcat(regression_prep, [x' y']);
+%     plot(x,y,'color','k','linestyle',':')
+% end
+% for iTransition = 1:size(complex_eigenvector_angles_all_combos,2)
+%     y = real(complex_eigenvector_angles_all_combos{iTransition});
+%     x = zeros(1,length(y));
+% 
+%     regression_prep = vertcat(regression_prep, [x' y']);
+%     plot(x,y,'color','r','linestyle',':')
+% end
+% 
+% mdl = fitlm(regression_prep(:,1),regression_prep(:,2));
+% 
+% plot(mdl)
+% 
 end
