@@ -185,26 +185,30 @@ q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
                                            num_iters=N_iters)
 
 inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in testset]
-masks = []
-for y in testset:
-    mask = np.ones_like(y)
-    mask = mask.astype(bool)
-    masks.append(mask)
+lls = [0] * len(np.unique(neuron_classification))
 
-_elbos, _q_model = model.approximate_posterior(
-    testset,
-    method="laplace_em",
-    variational_posterior="structured_meanfield",
-    num_iters=N_iters, alpha=0.5)
+for iFold in np.unique(neuron_classification):
+    test_neur = [i for i, x in enumerate(neuron_classification) if x == iFold]
+    masks = []
+    for y in testset:
+        mask = np.ones_like(y)
+        mask[:, test_neur] *= 0
+        mask = mask.astype(bool)
+        masks.append(mask)
 
-lls = 0.0
-for tr in range(len(testset)):
-    ll = np.sum(model.emissions.log_likelihoods(testset[tr],
-                                                inputs[tr],
-                                                mask=masks[tr],
-                                                tag=None,
-                                                x=_q_model.mean_continuous_states[tr]))
-    lls += ll
+    _elbos, _q_model = model.approximate_posterior(
+        testset, inputs=inputs, masks=masks,
+        method="laplace_em",
+        variational_posterior="structured_meanfield",
+        num_iters=N_iters, alpha=0.5)
+
+    for tr in range(len(testset)):
+        ll = np.sum(model.emissions.log_likelihoods(testset[tr],
+                                                    inputs[tr],
+                                                    mask=np.invert(masks[tr]),
+                                                    tag=None,
+                                                    x=_q_model.mean_continuous_states[tr]))
+        lls[iFold] = lls[iFold] + ll
 
 log_likelihood_emissions_sum = np.mean(lls)
 
