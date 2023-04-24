@@ -8,14 +8,14 @@ end
 filepath_base = [file_base_base '\Documents\git\intermittent_control_project\data\python_switching_models\'];
 
 % filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
-% filepath = [filepath_base 'RSRTP0.05sBins\'];
+filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'RJRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
-filepath = [filepath_base 'BxRTP0.05sBins\'];
+% filepath = [filepath_base 'BxRTP0.05sBins\'];
 % filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
-meta.subject = 'Bx';
+meta.subject = 'RS';
 subject = meta.subject;
 meta.task = 'RTP';
 task = meta.task;
