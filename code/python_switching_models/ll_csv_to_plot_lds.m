@@ -73,6 +73,7 @@ for iFolder = 1:length(ll_files_list)
 end
 %%
 bits_per_spike(bits_per_spike == 0) = NaN;
+writematrix(bits_per_spike,strcat(filepath_for_ll_plot,'lds_ll.csv'))
 
 %%   2D
 colors = hsv(size(bits_per_spike,2));

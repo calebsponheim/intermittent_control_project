@@ -57,6 +57,8 @@ end
 %%
 bits_per_spike(bits_per_spike == 0) = NaN;
 
+writematrix(bits_per_spike,strcat(filepath_for_ll_plot,'rslds_ll.csv'))
+
 %% 3D Non-Marginal
 colors = hsv(size(bits_per_spike,2));
 figure; hold on;
@@ -83,29 +85,6 @@ box off
 hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf.png'));
 saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_surf_interactive.fig'));
-
-% %% 3D focused
-% colors = hsv(size(bits_per_spike,2));
-% focused_state_range = 2:20;
-% x = focused_state_range;
-% y = [];
-% state_count = 1;
-% for iState = focused_state_range
-%     y(state_count,:) = bits_per_spike(5:20,iState);
-%     state_count = state_count + 1;
-% end
-% state_mean_across_dims = mean(y,2,'omitnan');
-% figure; hold on;
-% plot(x,state_mean_across_dims,'-o','LineWidth',2);
-% plot(x,y','.')
-% set(gcf,"Color","w")
-% title(strcat(meta.subject," ",meta.task," Cross-Validated Likelihood"))
-% xlabel("# Discrete States")
-% ylabel("Log Likelihood")
-% grid on
-% box off
-% hold off
-% saveas(gcf,[meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_param_search_focused_3d.png']);
 
 %%   2D
 colors = hsv(size(bits_per_spike,2));
