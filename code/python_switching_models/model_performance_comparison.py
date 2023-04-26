@@ -18,23 +18,23 @@ import pickle
 
 train_portion = 0.8
 test_portion = 0.2
-subject = 'bx'
+subject = 'rs'
 task = 'RTP'
 
 if (subject == 'rs') & (task == 'RTP'):
     num_latent_dims_rslds = 25
     num_discrete_states_rslds = 10
-    num_latent_dims_lds = 40
+    num_latent_dims_lds = 30
     num_discrete_states_hmm = 28
 elif (subject == 'rj') & (task == 'RTP'):
     num_latent_dims_rslds = 25
     num_discrete_states_rslds = 10
-    num_latent_dims_lds = 43
+    num_latent_dims_lds = 10
     num_discrete_states_hmm = 67
 elif (subject == 'bx') & (task == 'RTP'):
     num_latent_dims_rslds = 30
     num_discrete_states_rslds = 10
-    num_latent_dims_lds = 46
+    num_latent_dims_lds = 20
     num_discrete_states_hmm = 43
 elif (subject == 'rs') & (task == 'CO'):
     num_latent_dims_rslds = 14
