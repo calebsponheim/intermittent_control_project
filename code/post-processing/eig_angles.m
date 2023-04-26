@@ -171,20 +171,20 @@ fprintf('P-value for real eigenvectors: %f \n', p_real)
 fprintf('P-value for imaginary eigenvectors: %f \n', p_imag)
 
 figure('visible','on'); hold on
-subplot(1,2,1); hold on
 errorbar([mean(reshaped_all_combos_real) mean(reshaped_angles_real)],err_bars_real,'o','LineWidth',2,'Color','k','MarkerFaceColor','k','MarkerSize',10)
 xlim([0 3])
+xticks([0 1 2 3])
 ylabel('Cosine of Angle Between States')
-xticklabels({'','all angles','transitions in data',''})
-title('Real Eigenvector Angles')
+xticklabels({'','no transitions','transitions in data',''})
+% title('Real Eigenvector Angles')
 
-subplot(1,2,2); hold on
-errorbar([mean(reshaped_all_combos_imag) mean(reshaped_angles_imag)],err_bars_imag,'o','LineWidth',2,'Color','k','MarkerFaceColor','k','MarkerSize',10)
-xlim([0 3])
-xticklabels({'','all angles','transitions in data',''})
-title('Imaginary Eigenvector Angles')
+% subplot(1,2,2); hold on
+% errorbar([mean(reshaped_all_combos_imag) mean(reshaped_angles_imag)],err_bars_imag,'o','LineWidth',2,'Color','k','MarkerFaceColor','k','MarkerSize',10)
+% xlim([0 3])
+% xticklabels({'','all angles','transitions in data',''})
+% title('Imaginary Eigenvector Angles')
 box off
-set(gcf,"Color","w")
+set(gcf,"Color","w",'Position',[100 100 200 500])
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles_comparison.png'));
 % close gcf
 %% Plotting Regression!

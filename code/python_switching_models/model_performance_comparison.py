@@ -18,7 +18,7 @@ import pickle
 
 train_portion = 0.8
 test_portion = 0.2
-subject = 'rs'
+subject = 'bx'
 task = 'RTP'
 
 if (subject == 'rs') & (task == 'RTP'):
