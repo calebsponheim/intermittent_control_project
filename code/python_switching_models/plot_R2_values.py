@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import wilcoxon
 # Plotting R^2 Values from Kalman Filter Decoders
-subject = 'bx'
+subject = 'rs'
 task = 'RTP'
 
 current_working_directory = os.getcwd()
