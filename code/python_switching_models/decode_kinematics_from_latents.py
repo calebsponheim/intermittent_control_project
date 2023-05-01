@@ -217,7 +217,7 @@ def decode_kinematics_from_latents(kinpath, latentpath, model):
 # %% Parameter Setting
 subject = 'rs'
 task = 'RTP'
-model = 'rslds'
+model = 'raw'
 
 if (subject == 'rs') & (task == 'RTP'):
     num_latent_dims_rslds = 25
