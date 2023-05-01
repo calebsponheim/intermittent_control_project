@@ -21,4 +21,9 @@ box off
 saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_extrema_vs_transitions.png'));
 close gcf
 
+
+[R,P] = corrcoef(num_transitions,num_speed_extrema);
+disp(strcat('Transition/extrema Correlation: ',num2str(R(2))))
+disp(strcat('Transition/extrema P-Value: ',num2str(P(2))))
+
 end

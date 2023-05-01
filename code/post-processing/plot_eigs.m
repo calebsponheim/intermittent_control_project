@@ -94,9 +94,12 @@ if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
     ypos = yneg;
     xneg = [real_std_err dec_real_std_err];
     xpos = xneg;
-    [p_real,h_real,stats_real] = ranksum(reshaped_real,reshaped_dec_real)
-    [p_imag,h_imag,stats_imag] = ranksum(reshaped_imag,reshaped_dec_imag)
-
+    [p_real,~,~] = ranksum(reshaped_real,reshaped_dec_real);
+    [p_imag,~,~] = ranksum(reshaped_imag,reshaped_dec_imag);
+    
+    disp(strcat('Real Eigenvalue P-Value: ',num2str(p_real)))
+    disp(strcat('Imaginary Eigenvalue P-Value: ',num2str(p_imag)))
+   
     figure('color','w','visible','on');
     hold on;
     box off;
@@ -260,8 +263,6 @@ for iState = 1:length(snippet_direction_out)
 
 end
 
-xlabel('Mean Snippet Length')
-ylabel('Real Eigenvalue Magnitude')
 title('Line Color = State')
  
 [R,P] = corrcoef(eig_mean,snippet_mean);
@@ -270,6 +271,8 @@ disp(strcat('Snippet Length R^2: ',num2str(g.rsquare)))
 % disp(strcat('Snippet Length P-Value: ',num2str(P(2))))
 plot(f)
 legend off
+xlabel('Mean Snippet Length')
+ylabel('Real Eigenvalue Magnitude')
 hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_real_eigs_by_snippet_length.png'));
 close gcf
