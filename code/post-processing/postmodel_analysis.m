@@ -11,7 +11,7 @@ end
     'mustard','green','teal','light blue','olive green', ...
     'peach','periwinkle','magenta','salmon','lime green');
 
-%% Create Plot Figure Results Folder
+% Create Plot Figure Results Folder
 if meta.crosstrain == 0 
     if meta.move_only == 1
         meta.figure_folder_filepath = strcat(file_base_base,'\Documents\git\intermittent_control_project\figures\',meta.subject,'\',meta.task,'_CT0_move_only\');
@@ -31,7 +31,7 @@ elseif meta.use_rslds == 0
     meta.figure_folder_filepath = strcat(meta.figure_folder_filepath,'hmm\',num2str(meta.optimal_number_of_states),"_states\");
 end
 
-%% Create Snippet Timing
+% Create Snippet Timing
 
 % Segment Analysis
 [meta,data,snippet_data,sorted_state_transitions] = segment_analysis_v2(meta,data);
@@ -46,7 +46,7 @@ plot_state_snippets(meta,data,snippet_data,colors)
 snippet_direction_out = plot_state_direction(meta,data,snippet_data,colors);
 
 % Plot all Trials
-% plot_all_trials_v2(meta,data,colors);
+plot_all_trials_v2(meta,data,colors);
 
 % Plot num extrema versus num transitions
 plot_extrema_vs_transitions(meta,data)

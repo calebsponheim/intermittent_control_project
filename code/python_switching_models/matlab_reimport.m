@@ -26,7 +26,6 @@ if contains(filepath,'RS') && contains(filepath,'RTP')
 elseif contains(filepath,'RS') && contains(filepath,'CO')
 elseif contains(filepath,'RJ')
     num_desired_states = 10;
-%     num_desired_dims = 25;
     num_desired_dims = 10;
 elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
     if contains(filepath,'Bx18')

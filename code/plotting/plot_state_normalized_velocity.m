@@ -27,6 +27,7 @@ for iState = 1:size(snippet_data,2)
                 normspeed{snip_num,iState} = normalize(data(state_snippet_trials(iSnippet)).speed(state_snippets{iSnippet}),'range');
                 average_speed{snip_num,iState} = mean(data(state_snippet_trials(iSnippet)).speed(state_snippets{iSnippet}));
                 peak_speed{snip_num,iState} = max(data(state_snippet_trials(iSnippet)).speed(state_snippets{iSnippet}));
+                peak_acceleration{snip_num,iState} = max(data(state_snippet_trials(iSnippet)).acceleration(state_snippets{iSnippet}));
                 native_res = (1/length(normspeed{snip_num,iState})):(1/length(normspeed{snip_num,iState})):1;
                 % Interpolate that normalized speed
                 interpnormspeed{iState}(snip_num,:) = interp1(native_res,normspeed{snip_num,iState},max_res);
@@ -38,6 +39,7 @@ for iState = 1:size(snippet_data,2)
         meta.mean_speed{iState} = [average_speed{:,iState}];
         %         speedpeak{iState} = mean([peak_speed{:,iState}],'omitnan');
         meta.peak_speed{iState} = [peak_speed{:,iState}];
+        meta.peak_acceleration{iState} = [peak_acceleration{:,iState}];
         line_fit_temp = polyfit(max_res,interpnormspeedmean{iState},1);
         y_for_line_plot = polyval(line_fit_temp,max_res);
         line_slope_temp = line_fit_temp(1);
@@ -70,7 +72,7 @@ for iState = 1:size(snippet_data,2)
     end %if
 end %iState
 
-% Plot Peak Speed
+% Plot Average Speed
 figure('Visible','off','color','white'); hold on;
 for iState = 1:size(snippet_data,2)
     %     histogram([average_speed{:,iState}],'facecolor',colors(iState,:))
@@ -85,11 +87,11 @@ hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_avg_velocity.png'));
 close gcf
 
-% Plot Average Speed
+% Plot Peak Speed
 figure('Visible','off','color','white'); hold on;
 for iState = 1:size(snippet_data,2)
     %     histogram([peak_speed{:,iState}],'facecolor',colors(iState,:))
-    if ~isempty([average_speed{:,iState}])
+    if ~isempty([peak_speed{:,iState}])
         al_goodplot([peak_speed{:,iState}],iState,0.75, colors(iState,:), 'right', .05,std([peak_speed{:,iState}])/1000,1);
     end
 end %iState
@@ -99,4 +101,24 @@ xlabel('State Number')
 hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_peak_velocity.png'));
 close gcf
+
+
+
+% Plot Peak Acceleration
+figure('Visible','off','color','white'); hold on;
+for iState = 1:size(snippet_data,2)
+    %     histogram([peak_speed{:,iState}],'facecolor',colors(iState,:))
+    if ~isempty([peak_acceleration{:,iState}])
+        al_goodplot([peak_acceleration{:,iState}],iState,0.75, colors(iState,:), 'right', .05,std([peak_acceleration{:,iState}])/1000,1);
+    end
+end %iState
+title([meta.subject,'  ',strrep(meta.task,'_',' '),' Peak Snippet Acceleration']);
+ylabel('Peak Snippet Speed')
+xlabel('State Number')
+hold off
+saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_peak_acceleration.png'));
+close gcf
+
+
+
 end

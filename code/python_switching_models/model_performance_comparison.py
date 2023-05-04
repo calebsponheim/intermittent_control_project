@@ -302,29 +302,29 @@ for iTrial in range(len(xhat_lem)):
                                     str('{:04}'.format(iTrial+1)) + "_fold_" +
                                     str(iFold) + ".csv", index=False, header=False)
 
-inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in testset]
-masks = []
-for y in testset:
-    mask = np.ones_like(y)
-    mask = mask.astype(bool)
-    masks.append(mask)
+# inputs = inputs = [np.zeros((y.shape[0], model.M)) for y in testset]
+# masks = []
+# for y in testset:
+#     mask = np.ones_like(y)
+#     mask = mask.astype(bool)
+#     masks.append(mask)
 
-_elbos, _q_model = model.approximate_posterior(
-    testset,
-    method="laplace_em",
-    masks=masks,
-    variational_posterior="structured_meanfield",
-    num_iters=15, alpha=0.5)
+# _elbos, _q_model = model.approximate_posterior(
+#     testset,
+#     method="laplace_em",
+#     masks=masks,
+#     variational_posterior="structured_meanfield",
+#     num_iters=15, alpha=0.5)
 
-lls = 0.0
-for tr in range(len(testset)):
-    ll = np.sum(model.emissions.log_likelihoods(testset[tr],
-                                                inputs[tr],
-                                                mask=masks[tr],
-                                                tag=None,
-                                                x=_q_model.mean_continuous_states[tr]))
-    lls += ll
-rslds_test_ll.append(lls)
+# lls = 0.0
+# for tr in range(len(testset)):
+#     ll = np.sum(model.emissions.log_likelihoods(testset[tr],
+#                                                 inputs[tr],
+#                                                 mask=masks[tr],
+#                                                 tag=None,
+#                                                 x=_q_model.mean_continuous_states[tr]))
+#     lls += ll
+# rslds_test_ll.append(lls)
 print("Created rSLDS Model")
 
 # %% Save Results

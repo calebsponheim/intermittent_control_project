@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import wilcoxon
 # Plotting R^2 Values from Kalman Filter Decoders
-subject = 'rs'
+subject = 'rj'
 task = 'RTP'
 
 current_working_directory = os.getcwd()
@@ -76,7 +76,7 @@ rslds_r2 = pd.DataFrame.to_numpy(pd.read_csv(
     folderpath + 'rslds_kalman_test_R2_for_model_comparison.csv'))
 
 # %%
-plt.figure(figsize=[8, 8], dpi=300, edgecolor='white', layout='tight')
+plt.figure(figsize=[5, 5], dpi=300, edgecolor='white', layout='tight')
 plt.plot(np.asarray(np.arange(-1, 2, .1)), np.asarray(np.arange(-1, 2, .1)), color='black')
 plt.title(subject + " R^2 Values for Kalman Decoder Performance")
 plt.xlabel("rSLDS R^2")

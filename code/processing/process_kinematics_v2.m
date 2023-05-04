@@ -166,7 +166,7 @@ for iTrial = 1:size(data,2)
                 t < trial_end_relative_to_periOn(iTrial)');
             data(iTrial).speed = speed_2k(1:2:end);
             
-            data(iTrial).acceleration = [0 diff(data(iTrial).speed)];
+            data(iTrial).    = [0 diff(data(iTrial).speed)];
             
             kinematic_timestamps_2k = t(t >= trial_start_relative_to_periOn(iTrial)' & ...
                 t < trial_end_relative_to_periOn(iTrial)') + periOn_seconds(iTrial);
