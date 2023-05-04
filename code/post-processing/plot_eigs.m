@@ -51,7 +51,7 @@ ylim([0 max(imaginary_eigenvalues_temp)])
 hold off
 saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigs.png'));
 close gcf
-%%
+%% Trajectory Speed Analysis
 
 if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
     figure('color','w','visible','on','Position',[100 100 200 500]); hold on
@@ -70,6 +70,30 @@ if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
     saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trajectory_speed_dec_vs_acc.png'));
     close gcf
 
+
+% some more misc analysis on trajectory speed:
+
+    figure('color','w','visible','on','Position',[100 100 200 500]); hold on
+    x1 = [acc_trajectory_speeds{:}];
+    x2 = [dec_trajectory_speeds{:}];
+
+    x = [x1, x2];
+
+    g1 = repmat({'Acc'},length(x1),1);
+    g2 = repmat({'Dec'},length(x2),1);
+    g = [g1; g2];
+    
+    boxplot(x,g)
+    errorbar(1,acc_mean,acc_std_err,acc_std_err,0,0,'o','Color','Blue','MarkerSize',10,'MarkerFaceColor','Blue','LineWidth',2)
+    errorbar(2,dec_mean,dec_std_err,dec_std_err,0,0,'o','Color','Red','MarkerSize',10,'MarkerFaceColor','Red','LineWidth',2)
+    
+    title(meta.subject)
+
+    [p_trajectory_speed,~,~] = ranksum(x1,x2);
+    disp(strcat('Trajectory Speed P-Value: ',num2str(p_trajectory_speed)))
+    annotation('textbox',[.2 .5 .3 .3],'String',strcat('P-Value: ',num2str(p_trajectory_speed)),'FitBoxToText','on');
+    saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trajectory_speed_dec_vs_acc_box.png'));
+    close gcf
 end
 
 %% Error Bar Plot

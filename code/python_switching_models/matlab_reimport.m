@@ -177,7 +177,7 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
     end
     meta.optimal_number_of_states = state_num;
     meta.num_dims = num_desired_dims;
-    meta.trials_to_plot = 1:10;
+    meta.trials_to_plot = 1:100;
     meta.crosstrain = 0;
     meta.use_rslds = use_rslds;
     meta.plot_ll_rslds = plot_ll_rslds;

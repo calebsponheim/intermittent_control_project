@@ -142,7 +142,9 @@ for iState in np.arange(num_discrete_states_rslds) + 1:
     variance.append(variance_state)
     dims_to_include.append(state_dims_to_include+1)
 
-    ###################### Trajectory Speed #########################
+    # ############################################################################################
+    # Trajectory Speed ###########################################################################
+    # ############################################################################################
 
     # pulling in state-specific dynamics
     state_specific_dynamics_indices = np.where(discrete_states_full == (iState-1))[0]

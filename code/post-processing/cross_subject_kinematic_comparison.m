@@ -122,9 +122,10 @@ box off
 edges = [-.015 : .0005 : .015];
 
 figure; hold on; 
-histogram(rs_acceleration,edges,'DisplayName','RS'); title('acceleration values across all kinematics')
+histogram(rs_acceleration,edges,'DisplayName','RS'); 
 histogram(rj_acceleration,edges,'DisplayName','RJ')
 histogram(bx_acceleration,edges,'DisplayName','BX')
+title('acceleration values across all kinematics')
 legend()
 xlim([-.015 .015])
 %%
