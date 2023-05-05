@@ -72,9 +72,9 @@ for iTrial = 10
 end
 close(v)
 %%
-x1 = -bx_acceleration_minima;
-x2 = -rj_acceleration_minima;
-x3 = -rs_acceleration_minima;
+% x1 = -bx_acceleration_minima;
+% x2 = -rj_acceleration_minima;
+% x3 = -rs_acceleration_minima;
 
 % x1 = bx_acceleration_maxima;
 % x2 = rj_acceleration_maxima;
@@ -89,9 +89,9 @@ x3 = -rs_acceleration_minima;
 % x2 = rj_position_normalized(:,2);
 % x3 = rs_position_normalized(:,2);
 % 
-% x1 = bx_speed;
-% x2 = rj_speed;
-% x3 = rs_speed;
+x1 = bx_speed;
+x2 = rj_speed;
+x3 = rs_speed;
 x = [x1; x2; x3];
 
 g1 = repmat({'Bx'},length(x1),1);

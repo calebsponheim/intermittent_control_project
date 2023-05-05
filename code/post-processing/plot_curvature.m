@@ -42,13 +42,17 @@ for iState = 1:size(snippet_data,2)
 end
 %% overall curve
 if contains(meta.subject,'RJ') || contains(meta.subject,'RS')
-    overall_kin = [smooth(vertcat(data.x_smoothed)',3),smooth(vertcat(data.y_smoothed)',3)];
+    overall_position = [smooth(vertcat(data.x_smoothed)',4),smooth(vertcat(data.y_smoothed)',4)];
+    overall_velocity = [smooth(vertcat(data.x_velocity)',4),smooth(vertcat(data.y_velocity)',4)];
 else
-    overall_kin = [smooth([data.x_smoothed],3),smooth([data.y_smoothed],3)];
+    overall_position = [smooth([data.x_smoothed],4),smooth([data.y_smoothed],4)];
+    overall_velocity = [smooth([data.x_velocity],4),smooth([data.y_velocity],4)];
 end
-[cum_arc_length_temp,radius_temp,curvature_vector_temp] = curvature(overall_kin);
-curvature_overall = radius_temp;
+% [~,radius_temp,~] = curvature(overall_kin);
+% curvature_overall = radius_temp;
 
+
+curvature_overall = rad_curv(overall_velocity(:,1),overall_velocity(:,2),.001);
 %%
 figure('visible','off'); hold on
 for iState = 1:size(snippet_data,2)

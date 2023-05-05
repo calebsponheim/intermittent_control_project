@@ -1,35 +1,110 @@
 %plotting curvature of different subjects' snippets across states
 
-% bx_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\BxRTPcurve_data.csv');
-% rs_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPcurve_data.csv');
-% rj_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTPcurve_data.csv');
+bx_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\BxRTPcurve_data.csv');
+rs_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPcurve_data.csv');
+rj_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTPcurve_data.csv');
 
-bx_curves = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\BxRTPcurve_data.csv');
-rs_curves = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPcurve_data.csv');
-rj_curves = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RJRTPcurve_data.csv');
+
+bx_data = load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\BxRTP0.05sBins\BxRTP190228CT0.mat');
+rs_data = load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTP0.05sBins\RS_RTP.mat');
+rj_data = load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins\RJRTP.mat');
+
+%%
+rs_x_position = vertcat(rs_data.data.x_smoothed);
+rj_x_position = vertcat(rj_data.data.x_smoothed);
+bx_x_position = [bx_data.data.x_smoothed]';
+
+rs_y_position = vertcat(rs_data.data.y_smoothed);
+rj_y_position = vertcat(rj_data.data.y_smoothed);
+bx_y_position = [bx_data.data.y_smoothed]';
+
+rs_speed = vertcat(rs_data.data.speed);
+rj_speed = vertcat(rj_data.data.speed);
+bx_speed = [bx_data.data.speed]';
+
+rs_acceleration = vertcat(rs_data.data.acceleration);
+rj_acceleration = vertcat(rj_data.data.acceleration);
+bx_acceleration = [bx_data.data.acceleration]';
+
+
+%% finding curve values at trial transitions and eliminating them
+bx_curves_trial_transition_removed = bx_curves;
+bx_speed_trial_transition_removed = bx_speed;
+bx_acceleration_trial_transition_removed = bx_acceleration;
+
+transition_timepoints = [];
+for iTrial = 1:size(bx_data.data,2)
+    if iTrial == 1
+        transition_timepoints(iTrial) = length(bx_data.data(iTrial).x_smoothed);
+    else
+        transition_timepoints(iTrial) = transition_timepoints(iTrial-1) + length(bx_data.data(iTrial).x_smoothed);
+    end
+    bx_curves_trial_transition_removed((transition_timepoints(iTrial)-10) : (transition_timepoints(iTrial)+10)) = nan;
+    bx_speed_trial_transition_removed((transition_timepoints(iTrial)-10) : (transition_timepoints(iTrial)+10)) = nan;
+    bx_acceleration_trial_transition_removed((transition_timepoints(iTrial)-10) : (transition_timepoints(iTrial)+10)) = nan;
+end
+
+rs_curves_trial_transition_removed = rs_curves;
+rs_speed_trial_transition_removed = rs_speed;
+rs_acceleration_trial_transition_removed = rs_acceleration;
+transition_timepoints = [];
+
+for iTrial = 1:size(rs_data.data,2)
+    if iTrial == 1
+        transition_timepoints(iTrial) = length(rs_data.data(iTrial).x_smoothed);
+    else
+        transition_timepoints(iTrial) = transition_timepoints(iTrial-1) + length(rs_data.data(iTrial).x_smoothed);
+    end
+    rs_curves_trial_transition_removed((transition_timepoints(iTrial)-10) : (transition_timepoints(iTrial)+10)) = nan;
+    rs_speed_trial_transition_removed((transition_timepoints(iTrial)-10) : (transition_timepoints(iTrial)+10)) = nan;
+    rs_acceleration_trial_transition_removed((transition_timepoints(iTrial)-10) : (transition_timepoints(iTrial)+10)) = nan;
+end
+
+rj_curves_trial_transition_removed = rj_curves;
+rj_speed_trial_transition_removed = rj_speed;
+rj_acceleration_trial_transition_removed = rj_acceleration;
+transition_timepoints = [];
+
+for iTrial = 1:size(rj_data.data,2)
+    if iTrial == 1
+        transition_timepoints(iTrial) = length(rj_data.data(iTrial).x_smoothed);
+    else
+        transition_timepoints(iTrial) = transition_timepoints(iTrial-1) + length(rj_data.data(iTrial).x_smoothed);
+    end
+    rj_curves_trial_transition_removed((transition_timepoints(iTrial)-10) : (transition_timepoints(iTrial)+10)) = nan;
+    rj_speed_trial_transition_removed((transition_timepoints(iTrial)-10) : (transition_timepoints(iTrial)+10)) = nan;
+    rj_acceleration_trial_transition_removed((transition_timepoints(iTrial)-10) : (transition_timepoints(iTrial)+10)) = nan;
+end
+
+
+% figure; hold on; plot(bx_speed_trial_transition_removed(10000:20000)*2000); plot(bx_curves_trial_transition_removed(10000:20000));
 
 %%
 
-x1 = bx_curves;
-x2 = rj_curves;
-x3 = rs_curves;
+bx_curves_during_movement = bx_curves_trial_transition_removed(bx_speed_trial_transition_removed>.01);
+rj_curves_during_movement = rj_curves_trial_transition_removed(rj_speed_trial_transition_removed>.03);
+rs_curves_during_movement = rs_curves_trial_transition_removed(rs_speed_trial_transition_removed>.03);
 
-% x1 = bx_acceleration_maxima;
-% x2 = rj_acceleration_maxima;
-% x3 = rs_acceleration_maxima;
+bx_speed_during_movement = bx_speed_trial_transition_removed(bx_speed_trial_transition_removed>.01);
+rj_speed_during_movement = rj_speed_trial_transition_removed(rj_speed_trial_transition_removed>.03);
+rs_speed_during_movement = rs_speed_trial_transition_removed(rs_speed_trial_transition_removed>.03);
 
-% x1 = bx_radius(~isnan(rs_radius));
-% x2 = rj_radius(~isnan(rj_radius));
-% x3 = rs_radius(~isnan(rs_radius));
+bx_acceleration_during_movement = bx_acceleration_trial_transition_removed(bx_speed_trial_transition_removed>.01);
+rj_acceleration_during_movement = rj_acceleration_trial_transition_removed(rj_speed_trial_transition_removed>.03);
+rs_acceleration_during_movement = rs_acceleration_trial_transition_removed(rs_speed_trial_transition_removed>.03);
 
+%%
+rs_acceleration_maxima = findpeaks(rs_speed_during_movement);
+rj_acceleration_maxima = findpeaks(rj_speed_during_movement);
+bx_acceleration_maxima = findpeaks(bx_speed_during_movement);
+rs_acceleration_minima = findpeaks(-rs_speed_during_movement);
+rj_acceleration_minima = findpeaks(-rj_speed_during_movement);
+bx_acceleration_minima = findpeaks(-bx_speed_during_movement);
 
-% x1 = bx_position_normalized(:,2);
-% x2 = rj_position_normalized(:,2);
-% x3 = rs_position_normalized(:,2);
-% 
-% x1 = bx_speed;
-% x2 = rj_speed;
-% x3 = rs_speed;
+%% Plot Acceleration Maxima
+x1 = bx_acceleration_maxima;
+x2 = rj_acceleration_maxima;
+x3 = rs_acceleration_maxima;
 x = [x1; x2; x3];
 
 g1 = repmat({'Bx'},length(x1),1);
@@ -39,55 +114,108 @@ g = [g1; g2; g3];
 
 figure('visible','on'); hold on
 boxplot(x,g,'Symbol','r_','OutlierSize',2)
-
-
-% [~, ~, ~, q_temp, ~] = al_goodplot(bx_speed(1:5:end),1,0.75, colors(1,:), 'right', .1,std(bx_speed(1:5:end))/1000,1);
-% q(1) = q_temp(7,1);
-% [~, ~, ~, q_temp, ~] = al_goodplot(rs_speed(1:5:end),2,0.75, colors(2,:), 'right', .1,std(rs_speed(1:5:end))/1000,1);
-% q(2) = q_temp(7,1);
-% [~, ~, ~, q_temp, ~] = al_goodplot(rj_speed(1:5:end),3,0.75, colors(3,:), 'right', .1,std(rj_speed(1:5:end))/1000,1);
-% q(3) = q_temp(7,1);
-% 
-ylim([quantile(x,.0001) quantile(x,.9)])
-% xticklabels({'Bx','RS','RJ'})
+ylim([min(x),max(x)])
 hold off
 box off
-% ylim([0 mean(q,'omitnan')])
-% xlim([1 5])
-% xticks([1,2,3])
-% xticklabels({'Bx','RS','RJ'})
-% hold off
-% box off
-% set(gcf,'color','w','Position',[100 100 600 800])
-% title(strcat('subject comparison for Radius of Curvature of all state snippets'));
-% xlabel('State Number')
-% ylabel('Radius Size')
+set(gcf,'color','w','Position',[100 100 600 800])
+title(strcat('Acceleration Maxima'));
+xlabel('Subject')
+ylabel('Maxima Magnitude')
+name = 'acceleration_maxima';
+saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
+%% Plot Acceleration Minima
+x1 = -bx_acceleration_minima;
+x2 = -rj_acceleration_minima;
+x3 = -rs_acceleration_minima;
+x = [x1; x2; x3];
+
+g1 = repmat({'Bx'},length(x1),1);
+g2 = repmat({'Rj'},length(x2),1);
+g3 = repmat({'Rs'},length(x3),1);
+g = [g1; g2; g3];
+
+figure('visible','on'); hold on
+boxplot(x,g,'Symbol','r_','OutlierSize',2)
+ylim([min(x),max(x)])
+hold off
+box off
+set(gcf,'color','w','Position',[100 100 600 800])
+title(strcat('Acceleration Minima'));
+xlabel('Subject')
+ylabel('Minima Magnitude')
+name = 'acceleration_minima';
+saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+
+%% Plot bx_acceleration_during_movement
+x1 = bx_acceleration_during_movement;
+x2 = rj_acceleration_during_movement;
+x3 = rs_acceleration_during_movement;
+x = [x1; x2; x3];
+
+g1 = repmat({'Bx'},length(x1),1);
+g2 = repmat({'Rj'},length(x2),1);
+g3 = repmat({'Rs'},length(x3),1);
+g = [g1; g2; g3];
+
+figure('visible','on'); hold on
+boxplot(x,g,'Symbol','r_','OutlierSize',2)
+ylim([min(x),max(x)])
+hold off
+box off
+set(gcf,'color','w','Position',[100 100 600 800])
+title(strcat('Acceleration'));
+xlabel('Subject')
+ylabel('Acceleration Magnitude')
+name = 'acceleration';
+saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+
+%% Plot bx_acceleration_during_movement
+x1 = bx_speed_during_movement;
+x2 = rj_speed_during_movement;
+x3 = rs_speed_during_movement;
+x = [x1; x2; x3];
+
+g1 = repmat({'Bx'},length(x1),1);
+g2 = repmat({'Rj'},length(x2),1);
+g3 = repmat({'Rs'},length(x3),1);
+g = [g1; g2; g3];
+
+figure('visible','on'); hold on
+boxplot(x,g,'Symbol','r_','OutlierSize',2)
+ylim([min(x),max(x)])
+hold off
+box off
+set(gcf,'color','w','Position',[100 100 600 800])
+title(strcat('Speed'));
+xlabel('Subject')
+ylabel('Speed Magnitude')
+name = 'speed';
+saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %%
-edges = [0 : 1 : 240];
+edges = [0 : .001 : 1];
 
-[N_rs_curves, ~] = histcounts(rs_curves,edges);
-[N_rj_curves, ~] = histcounts(rj_curves,edges);
-[N_bx_curves, ~] = histcounts(bx_curves,edges);
-N_rs_curves = N_rs_curves/numel(rs_curves);
-N_rj_curves = N_rj_curves/numel(rs_curves);
-N_bx_curves = N_bx_curves/numel(rs_curves);
+[N_rs_curves, ~] = histcounts(rs_curves_during_movement,edges);
+[N_rj_curves, ~] = histcounts(rj_curves_during_movement,edges);
+[N_bx_curves, ~] = histcounts(bx_curves_during_movement,edges);
+N_rs_curves = N_rs_curves/numel(rs_curves_during_movement);
+N_rj_curves = N_rj_curves/numel(rj_curves_during_movement);
+N_bx_curves = N_bx_curves/numel(bx_curves_during_movement);
 
 
 figure; hold on; 
-bar(edges(1:end-1),N_rs_curves,'DisplayName','RS'); 
-bar(edges(1:end-1),N_bx_curves,'DisplayName','BX'); 
-bar(edges(1:end-1),N_rj_curves,'DisplayName','RJ'); 
-title('curve across all kinematics')
+bar(edges(1:end-1),N_bx_curves,'DisplayName','BX','EdgeColor','none','FaceAlpha',.5); 
+bar(edges(1:end-1),N_rs_curves,'DisplayName','RS','EdgeColor','none','FaceAlpha',.5); 
+bar(edges(1:end-1),N_rj_curves,'DisplayName','RJ','EdgeColor','none','FaceAlpha',.5); 
+title('Curve Radius across all kinematics')
 legend()
 
 %%
-[p_curve,uhhhh,uh] = ranksum(rs_curves,rj_curves);
+[p_curve,uhhhh,uh] = ranksum(rs_curves_during_movement,rj_curves_during_movement);
 disp(strcat('RS vs RJ Curve P-Value: ',num2str(p_curve)))
 
 %%
 
 % 
-% saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross-subject_Curvature.png'));
-close gcf
+% close gcf
