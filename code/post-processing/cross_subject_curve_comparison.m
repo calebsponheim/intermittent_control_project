@@ -1,8 +1,13 @@
 %plotting curvature of different subjects' snippets across states
 
-bx_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\BxRTPcurve_data.csv');
-rs_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPcurve_data.csv');
-rj_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTPcurve_data.csv');
+% bx_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\BxRTPcurve_data.csv');
+% rs_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPcurve_data.csv');
+% rj_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTPcurve_data.csv');
+
+bx_curves = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\BxRTPcurve_data.csv');
+rs_curves = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPcurve_data.csv');
+rj_curves = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RJRTPcurve_data.csv');
+
 %%
 
 x1 = bx_curves;
@@ -33,7 +38,7 @@ g3 = repmat({'Rs'},length(x3),1);
 g = [g1; g2; g3];
 
 figure('visible','on'); hold on
-boxplot(x,g)
+boxplot(x,g,'Symbol','r_','OutlierSize',2)
 
 
 % [~, ~, ~, q_temp, ~] = al_goodplot(bx_speed(1:5:end),1,0.75, colors(1,:), 'right', .1,std(bx_speed(1:5:end))/1000,1);
@@ -43,7 +48,7 @@ boxplot(x,g)
 % [~, ~, ~, q_temp, ~] = al_goodplot(rj_speed(1:5:end),3,0.75, colors(3,:), 'right', .1,std(rj_speed(1:5:end))/1000,1);
 % q(3) = q_temp(7,1);
 % 
-ylim([quantile(x,.01) quantile(x,.9)])
+ylim([quantile(x,.0001) quantile(x,.9)])
 % xticklabels({'Bx','RS','RJ'})
 hold off
 box off
@@ -60,7 +65,7 @@ box off
 
 
 %%
-edges = [0.5 : .5 : 120];
+edges = [0 : 1 : 240];
 
 [N_rs_curves, ~] = histcounts(rs_curves,edges);
 [N_rj_curves, ~] = histcounts(rj_curves,edges);
@@ -76,7 +81,6 @@ bar(edges(1:end-1),N_bx_curves,'DisplayName','BX');
 bar(edges(1:end-1),N_rj_curves,'DisplayName','RJ'); 
 title('curve across all kinematics')
 legend()
-% xlim([-.015 .015])
 
 %%
 [p_curve,uhhhh,uh] = ranksum(rs_curves,rj_curves);
