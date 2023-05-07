@@ -1,13 +1,13 @@
 %plotting curvature of different subjects' snippets across states
 
-bx_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\BxRTPcurve_data.csv');
-rs_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPcurve_data.csv');
-rj_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTPcurve_data.csv');
+bx_curves = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\BxRTPcurve_data.csv');
+rs_curves = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPcurve_data.csv');
+rj_curves = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RJRTPcurve_data.csv');
 
 
-bx_data = load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\BxRTP0.05sBins\BxRTP190228CT0.mat');
-rs_data = load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTP0.05sBins\RS_RTP.mat');
-rj_data = load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins\RJRTP.mat');
+bx_data = load('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\BxRTP0.05sBins\BxRTP190228CT0.mat');
+rs_data = load('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTP0.05sBins\RS_RTP.mat');
+rj_data = load('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins\RJRTP.mat');
 
 %%
 rs_x_position = vertcat(rs_data.data.x_smoothed);
@@ -122,7 +122,7 @@ title(strcat('Acceleration Maxima'));
 xlabel('Subject')
 ylabel('Maxima Magnitude')
 name = 'acceleration_maxima';
-saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+saveas(gcf,strcat('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %% Plot Acceleration Minima
 x1 = -bx_acceleration_minima;
@@ -145,9 +145,9 @@ title(strcat('Acceleration Minima'));
 xlabel('Subject')
 ylabel('Minima Magnitude')
 name = 'acceleration_minima';
-saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+saveas(gcf,strcat('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
-%% Plot bx_acceleration_during_movement
+%% Plot acceleration_during_movement
 x1 = bx_acceleration_during_movement;
 x2 = rj_acceleration_during_movement;
 x3 = rs_acceleration_during_movement;
@@ -168,9 +168,9 @@ title(strcat('Acceleration'));
 xlabel('Subject')
 ylabel('Acceleration Magnitude')
 name = 'acceleration';
-saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+saveas(gcf,strcat('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
-%% Plot bx_acceleration_during_movement
+%% Plot speed_during_movement
 x1 = bx_speed_during_movement;
 x2 = rj_speed_during_movement;
 x3 = rs_speed_during_movement;
@@ -191,7 +191,29 @@ title(strcat('Speed'));
 xlabel('Subject')
 ylabel('Speed Magnitude')
 name = 'speed';
-saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+saveas(gcf,strcat('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+%% Plot curve_during_movement
+x1 = bx_curves_during_movement;
+x2 = rj_curves_during_movement;
+x3 = rs_curves_during_movement;
+x = [x1; x2; x3];
+
+g1 = repmat({'Bx'},length(x1),1);
+g2 = repmat({'Rj'},length(x2),1);
+g3 = repmat({'Rs'},length(x3),1);
+g = [g1; g2; g3];
+
+figure('visible','on'); hold on
+boxplot(x,g,'Symbol','r_','OutlierSize',2)
+ylim([min(x),1])
+hold off
+box off
+set(gcf,'color','w','Position',[100 100 600 800])
+title(strcat('Radius of Curvature'));
+xlabel('Subject')
+ylabel('Radius of Curvature')
+name = 'curvature';
+saveas(gcf,strcat('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %%
 edges = [0 : .001 : 1];
@@ -210,6 +232,10 @@ bar(edges(1:end-1),N_rs_curves,'DisplayName','RS','EdgeColor','none','FaceAlpha'
 bar(edges(1:end-1),N_rj_curves,'DisplayName','RJ','EdgeColor','none','FaceAlpha',.5); 
 title('Curve Radius across all kinematics')
 legend()
+ylabel('Percent of total')
+xlabel('Radius of Curvature')
+name = 'curvature';
+saveas(gcf,strcat('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %%
 [p_curve,uhhhh,uh] = ranksum(rs_curves_during_movement,rj_curves_during_movement);
