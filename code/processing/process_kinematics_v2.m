@@ -91,6 +91,12 @@ if strcmp(task,'center_out')
 end
 %% bidirectionally filter x and y traces separately
 
+%% Normalizing
+
+[~,C_x,S_x] = normalize([x{:}]);
+[~,C_y,S_y] = normalize([y{:}]);
+%%
+
 sampling_rate = 2000;
 
 dt=1/sampling_rate; % defining timestep size
@@ -101,12 +107,22 @@ fs = sampling_rate;
 
 [b,a] = butter(6,fc/(fs/2));
 
-filt_lowpass_x = cellfun(@(x) (filtfilt(b,a,x)),x,'UniformOutput',false); % running lowpass filter.
-filt_lowpass_y = cellfun(@(x) (filtfilt(b,a,x)),y,'UniformOutput',false); % running lowpass filter.
+x_normalized = cellfun(@(x) (normalize(x,"center",C_x,"scale",S_x)),x,'UniformOutput',false);
+y_normalized = cellfun(@(x) (normalize(x,"center",C_y,"scale",S_y)),y,'UniformOutput',false);
 
-filt_lowpass_x_vel = cellfun(@(x) (filtfilt(b,a,x)),x_vel,'UniformOutput',false); % running lowpass filter.
-filt_lowpass_y_vel = cellfun(@(x) (filtfilt(b,a,x)),y_vel,'UniformOutput',false); % running lowpass filter.
+filt_lowpass_x = cellfun(@(x) (filtfilt(b,a,x)),x_normalized,'UniformOutput',false); % running lowpass filter.
+filt_lowpass_y = cellfun(@(x) (filtfilt(b,a,x)),y_normalized,'UniformOutput',false); % running lowpass filter.
 
+filt_lowpass_x_vel = cellfun(@(x) (diff(x)),filt_lowpass_x,'UniformOutput',false); % running lowpass filter.
+filt_lowpass_y_vel = cellfun(@(x) (diff(x)),filt_lowpass_y,'UniformOutput',false); % running lowpass filter.
+
+
+% filt_lowpass_x = cellfun(@(x) (filtfilt(b,a,x)),x,'UniformOutput',false); % running lowpass filter.
+% filt_lowpass_y = cellfun(@(x) (filtfilt(b,a,x)),y,'UniformOutput',false); % running lowpass filter.
+% 
+% filt_lowpass_x_vel = cellfun(@(x) (filtfilt(b,a,x)),x_vel,'UniformOutput',false); % running lowpass filter.
+% filt_lowpass_y_vel = cellfun(@(x) (filtfilt(b,a,x)),y_vel,'UniformOutput',false); % running lowpass filter.
+% 
 %% calculate speed/velocity/acceleration
 
 % x_speed = diff(filt_lowpass_x);
@@ -133,10 +149,13 @@ for iTrial = 1:size(data,2)
         y_temp = filt_lowpass_y{iTrial}(1:2:end);
         data(iTrial).y_smoothed = y_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
         x_velocity_temp = filt_lowpass_x_vel{iTrial}(1:2:end);
+        x_velocity_temp = [0 x_velocity_temp];
         data(iTrial).x_velocity = x_velocity_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
         y_velocity_temp = filt_lowpass_y_vel{iTrial}(1:2:end);
+        y_velocity_temp = [0 y_velocity_temp];
         data(iTrial).y_velocity = y_velocity_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
         speed_temp = velocity{iTrial}(1:2:end);
+        speed_temp = [0 speed_temp];
         data(iTrial).speed = speed_temp(1:size(data(iTrial).ms_relative_to_trial_start,2));
         
         %adding acceleration analysis
@@ -166,7 +185,7 @@ for iTrial = 1:size(data,2)
                 t < trial_end_relative_to_periOn(iTrial)');
             data(iTrial).speed = speed_2k(1:2:end);
             
-            data(iTrial).    = [0 diff(data(iTrial).speed)];
+            data(iTrial).acceleration = [0 diff(data(iTrial).speed)];
             
             kinematic_timestamps_2k = t(t >= trial_start_relative_to_periOn(iTrial)' & ...
                 t < trial_end_relative_to_periOn(iTrial)') + periOn_seconds(iTrial);

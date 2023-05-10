@@ -5,13 +5,13 @@ transition_timestamps = [];
 speed_extrema_timestamps = [];
 all_extrema_count = 1;
 distances = [];
-
+prominence_amount = .0002;
 for iTrial = 1:size(data,2)
     % Get all transition times across trials
     transition_timestamps = unique(data(iTrial).ms_relative_to_trial_start(diff(data(iTrial).states_resamp) ~= 0));
     % Get all extrema times across trials
-    speed_extrema_timestamps = data(iTrial).ms_relative_to_trial_start(islocalmax(data(iTrial).speed,'MinProminence',.08));
-    speed_extrema_timestamps = [speed_extrema_timestamps data(iTrial).ms_relative_to_trial_start(islocalmin(data(iTrial).speed,'MinProminence',.08))];
+    speed_extrema_timestamps = data(iTrial).ms_relative_to_trial_start(islocalmax(data(iTrial).speed,'MinProminence',prominence_amount));
+    speed_extrema_timestamps = [speed_extrema_timestamps data(iTrial).ms_relative_to_trial_start(islocalmin(data(iTrial).speed,'MinProminence',prominence_amount))];
 
     transition_timestamps_null = round(unifrnd(0, max(data(iTrial).ms_relative_to_trial_start), [1 numel(transition_timestamps)]));
 
@@ -52,8 +52,8 @@ for iTrial = 1:size(data,2)
     % Get all transition times across trials
     transition_timestamps = unique(data(iTrial).ms_relative_to_trial_start(diff(data(iTrial).states_resamp) ~= 0));
     % Get all extrema times across trials
-    speed_extrema_timestamps = data(iTrial).ms_relative_to_trial_start(islocalmax(data(iTrial).speed,'MinProminence',.08));
-    speed_extrema_timestamps = [speed_extrema_timestamps data(iTrial).ms_relative_to_trial_start(islocalmin(data(iTrial).speed,'MinProminence',.08))];
+    speed_extrema_timestamps = data(iTrial).ms_relative_to_trial_start(islocalmax(data(iTrial).speed,'MinProminence',prominence_amount));
+    speed_extrema_timestamps = [speed_extrema_timestamps data(iTrial).ms_relative_to_trial_start(islocalmin(data(iTrial).speed,'MinProminence',prominence_amount))];
 
     transition_timestamps_null = round(unifrnd(0, max(data(iTrial).ms_relative_to_trial_start), [1 numel(transition_timestamps)]));
 

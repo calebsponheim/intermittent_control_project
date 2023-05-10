@@ -19,8 +19,8 @@ fs = sampling_rate;
 
 [b,a] = butter(6,fc/(fs/2));
  
-filt_lowpass_x = filtfilt(b,a,x(:,2)); % running lowpass filter.
-filt_lowpass_y = filtfilt(b,a,y(:,2)); % running lowpass filter.
+filt_lowpass_x = normalize(filtfilt(b,a,x(:,2)),'zscore'); % running lowpass filter.
+filt_lowpass_y = normalize(filtfilt(b,a,y(:,2)),'zscore'); % running lowpass filter.
 
 %% calculate speed/velocity/acceleration
 

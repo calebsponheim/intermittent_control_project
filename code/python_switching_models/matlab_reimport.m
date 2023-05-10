@@ -13,10 +13,10 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 
 % filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
-% filepath = [filepath_base 'RJRTP0.05sBins\'];
+filepath = [filepath_base 'RJRTP0.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
-filepath = [filepath_base 'BxRTP0.05sBins\'];
+% filepath = [filepath_base 'BxRTP0.05sBins\'];
 % filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
 % OPTIONS
@@ -177,7 +177,7 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
     end
     meta.optimal_number_of_states = state_num;
     meta.num_dims = num_desired_dims;
-    meta.trials_to_plot = 1:100;
+    meta.trials_to_plot = 20:30;
     meta.crosstrain = 0;
     meta.use_rslds = use_rslds;
     meta.plot_ll_rslds = plot_ll_rslds;

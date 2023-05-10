@@ -26,6 +26,25 @@ rs_acceleration = vertcat(rs_data.data.acceleration);
 rj_acceleration = vertcat(rj_data.data.acceleration);
 bx_acceleration = [bx_data.data.acceleration]';
 
+%% Normalizing
+rs_position_normalized = normalize([rs_x_position,rs_y_position],'zscore');
+rj_position_normalized = normalize([rj_x_position,rj_y_position],'zscore');
+bx_position_normalized = normalize([bx_x_position,bx_y_position],'zscore');
+
+rs_x_position = rs_position_normalized(:,1);
+rj_x_position = rj_position_normalized(:,1);
+bx_x_position = bx_position_normalized(:,1);
+
+rs_y_position = rs_position_normalized(:,2);
+rj_y_position = rj_position_normalized(:,2);
+bx_y_position = bx_position_normalized(:,2);
+%% plotting position differences
+
+figure; hold on; 
+plot(rs_speed,'DisplayName','RS'); 
+plot(rj_speed,'DisplayName','RJ'); 
+plot(bx_speed,'DisplayName','BX');
+legend()
 
 %% finding curve values at trial transitions and eliminating them
 bx_curves_trial_transition_removed = bx_curves;
@@ -114,12 +133,14 @@ g = [g1; g2; g3];
 
 figure('visible','on'); hold on
 boxplot(x,g,'Symbol','r_','OutlierSize',2)
+ylim([min(x),max(x)])
 hold off
 box off
 set(gcf,'color','w','Position',[100 100 600 800])
 title(strcat('Acceleration Maxima'));
 xlabel('Subject')
 ylabel('Maxima Magnitude')
+name = 'acceleration_maxima';
 saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %% Plot Acceleration Minima
@@ -135,46 +156,20 @@ g = [g1; g2; g3];
 
 figure('visible','on'); hold on
 boxplot(x,g,'Symbol','r_','OutlierSize',2)
+ylim([min(x),max(x)])
 hold off
 box off
 set(gcf,'color','w','Position',[100 100 600 800])
 title(strcat('Acceleration Minima'));
 xlabel('Subject')
-ylabel('Maxima Magnitude')
-%% Plot Acceleration Minima
-% x1 = bx_curves_during_movement;
-% x2 = rj_curves_during_movement;
-% x3 = rs_curves_during_movement;
+ylabel('Minima Magnitude')
+name = 'acceleration_minima';
+saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
-% x1 = -bx_acceleration_minima;
-% x2 = -rj_acceleration_minima;
-% x3 = -rs_acceleration_minima;
-
-x1 = bx_acceleration_maxima;
-x2 = rj_acceleration_maxima;
-x3 = rs_acceleration_maxima;
-
-% x1 = bx_curves;
-% x2 = rj_curves;
-% x3 = rs_curves;
-
-
-% x1 = bx_acceleration_maxima;
-% x2 = rj_acceleration_maxima;
-% x3 = rs_acceleration_maxima;
-
-% x1 = bx_radius(~isnan(rs_radius));
-% x2 = rj_radius(~isnan(rj_radius));
-% x3 = rs_radius(~isnan(rs_radius));
-
-
-% x1 = bx_position_normalized(:,2);
-% x2 = rj_position_normalized(:,2);
-% x3 = rs_position_normalized(:,2);
-% 
-% x1 = bx_speed;
-% x2 = rj_speed;
-% x3 = rs_speed;
+%% Plot acceleration_during_movement
+x1 = bx_acceleration_during_movement;
+x2 = rj_acceleration_during_movement;
+x3 = rs_acceleration_during_movement;
 x = [x1; x2; x3];
 
 g1 = repmat({'Bx'},length(x1),1);
@@ -184,19 +179,60 @@ g = [g1; g2; g3];
 
 figure('visible','on'); hold on
 boxplot(x,g,'Symbol','r_','OutlierSize',2)
+ylim([min(x),max(x)])
 hold off
 box off
-% ylim([0 mean(q,'omitnan')])
-% xlim([1 5])
-% xticks([1,2,3])
-% xticklabels({'Bx','RS','RJ'})
-% hold off
-% box off
-% set(gcf,'color','w','Position',[100 100 600 800])
-% title(strcat('subject comparison for Radius of Curvature of all state snippets'));
-% xlabel('State Number')
-% ylabel('Radius Size')
+set(gcf,'color','w','Position',[100 100 600 800])
+title(strcat('Acceleration'));
+xlabel('Subject')
+ylabel('Acceleration Magnitude')
+name = 'acceleration';
+saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
+%% Plot speed_during_movement
+x1 = bx_speed_during_movement;
+x2 = rj_speed_during_movement;
+x3 = rs_speed_during_movement;
+x = [x1; x2; x3];
+
+g1 = repmat({'Bx'},length(x1),1);
+g2 = repmat({'Rj'},length(x2),1);
+g3 = repmat({'Rs'},length(x3),1);
+g = [g1; g2; g3];
+
+figure('visible','on'); hold on
+boxplot(x,g,'Symbol','r_','OutlierSize',2)
+ylim([min(x),max(x)])
+hold off
+box off
+set(gcf,'color','w','Position',[100 100 600 800])
+title(strcat('Speed'));
+xlabel('Subject')
+ylabel('Speed Magnitude')
+name = 'speed';
+saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+%% Plot curve_during_movement
+x1 = bx_curves_during_movement;
+x2 = rj_curves_during_movement;
+x3 = rs_curves_during_movement;
+x = [x1; x2; x3];
+
+g1 = repmat({'Bx'},length(x1),1);
+g2 = repmat({'Rj'},length(x2),1);
+g3 = repmat({'Rs'},length(x3),1);
+g = [g1; g2; g3];
+
+figure('visible','on'); hold on
+boxplot(x,g,'Symbol','r_','OutlierSize',2)
+ylim([min(x),1])
+hold off
+box off
+set(gcf,'color','w','Position',[100 100 600 800])
+title(strcat('Radius of Curvature'));
+xlabel('Subject')
+ylabel('Radius of Curvature')
+name = 'curvature';
+saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %%
 edges = [0 : .001 : 1];
@@ -215,6 +251,10 @@ bar(edges(1:end-1),N_rs_curves,'DisplayName','RS','EdgeColor','none','FaceAlpha'
 bar(edges(1:end-1),N_rj_curves,'DisplayName','RJ','EdgeColor','none','FaceAlpha',.5); 
 title('Curve Radius across all kinematics')
 legend()
+ylabel('Percent of total')
+xlabel('Radius of Curvature')
+name = 'curvature';
+saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %%
 [p_curve,uhhhh,uh] = ranksum(rs_curves_during_movement,rj_curves_during_movement);
