@@ -94,6 +94,20 @@ if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
     annotation('textbox',[.2 .5 .3 .3],'String',strcat('P-Value: ',num2str(p_trajectory_speed)),'FitBoxToText','on');
     saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trajectory_speed_dec_vs_acc_box.png'));
     close gcf
+% some more misc analysis on trajectory speed:
+    figure('color','w','visible','on','Position',[100 100 500 200]); hold on
+    edges = .2 : .05 : 1;
+    [acc_speed, ~] = histcounts(x1,edges);
+    [dec_speed, ~] = histcounts(x2,edges);
+    bar(edges(1:end-1),acc_speed,'DisplayName','Acc','EdgeColor','none','FaceAlpha',.5); 
+    bar(edges(1:end-1),dec_speed,'DisplayName','Dec','EdgeColor','none','FaceAlpha',.5); 
+    title('Trajectory Speed')
+    legend()
+    ylabel('Count')
+    xlabel('Trajectory Speed')
+    saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'_trajectory_speed_dec_vs_acc_histogram.png'));
+    close gcf
+
 end
 
 %% Error Bar Plot
@@ -472,7 +486,7 @@ for iState = 1:size(meta.acc_classification,1)
         dec_states_imag = [acc_states_imag imaginary_eigenvalues(iState,:)];
     end
 end
-if ~isempty(acc_states_real) &&  ~isempty(dec_eigs_real) 
+if ~isempty(acc_states_real) ||  ~isempty(dec_eigs_real) 
     bin_size = 0.25;
     edges = -2:bin_size:2;
     [acc_states_real_counts,acc_states_real_edges] = histcounts(reshape(acc_states_real,[1,size(acc_states_real,1)*size(acc_states_real,2)]),edges);

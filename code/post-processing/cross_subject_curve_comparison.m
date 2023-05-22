@@ -1,13 +1,18 @@
 %plotting curvature of different subjects' snippets across states
+if strcmp(getenv('USERNAME'),'calebsponheim')
+    file_base_base = 'calebsponheim';
+elseif strcmp(getenv('USERNAME'),'caleb_work')
+     file_base_base = 'Caleb (Work)';
+end
 
-bx_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\BxRTPcurve_data.csv');
-rs_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPcurve_data.csv');
-rj_curves = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTPcurve_data.csv');
+bx_curves = readmatrix(strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\BxRTPcurve_data.csv'));
+rs_curves = readmatrix(strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPcurve_data.csv'));
+rj_curves = readmatrix(strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\RJRTPcurve_data.csv'));
 
 
-bx_data = load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\BxRTP0.05sBins\BxRTP190228CT0.mat');
-rs_data = load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTP0.05sBins\RS_RTP.mat');
-rj_data = load('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins\RJRTP.mat');
+bx_data = load(strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\BxRTP0.05sBins\BxRTP190228CT0.mat'));
+rs_data = load(strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\RSRTP0.05sBins\RS_RTP.mat'));
+rj_data = load(strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins\RJRTP.mat'));
 
 %%
 rs_x_position = vertcat(rs_data.data.x_smoothed);
@@ -88,17 +93,17 @@ end
 
 %%
 
-bx_curves_during_movement = bx_curves_trial_transition_removed(bx_speed_trial_transition_removed>.01);
-rj_curves_during_movement = rj_curves_trial_transition_removed(rj_speed_trial_transition_removed>.03);
-rs_curves_during_movement = rs_curves_trial_transition_removed(rs_speed_trial_transition_removed>.03);
+bx_curves_during_movement = bx_curves_trial_transition_removed(bx_speed_trial_transition_removed>.0005);
+rj_curves_during_movement = rj_curves_trial_transition_removed(rj_speed_trial_transition_removed>.01);
+rs_curves_during_movement = rs_curves_trial_transition_removed(rs_speed_trial_transition_removed>.01);
 
-bx_speed_during_movement = bx_speed_trial_transition_removed(bx_speed_trial_transition_removed>.01);
-rj_speed_during_movement = rj_speed_trial_transition_removed(rj_speed_trial_transition_removed>.03);
-rs_speed_during_movement = rs_speed_trial_transition_removed(rs_speed_trial_transition_removed>.03);
+bx_speed_during_movement = bx_speed_trial_transition_removed(bx_speed_trial_transition_removed>.0005);
+rj_speed_during_movement = rj_speed_trial_transition_removed(rj_speed_trial_transition_removed>.01);
+rs_speed_during_movement = rs_speed_trial_transition_removed(rs_speed_trial_transition_removed>.01);
 
-bx_acceleration_during_movement = bx_acceleration_trial_transition_removed(bx_speed_trial_transition_removed>.01);
-rj_acceleration_during_movement = rj_acceleration_trial_transition_removed(rj_speed_trial_transition_removed>.03);
-rs_acceleration_during_movement = rs_acceleration_trial_transition_removed(rs_speed_trial_transition_removed>.03);
+bx_acceleration_during_movement = bx_acceleration_trial_transition_removed(bx_speed_trial_transition_removed>.0005);
+rj_acceleration_during_movement = rj_acceleration_trial_transition_removed(rj_speed_trial_transition_removed>.01);
+rs_acceleration_during_movement = rs_acceleration_trial_transition_removed(rs_speed_trial_transition_removed>.01);
 
 %%
 rs_acceleration_maxima = findpeaks(rs_speed_during_movement);
@@ -129,7 +134,7 @@ title(strcat('Acceleration Maxima'));
 xlabel('Subject')
 ylabel('Maxima Magnitude')
 name = 'acceleration_maxima';
-saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+saveas(gcf,strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %% Plot Acceleration Minima
 x1 = -bx_acceleration_minima;
@@ -152,7 +157,7 @@ title(strcat('Acceleration Minima'));
 xlabel('Subject')
 ylabel('Minima Magnitude')
 name = 'acceleration_minima';
-saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+saveas(gcf,strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %% Plot acceleration_during_movement
 x1 = bx_acceleration_during_movement;
@@ -175,7 +180,7 @@ title(strcat('Acceleration'));
 xlabel('Subject')
 ylabel('Acceleration Magnitude')
 name = 'acceleration';
-saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+saveas(gcf,strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %% Plot speed_during_movement
 x1 = bx_speed_during_movement;
@@ -198,7 +203,7 @@ title(strcat('Speed'));
 xlabel('Subject')
 ylabel('Speed Magnitude')
 name = 'speed';
-saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+saveas(gcf,strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 %% Plot curve_during_movement
 x1 = bx_curves_during_movement;
 x2 = rj_curves_during_movement;
@@ -220,10 +225,10 @@ title(strcat('Radius of Curvature'));
 xlabel('Subject')
 ylabel('Radius of Curvature')
 name = 'curvature';
-saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+saveas(gcf,strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %%
-edges = [0 : .001 : 1];
+edges = 0 : .001 : .1;
 
 [N_rs_curves, ~] = histcounts(rs_curves_during_movement,edges);
 [N_rj_curves, ~] = histcounts(rj_curves_during_movement,edges);
@@ -242,7 +247,7 @@ legend()
 ylabel('Percent of total')
 xlabel('Radius of Curvature')
 name = 'curvature';
-saveas(gcf,strcat('C:\Users\calebsponheim\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
+saveas(gcf,strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %%
 [p_curve,uhhhh,uh] = ranksum(rs_curves_during_movement,rj_curves_during_movement);

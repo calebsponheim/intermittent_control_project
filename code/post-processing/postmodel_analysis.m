@@ -46,7 +46,7 @@ plot_state_snippets(meta,data,snippet_data,colors)
 snippet_direction_out = plot_state_direction(meta,data,snippet_data,colors);
 
 % Plot all Trials
-plot_all_trials_v2(meta,data,colors);
+% plot_all_trials_v2(meta,data,colors);
 
 % Plot num extrema versus num transitions
 plot_extrema_vs_transitions(meta,data)

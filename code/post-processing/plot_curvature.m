@@ -41,18 +41,18 @@ for iState = 1:size(snippet_data,2)
     %     end
 end
 %% overall curve
-if contains(meta.subject,'RJ') || contains(meta.subject,'RS')
-    overall_position = [smooth(vertcat(data.x_smoothed)',4),smooth(vertcat(data.y_smoothed)',4)];
-    overall_velocity = [smooth(vertcat(data.x_velocity)',4),smooth(vertcat(data.y_velocity)',4)];
-else
-    overall_position = [smooth([data.x_smoothed],4),smooth([data.y_smoothed],4)];
-    overall_velocity = [smooth([data.x_velocity],4),smooth([data.y_velocity],4)];
-end
-% [~,radius_temp,~] = curvature(overall_kin);
-% curvature_overall = radius_temp;
-
-
-curvature_overall = rad_curv(overall_velocity(:,1),overall_velocity(:,2),.001);
+% if contains(meta.subject,'RJ') || contains(meta.subject,'RS')
+%     overall_position = [smooth(vertcat(data.x_smoothed)',4),smooth(vertcat(data.y_smoothed)',4)];
+%     overall_velocity = [smooth(vertcat(data.x_velocity)',4),smooth(vertcat(data.y_velocity)',4)];
+% else
+%     overall_position = [smooth([data.x_smoothed],4),smooth([data.y_smoothed],4)];
+%     overall_velocity = [smooth([data.x_velocity],4),smooth([data.y_velocity],4)];
+% end
+% % [~,radius_temp,~] = curvature(overall_kin);
+% % curvature_overall = radius_temp;
+% 
+% 
+% curvature_overall = rad_curv(overall_velocity(:,1),overall_velocity(:,2),.001);
 %%
 figure('visible','off'); hold on
 for iState = 1:size(snippet_data,2)
@@ -77,7 +77,7 @@ saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',nu
 close gcf
 
 %%
-writematrix(curvature_overall,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'curve_data.csv'))
+% writematrix(curvature_overall,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'curve_data.csv'))
 
 
 end
