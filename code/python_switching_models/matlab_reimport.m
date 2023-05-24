@@ -13,7 +13,8 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 
 % filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
-filepath = [filepath_base 'RJRTP0.05sBins\'];
+filepath = [filepath_base 'RJRTP0.05sBins_1031126\'];
+% filepath = [filepath_base 'RJRTP0.05sBins_1031206\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
 % filepath = [filepath_base 'BxRTP0.05sBins\'];

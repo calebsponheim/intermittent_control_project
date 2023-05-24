@@ -67,7 +67,7 @@ elif subject == "rs":
     elif task == "RTP":
         folderpath = folderpath_base + "RSRTP0.05sBins/"
 elif subject == "rj":
-    folderpath = folderpath_base + "RJRTP0.05sBins/"
+    folderpath = folderpath_base + "RJRTP0.05sBins_1031126/"
 else:
     print("BAD, NO")
 

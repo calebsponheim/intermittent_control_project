@@ -87,7 +87,7 @@ def run_rslds(
             folderpath = folderpath_base + "RSRTP0.05sBins/"
             figurepath = figurepath_base + "RS/RTP_CT0/rslds/"
     elif subject == "rj":
-        folderpath = folderpath_base + "RJRTP0.05sBins/"
+        folderpath = folderpath_base + "RJRTP0.05sBins_1031126/"
         figurepath = figurepath_base + "RJ/RTP_CT0/rslds/"
     else:
         print("BAD, NO")
