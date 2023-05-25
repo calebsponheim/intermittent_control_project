@@ -12,7 +12,7 @@ rj_curves = readmatrix(strcat('C:\Users\',file_base_base,'\Documents\git\intermi
 
 bx_data = load(strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\BxRTP0.05sBins\BxRTP190228CT0.mat'));
 rs_data = load(strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\RSRTP0.05sBins\RS_RTP.mat'));
-rj_data = load(strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins\RJRTP.mat'));
+rj_data = load(strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\RJRTP0.05sBins_1031126\RJRTP.mat'));
 
 %%
 rs_x_position = vertcat(rs_data.data.x_smoothed);
@@ -228,7 +228,7 @@ name = 'curvature';
 saveas(gcf,strcat('C:\Users\',file_base_base,'\Documents\git\intermittent_control_project\figures\cross_subject_kinematic_analysis\',name,'.png'));
 
 %%
-edges = 0 : .001 : .1;
+edges = 0 : .0001 : .1;
 
 [N_rs_curves, ~] = histcounts(rs_curves_during_movement,edges);
 [N_rj_curves, ~] = histcounts(rj_curves_during_movement,edges);
@@ -239,9 +239,20 @@ N_bx_curves = N_bx_curves/numel(bx_curves_during_movement);
 
 
 figure; hold on; 
-bar(edges(1:end-1),N_bx_curves,'DisplayName','BX','EdgeColor','none','FaceAlpha',.5); 
+
+% subplot(3,1,1);
+% bar(edges(1:end-1),N_bx_curves,'DisplayName','BX','EdgeColor','none','FaceAlpha',.5); 
+% legend()
+% ylim([0 1])
+
+subplot(2,1,1);
 bar(edges(1:end-1),N_rs_curves,'DisplayName','RS','EdgeColor','none','FaceAlpha',.5); 
+% ylim([0 1])
+legend()
+
+subplot(2,1,2);
 bar(edges(1:end-1),N_rj_curves,'DisplayName','RJ','EdgeColor','none','FaceAlpha',.5); 
+% ylim([0 1])
 title('Curve Radius across all kinematics')
 legend()
 ylabel('Percent of total')
