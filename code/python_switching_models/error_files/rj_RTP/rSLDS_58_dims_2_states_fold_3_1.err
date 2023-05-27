@@ -1,30 +1,9 @@
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
-Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
-    run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 145, in run_rslds
-    log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 96, in rslds_cosmoothing
-    model.initialize(trainset)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/lds.py", line 167, in initialize
-    self.emissions.initialize(datas, inputs, masks, tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 712, in initialize
-    self._initialize_with_pca(yhats, inputs=inputs, masks=masks, tags=tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 199, in _initialize_with_pca
-    Cs.append((weights @ pca.components_).T)
-ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 55 is different from 58)
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -3143591.7:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -694058.3:   0%|          | 0/15 [02:16<?, ?it/s] ELBO: -694058.3:   7%|▋         | 1/15 [02:16<31:46, 136.17s/it]ELBO: -677032.7:   7%|▋         | 1/15 [04:10<31:46, 136.17s/it]ELBO: -677032.7:  13%|█▎        | 2/15 [04:10<26:45, 123.49s/it]ELBO: -671066.7:  13%|█▎        | 2/15 [05:50<26:45, 123.49s/it]ELBO: -671066.7:  20%|██        | 3/15 [05:50<22:31, 112.63s/it]ELBO: -666738.5:  20%|██        | 3/15 [07:37<22:31, 112.63s/it]ELBO: -666738.5:  27%|██▋       | 4/15 [07:37<20:16, 110.58s/it]ELBO: -663067.4:  27%|██▋       | 4/15 [09:18<20:16, 110.58s/it]ELBO: -663067.4:  33%|███▎      | 5/15 [09:18<17:48, 106.83s/it]ELBO: -661126.7:  33%|███▎      | 5/15 [10:58<17:48, 106.83s/it]ELBO: -661126.7:  40%|████      | 6/15 [10:58<15:42, 104.76s/it]ELBO: -660695.2:  40%|████      | 6/15 [12:39<15:42, 104.76s/it]ELBO: -660695.2:  47%|████▋     | 7/15 [12:39<13:47, 103.47s/it]ELBO: -658938.7:  47%|████▋     | 7/15 [14:20<13:47, 103.47s/it]ELBO: -658938.7:  53%|█████▎    | 8/15 [14:20<11:58, 102.67s/it]ELBO: -656454.6:  53%|█████▎    | 8/15 [16:01<11:58, 102.67s/it]ELBO: -656454.6:  60%|██████    | 9/15 [16:01<10:12, 102.11s/it]ELBO: -654065.0:  60%|██████    | 9/15 [17:39<10:12, 102.11s/it]ELBO: -654065.0:  67%|██████▋   | 10/15 [17:39<08:24, 100.98s/it]ELBO: -655932.0:  67%|██████▋   | 10/15 [19:16<08:24, 100.98s/it]ELBO: -655932.0:  73%|███████▎  | 11/15 [19:16<06:38, 99.74s/it] ELBO: -654892.4:  73%|███████▎  | 11/15 [20:55<06:38, 99.74s/it]ELBO: -654892.4:  80%|████████  | 12/15 [20:55<04:58, 99.53s/it]ELBO: -653175.1:  80%|████████  | 12/15 [22:31<04:58, 99.53s/it]ELBO: -653175.1:  87%|████████▋ | 13/15 [22:31<03:16, 98.31s/it]ELBO: -653171.8:  87%|████████▋ | 13/15 [24:07<03:16, 98.31s/it]ELBO: -653171.8:  93%|█████████▎| 14/15 [24:07<01:37, 97.49s/it]ELBO: -652973.3:  93%|█████████▎| 14/15 [25:47<01:37, 97.49s/it]ELBO: -652973.3: 100%|██████████| 15/15 [25:47<00:00, 98.39s/it]ELBO: -652973.3: 100%|██████████| 15/15 [25:47<00:00, 103.17s/it]
 sbatch: Verify job submission ...
 sbatch: Using a shared partition ...
 sbatch: Partition: caslake
 sbatch: QOS-Flag: caslake
 sbatch: Account: pi-nicho
 sbatch: Verification: ***PASSED***
-Submitted batch job 1641463
+Submitted batch job 4915353

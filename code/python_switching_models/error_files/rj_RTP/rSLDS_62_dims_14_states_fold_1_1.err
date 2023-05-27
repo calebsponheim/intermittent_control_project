@@ -1,30 +1,9 @@
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
-Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
-    run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 145, in run_rslds
-    log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 96, in rslds_cosmoothing
-    model.initialize(trainset)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/lds.py", line 167, in initialize
-    self.emissions.initialize(datas, inputs, masks, tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 712, in initialize
-    self._initialize_with_pca(yhats, inputs=inputs, masks=masks, tags=tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 199, in _initialize_with_pca
-    Cs.append((weights @ pca.components_).T)
-ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 55 is different from 62)
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -3451437.6:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -737217.7:   0%|          | 0/15 [06:05<?, ?it/s] ELBO: -737217.7:   7%|▋         | 1/15 [06:05<1:25:20, 365.73s/it]ELBO: -710632.2:   7%|▋         | 1/15 [10:42<1:25:20, 365.73s/it]ELBO: -710632.2:  13%|█▎        | 2/15 [10:42<1:07:56, 313.55s/it]ELBO: -703064.4:  13%|█▎        | 2/15 [15:13<1:07:56, 313.55s/it]ELBO: -703064.4:  20%|██        | 3/15 [15:13<58:48, 294.05s/it]  ELBO: -697970.5:  20%|██        | 3/15 [19:43<58:48, 294.05s/it]ELBO: -697970.5:  27%|██▋       | 4/15 [19:43<52:10, 284.57s/it]ELBO: -696910.5:  27%|██▋       | 4/15 [24:07<52:10, 284.57s/it]ELBO: -696910.5:  33%|███▎      | 5/15 [24:07<46:11, 277.20s/it]ELBO: -693778.3:  33%|███▎      | 5/15 [28:33<46:11, 277.20s/it]ELBO: -693778.3:  40%|████      | 6/15 [28:33<40:59, 273.25s/it]ELBO: -691516.0:  40%|████      | 6/15 [32:59<40:59, 273.25s/it]ELBO: -691516.0:  47%|████▋     | 7/15 [32:59<36:07, 270.98s/it]ELBO: -690181.7:  47%|████▋     | 7/15 [37:25<36:07, 270.98s/it]ELBO: -690181.7:  53%|█████▎    | 8/15 [37:25<31:24, 269.20s/it]ELBO: -690555.9:  53%|█████▎    | 8/15 [41:51<31:24, 269.20s/it]ELBO: -690555.9:  60%|██████    | 9/15 [41:51<26:49, 268.21s/it]ELBO: -687520.1:  60%|██████    | 9/15 [46:16<26:49, 268.21s/it]ELBO: -687520.1:  67%|██████▋   | 10/15 [46:16<22:17, 267.42s/it]ELBO: -685311.7:  67%|██████▋   | 10/15 [50:41<22:17, 267.42s/it]ELBO: -685311.7:  73%|███████▎  | 11/15 [50:41<17:46, 266.74s/it]ELBO: -685813.5:  73%|███████▎  | 11/15 [55:06<17:46, 266.74s/it]ELBO: -685813.5:  80%|████████  | 12/15 [55:06<13:18, 266.10s/it]ELBO: -684009.8:  80%|████████  | 12/15 [59:29<13:18, 266.10s/it]ELBO: -684009.8:  87%|████████▋ | 13/15 [59:29<08:50, 265.23s/it]ELBO: -681961.6:  87%|████████▋ | 13/15 [1:03:53<08:50, 265.23s/it]ELBO: -681961.6:  93%|█████████▎| 14/15 [1:03:53<04:24, 264.70s/it]ELBO: -682019.5:  93%|█████████▎| 14/15 [1:08:13<04:24, 264.70s/it]ELBO: -682019.5: 100%|██████████| 15/15 [1:08:13<00:00, 263.24s/it]ELBO: -682019.5: 100%|██████████| 15/15 [1:08:13<00:00, 272.87s/it]
 sbatch: Verify job submission ...
 sbatch: Using a shared partition ...
 sbatch: Partition: caslake
 sbatch: QOS-Flag: caslake
 sbatch: Account: pi-nicho
 sbatch: Verification: ***PASSED***
-Submitted batch job 1660907
+Submitted batch job 4936073

@@ -1,30 +1,9 @@
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
-Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
-    run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 145, in run_rslds
-    log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 96, in rslds_cosmoothing
-    model.initialize(trainset)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/lds.py", line 167, in initialize
-    self.emissions.initialize(datas, inputs, masks, tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 712, in initialize
-    self._initialize_with_pca(yhats, inputs=inputs, masks=masks, tags=tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 199, in _initialize_with_pca
-    Cs.append((weights @ pca.components_).T)
-ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 55 is different from 62)
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -3450240.8:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -746712.2:   0%|          | 0/15 [04:40<?, ?it/s] ELBO: -746712.2:   7%|▋         | 1/15 [04:40<1:05:29, 280.68s/it]ELBO: -719856.8:   7%|▋         | 1/15 [08:21<1:05:29, 280.68s/it]ELBO: -719856.8:  13%|█▎        | 2/15 [08:21<53:13, 245.62s/it]  ELBO: -710435.9:  13%|█▎        | 2/15 [11:53<53:13, 245.62s/it]ELBO: -710435.9:  20%|██        | 3/15 [11:53<46:00, 230.04s/it]ELBO: -706324.5:  20%|██        | 3/15 [15:17<46:00, 230.04s/it]ELBO: -706324.5:  27%|██▋       | 4/15 [15:17<40:18, 219.86s/it]ELBO: -704496.3:  27%|██▋       | 4/15 [18:43<40:18, 219.86s/it]ELBO: -704496.3:  33%|███▎      | 5/15 [18:43<35:47, 214.74s/it]ELBO: -704052.6:  33%|███▎      | 5/15 [22:07<35:47, 214.74s/it]ELBO: -704052.6:  40%|████      | 6/15 [22:07<31:41, 211.30s/it]ELBO: -702448.9:  40%|████      | 6/15 [25:31<31:41, 211.30s/it]ELBO: -702448.9:  47%|████▋     | 7/15 [25:31<27:49, 208.66s/it]ELBO: -700795.6:  47%|████▋     | 7/15 [28:55<27:49, 208.66s/it]ELBO: -700795.6:  53%|█████▎    | 8/15 [28:55<24:10, 207.28s/it]ELBO: -699147.6:  53%|█████▎    | 8/15 [32:19<24:10, 207.28s/it]ELBO: -699147.6:  60%|██████    | 9/15 [32:19<20:37, 206.26s/it]ELBO: -701036.3:  60%|██████    | 9/15 [35:40<20:37, 206.26s/it]ELBO: -701036.3:  67%|██████▋   | 10/15 [35:40<17:03, 204.80s/it]ELBO: -696880.7:  67%|██████▋   | 10/15 [39:03<17:03, 204.80s/it]ELBO: -696880.7:  73%|███████▎  | 11/15 [39:03<13:36, 204.22s/it]ELBO: -697970.7:  73%|███████▎  | 11/15 [42:25<13:36, 204.22s/it]ELBO: -697970.7:  80%|████████  | 12/15 [42:25<10:10, 203.41s/it]ELBO: -696484.2:  80%|████████  | 12/15 [45:49<10:10, 203.41s/it]ELBO: -696484.2:  87%|████████▋ | 13/15 [45:49<06:47, 203.54s/it]ELBO: -695620.1:  87%|████████▋ | 13/15 [49:08<06:47, 203.54s/it]ELBO: -695620.1:  93%|█████████▎| 14/15 [49:08<03:22, 202.16s/it]ELBO: -694121.8:  93%|█████████▎| 14/15 [52:27<03:22, 202.16s/it]ELBO: -694121.8: 100%|██████████| 15/15 [52:27<00:00, 201.21s/it]ELBO: -694121.8: 100%|██████████| 15/15 [52:27<00:00, 209.81s/it]
 sbatch: Verify job submission ...
 sbatch: Using a shared partition ...
 sbatch: Partition: caslake
 sbatch: QOS-Flag: caslake
 sbatch: Account: pi-nicho
 sbatch: Verification: ***PASSED***
-Submitted batch job 1648703
+Submitted batch job 4925360

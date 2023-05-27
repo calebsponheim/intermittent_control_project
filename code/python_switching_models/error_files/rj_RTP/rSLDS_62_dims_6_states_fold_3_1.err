@@ -1,30 +1,9 @@
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
-Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
-    run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 145, in run_rslds
-    log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 96, in rslds_cosmoothing
-    model.initialize(trainset)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/lds.py", line 167, in initialize
-    self.emissions.initialize(datas, inputs, masks, tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 712, in initialize
-    self._initialize_with_pca(yhats, inputs=inputs, masks=masks, tags=tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 199, in _initialize_with_pca
-    Cs.append((weights @ pca.components_).T)
-ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 55 is different from 62)
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -3323574.8:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -723582.0:   0%|          | 0/15 [03:19<?, ?it/s] ELBO: -723582.0:   7%|▋         | 1/15 [03:19<46:26, 199.04s/it]ELBO: -696999.8:   7%|▋         | 1/15 [05:56<46:26, 199.04s/it]ELBO: -696999.8:  13%|█▎        | 2/15 [05:56<37:45, 174.30s/it]ELBO: -690727.0:  13%|█▎        | 2/15 [08:29<37:45, 174.30s/it]ELBO: -690727.0:  20%|██        | 3/15 [08:29<32:59, 165.00s/it]ELBO: -685934.5:  20%|██        | 3/15 [10:59<32:59, 165.00s/it]ELBO: -685934.5:  27%|██▋       | 4/15 [10:59<29:07, 158.87s/it]ELBO: -684597.7:  27%|██▋       | 4/15 [13:23<29:07, 158.87s/it]ELBO: -684597.7:  33%|███▎      | 5/15 [13:23<25:35, 153.52s/it]ELBO: -684868.7:  33%|███▎      | 5/15 [15:47<25:35, 153.52s/it]ELBO: -684868.7:  40%|████      | 6/15 [15:47<22:31, 150.22s/it]ELBO: -681678.8:  40%|████      | 6/15 [18:11<22:31, 150.22s/it]ELBO: -681678.8:  47%|████▋     | 7/15 [18:11<19:45, 148.20s/it]ELBO: -681405.1:  47%|████▋     | 7/15 [20:34<19:45, 148.20s/it]ELBO: -681405.1:  53%|█████▎    | 8/15 [20:34<17:07, 146.73s/it]ELBO: -680811.0:  53%|█████▎    | 8/15 [22:58<17:07, 146.73s/it]ELBO: -680811.0:  60%|██████    | 9/15 [22:58<14:33, 145.67s/it]ELBO: -678600.2:  60%|██████    | 9/15 [25:23<14:33, 145.67s/it]ELBO: -678600.2:  67%|██████▋   | 10/15 [25:23<12:07, 145.45s/it]ELBO: -674043.4:  67%|██████▋   | 10/15 [27:46<12:07, 145.45s/it]ELBO: -674043.4:  73%|███████▎  | 11/15 [27:46<09:39, 144.75s/it]ELBO: -665776.5:  73%|███████▎  | 11/15 [30:07<09:39, 144.75s/it]ELBO: -665776.5:  80%|████████  | 12/15 [30:07<07:11, 143.78s/it]ELBO: -660496.2:  80%|████████  | 12/15 [32:30<07:11, 143.78s/it]ELBO: -660496.2:  87%|████████▋ | 13/15 [32:30<04:46, 143.35s/it]ELBO: -653965.6:  87%|████████▋ | 13/15 [34:56<04:46, 143.35s/it]ELBO: -653965.6:  93%|█████████▎| 14/15 [34:56<02:24, 144.34s/it]ELBO: -653422.4:  93%|█████████▎| 14/15 [37:23<02:24, 144.34s/it]ELBO: -653422.4: 100%|██████████| 15/15 [37:23<00:00, 145.01s/it]ELBO: -653422.4: 100%|██████████| 15/15 [37:23<00:00, 149.56s/it]
 sbatch: Verify job submission ...
 sbatch: Using a shared partition ...
 sbatch: Partition: caslake
 sbatch: QOS-Flag: caslake
 sbatch: Account: pi-nicho
 sbatch: Verification: ***PASSED***
-Submitted batch job 1642018
+Submitted batch job 4920881
