@@ -1,30 +1,9 @@
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
-Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
-    run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 145, in run_rslds
-    log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 96, in rslds_cosmoothing
-    model.initialize(trainset)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/lds.py", line 167, in initialize
-    self.emissions.initialize(datas, inputs, masks, tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 712, in initialize
-    self._initialize_with_pca(yhats, inputs=inputs, masks=masks, tags=tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 199, in _initialize_with_pca
-    Cs.append((weights @ pca.components_).T)
-ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 55 is different from 62)
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -3530637.9:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -740886.7:   0%|          | 0/15 [10:26<?, ?it/s] ELBO: -740886.7:   7%|▋         | 1/15 [10:26<2:26:05, 626.11s/it]ELBO: -713359.1:   7%|▋         | 1/15 [18:06<2:26:05, 626.11s/it]ELBO: -713359.1:  13%|█▎        | 2/15 [18:06<1:54:28, 528.34s/it]ELBO: -703791.8:  13%|█▎        | 2/15 [26:00<1:54:28, 528.34s/it]ELBO: -703791.8:  20%|██        | 3/15 [26:00<1:40:43, 503.66s/it]ELBO: -698330.9:  20%|██        | 3/15 [33:53<1:40:43, 503.66s/it]ELBO: -698330.9:  27%|██▋       | 4/15 [33:53<1:30:07, 491.61s/it]ELBO: -694715.2:  27%|██▋       | 4/15 [41:33<1:30:07, 491.61s/it]ELBO: -694715.2:  33%|███▎      | 5/15 [41:33<1:20:01, 480.13s/it]ELBO: -691776.1:  33%|███▎      | 5/15 [49:16<1:20:01, 480.13s/it]ELBO: -691776.1:  40%|████      | 6/15 [49:16<1:11:08, 474.32s/it]ELBO: -690409.3:  40%|████      | 6/15 [56:58<1:11:08, 474.32s/it]ELBO: -690409.3:  47%|████▋     | 7/15 [56:58<1:02:42, 470.27s/it]ELBO: -688671.4:  47%|████▋     | 7/15 [1:04:38<1:02:42, 470.27s/it]ELBO: -688671.4:  53%|█████▎    | 8/15 [1:04:38<54:29, 467.03s/it]  ELBO: -684854.6:  53%|█████▎    | 8/15 [1:12:18<54:29, 467.03s/it]ELBO: -684854.6:  60%|██████    | 9/15 [1:12:18<46:29, 464.87s/it]ELBO: -683659.4:  60%|██████    | 9/15 [1:19:55<46:29, 464.87s/it]ELBO: -683659.4:  67%|██████▋   | 10/15 [1:19:55<38:31, 462.33s/it]ELBO: -679463.8:  67%|██████▋   | 10/15 [1:27:28<38:31, 462.33s/it]ELBO: -679463.8:  73%|███████▎  | 11/15 [1:27:28<30:38, 459.70s/it]ELBO: -678156.0:  73%|███████▎  | 11/15 [1:35:00<30:38, 459.70s/it]ELBO: -678156.0:  80%|████████  | 12/15 [1:35:00<22:51, 457.16s/it]ELBO: -675829.9:  80%|████████  | 12/15 [1:42:35<22:51, 457.16s/it]ELBO: -675829.9:  87%|████████▋ | 13/15 [1:42:35<15:13, 456.54s/it]ELBO: -673310.7:  87%|████████▋ | 13/15 [1:50:09<15:13, 456.54s/it]ELBO: -673310.7:  93%|█████████▎| 14/15 [1:50:09<07:35, 455.99s/it]ELBO: -671961.0:  93%|█████████▎| 14/15 [1:57:43<07:35, 455.99s/it]ELBO: -671961.0: 100%|██████████| 15/15 [1:57:43<00:00, 455.39s/it]ELBO: -671961.0: 100%|██████████| 15/15 [1:57:43<00:00, 470.93s/it]
 sbatch: Verify job submission ...
 sbatch: Using a shared partition ...
 sbatch: Partition: caslake
 sbatch: QOS-Flag: caslake
 sbatch: Account: pi-nicho
 sbatch: Verification: ***PASSED***
-Submitted batch job 1712910
+Submitted batch job 4951188

@@ -1,18 +1,3 @@
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
-Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
-    run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 145, in run_rslds
-    log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 121, in rslds_cosmoothing
-    infile = open(folderpath_out + 'fold_' + str(fold_number) + '_model', 'rb')
-FileNotFoundError: [Errno 2] No such file or directory: '/project/nicho/caleb/git/intermittent_control_project/data/python_switching_models/RJRTP0.05sBins/26_states_58_dims/fold_3_model'
-sbatch: Verify job submission ...
-sbatch: Using a shared partition ...
-sbatch: Partition: caslake
-sbatch: QOS-Flag: caslake
-sbatch: Account: pi-nicho
-sbatch: Verification: ***PASSED***
-Submitted batch job 1721050
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -6474828.3:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -154929.6:   0%|          | 0/15 [04:05<?, ?it/s] ELBO: -154929.6:   7%|▋         | 1/15 [04:05<57:11, 245.13s/it]ELBO: -154098.2:   7%|▋         | 1/15 [06:02<57:11, 245.13s/it]ELBO: -154098.2:  13%|█▎        | 2/15 [06:02<36:52, 170.16s/it]ELBO: -152757.1:  13%|█▎        | 2/15 [07:28<36:52, 170.16s/it]ELBO: -152757.1:  20%|██        | 3/15 [07:28<26:19, 131.60s/it]ELBO: -153152.6:  20%|██        | 3/15 [08:48<26:19, 131.60s/it]ELBO: -153152.6:  27%|██▋       | 4/15 [08:48<20:21, 111.09s/it]ELBO: -154283.6:  27%|██▋       | 4/15 [10:07<20:21, 111.09s/it]ELBO: -154283.6:  33%|███▎      | 5/15 [10:07<16:37, 99.70s/it] ELBO: -153437.7:  33%|███▎      | 5/15 [11:25<16:37, 99.70s/it]ELBO: -153437.7:  40%|████      | 6/15 [11:25<13:51, 92.42s/it]ELBO: -153708.4:  40%|████      | 6/15 [12:45<13:51, 92.42s/it]ELBO: -153708.4:  47%|████▋     | 7/15 [12:45<11:45, 88.21s/it]ELBO: -153825.2:  47%|████▋     | 7/15 [14:04<11:45, 88.21s/it]ELBO: -153825.2:  53%|█████▎    | 8/15 [14:04<09:56, 85.18s/it]ELBO: -153421.7:  53%|█████▎    | 8/15 [15:22<09:56, 85.18s/it]ELBO: -153421.7:  60%|██████    | 9/15 [15:22<08:18, 83.16s/it]ELBO: -153287.6:  60%|██████    | 9/15 [16:41<08:18, 83.16s/it]ELBO: -153287.6:  67%|██████▋   | 10/15 [16:41<06:49, 81.81s/it]ELBO: -153496.6:  67%|██████▋   | 10/15 [18:00<06:49, 81.81s/it]ELBO: -153496.6:  73%|███████▎  | 11/15 [18:00<05:23, 80.77s/it]ELBO: -152931.8:  73%|███████▎  | 11/15 [19:18<05:23, 80.77s/it]ELBO: -152931.8:  80%|████████  | 12/15 [19:18<04:00, 80.12s/it]ELBO: -153629.9:  80%|████████  | 12/15 [20:37<04:00, 80.12s/it]ELBO: -153629.9:  87%|████████▋ | 13/15 [20:37<02:39, 79.63s/it]ELBO: -153352.6:  87%|████████▋ | 13/15 [21:56<02:39, 79.63s/it]ELBO: -153352.6:  93%|█████████▎| 14/15 [21:56<01:19, 79.56s/it]ELBO: -153313.3:  93%|█████████▎| 14/15 [23:15<01:19, 79.56s/it]ELBO: -153313.3: 100%|██████████| 15/15 [23:15<00:00, 79.36s/it]ELBO: -153313.3: 100%|██████████| 15/15 [23:15<00:00, 93.04s/it]
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -7213915.9:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -125861.4:   0%|          | 0/15 [04:43<?, ?it/s] ELBO: -125861.4:   7%|▋         | 1/15 [04:43<1:06:04, 283.17s/it]ELBO: -125858.8:   7%|▋         | 1/15 [06:37<1:06:04, 283.17s/it]ELBO: -125858.8:  13%|█▎        | 2/15 [06:37<39:47, 183.63s/it]  ELBO: -124793.6:  13%|█▎        | 2/15 [08:00<39:47, 183.63s/it]ELBO: -124793.6:  20%|██        | 3/15 [08:00<27:31, 137.66s/it]ELBO: -125044.5:  20%|██        | 3/15 [09:19<27:31, 137.66s/it]ELBO: -125044.5:  27%|██▋       | 4/15 [09:19<21:02, 114.76s/it]
