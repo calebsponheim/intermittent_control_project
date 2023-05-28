@@ -1,30 +1,2 @@
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
-Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
-    run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 145, in run_rslds
-    log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 96, in rslds_cosmoothing
-    model.initialize(trainset)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/lds.py", line 167, in initialize
-    self.emissions.initialize(datas, inputs, masks, tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 712, in initialize
-    self._initialize_with_pca(yhats, inputs=inputs, masks=masks, tags=tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 199, in _initialize_with_pca
-    Cs.append((weights @ pca.components_).T)
-ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 55 is different from 66)
-sbatch: Verify job submission ...
-sbatch: Using a shared partition ...
-sbatch: Partition: caslake
-sbatch: QOS-Flag: caslake
-sbatch: Account: pi-nicho
-sbatch: Verification: ***PASSED***
-Submitted batch job 1725164
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -991964527.8:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -821317.0:   0%|          | 0/15 [24:54<?, ?it/s]   ELBO: -821317.0:   7%|▋         | 1/15 [24:54<5:48:43, 1494.54s/it]ELBO: -713926.2:   7%|▋         | 1/15 [43:18<5:48:43, 1494.54s/it]ELBO: -713926.2:  13%|█▎        | 2/15 [43:18<4:33:59, 1264.61s/it]ELBO: -700756.9:  13%|█▎        | 2/15 [1:00:50<4:33:59, 1264.61s/it]ELBO: -700756.9:  20%|██        | 3/15 [1:00:50<3:53:32, 1167.71s/it]ELBO: -692022.6:  20%|██        | 3/15 [1:18:12<3:53:32, 1167.71s/it]ELBO: -692022.6:  27%|██▋       | 4/15 [1:18:12<3:24:58, 1118.01s/it]ELBO: -687147.7:  27%|██▋       | 4/15 [1:35:22<3:24:58, 1118.01s/it]ELBO: -687147.7:  33%|███▎      | 5/15 [1:35:22<3:01:02, 1086.21s/it]ELBO: -686117.3:  33%|███▎      | 5/15 [1:52:33<3:01:02, 1086.21s/it]ELBO: -686117.3:  40%|████      | 6/15 [1:52:33<2:40:07, 1067.47s/it]
