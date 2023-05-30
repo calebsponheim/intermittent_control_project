@@ -28,8 +28,8 @@ elseif contains(filepath,'RS') && contains(filepath,'CO')
 elseif contains(filepath,'RJ')
 %     num_desired_states = 6;
 %     num_desired_dims = 25;
-    num_desired_states = 10;
-    num_desired_dims = 10;
+    num_desired_states = 14;
+    num_desired_dims = 22;
 elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
     if contains(filepath,'Bx18')
     elseif contains(filepath,'BxRTP0.05sBins')
@@ -41,7 +41,7 @@ end
 
 
 filepath_for_ll_plot = filepath;
-filepath = strcat(filepath,num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims\");
+filepath = strcat(filepath,num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims_fold_3\");
 
 analyze_all_trials = 1;
 plot_ll_hmm = 0;
@@ -142,7 +142,11 @@ if contains(filepath,'RS') || contains(filepath,'RJ') || contains(filepath, 'Bx'
         meta.subject = 'RJ';
         meta.task = 'RTP';
         meta.move_only = 0;
-        meta.session = '1031206';
+        if contains(filepath,'1031126')
+            meta.session = '1031126';
+        else
+            meta.session = '1031206';
+        end
     elseif contains(filepath, 'Bxcenter_out_and_RTP1902280.05sBins')
         load(['..\' filepath 'Bxcenter_out_and_RTP190228CT0.mat']);
         meta.subject = 'Bx';

@@ -176,6 +176,11 @@ xlim([0 3])
 xticks([0 1 2 3])
 ylabel('Cosine of Angle Between States')
 xticklabels({'','no transitions','transitions in data',''})
+
+writematrix(reshaped_all_combos_real,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'all_angles.csv'))
+writematrix(reshaped_angles_real,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'angles_in_trials.csv'))
+
+
 % title('Real Eigenvector Angles')
 
 % subplot(1,2,2); hold on
@@ -186,7 +191,7 @@ xticklabels({'','no transitions','transitions in data',''})
 box off
 set(gcf,"Color","w",'Position',[100 100 200 500])
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_eigvector_angles_comparison.png'));
-% close gcf
+close gcf
 %% Plotting Regression!
 % regression_prep = zeros(1,2);
 % figure('visible','on','color','w'); hold on

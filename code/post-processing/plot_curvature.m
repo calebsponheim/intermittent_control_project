@@ -77,7 +77,7 @@ saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',nu
 close gcf
 
 %%
-% writematrix(curvature_overall,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'curve_data.csv'))
+writematrix(curvature_overall,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'curve_data.csv'))
 
 
 end
