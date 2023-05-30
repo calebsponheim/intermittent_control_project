@@ -54,3 +54,24 @@ Processed spikes from trial 100.
 LP: -1048689.7:  96%|█████████▌| 24/25 [00:25<00:00,  1.02it/s][A
 LP: -1048689.7: 100%|██████████| 25/25 [00:25<00:00,  1.01s/it][ALP: -1048689.7: 100%|██████████| 25/25 [00:25<00:00,  1.00s/it]
 ARHMM Initialization restarts: 100%|██████████| 1/1 [00:26<00:00, 26.18s/it]ARHMM Initialization restarts: 100%|██████████| 1/1 [00:26<00:00, 26.18s/it]
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -22767538001.0:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -22767538001.0:   0%|          | 0/15 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/LDS_param_search.py", line 183, in <module>
+    q_elbos_lem_train, q_lem_train = model.fit(trainset, method="laplace_em",
+  File "/project/nicho/projects/caleb/git/ssm/ssm/util.py", line 111, in wrapper
+    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
+  File "/project/nicho/projects/caleb/git/ssm/ssm/lds.py", line 790, in fit
+    elbos = _fitting_methods[method](
+  File "/project/nicho/projects/caleb/git/ssm/ssm/lds.py", line 693, in _fit_laplace_em
+    self._fit_laplace_em_continuous_state_update(
+  File "/project/nicho/projects/caleb/git/ssm/ssm/lds.py", line 539, in _fit_laplace_em_continuous_state_update
+    x = newtons_method_block_tridiag_hessian(
+  File "/project/nicho/projects/caleb/git/ssm/ssm/optimizers.py", line 176, in newtons_method_block_tridiag_hessian
+    dx = -1.0 * solve_symm_block_tridiag(H_diag, H_lower_diag, g)
+  File "/project/nicho/projects/caleb/git/ssm/ssm/primitives.py", line 240, in solve_symm_block_tridiag
+    x_flat = solveh_banded(J_banded, np.ravel(v), lower=True)
+  File "/home/calebsponheim/.local/lib/python3.9/site-packages/autograd/tracer.py", line 48, in f_wrapped
+    return f_raw(*args, **kwargs)
+  File "/software/python-anaconda-2022.05-el8-x86_64/lib/python3.9/site-packages/scipy/linalg/basic.py", line 596, in solveh_banded
+    raise LinAlgError("%dth leading minor not positive definite" % info)
+numpy.linalg.LinAlgError: 7825th leading minor not positive definite
