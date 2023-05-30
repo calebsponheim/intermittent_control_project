@@ -9,7 +9,7 @@ hidden_state_skip = 1
 
 number_of_latent_dimensions = 22
 number_of_discrete_states = 14
-fold_number = 1
+fold_number = 3
 subject = 'rj'
 task = 'RTP'
 midway_run = 0

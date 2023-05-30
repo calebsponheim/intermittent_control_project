@@ -94,6 +94,13 @@ if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
     annotation('textbox',[.2 .5 .3 .3],'String',strcat('P-Value: ',num2str(p_trajectory_speed)),'FitBoxToText','on');
     saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_trajectory_speed_dec_vs_acc_box.png'));
     close gcf
+
+% save out data for fold comparison
+
+    writematrix(x1,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'acc_trajectory_speeds.csv'))
+    writematrix(x2,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'dec_trajectory_speeds.csv'))
+
+
 % some more misc analysis on trajectory speed:
     figure('color','w','visible','on','Position',[100 100 500 200]); hold on
     edges = .2 : .05 : 1;
