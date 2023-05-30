@@ -1,6 +1,4 @@
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
 Traceback (most recent call last):
   File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/LDS_param_search.py", line 182, in <module>
     model.initialize(trainset)
@@ -16,4 +14,4 @@ Traceback (most recent call last):
     return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
   File "/project/nicho/projects/caleb/git/ssm/ssm/emissions.py", line 199, in _initialize_with_pca
     Cs.append((weights @ pca.components_).T)
-ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 55 is different from 77)
+ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 76 is different from 77)

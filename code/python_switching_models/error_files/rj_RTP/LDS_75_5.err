@@ -1,19 +1,37 @@
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
-Traceback (most recent call last):
-  File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/LDS_param_search.py", line 182, in <module>
-    model.initialize(trainset)
-  File "/project/nicho/projects/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/projects/caleb/git/ssm/ssm/lds.py", line 167, in initialize
-    self.emissions.initialize(datas, inputs, masks, tags)
-  File "/project/nicho/projects/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/projects/caleb/git/ssm/ssm/emissions.py", line 712, in initialize
-    self._initialize_with_pca(yhats, inputs=inputs, masks=masks, tags=tags)
-  File "/project/nicho/projects/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/projects/caleb/git/ssm/ssm/emissions.py", line 199, in _initialize_with_pca
-    Cs.append((weights @ pca.components_).T)
-ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 55 is different from 75)
+  0%|          | 0/1 [00:00<?, ?it/s]ARHMM Initialization restarts:   0%|          | 0/1 [00:00<?, ?it/s]Initializing with an ARHMM using 25 steps of EM.
+
+  0%|          | 0/25 [00:00<?, ?it/s][A
+LP: -927453.5:   0%|          | 0/25 [00:00<?, ?it/s][A
+LP: -927453.5:   0%|          | 0/25 [00:00<?, ?it/s][A
+LP: -927453.5:   4%|▍         | 1/25 [00:00<00:22,  1.05it/s][A
+LP: -927453.5:   4%|▍         | 1/25 [00:02<00:22,  1.05it/s][A
+LP: -927453.5:   8%|▊         | 2/25 [00:02<00:24,  1.09s/it][A
+LP: -927453.5:   8%|▊         | 2/25 [00:03<00:24,  1.09s/it][A
+LP: -927453.5:  12%|█▏        | 3/25 [00:03<00:23,  1.05s/it][A
+LP: -927453.5:  12%|█▏        | 3/25 [00:04<00:23,  1.05s/it][A
+LP: -927453.5:  16%|█▌        | 4/25 [00:04<00:21,  1.02s/it][A
+LP: -927453.5:  16%|█▌        | 4/25 [00:05<00:21,  1.02s/it][A
+LP: -927453.5:  20%|██        | 5/25 [00:05<00:21,  1.06s/it][A
+LP: -927453.5:  20%|██        | 5/25 [00:06<00:21,  1.06s/it][A
+LP: -927453.5:  24%|██▍       | 6/25 [00:06<00:19,  1.03s/it][A
+LP: -927453.5:  24%|██▍       | 6/25 [00:07<00:19,  1.03s/it][A
+LP: -927453.5:  28%|██▊       | 7/25 [00:07<00:18,  1.02s/it][A
+LP: -927453.5:  28%|██▊       | 7/25 [00:08<00:18,  1.02s/it][A
+LP: -927453.5:  32%|███▏      | 8/25 [00:08<00:18,  1.10s/it][A
+LP: -927453.5:  32%|███▏      | 8/25 [00:09<00:18,  1.10s/it][A
+LP: -927453.5:  36%|███▌      | 9/25 [00:09<00:17,  1.12s/it][A
+LP: -927453.5:  36%|███▌      | 9/25 [00:10<00:17,  1.12s/it][A
+LP: -927453.5:  40%|████      | 10/25 [00:10<00:15,  1.07s/it][A
+LP: -927453.5:  40%|████      | 10/25 [00:11<00:15,  1.07s/it][A
+LP: -927453.5:  44%|████▍     | 11/25 [00:11<00:15,  1.09s/it][A
+LP: -927453.5:  44%|████▍     | 11/25 [00:12<00:15,  1.09s/it][A
+LP: -927453.5:  48%|████▊     | 12/25 [00:12<00:13,  1.05s/it][A
+LP: -927453.5:  48%|████▊     | 12/25 [00:13<00:13,  1.05s/it][A
+LP: -927453.5:  52%|█████▏    | 13/25 [00:13<00:12,  1.08s/it][A
+LP: -927453.5:  52%|█████▏    | 13/25 [00:14<00:12,  1.08s/it][A
+LP: -927453.5:  56%|█████▌    | 14/25 [00:14<00:11,  1.04s/it][A
+LP: -927453.5:  56%|█████▌    | 14/25 [00:15<00:11,  1.04s/it][A
+LP: -927453.5:  60%|██████    | 15/25 [00:15<00:10,  1.08s/it][A
+LP: -927453.5:  60%|██████    | 15/25 [00:16<00:10,  1.08s/it][A
+LP: -927453.5:  64%|██████▍   | 16/25 [00:16<00:09,  1.04s/it][A

@@ -1,6 +1,6 @@
+/software/python-anaconda-2022.05-el8-x86_64/lib/python3.9/site-packages/sklearn/decomposition/_base.py:76: RuntimeWarning: divide by zero encountered in true_divide
+  precision.flat[:: len(precision) + 1] += 1.0 / exp_var_diff
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
 Traceback (most recent call last):
   File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/LDS_param_search.py", line 182, in <module>
     model.initialize(trainset)
@@ -14,6 +14,20 @@ Traceback (most recent call last):
     self._initialize_with_pca(yhats, inputs=inputs, masks=masks, tags=tags)
   File "/project/nicho/projects/caleb/git/ssm/ssm/util.py", line 111, in wrapper
     return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/projects/caleb/git/ssm/ssm/emissions.py", line 199, in _initialize_with_pca
-    Cs.append((weights @ pca.components_).T)
-ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 55 is different from 75)
+  File "/project/nicho/projects/caleb/git/ssm/ssm/emissions.py", line 191, in _initialize_with_pca
+    pca, xs, ll = pca_with_imputation(min(self.D * Keff, self.N),
+  File "/project/nicho/projects/caleb/git/ssm/ssm/preprocessing.py", line 37, in pca_with_imputation
+    ll = pca.score(data)
+  File "/software/python-anaconda-2022.05-el8-x86_64/lib/python3.9/site-packages/sklearn/decomposition/_pca.py", line 688, in score
+    return np.mean(self.score_samples(X))
+  File "/software/python-anaconda-2022.05-el8-x86_64/lib/python3.9/site-packages/sklearn/decomposition/_pca.py", line 663, in score_samples
+    precision = self.get_precision()
+  File "/software/python-anaconda-2022.05-el8-x86_64/lib/python3.9/site-packages/sklearn/decomposition/_base.py", line 77, in get_precision
+    precision = np.dot(components_.T, np.dot(linalg.inv(precision), components_))
+  File "/software/python-anaconda-2022.05-el8-x86_64/lib/python3.9/site-packages/scipy/linalg/basic.py", line 939, in inv
+    a1 = _asarray_validated(a, check_finite=check_finite)
+  File "/software/python-anaconda-2022.05-el8-x86_64/lib/python3.9/site-packages/scipy/_lib/_util.py", line 293, in _asarray_validated
+    a = toarray(a)
+  File "/home/calebsponheim/.local/lib/python3.9/site-packages/numpy/lib/function_base.py", line 488, in asarray_chkfinite
+    raise ValueError(
+ValueError: array must not contain infs or NaNs
