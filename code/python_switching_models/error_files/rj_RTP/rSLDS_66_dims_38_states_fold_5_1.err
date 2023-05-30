@@ -1,30 +1,9 @@
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
-Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
-    run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 145, in run_rslds
-    log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 96, in rslds_cosmoothing
-    model.initialize(trainset)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/lds.py", line 167, in initialize
-    self.emissions.initialize(datas, inputs, masks, tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 712, in initialize
-    self._initialize_with_pca(yhats, inputs=inputs, masks=masks, tags=tags)
-  File "/project/nicho/caleb/git/ssm/ssm/util.py", line 111, in wrapper
-    return f(self, datas, inputs=inputs, masks=masks, tags=tags, **kwargs)
-  File "/project/nicho/caleb/git/ssm/ssm/emissions.py", line 199, in _initialize_with_pca
-    Cs.append((weights @ pca.components_).T)
-ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 55 is different from 66)
+  0%|          | 0/15 [00:00<?, ?it/s]ELBO: -300375164.1:   0%|          | 0/15 [00:00<?, ?it/s]ELBO: -820705.8:   0%|          | 0/15 [31:36<?, ?it/s]   ELBO: -820705.8:   7%|▋         | 1/15 [31:36<7:22:28, 1896.34s/it]ELBO: -756185.2:   7%|▋         | 1/15 [55:10<7:22:28, 1896.34s/it]ELBO: -756185.2:  13%|█▎        | 2/15 [55:10<5:49:27, 1612.85s/it]ELBO: -740924.4:  13%|█▎        | 2/15 [1:17:49<5:49:27, 1612.85s/it]ELBO: -740924.4:  20%|██        | 3/15 [1:17:49<4:59:22, 1496.85s/it]ELBO: -734085.1:  20%|██        | 3/15 [1:40:15<4:59:22, 1496.85s/it]ELBO: -734085.1:  27%|██▋       | 4/15 [1:40:15<4:23:30, 1437.36s/it]ELBO: -730833.0:  27%|██▋       | 4/15 [2:02:29<4:23:30, 1437.36s/it]ELBO: -730833.0:  33%|███▎      | 5/15 [2:02:29<3:53:21, 1400.14s/it]ELBO: -1137364.5:  33%|███▎      | 5/15 [2:24:44<3:53:21, 1400.14s/it]ELBO: -1137364.5:  40%|████      | 6/15 [2:24:44<3:26:40, 1377.86s/it]ELBO: -723085.1:  40%|████      | 6/15 [2:46:51<3:26:40, 1377.86s/it] ELBO: -723085.1:  47%|████▋     | 7/15 [2:46:51<3:01:31, 1361.38s/it]ELBO: -721999.6:  47%|████▋     | 7/15 [3:08:45<3:01:31, 1361.38s/it]ELBO: -721999.6:  53%|█████▎    | 8/15 [3:08:45<2:37:02, 1346.10s/it]ELBO: -714743.7:  53%|█████▎    | 8/15 [3:30:47<2:37:02, 1346.10s/it]ELBO: -714743.7:  60%|██████    | 9/15 [3:30:47<2:13:52, 1338.74s/it]ELBO: -713996.0:  60%|██████    | 9/15 [3:52:31<2:13:52, 1338.74s/it]ELBO: -713996.0:  67%|██████▋   | 10/15 [3:52:31<1:50:39, 1327.90s/it]ELBO: -707313.8:  67%|██████▋   | 10/15 [4:14:16<1:50:39, 1327.90s/it]ELBO: -707313.8:  73%|███████▎  | 11/15 [4:14:16<1:28:03, 1320.83s/it]ELBO: -709559.6:  73%|███████▎  | 11/15 [4:35:58<1:28:03, 1320.83s/it]ELBO: -709559.6:  80%|████████  | 12/15 [4:35:58<1:05:45, 1315.16s/it]ELBO: -701634.8:  80%|████████  | 12/15 [4:58:03<1:05:45, 1315.16s/it]ELBO: -701634.8:  87%|████████▋ | 13/15 [4:58:03<43:56, 1318.19s/it]  ELBO: -700681.6:  87%|████████▋ | 13/15 [5:19:51<43:56, 1318.19s/it]ELBO: -700681.6:  93%|█████████▎| 14/15 [5:19:51<21:55, 1315.13s/it]ELBO: -696009.5:  93%|█████████▎| 14/15 [5:41:48<21:55, 1315.13s/it]ELBO: -696009.5: 100%|██████████| 15/15 [5:41:48<00:00, 1315.63s/it]ELBO: -696009.5: 100%|██████████| 15/15 [5:41:48<00:00, 1367.23s/it]
 sbatch: Verify job submission ...
 sbatch: Using a shared partition ...
 sbatch: Partition: caslake
 sbatch: QOS-Flag: caslake
 sbatch: Account: pi-nicho
 sbatch: Verification: ***PASSED***
-Submitted batch job 1725783
+Submitted batch job 5010630

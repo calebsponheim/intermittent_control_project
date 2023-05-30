@@ -1,12 +1,10 @@
 Processed spikes from trial 100.
-Processed spikes from trial 200.
-Processed spikes from trial 300.
 Traceback (most recent call last):
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
+  File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/run_param_search.py", line 21, in <module>
     run_rslds(
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 145, in run_rslds
+  File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/run_rslds.py", line 146, in run_rslds
     log_likelihood_emissions_sum = rslds_cosmoothing(data, trial_classification, meta, bin_size,
-  File "/project/nicho/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 121, in rslds_cosmoothing
+  File "/project/nicho/projects/caleb/git/intermittent_control_project/code/python_switching_models/rslds_cosmoothing.py", line 121, in rslds_cosmoothing
     infile = open(folderpath_out + 'fold_' + str(fold_number) + '_model', 'rb')
-FileNotFoundError: [Errno 2] No such file or directory: '/project/nicho/caleb/git/intermittent_control_project/data/python_switching_models/RJRTP0.05sBins/38_states_78_dims/fold_3_model'
+FileNotFoundError: [Errno 2] No such file or directory: '/project/nicho/projects/caleb/git/intermittent_control_project/data/python_switching_models/RJRTP0.05sBins_1031126/38_states_78_dims/fold_3_model'
 sbatch: error: Unable to open file sbatch_82_dims_38_states_fold_3_train-model_1.sh
