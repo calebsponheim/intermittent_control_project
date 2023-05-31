@@ -27,10 +27,10 @@ if (subject == 'rs') & (task == 'RTP'):
     num_latent_dims_lds = 30
     num_discrete_states_hmm = 28
 elif (subject == 'rj') & (task == 'RTP'):
-    num_latent_dims_rslds = 10
-    num_discrete_states_rslds = 10
-    num_latent_dims_lds = 10
-    num_discrete_states_hmm = 67
+    num_latent_dims_rslds = 22
+    num_discrete_states_rslds = 14
+    num_latent_dims_lds = 25
+    num_discrete_states_hmm = 30
 elif (subject == 'bx') & (task == 'RTP'):
     num_latent_dims_rslds = 30
     num_discrete_states_rslds = 10
@@ -51,6 +51,8 @@ if "calebsponheim" in current_working_directory:
     folderpath_base_base = "C:/Users/calebsponheim/Documents/git/intermittent_control_project/"
 elif "dali" in current_working_directory:
     folderpath_base_base = "/dali/nicho/caleb/git/intermittent_control_project/"
+elif "project/nicho/projects/caleb" in current_working_directory:
+    folderpath_base_base = "/project/nicho/projects/caleb/git/intermittent_control_project/"
 elif "Caleb (Work)" in current_working_directory:
     folderpath_base_base = "C:/Users/Caleb (Work)/Documents/git/intermittent_control_project/"
 folderpath_base = folderpath_base_base + "data/python_switching_models/"
@@ -82,7 +84,7 @@ elif subject == "rs":
         folderpath = folderpath_base + "RSRTP0.05sBins/"
         figurepath = figurepath_base + "RS/RTP_CT0/rslds/"
 elif subject == "rj":
-    folderpath = folderpath_base + "RJRTP0.05sBins/"
+    folderpath = folderpath_base + "RJRTP0.05sBins_1031126/"
     figurepath = figurepath_base + "RJ/RTP_CT0/rslds/"
 else:
     print("BAD, NO")

@@ -8,12 +8,14 @@ end
 filepath_base = [file_base_base '\Documents\git\intermittent_control_project\data\python_switching_models\'];
 
 % filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
-filepath = [filepath_base 'RSRTP0.05sBins\'];
-% filepath = [filepath_base 'RJRTP0.05sBins\'];
+% filepath = [filepath_base 'RSRTP0.05sBins\'];
+filepath = [filepath_base 'RJRTP0.05sBins_1031126\'];
+% filepath = [filepath_base 'RJRTP0.05sBins_1031206\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
 % filepath = [filepath_base 'BxRTP0.05sBins\'];
 % filepath = [filepath_base 'Bx18CO0.05sBins\'];
+
 
 if contains(filepath,'RS') && contains(filepath,'RTP')
     meta.subject = 'RS';
@@ -31,8 +33,8 @@ elseif contains(filepath,'RJ') && contains(filepath,'RTP')
     subject = meta.subject;
     meta.task = 'RTP';
     task = meta.task;
-    num_latent_dims_rslds = 25;
-    num_discrete_states_rslds = 10;
+    num_latent_dims_rslds = 22;
+    num_discrete_states_rslds = 14;
     num_latent_dims_slds = 2;
     num_discrete_states_slds = 2;
     num_latent_dims_lds = 80;
