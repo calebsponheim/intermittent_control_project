@@ -4,7 +4,16 @@ iTestTrials = 1;
 num_transitions = zeros(size(data,2),1);
 num_speed_extrema = zeros(size(data,2),1);
 
-prominence = .0002;
+prominence_RS = .0038;
+prominence_RJ = .0081;
+prominence_Bx = .0002;
+if contains(meta.subject,'RS')
+    prominence = prominence_RS;
+elseif contains(meta.subject,'RJ')
+    prominence = prominence_RJ;
+elseif contains(meta.subject,'Bx')
+    prominence = prominence_Bx;
+end
 
 for iTrial = 1:size(data,2)
     num_transitions(iTestTrials) = length(nonzeros(diff(data(iTrial).states_resamp)));

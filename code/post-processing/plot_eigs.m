@@ -97,9 +97,9 @@ if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
 
 % save out data for fold comparison
 
-    writematrix(x1,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'acc_trajectory_speeds.csv'))
-    writematrix(x2,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'dec_trajectory_speeds.csv'))
-
+%     writematrix(x1,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'acc_trajectory_speeds.csv'))
+%     writematrix(x2,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'dec_trajectory_speeds.csv'))
+% 
 
 % some more misc analysis on trajectory speed:
     figure('color','w','visible','on','Position',[100 100 500 200]); hold on

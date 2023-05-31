@@ -177,8 +177,8 @@ xticks([0 1 2 3])
 ylabel('Cosine of Angle Between States')
 xticklabels({'','no transitions','transitions in data',''})
 
-writematrix(reshaped_all_combos_real,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'all_angles.csv'))
-writematrix(reshaped_angles_real,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'angles_in_trials.csv'))
+% writematrix(reshaped_all_combos_real,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'all_angles.csv'))
+% writematrix(reshaped_angles_real,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'angles_in_trials.csv'))
 
 
 % title('Real Eigenvector Angles')
