@@ -43,4 +43,5 @@ ylabel('Count (number of snippets)')
 saveas(gcf,strcat(meta.figure_folder_filepath,'\',meta.subject,meta.task,num2str(meta.crosstrain),'_snippet_length_all.png'));
 close gcf
 
+fprintf('Segment Length Mean: %i \nSegment Length Std Deviation: %i \n',[round(mean(snippet_length)),round(std(snippet_length))])
 end

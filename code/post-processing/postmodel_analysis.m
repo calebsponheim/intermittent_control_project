@@ -74,7 +74,7 @@ if meta.use_rslds == 1
     plot_eigs(meta,colors,snippet_direction_out,snippet_length_per_state)  
 end
 
-if contains(meta.task,'CO')
-    plot_continuous_states(meta,data)
-end 
+% if contains(meta.task,'CO')
+%     plot_continuous_states(meta,data)
+% end 
 end

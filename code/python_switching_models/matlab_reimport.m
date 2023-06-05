@@ -13,11 +13,11 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 
 % filepath = [filepath_base 'RSCO_move_window0.05sBins\'];
 % filepath = [filepath_base 'RSRTP0.05sBins\'];
-% filepath = [filepath_base 'RJRTP0.05sBins_1031126\'];
+% % filepath = [filepath_base 'RJRTP0.05sBins_1031126\'];
 % filepath = [filepath_base 'RJRTP0.05sBins_1031206\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
-filepath = [filepath_base 'BxRTP0.05sBins\'];
+% filepath = [filepath_base 'BxRTP0.05sBins\'];
 % filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
 % OPTIONS
@@ -26,8 +26,6 @@ if contains(filepath,'RS') && contains(filepath,'RTP')
     num_desired_dims = 25;
 elseif contains(filepath,'RS') && contains(filepath,'CO')
 elseif contains(filepath,'RJ')
-%     num_desired_states = 6;
-%     num_desired_dims = 25;
     num_desired_states = 14;
     num_desired_dims = 22;
 elseif contains(filepath, 'Bx') || contains(filepath,'center_out')
@@ -41,7 +39,7 @@ end
 
 
 filepath_for_ll_plot = filepath;
-filepath = strcat(filepath,num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims\");
+filepath = strcat(filepath,num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims_fold_4\");
 
 analyze_all_trials = 1;
 plot_ll_hmm = 0;
