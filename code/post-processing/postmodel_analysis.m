@@ -37,6 +37,7 @@ end
 [meta,data,snippet_data,sorted_state_transitions] = segment_analysis_v2(meta,data);
 
 %% Plot Everything
+meta = plot_state_normalized_velocity(meta,data,snippet_data,colors);
 
 % Plot Single Trials
 plot_single_trials_v2(meta,data,colors)
@@ -52,7 +53,6 @@ snippet_direction_out = plot_state_direction(meta,data,snippet_data,colors);
 plot_extrema_vs_transitions(meta,data)
 
 % Plot normalized velocity
-meta = plot_state_normalized_velocity(meta,data,snippet_data,colors);
 
 % Plot Mean Snippet Lengths
 

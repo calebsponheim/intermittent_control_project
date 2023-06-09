@@ -17,7 +17,7 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'RJRTP0.05sBins_1031206\'];
 % filepath = [filepath_base 'Bxcenter_out1902280.05sBins\'];
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
-% filepath = [filepath_base 'BxRTP0.05sBins\'];
+filepath = [filepath_base 'BxRTP0.05sBins\'];
 % filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
 % OPTIONS
@@ -39,7 +39,7 @@ end
 
 
 filepath_for_ll_plot = filepath;
-filepath = strcat(filepath,num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims_fold_4\");
+filepath = strcat(filepath,num2str(num_desired_states),"_states_",num2str(num_desired_dims),"_dims_fold_1\");
 
 analyze_all_trials = 1;
 plot_ll_hmm = 0;
