@@ -1,16 +1,16 @@
 %% testing
 
-acc_fold_1 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPacc_trajectory_speeds_fold_1');
-acc_fold_2 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPacc_trajectory_speeds_fold_2');
-acc_fold_3 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPacc_trajectory_speeds_fold_3');
-acc_fold_4 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPacc_trajectory_speeds_fold_4');
-acc_fold_5 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPacc_trajectory_speeds_fold_5');
+acc_fold_1 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPacc_trajectory_speeds_fold_1');
+acc_fold_2 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPacc_trajectory_speeds_fold_2');
+acc_fold_3 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPacc_trajectory_speeds_fold_3');
+acc_fold_4 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPacc_trajectory_speeds_fold_4');
+acc_fold_5 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPacc_trajectory_speeds_fold_5');
 
-dec_fold_1 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPdec_trajectory_speeds_fold_1');
-dec_fold_2 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPdec_trajectory_speeds_fold_2');
-dec_fold_3 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPdec_trajectory_speeds_fold_3');
-dec_fold_4 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPdec_trajectory_speeds_fold_4');
-dec_fold_5 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPdec_trajectory_speeds_fold_5');
+dec_fold_1 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPdec_trajectory_speeds_fold_1');
+dec_fold_2 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPdec_trajectory_speeds_fold_2');
+dec_fold_3 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPdec_trajectory_speeds_fold_3');
+dec_fold_4 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPdec_trajectory_speeds_fold_4');
+dec_fold_5 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPdec_trajectory_speeds_fold_5');
 
 
 figure('color','w','visible','on','Position',[100 100 200 500]); hold on
@@ -34,17 +34,17 @@ annotation('textbox',[.2 .5 .3 .3],'String',strcat('P-Value: ',num2str(p_traject
 
 %% angles
 
-angles_not_in_trials_fold_1 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPall_angles_fold_1');
-angles_not_in_trials_fold_2 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPall_angles_fold_2');
-angles_not_in_trials_fold_3 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPall_angles_fold_3');
-angles_not_in_trials_fold_4 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPall_angles_fold_4');
-angles_not_in_trials_fold_5 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPall_angles_fold_5');
+angles_not_in_trials_fold_1 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPall_angles_fold_1');
+angles_not_in_trials_fold_2 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPall_angles_fold_2');
+angles_not_in_trials_fold_3 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPall_angles_fold_3');
+angles_not_in_trials_fold_4 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPall_angles_fold_4');
+angles_not_in_trials_fold_5 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPall_angles_fold_5');
 
-angles_in_trials_fold_1 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPangles_in_trials_fold_1');
-angles_in_trials_fold_2 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPangles_in_trials_fold_2');
-angles_in_trials_fold_3 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPangles_in_trials_fold_3');
-angles_in_trials_fold_4 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPangles_in_trials_fold_4');
-angles_in_trials_fold_5 = readmatrix('C:\Users\Caleb (Work)\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPangles_in_trials_fold_5');
+angles_in_trials_fold_1 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPangles_in_trials_fold_1');
+angles_in_trials_fold_2 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPangles_in_trials_fold_2');
+angles_in_trials_fold_3 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPangles_in_trials_fold_3');
+angles_in_trials_fold_4 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPangles_in_trials_fold_4');
+angles_in_trials_fold_5 = readmatrix('C:\Users\calebsponheim\Documents\git\intermittent_control_project\data\python_switching_models\RSRTPangles_in_trials_fold_5');
 
 figure('color','w','visible','on','Position',[100 100 200 500]); hold on
 x1 = [angles_not_in_trials_fold_1;angles_not_in_trials_fold_2;angles_not_in_trials_fold_3;angles_not_in_trials_fold_4;angles_not_in_trials_fold_5];
