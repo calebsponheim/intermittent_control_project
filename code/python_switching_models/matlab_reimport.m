@@ -16,9 +16,9 @@ figure_base = [file_base_base '\Documents\git\intermittent_control_project\figur
 % filepath = [filepath_base 'Bxcenter_out_and_RTP1902280.05sBins\'];
 % filepath = [filepath_base 'Bx18CO0.05sBins\'];
 
-filepath = [filepath_base 'RSRTP0.05sBins\'];
+% filepath = [filepath_base 'RSRTP0.05sBins\'];
 % filepath = [filepath_base 'RJRTP0.05sBins_1031126\'];
-% filepath = [filepath_base 'BxRTP0.05sBins\'];
+filepath = [filepath_base 'BxRTP0.05sBins\'];
 
 % OPTIONS
 if contains(filepath,'RS') && contains(filepath,'RTP')

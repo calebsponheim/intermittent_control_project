@@ -245,7 +245,7 @@ def train_rslds(data, trial_classification, meta, bin_size,
     model = ssm.SLDS(D_obs, K, D_latent,
                      transitions="recurrent",
                      dynamics="diagonal_gaussian",
-                     emissions="poisson_orthog",
+                     emissions="poisson",
                      single_subspace=True)
     model.initialize(trainset)
     q_elbos_lem, q_lem = model.fit(trainset, method="laplace_em",

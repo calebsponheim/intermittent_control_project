@@ -29,12 +29,14 @@ for iTrial = 1:size(data,2)
     speed_extrema_timestamps = data(iTrial).ms_relative_to_trial_start(islocalmax(data(iTrial).speed,'MinProminence',prominence_amount));
     speed_extrema_timestamps = [speed_extrema_timestamps data(iTrial).ms_relative_to_trial_start(islocalmin(data(iTrial).speed,'MinProminence',prominence_amount))];
     speed_timestamps = data(iTrial).ms_relative_to_trial_start;
-%     if mod(iTrial,100) == 0
-%         figure('visible','on','color','w'); hold on
-%         xline(transition_timestamps, 'r','LineWidth',2,'Alpha',.3)
+
+%     if mod(iTrial,50) == 0
+%         figure('visible','off','color','w'); hold on
+%         xline(transition_timestamps, 'g','LineWidth',2,'Alpha',.3)
 %         plot(data(iTrial).speed,'LineWidth',2)
 %         plot(speed_extrema_timestamps,data(iTrial).speed(speed_extrema_timestamps),'ko','LineWidth',2)
 %         hold off
+%         saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_extrema_vs_transition_individual_trials_',num2str(iTrial),'.png'))
 %     end
     %     for iExtrema = 1:size(speed_extrema_timestamps,2)
     %         % Find the closest transition time to each extrema time
@@ -99,19 +101,24 @@ for iWindow = 1:size(data_windows,2)
 end %iWindow
 
 for iWindow = 1:size(data_windows,2)
-    if mod(iWindow,100) == 0
-        figure('visible','off','color','w'); hold on
-        xline(data_windows(iWindow).transitions,'g','LineWidth',2,'Alpha',.3)
-        xline(data_windows(iWindow).shuffled_transitions,'r','LineWidth',2,'Alpha',.3)
-        plot(data_windows(iWindow).speed,'LineWidth',2)
-        plot(data_windows(iWindow).speed_extrema,data_windows(iWindow).speed(data_windows(iWindow).speed_extrema),'ko','LineWidth',2)
-        axis tight
-        title(strcat('Window',num2str(iWindow)))
-        xlabel('Time(ms)')
-        ylabel('Speed')
-        hold off
-        saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_extrema_vs_transition_individual_windows_',num2str(iWindow),'.png'))
-    end
+    true_positives = 0;
+    false_positives = 0;
+    false_negatives = 0;
+    
+%     if mod(iWindow,100) == 0
+%     if iWindow < 10 
+%         figure('visible','off','color','w'); hold on
+%         xline(data_windows(iWindow).transitions,'g','LineWidth',2,'Alpha',.3)
+% %         xline(data_windows(iWindow).shuffled_transitions,'r','LineWidth',2,'Alpha',.3)
+%         plot(data_windows(iWindow).speed,'LineWidth',2)
+%         plot(data_windows(iWindow).speed_extrema,data_windows(iWindow).speed(data_windows(iWindow).speed_extrema),'ko','LineWidth',2)
+%         axis tight
+%         title(strcat('Window',num2str(iWindow)))
+%         xlabel('Time(ms)')
+%         ylabel('Speed')
+%         hold off
+%         saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_extrema_vs_transition_individual_windows_',num2str(iWindow),'.png'))
+%     end
     for iExtrema = 1:size(data_windows(iWindow).speed_extrema,2)
         % Find the closest transition time to each extrema time
         closest_transition_time_ahead = data_windows(iWindow).transitions(data_windows(iWindow).transitions > data_windows(iWindow).speed_extrema(iExtrema));
@@ -135,13 +142,47 @@ for iWindow = 1:size(data_windows,2)
         if sum(distances_temp_temp) ~= 0
             distances(all_extrema_count) = distances_temp_temp(1);
             all_extrema_count = all_extrema_count + 1;
+
+            if abs(distances_temp_temp(1)) <= 50
+                true_positives = true_positives + 1;
+            elseif abs(distances_temp_temp(1)) >= 50
+                false_negatives = false_negatives + 1;        
+            end
+        end
+    end %iExtrema
+    for iTransition = 1:size(data_windows(iWindow).transitions,2)
+        closest_extrema_time_ahead = data_windows(iWindow).speed_extrema(data_windows(iWindow).speed_extrema > data_windows(iWindow).transitions(iTransition));
+        
+        if sum(closest_extrema_time_ahead) ~= 0
+            closest_extrema_time_ahead = closest_extrema_time_ahead(1);
+        else
+            closest_extrema_time_ahead = NaN;
+        end
+
+        closest_extrema_time_behind = data_windows(iWindow).speed_extrema(data_windows(iWindow).speed_extrema < data_windows(iWindow).transitions(iTransition));
+        if sum(closest_extrema_time_behind) ~= 0
+            closest_extrema_time_behind = closest_extrema_time_behind(end);
+        else
+            closest_extrema_time_behind = NaN;
+        end
+        distances_temp = [closest_extrema_time_ahead - data_windows(iWindow).transitions(iTransition), closest_extrema_time_behind - data_windows(iWindow).transitions(iTransition)];
+        distances_temp_temp = distances_temp(abs(distances_temp) == min(abs(distances_temp)));
+        if sum(distances_temp_temp) ~= 0
+            if abs(distances_temp_temp(1)) >= 50
+                false_positives = false_positives + 1;        
+            end
         end
     end
-end
+    data_windows(iWindow).precision = (true_positives / (true_positives + false_positives));
+    data_windows(iWindow).recall = (true_positives / (true_positives + false_negatives));
+end %iWindow
 
 distances_null = [];
 all_extrema_count = 1;
 for iWindow = 1:size(data_windows,2)
+    true_positives = 0;
+    false_positives = 0;
+    false_negatives = 0;
     for iExtrema = 1:size(data_windows(iWindow).speed_extrema,2)
         % Find the closest transition time to each extrema time
         closest_transition_time_ahead = data_windows(iWindow).shuffled_transitions(data_windows(iWindow).shuffled_transitions > data_windows(iWindow).speed_extrema(iExtrema));
@@ -165,9 +206,72 @@ for iWindow = 1:size(data_windows,2)
         if sum(distances_temp_temp) ~= 0
             distances_null(all_extrema_count) = distances_temp_temp(1);
             all_extrema_count = all_extrema_count + 1;
+            
+            if abs(distances_temp_temp(1)) <= 50
+                true_positives = true_positives + 1;
+            elseif abs(distances_temp_temp(1)) >= 50
+                false_negatives = false_negatives + 1;        
+            end
+       end
+    end
+    for iTransition = 1:size(data_windows(iWindow).shuffled_transitions,2)
+        closest_extrema_time_ahead = data_windows(iWindow).speed_extrema(data_windows(iWindow).speed_extrema > data_windows(iWindow).shuffled_transitions(iTransition));
+        
+        if sum(closest_extrema_time_ahead) ~= 0
+            closest_extrema_time_ahead = closest_extrema_time_ahead(1);
+        else
+            closest_extrema_time_ahead = NaN;
+        end
+
+        closest_extrema_time_behind = data_windows(iWindow).speed_extrema(data_windows(iWindow).speed_extrema < data_windows(iWindow).shuffled_transitions(iTransition));
+        if sum(closest_extrema_time_behind) ~= 0
+            closest_extrema_time_behind = closest_extrema_time_behind(end);
+        else
+            closest_extrema_time_behind = NaN;
+        end
+        distances_temp = [closest_extrema_time_ahead - data_windows(iWindow).shuffled_transitions(iTransition), closest_extrema_time_behind - data_windows(iWindow).shuffled_transitions(iTransition)];
+        distances_temp_temp = distances_temp(abs(distances_temp) == min(abs(distances_temp)));
+        if sum(distances_temp_temp) ~= 0
+            if abs(distances_temp_temp(1)) >= 50
+                false_positives = false_positives + 1;        
+            end
         end
     end
+    data_windows(iWindow).precision_null = (true_positives / (true_positives + false_positives));
+    data_windows(iWindow).recall_null = (true_positives / (true_positives + false_negatives));
+
 end
+%% Stats
+
+[p,~,~] = ranksum([data_windows.precision],[data_windows.precision_null]);
+disp(strcat('Precision P-Value: ',num2str(p)))
+disp(strcat('Precision Mean:',num2str(mean([data_windows.precision],'omitnan'))))
+disp(strcat('Precision Null Mean:',num2str(mean([data_windows.precision_null],'omitnan'))))
+[p,~,~] = ranksum([data_windows.recall],[data_windows.recall_null]);
+disp(strcat('Recall P-Value: ',num2str(p)))
+disp(strcat('Recall Mean:',num2str(mean([data_windows.recall],'omitnan'))))
+disp(strcat('Recall Null Mean:',num2str(mean([data_windows.recall_null],'omitnan'))))
+
+% plotting
+figure('visible','on','color','w'); hold on
+scatter(jitter([data_windows.precision]),jitter([data_windows.recall]),'k.')
+xlabel('Precision')
+ylabel('Recall')
+title(strcat(meta.subject,' Precision vs Recall'))
+ylim([0 1])
+xlim([0 1])
+saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_precision_vs_recall.png'))
+close gcf
+
+figure('visible','on','color','w'); hold on
+scatter(jitter([data_windows.precision_null]),jitter([data_windows.recall_null]),'k.')
+xlabel('Precision (Null)')
+ylabel('Recall (Null)')
+title(strcat(meta.subject,' Precision vs Recall (Null)'))
+ylim([0 1])
+xlim([0 1])
+saveas(gcf,strcat(meta.figure_folder_filepath,meta.subject,meta.task,'CT',num2str(meta.crosstrain),'_precision_vs_recall_null.png'))
+close gcf
 %%
 % plot all of them as a histogram
 
