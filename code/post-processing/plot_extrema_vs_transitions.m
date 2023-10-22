@@ -23,16 +23,16 @@ end
 [R,P] = corrcoef(num_transitions,num_speed_extrema);
 disp(strcat('Transition/extrema Correlation: ',num2str(R(2))))
 disp(strcat('Transition/extrema P-Value: ',num2str(P(2))))
-linear_regression = fitlm(num_transitions,num_speed_extrema);
+linear_regression = fitlm(num_transitions,num_speed_extrema,'Intercept',false);
 figure('visible','off','color','white'); hold on
 plot(jitter(num_transitions),jitter(num_speed_extrema),'k.')
-plot(0:100,(linear_regression.Coefficients.Estimate(2)*(0:100) + linear_regression.Coefficients.Estimate(1)),'LineWidth',2)
+plot(0:100,(linear_regression.Coefficients.Estimate(1)*(0:100)),'LineWidth',3,'Color','Black')
 line([0 100],[0 100],'Color','black')
 xlabel('Number of State Transitions')
 ylabel('Number of Local Extrema')
-dim = [.7 .02 .3 .3];
-str = strcat('Correlation: ',num2str(R(2),2));
-annotation('textbox',dim,'String',str,'FitBoxToText','on');
+% dim = [.7 .02 .3 .3];
+% str = strcat('Correlation: ',num2str(R(2),2));
+% annotation('textbox',dim,'String',str,'FitBoxToText','on');
 xlim([0 max(vertcat(num_speed_extrema,num_transitions))]);
 ylim([0 max(vertcat(num_speed_extrema,num_transitions))]);
 box off

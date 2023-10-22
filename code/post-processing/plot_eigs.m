@@ -97,8 +97,8 @@ if ~isempty(acc_eigs_real) &&  ~isempty(dec_eigs_real)
 
 % save out data for fold comparison
 
-    writematrix(x1,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'acc_trajectory_speeds.csv'))
-    writematrix(x2,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'dec_trajectory_speeds.csv'))
+    % writematrix(x1,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'acc_trajectory_speeds.csv'))
+    % writematrix(x2,strcat(file_base_base,'\Documents\git\intermittent_control_project\data\python_switching_models\',meta.subject,meta.task,'dec_trajectory_speeds.csv'))
 
 
 % some more misc analysis on trajectory speed:
@@ -287,7 +287,7 @@ for iState = 1:length(snippet_direction_out)
     real_mean = mean(reshaped_real);
     real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
     snippet_length_mean = mean(snippet_length_to_plot);
-    snippet_length_std_err = std(snippet_length_mean)/sqrt(length(snippet_length_mean));
+    snippet_length_std_err = std(snippet_length_to_plot)/sqrt(length(snippet_length_to_plot));
     eig_mean = vertcat(eig_mean,real_mean);
     snippet_mean = vertcat(snippet_mean, repmat(snippet_length_mean,length(real_mean),1));
     y = real_mean;
@@ -314,7 +314,7 @@ title('Line Color = State')
 [f,g] = fit(snippet_mean(~isnan(snippet_mean)),eig_mean(~isnan(snippet_mean)),'power2');
 disp(strcat('Snippet Length R^2: ',num2str(g.rsquare)))
 % disp(strcat('Snippet Length P-Value: ',num2str(P(2))))
-plot(f)
+% plot(f)
 legend off
 xlabel('Mean Snippet Length')
 ylabel('Real Eigenvalue Magnitude')
@@ -342,7 +342,7 @@ for iState = 1:length(snippet_direction_out)
     real_mean = mean(reshaped_real);
     real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
     mean_speed_mean= mean(mean_speed_to_plot);
-    mean_speed_std_err = std(mean_speed_mean)/sqrt(length(snippet_length_mean));
+    mean_speed_std_err = std(mean_speed_to_plot)/sqrt(length(mean_speed_to_plot));
     eig_mean = vertcat(eig_mean,reshaped_real);
     snippet_mean = vertcat(snippet_mean, repmat(mean_speed_mean,length(reshaped_real),1));
 
@@ -395,7 +395,7 @@ for iState = 1:length(snippet_direction_out)
     real_mean = mean(reshaped_real);
     real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
     peak_speed_mean= mean(peak_speed_to_plot);
-    peak_speed_std_err = std(peak_speed_mean)/sqrt(length(snippet_length_mean));
+    peak_speed_std_err = std(peak_speed_to_plot)/sqrt(length(peak_speed_to_plot));
     eig_mean = vertcat(eig_mean,reshaped_real);
     snippet_mean = vertcat(snippet_mean, repmat(peak_speed_mean,length(reshaped_real),1));
 
@@ -447,7 +447,7 @@ for iState = 1:length(snippet_direction_out)
     real_mean = mean(reshaped_real);
     real_std_err = std(reshaped_real)/sqrt(length(reshaped_real));
     curvature_median= median(curvature_to_plot);
-    peak_speed_std_err = std(curvature_median)/sqrt(length(curvature_median));
+    peak_speed_std_err = std(curvature_to_plot)/sqrt(length(curvature_to_plot));
     eig_mean = vertcat(eig_mean,reshaped_real);
     snippet_mean = vertcat(snippet_mean, repmat(curvature_median,length(reshaped_real),1));
 

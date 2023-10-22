@@ -12,12 +12,12 @@ for iState = 1:size(snippet_data,2)
     state_snippet_trials = snippet_data(iState).snippet_trial(allowed_snippets);
     if ~isempty(state_snippets)
         for iSnippet = 1:size(state_snippets,2)
-            x_temp = data(state_snippet_trials(iSnippet)).x_smoothed(state_snippets{iSnippet});
-            y_temp = data(state_snippet_trials(iSnippet)).y_smoothed(state_snippets{iSnippet});
-            snippet_kin = [smooth(x_temp,3), smooth(y_temp,3)];
+            x_temp = data(state_snippet_trials(iSnippet)).x_velocity(state_snippets{iSnippet});
+            y_temp = data(state_snippet_trials(iSnippet)).y_velocity(state_snippets{iSnippet});
+            snippet_kin = [smooth(x_temp,4), smooth(y_temp,4)];
             if size(snippet_kin,1) > 1
                 %             figure; plot(snippet_kin(:,1), snippet_kin(:,2))
-                [~,radius_temp,~] = curvature(snippet_kin);
+                radius_temp = rad_curv(snippet_kin(:,1),snippet_kin(:,2),.001);
                 %                 avg_radius = mean(radius_temp(3:end-3),'omitnan');
                 curvature_per_state{iState} = vertcat(curvature_per_state{iState},radius_temp(3:end-3));
                 meta.curvature_out{iState} = curvature_per_state{iState};
